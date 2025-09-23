@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, ListTable } from '@components';
+import { Button, Input, Table } from '@components';
 
 const EXAMPLE_DATA = [
     {
@@ -26,9 +26,10 @@ const EXAMPLE_DATA = [
 
 
 export const CustomersPage = () => {
+    console.log('custoemrs page')
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-500">
-            <ListTable data={EXAMPLE_DATA} />
+            <Table data={EXAMPLE_DATA} />
         </div>
     );
 };

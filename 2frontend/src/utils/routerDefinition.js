@@ -1,12 +1,23 @@
 import React from 'react';
-import { LogginsPage, CustomersPage } from '@components';
+import { LogginsPage, CustomersPage, AuthRoute } from '@components';
 
 
 
 export const routerDefinition = [
     {
-        path: "/",
+        path: "/login",
         exact: true,
         Component: LogginsPage
-    }
+    },
+    {
+        path: "/",
+        Component: AuthRoute,
+        children: [
+            {
+                path: "/",
+                exact: true,
+                Component: CustomersPage
+            },
+        ]
+    },
 ];

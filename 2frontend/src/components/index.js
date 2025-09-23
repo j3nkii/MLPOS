@@ -1,5 +1,10 @@
 export { Button } from './shared/Button'
 export { Input } from './shared/Input'
-export { ListTable } from './shared/ListTable'
-export { LogginsPage } from './pages/Loggin/Loggins'
-export { CustomersPage } from './pages/Customers/Customers'
+export { Table } from './shared/Table'
+
+
+export { LogginsPage } from './pages/Loggins'
+export { CustomersPage } from './pages/Customers'
+
+
+export { AuthRoute } from './wrappers/AuthRoute'

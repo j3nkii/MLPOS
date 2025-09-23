@@ -29,7 +29,7 @@ const HEADERS = {
  */
 
 
-export const ListTable = ({ data, onClick, isManage }) => {
+export const Table = ({ data, onClick, isManage }) => {
     // const { appState } = useStateManager();
     const [displayHeaders, setDisplayHeaders] = useState([])
     const [effectiveHeaders, setEffectiveHeaders] = useState([]);

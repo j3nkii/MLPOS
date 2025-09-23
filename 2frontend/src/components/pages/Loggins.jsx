@@ -1,14 +1,15 @@
 import React from 'react';
 import { Button, Input } from '@components';
 import { useStore } from '@store'
+import { Navigate } from 'react-router-dom';
 
 export const LogginsPage = () => {
-  const { fetchUser } = useStore()
+    const { fetchUser, user } = useStore();
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        console.log('is firing');
         fetchUser()
     }
+    if (user) return <Navigate to="/" replace />
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-500">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
