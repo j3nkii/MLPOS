@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Trash2, Settings } from 'lucide-react';
-import { useStateManager } from '@util/useStateManager';
+// import { useStateManager } from '@util/useStateManager';
 import { Button } from '@components';
 
 
@@ -30,13 +30,13 @@ const HEADERS = {
 
 
 export const ListTable = ({ data, onClick, isManage }) => {
-    const { appState } = useStateManager();
+    // const { appState } = useStateManager();
     const [displayHeaders, setDisplayHeaders] = useState([])
     const [effectiveHeaders, setEffectiveHeaders] = useState([]);
 
     useEffect(() => {
-        const displayHeaders = Object.values(HEADERS[data]);
-        const effectiveHeaders = Object.keys(HEADERS[data]);
+        const displayHeaders = Object.values(data);
+        const effectiveHeaders = Object.keys(data);
         if(isManage) {
             displayHeaders.push('Actions');
             effectiveHeaders.push('actions');
@@ -83,7 +83,7 @@ export const ListTable = ({ data, onClick, isManage }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {appState[data].map((row, rowIndex) => (
+                    {data.map((row, rowIndex) => (
                         <tr 
                             key={rowIndex} 
                             className="cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200"

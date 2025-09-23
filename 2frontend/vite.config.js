@@ -14,6 +14,17 @@ export default defineConfig({
       // '@': path.resolve(__dirname, './src'), // now `@` points to `src`
       '@components': path.resolve(__dirname, './src/components'),
       '@utils': path.resolve(__dirname, './src/utils'),
+      '@store': path.resolve(__dirname, './src/state/zustand'),
+    },
+  },
+  server: {
+    port: 4200, // your frontend port
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000', // your Node server
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 })

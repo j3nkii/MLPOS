@@ -1,12 +1,19 @@
 import React from 'react';
 import { Button, Input } from '@components';
+import { useStore } from '@store'
 
 export const LogginsPage = () => {
+  const { fetchUser } = useStore()
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+        console.log('is firing');
+        fetchUser()
+    }
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-500">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
                 <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Welcome Back</h1>
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                         <Input
                             label="Username"
                             name="username"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogginsPage } from '@components';
+import { LogginsPage, CustomersPage } from '@components';
 
 
 
