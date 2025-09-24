@@ -9,9 +9,6 @@ const DEFAUL_PROPS = {
 }
 
 export const Button = ({ id, type, name, onClick, children } = DEFAUL_PROPS) => {
-    console.log('AHHHH ::  ')
-    console.log(name)
-    console.log(children)
     return (
         <button
             id={id}

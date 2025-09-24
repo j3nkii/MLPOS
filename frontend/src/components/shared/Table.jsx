@@ -33,6 +33,11 @@ export const Table = ({ data, onClick, isManage }) => {
     // cant really drap and drop into this bitch, writing 
     // this as a passed component, plus creating a wrapper
     // to tansform data / act as a stable state manager
+
+    // I know what i meant, currently being passed "keys"
+    // that tell it what state to grab from local, this
+    // could be a wrapper layer ontop of the like... paseed
+    // component. component should receive props. 
     const appState = useStateManager();
     const [displayColumns, setDisplayColumns] = useState([])
     const [columnKeys, setColumnKeys] = useState([]);

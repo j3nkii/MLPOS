@@ -39,7 +39,6 @@ const SUB_FUNCTION = (set) => ({
     customers: [],
     modal: null,
     setModal: (modalKey) => {
-        console.log(modalKey)
         if(!MODAL_TYPES.includes(modalKey.type))
             console.warn(`Modal Type: ${modalKey} : invalid`);
         else set({ modal: modalKey })
