@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useStore } from '@store'
+import { useStateManager } from '@useStateManager'
 
 
 export const AuthRoute = () => {
-    const { user } = useStore()
+    const { user } = useStateManager()
     if (!user)
         return <Navigate to="/login" replace />;
     else return <Outlet />;

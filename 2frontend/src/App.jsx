@@ -5,7 +5,7 @@ import { routerDefinition } from './utils/routerDefinition'
 function App() {
     const router = createHashRouter(routerDefinition);
   return (
-    <div className='bg-grey'>
+    <div>
       <RouterProvider router={router} />
     </div>
   )

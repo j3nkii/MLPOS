@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button, Input } from '@components';
-import { useStore } from '@store'
+import { useStateManager } from '@useStateManager'
 import { Navigate } from 'react-router-dom';
 
 export const LogginsPage = () => {
-    const { fetchUser, user } = useStore();
+    const { fetchUser, user } = useStateManager();
     const handleSubmit = (evt) => {
         evt.preventDefault();
         fetchUser()

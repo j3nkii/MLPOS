@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogginsPage, CustomersPage, AuthRoute } from '@components';
+import { LogginsPage, CustomersPage, Layout } from '@components';
 
 
 
@@ -11,7 +11,7 @@ export const routerDefinition = [
     },
     {
         path: "/",
-        Component: AuthRoute,
+        Component: Layout,
         children: [
             {
                 path: "/",

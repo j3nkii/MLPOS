@@ -8,3 +8,8 @@ export { CustomersPage } from './pages/Customers'
 
 
 export { AuthRoute } from './wrappers/AuthRoute'
+export { Layout } from './wrappers/Layout'
+
+
+export { ModalManager } from './modals/ModalManager'
+export { ConfirmDeleteModal } from './modals/sub/ConfirmDeleteModal'

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Trash2, Settings } from 'lucide-react';
-// import { useStateManager } from '@util/useStateManager';
+import { useStateManager } from '@useStateManager';
 import { Button } from '@components';
 
 
 
 const HEADERS = {
-    sources: {
-        id: 'ID',
+    customers: {
+        name: 'Name',
+        phone: 'Phone',
+        email: 'Email',
         label: 'Label',
-        root_path: 'Root Path',
-        added_at: 'Date Added',
     },
 }
 
@@ -30,13 +30,13 @@ const HEADERS = {
 
 
 export const Table = ({ data, onClick, isManage }) => {
-    // const { appState } = useStateManager();
+    const appState = useStateManager();
     const [displayHeaders, setDisplayHeaders] = useState([])
     const [effectiveHeaders, setEffectiveHeaders] = useState([]);
 
     useEffect(() => {
-        const displayHeaders = Object.values(data);
-        const effectiveHeaders = Object.keys(data);
+        const displayHeaders = Object.values(HEADERS[data]);
+        const effectiveHeaders = Object.keys(HEADERS[data]);
         if(isManage) {
             displayHeaders.push('Actions');
             effectiveHeaders.push('actions');
@@ -83,7 +83,7 @@ export const Table = ({ data, onClick, isManage }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((row, rowIndex) => (
+                    {appState[data].map((row, rowIndex) => (
                         <tr 
                             key={rowIndex} 
                             className="cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200"
