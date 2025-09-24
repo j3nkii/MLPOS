@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { Modal, ModalHeader, ModalFooter } from '../ModalManager';
+import { Modal, ModalHeader, ModalFooter } from '@components';
 import { useStateManager } from '@useStateManager';
 // import { useServiceOrchestrator } from '@util/useServiceOrchestrator';
 import { Button } from '@components';

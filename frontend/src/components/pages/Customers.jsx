@@ -10,7 +10,8 @@ export const CustomersPage = () => {
         fetchCustomers();
     }, [])
     return (
-        <div>
+        <div className='p-12'>
+            <h1>Customers:</h1>
             <Table data={'customers'} isManage={true} />
         </div>
     );

@@ -8,8 +8,8 @@ export const Layout = () => {
     if (!user)
         return <Navigate to="/login" replace />;
     else return (
-        <div className='bg-grey-500'>
-            <div className='m-12'>
+        <div className='min-h-screen bg-gray-400'>
+            <div>
                 <ModalManager />
                 <Outlet />
             </div>
