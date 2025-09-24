@@ -7,7 +7,7 @@ import { Button } from '@components';
 
 
 export const ConfirmDeleteModal = () => {
-    const { closeModal, appState: { modal: { item } } } = useStateManager();
+    const { closeModal, modal: { item } } = useStateManager();
     // const { deleteSource } = useServiceOrchestrator();
 
     const handleConfirm = async () => {

@@ -10,7 +10,6 @@ const HEADERS = {
         name: 'Name',
         phone: 'Phone',
         email: 'Email',
-        label: 'Label',
     },
 }
 
@@ -30,19 +29,23 @@ const HEADERS = {
 
 
 export const Table = ({ data, onClick, isManage }) => {
+    // uhhhmmmmmm, maybe wrap the table in something???
+    // cant really drap and drop into this bitch, writing 
+    // this as a passed component, plus creating a wrapper
+    // to tansform data / act as a stable state manager
     const appState = useStateManager();
-    const [displayHeaders, setDisplayHeaders] = useState([])
-    const [effectiveHeaders, setEffectiveHeaders] = useState([]);
+    const [displayColumns, setDisplayColumns] = useState([])
+    const [columnKeys, setColumnKeys] = useState([]);
 
     useEffect(() => {
-        const displayHeaders = Object.values(HEADERS[data]);
-        const effectiveHeaders = Object.keys(HEADERS[data]);
+        const displayColumns = Object.values(HEADERS[data]);
+        const columnKeys = Object.keys(HEADERS[data]);
         if(isManage) {
-            displayHeaders.push('Actions');
-            effectiveHeaders.push('actions');
+            displayColumns.push('Actions');
+            columnKeys.push('actions');
         }
-        setEffectiveHeaders(effectiveHeaders);
-        setDisplayHeaders(displayHeaders);
+        setColumnKeys(columnKeys);
+        setDisplayColumns(displayColumns);
     }, [data]);
 
 
@@ -72,7 +75,7 @@ export const Table = ({ data, onClick, isManage }) => {
             <table className="w-full border-collapse bg-white shadow-sm">
                 <thead>
                     <tr>
-                        {displayHeaders.map((header, index) => (
+                        {displayColumns.map((header, index) => (
                             <th 
                                 key={index} 
                                 className="px-4 py-3 text-left bg-gray-50 font-medium text-gray-900"
@@ -89,7 +92,7 @@ export const Table = ({ data, onClick, isManage }) => {
                             className="cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200"
                             // onClick={(e) => handleRowClick(e, row)}
                         >
-                            {effectiveHeaders.map((field, colIndex) => (
+                            {columnKeys.map((field, colIndex) => (
                                 <td 
                                     key={colIndex} 
                                     className="px-4 py-3 text-gray-900 border-b border-gray-200"
@@ -110,10 +113,11 @@ export const Table = ({ data, onClick, isManage }) => {
 const ActionsCell = ({ onEdit, item }) => {
     const { setModal } = useStateManager();
     const onDelete = (e) => {
+        console.log('hey clicking delete')
         e.stopPropagation();
         setModal({
             // could be renamed key
-            type: 'deleteSource',
+            type: 'confirmDelete',
             title: 'Delete Confirmation',
             item
         });
@@ -122,13 +126,13 @@ const ActionsCell = ({ onEdit, item }) => {
         <div className="flex items-center space-x-2">
             <Button 
                 onClick={onDelete} 
-                title="Delete"
+                text="Delete"
             >
                 <Trash2 />
             </Button>
             <Button 
                 onClick={onEdit} 
-                title="Settings"
+                text="Settings"
             >
                 <Settings />
             </Button>

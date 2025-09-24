@@ -8,12 +8,13 @@ const DEFAUL_PROPS = {
     name: 'button',
 }
 
-export const Button = ({ id, type, name, text } = DEFAUL_PROPS) => {
+export const Button = ({ id, type, name, text, onClick } = DEFAUL_PROPS) => {
     return (
         <button
             id={id}
             name={name}
             type={type}
+            onClick={onClick}
             className={DETAULT_STYLE}
         >
             {text}

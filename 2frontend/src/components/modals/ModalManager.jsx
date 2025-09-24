@@ -9,11 +9,15 @@ import { useStateManager } from '@useStateManager';
 
 
 export const ModalManager = () => {
-    const { appState: { modal: { type } } } = useStateManager();
-    // could be renmaed key = opens a modal
-    if ( !type )
+    const { modal } = useStateManager();
+    React.useEffect(() => {
+        console.log('HEY IM A MODAL MANAGER')
+    console.log(modal)
+
+    }, [modal])
+    if ( !modal )
         return null;
-    if( type === 'confirmDelete' )
+    if( modal.type === 'confirmDelete' )
         return <ConfirmDeleteModal />
     
 };
