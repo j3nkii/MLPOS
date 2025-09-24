@@ -25,7 +25,7 @@ export const LogginsPage = () => {
                             name="password"
                             placeholder="Enter your password"
                         />
-                    <Button text='Login' />
+                    <Button children='Login' />
                 </form>
             </div>
         </div>

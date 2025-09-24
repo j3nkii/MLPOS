@@ -44,6 +44,7 @@ const SUB_FUNCTION = (set) => ({
             console.warn(`Modal Type: ${modalKey} : invalid`);
         else set({ modal: modalKey })
     },
+    closeModal: () => set({ modal: null }),
     fetchCustomers: async () => getCustomersAPI(set),
 })
 

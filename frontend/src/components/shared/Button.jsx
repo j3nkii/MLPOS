@@ -1,14 +1,17 @@
 import React from 'react';
 
-const DETAULT_STYLE = "w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors"
+const DETAULT_STYLE = "py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors"
 const DEFAUL_PROPS = {
     id: '',
     type: 'button',
-    text: 'CLICK ME',
+    children: 'CLICK ME',
     name: 'button',
 }
 
-export const Button = ({ id, type, name, text, onClick } = DEFAUL_PROPS) => {
+export const Button = ({ id, type, name, onClick, children } = DEFAUL_PROPS) => {
+    console.log('AHHHH ::  ')
+    console.log(name)
+    console.log(children)
     return (
         <button
             id={id}
@@ -17,7 +20,7 @@ export const Button = ({ id, type, name, text, onClick } = DEFAUL_PROPS) => {
             onClick={onClick}
             className={DETAULT_STYLE}
         >
-            {text}
+            {children}
         </button>
     );
 };
