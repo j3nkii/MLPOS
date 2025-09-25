@@ -24,13 +24,13 @@ export const Navbar = () => {
     const { user, logout } = useStateManager();
 
     return (
-        <div className="w-full flex flex-row items-center justify-between px-4 py-2 bg-gray-200 shadow">
+        <div className="w-full flex flex-row items-center justify-between px-25 py-5 mb-8 bg-gray-200 shadow">
         <span className="text-lg font-bold">MLPOS</span>
         <div>
 
-            <Button className="bg-red-500 text-white px-3 py-1 rounded">
+            {/* <Button className="bg-red-500 text-white px-3 py-1 rounded">
                 <CircleUserRound />
-            </Button>
+            </Button> */}
             <Button onClick={logout} className="bg-red-500 text-white px-3 py-1 rounded">
                 <LogOut />
             </Button>
