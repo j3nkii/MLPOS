@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Input } from '@components';
 import { useStateManager } from '@useStateManager'
 import { Navigate } from 'react-router-dom';
 
 export const LogginsPage = () => {
-    const { fetchUser, user } = useStateManager();
+    const { fetchUser, user, setLoginForm, loginForm } = useStateManager();
+    // const [ formState, setFormState ] = useState({
+    //     username: ''
+    // })
+    const handlForm = (evt) => {
+        const { target: { name, value }} = evt;
+        console.log(name, value)
+        console.log(evt)
+        setLoginForm({ name, value })
+        // setFormState(prev => ({ ...prev, [target.name]: target.value }))
+    }
     const handleSubmit = (evt) => {
         evt.preventDefault();
         fetchUser()
@@ -19,12 +29,14 @@ export const LogginsPage = () => {
                             label="Username"
                             name="username"
                             placeholder="Enter your username"
+                            value={loginForm.username}
+                            onChange={handlForm}
                         />
-                        <Input
+                        {/* <Input
                             label="Password"
                             name="password"
                             placeholder="Enter your password"
-                        />
+                        /> */}
                     <Button children='Login' />
                 </form>
             </div>

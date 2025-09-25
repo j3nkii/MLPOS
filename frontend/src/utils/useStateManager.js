@@ -23,14 +23,18 @@ const getCustomersAPI = async (set) => {
 
 
 
-const SUB_FUNCTION = (set) => ({
+const SUB_FUNCTION = (set, get) => ({
     loading: false,
     error: null,
     user: null,
+    loginForm: {
+        username: '',
+        password: '',
+    },
     fetchUser: async () => {
         set({ isLoading: true, error: null })
         try {
-            const res = await axios.get('/api/user')
+            const res = await axios.post('/api/user', get().loginForm);
             set({ user: res.data, isLoading: false })
         } catch (err) {
             set({ error: err.message, isLoading: false })
@@ -45,11 +49,15 @@ const SUB_FUNCTION = (set) => ({
     },
     closeModal: () => set({ modal: null }),
     fetchCustomers: async () => getCustomersAPI(set),
-    logout: () => set({ user: null })
+    logout: () => set({ user: null }),
+    setLoginForm: ({ name, value }) => {
+        console.log(name, value)
+        set({ loginForm: { ...get().loginForm, [name]: value } })
+    }
 })
 
 
 
 
 
-export const useStateManager = create((set) => SUB_FUNCTION(set));
+export const useStateManager = create((set, get) => SUB_FUNCTION(set, get));
