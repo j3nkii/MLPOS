@@ -6,14 +6,17 @@ const router = express.Router();
 
 
 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         console.log(req.body);
         // first user will be the user used to interact with the web app durring v0.
-        const { rows: [ user ] } = await pool.query(`
+        const dbRes = await pool.query(`
             SELECT * FROM users
-            WHERE id = '52d9665a-3187-4b0c-8316-487784bf84a0'
-        `);
+            WHERE username = $1
+            LIMIT 1
+        `, [req.body.username]);
+        const { rows: [user] } = dbRes;
+        console.log(dbRes)
         res.status(200).json(user);
     } catch (error) {
         console.error(error);

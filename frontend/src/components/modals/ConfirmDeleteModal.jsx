@@ -2,13 +2,11 @@
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalFooter } from '@components';
 import { useStateManager } from '@useStateManager';
-// import { useServiceOrchestrator } from '@util/useServiceOrchestrator';
 import { Button } from '@components';
 
 
 export const ConfirmDeleteModal = () => {
     const { closeModal, modal: { item } } = useStateManager();
-    // const { deleteSource } = useServiceOrchestrator();
 
     const handleConfirm = async () => {
         // deleteSource(item.id);
