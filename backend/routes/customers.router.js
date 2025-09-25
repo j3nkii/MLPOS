@@ -10,7 +10,8 @@ const TEMP_USER_ID = '52d9665a-3187-4b0c-8316-487784bf84a0'
 
 router.get('/', async (req, res) => {
     try {
-        const userID = TEMP_USER_ID;
+        const userID = req.query.userID;
+        console.log(userID)
         const { rows } = await pool.query(`
             SELECT * FROM customers
             WHERE user_id = $1
@@ -41,12 +42,13 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async(req, res) => {
     try {
-        const { name, email, phone } = req.body;
+        const { name, email, phone, userID } = req.body;
+        console.log(req.body)
         if(!name || !email || !phone) throw new Error('Missing Fields')
         await pool.query(`
-            INSERT INTO customers (name, email, phone)
-            VALUES ($1, $2, $3)
-        `, [ name, email, phone ]
+            INSERT INTO customers (name, email, phone, user_id)
+            VALUES ($1, $2, $3, $4)
+        `, [ name, email, phone, userID ]
         );
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {

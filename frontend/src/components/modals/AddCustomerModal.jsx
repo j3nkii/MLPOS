@@ -6,23 +6,30 @@ import { Button, Input } from '@components';
 
 
 export const AddCustomerModal = () => {
-    const { closeModal, modal: { item } } = useStateManager();
+    const { closeModal, modal, addNewCustomerForm, setNewCustomerForm, submitNewCustomer } = useStateManager();
 
     const handleConfirm = async () => {
         console.warn('Something should probably happen');
-        console.log(item);
+        console.log(modal);
+        submitNewCustomer()
     };
+
+    const handleChange = (evt) => {
+        console.log(evt);
+        const { target: {name, value }} = evt;
+        setNewCustomerForm({ name, value });
+    }
 
     return (
         <Modal onClose={closeModal}>
             <ModalHeader title={'Confirm'} onClose={closeModal} />
             <form className="p-6">
-                <Input label={'Name'} name={'name'} />
-                <Input label={'Email'} name={'email'} />
-                <Input label={'Phone'} name={'phone'} />
+                <Input onChange={handleChange} value={addNewCustomerForm.name} label={'Name'} name={'name'} />
+                <Input onChange={handleChange} value={addNewCustomerForm.email} label={'Email'} name={'email'} />
+                <Input onChange={handleChange} value={addNewCustomerForm.phone} label={'Phone'} name={'phone'} />
             </form>
             <ModalFooter>
-                <Button onClick={handleConfirm}>Delete</Button>
+                <Button onClick={handleConfirm}>Create</Button>
                 <Button onClick={closeModal}>Cancel</Button>
             </ModalFooter>
         </Modal>

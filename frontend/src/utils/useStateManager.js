@@ -9,10 +9,11 @@ const MODAL_TYPES = ['confirmDelete', '']
 
 
 
-const getCustomersAPI = async (set) => {
+const getCustomersAPI = async (set, get) => {
     set({ isLoading: true, error: null })
     try {
-        const res = await axios.get('/api/customers')
+        const userID = get().user.id
+        const res = await axios.get(`/api/customer?userID=${userID}`)
         set({ customers: res.data, isLoading: false })
     } catch (err) {
         set({ error: err.message, isLoading: false })
@@ -48,12 +49,34 @@ const SUB_FUNCTION = (set, get) => ({
         set({ modal: modalKey })
     },
     closeModal: () => set({ modal: null }),
-    fetchCustomers: async () => getCustomersAPI(set),
+    fetchCustomers: async () => getCustomersAPI(set, get),
     logout: () => set({ user: null }),
     setLoginForm: ({ name, value }) => {
         console.log(name, value)
         set({ loginForm: { ...get().loginForm, [name]: value } })
-    }
+    },
+    addNewCustomerForm: {
+        name: '',
+        phone: '',
+        email: '',
+    },
+    setNewCustomerForm: ({ name, value }) => {
+        console.log(name, value)
+        set({ addNewCustomerForm: { ...get().addNewCustomerForm, [name]: value } })
+    },
+    submitNewCustomer: async () => {
+        set({ isLoading: true, error: null })
+        try {
+            await axios.post('/api/customer', {
+                ...get().addNewCustomerForm,
+                userID: get().user.id
+            });
+            await getCustomersAPI(set)
+            set({ isLoading: false })
+        } catch (err) {
+            set({ error: err.message, isLoading: false })
+        }
+    },
 })
 
 

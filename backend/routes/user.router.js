@@ -8,7 +8,6 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        console.log(req.body);
         // first user will be the user used to interact with the web app durring v0.
         const dbRes = await pool.query(`
             SELECT * FROM users
