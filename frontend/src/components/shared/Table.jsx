@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Trash2, Settings } from 'lucide-react';
+import { Trash2, Settings, DiamondPlus } from 'lucide-react';
 import { useStateManager } from '@useStateManager';
 import { Button } from '@components';
 
@@ -85,7 +85,7 @@ export const Table = ({ data, onClick, isManage }) => {
                                 key={index} 
                                 className="px-4 py-3 text-left bg-gray-50 font-medium text-gray-900"
                             >
-                                {header}
+                                { header === 'Actions' ? <ActionsHeader header={header} /> : header }
                             </th>
                         ))}
                     </tr>
@@ -112,6 +112,20 @@ export const Table = ({ data, onClick, isManage }) => {
         </div>
     );
 };
+
+
+const ActionsHeader = ({ header } ) => {
+    return (
+        <div>
+            { header }
+            <Button 
+                text="Delete"
+            >
+                <DiamondPlus />
+            </Button>
+        </div>
+    )
+}
 
 
 
