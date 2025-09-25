@@ -10,10 +10,9 @@ export { LogginsPage } from './pages/Loggins'
 export { CustomersPage } from './pages/Customers'
 
 
-export { AuthRoute } from './wrappers/AuthRoute'
-export { Layout } from './wrappers/Layout'
+export { Layout } from './layout/Layout'
 
 
-export { ModalManager } from './modals/ModalManager'
-export { ConfirmDeleteModal } from './modals/sub/ConfirmDeleteModal'
-export { AddCustomerModal } from './modals/sub/AddCustomerModal'
+export { ModalManager } from './layout/ModalManager'
+export { ConfirmDeleteModal } from './modals/ConfirmDeleteModal'
+export { AddCustomerModal } from './modals/AddCustomerModal'
