@@ -10,10 +10,10 @@ export { LogginsPage } from './pages/Loggins'
 export { CustomersPage } from './pages/Customers'
 
 
-export { Layout } from './layout/Layout'
-export { Navbar } from './layout/Navbar'
+export { Layout } from './template/Layout'
+export { Navbar } from './template/Navbar'
+export { ModalManager } from './template/ModalManager'
 
 
-export { ModalManager } from './layout/ModalManager'
 export { ConfirmDeleteModal } from './modals/ConfirmDeleteModal'
 export { AddCustomerModal } from './modals/AddCustomerModal'
