@@ -10,7 +10,7 @@ export const CustomersPage = () => {
         fetchCustomers();
     }, [])
     return (
-        <div className='p-12'>
+        <div className='max-w-170'>
             <h1>Customers:</h1>
             <Table data={'customers'} isManage={true} />
         </div>

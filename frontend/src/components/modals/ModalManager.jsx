@@ -1,6 +1,6 @@
 
 import React from "react";
-import { ConfirmDeleteModal } from '@components';
+import { ConfirmDeleteModal, AddCustomerModal } from '@components';
 import { useStateManager } from '@useStateManager';
 
 
@@ -10,5 +10,7 @@ export const ModalManager = () => {
         return null;
     if( modal.type === 'confirmDelete' )
         return <ConfirmDeleteModal />
+    if( modal === 'addCustomer' )
+        return <AddCustomerModal />
     
 };

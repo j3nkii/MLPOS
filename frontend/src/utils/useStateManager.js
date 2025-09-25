@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 
-const MODAL_TYPES = ['confirmDelete']
+const MODAL_TYPES = ['confirmDelete', '']
 
 
 
@@ -41,7 +41,7 @@ const SUB_FUNCTION = (set) => ({
     setModal: (modalKey) => {
         if(!MODAL_TYPES.includes(modalKey.type))
             console.warn(`Modal Type: ${modalKey} : invalid`);
-        else set({ modal: modalKey })
+        set({ modal: modalKey })
     },
     closeModal: () => set({ modal: null }),
     fetchCustomers: async () => getCustomersAPI(set),

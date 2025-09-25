@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Trash2, Settings, DiamondPlus } from 'lucide-react';
+import { Trash2, Settings, DiamondPlus, SquarePen } from 'lucide-react';
 import { useStateManager } from '@useStateManager';
 import { Button } from '@components';
 
@@ -115,10 +115,12 @@ export const Table = ({ data, onClick, isManage }) => {
 
 
 const ActionsHeader = ({ header } ) => {
+    const { setModal } = useStateManager();
     return (
         <div>
             { header }
-            <Button 
+            <Button
+                onClick={() => setModal('addCustomer')}
                 text="Delete"
             >
                 <DiamondPlus />
@@ -153,7 +155,7 @@ const ActionsCell = ({ onEdit, item }) => {
                 onClick={onEdit} 
                 text="Settings"
             >
-                <Settings />
+                <SquarePen />
             </Button>
         </div>
     );

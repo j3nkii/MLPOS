@@ -11,10 +11,10 @@ export const Modal = ({ children, onClose, className }) => {
     };
     return (
         <div 
-            className={`fixed inset-0 bg-black/22 flex items-center justify-center z-50`}
+            className={`fixed inset-0 bg-black/22 backdrop-blur-sm flex items-center justify-center z-50`}
             onClick={handleBackdropClick}
         >
-            <div className={`bg-white rounded-lg shadow-xl w-3/6 mx-4 overflow-hidden ${className || ''}`}>
+            <div className={`border-10 border-gray-500 bg-white rounded-lg shadow-xl w-3/6 mx-4 overflow-hidden ${className || ''}`}>
                 {children}
             </div>
         </div>

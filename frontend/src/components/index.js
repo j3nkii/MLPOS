@@ -16,3 +16,4 @@ export { Layout } from './wrappers/Layout'
 
 export { ModalManager } from './modals/ModalManager'
 export { ConfirmDeleteModal } from './modals/sub/ConfirmDeleteModal'
+export { AddCustomerModal } from './modals/sub/AddCustomerModal'
