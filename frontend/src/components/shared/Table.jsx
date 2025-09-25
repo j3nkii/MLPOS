@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Trash2, Settings, DiamondPlus, SquarePen } from 'lucide-react';
+import { Trash2, Settings, DiamondPlus, SquarePen, BookUser } from 'lucide-react';
 import { useStateManager } from '@useStateManager';
 import { Button } from '@components';
 
@@ -154,8 +154,7 @@ const ActionsCell = ({ onEdit, item }) => {
             <Button 
                 onClick={onEdit} 
                 text="Settings"
-            >
-                <SquarePen />
+            ><BookUser />
             </Button>
         </div>
     );

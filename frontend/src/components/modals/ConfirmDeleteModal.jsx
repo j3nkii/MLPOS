@@ -18,7 +18,7 @@ export const ConfirmDeleteModal = () => {
         <Modal onClose={closeModal}>
             <ModalHeader title={'Confirm'} onClose={closeModal} />
             <div className="p-6">
-                <p>Are you sure you want to delete this source?</p>
+                <p>Are you sure you want to delete this person?</p>
                 <p className="text-red-500">{item.name}</p>
             </div>
             <ModalFooter>

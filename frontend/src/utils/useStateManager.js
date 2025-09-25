@@ -45,6 +45,7 @@ const SUB_FUNCTION = (set) => ({
     },
     closeModal: () => set({ modal: null }),
     fetchCustomers: async () => getCustomersAPI(set),
+    logout: () => set({ user: null })
 })
 
 

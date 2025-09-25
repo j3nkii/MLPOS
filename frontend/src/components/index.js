@@ -11,6 +11,7 @@ export { CustomersPage } from './pages/Customers'
 
 
 export { Layout } from './layout/Layout'
+export { Navbar } from './layout/Navbar'
 
 
 export { ModalManager } from './layout/ModalManager'
