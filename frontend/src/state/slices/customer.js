@@ -61,16 +61,15 @@ export const createCustomerSlice = (set, get) => ({
         try {
             await axios.delete(`/api/customers/${customerId}`);
             set(state => ({
-                allCustomers: state.customers.filter(c => c.id !== customerId),
+                allCustomers: state.allCustomers.filter(c => c.id !== customerId),
                 isLoading: false
             }));
             get().closeModal();
         } catch (err) {
+            console.error(err)
             set({ error: err.message, isLoading: false });
         }
     },
-
-    clearSelectedCustomer: () => set({ selectedCustomer: null }),
 
     setCustomerForm: ({ name, value }) => {
         console.log('### FORM', name, value)
@@ -81,5 +80,7 @@ export const createCustomerSlice = (set, get) => ({
 
     resetCustomerForm: () => {
         set({ customerForm: { ...initialCustomerForm } });
-    }
+    },
+
+    clearSelectedCustomer: () => set({ selectedCustomer: null }),
 });

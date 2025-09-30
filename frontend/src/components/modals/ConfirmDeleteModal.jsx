@@ -6,10 +6,11 @@ import { Button } from '@components';
 
 
 export const ConfirmDeleteModal = () => {
-    const { closeModal, modal: { item } } = useStateManager();
+    const { closeModal, modal: { item }, deleteCustomer } = useStateManager();
 
     const handleConfirm = async () => {
-        // deleteSource(item.id);
+        console.log(item.id)
+        deleteCustomer(item.id);
     };
 
     return (

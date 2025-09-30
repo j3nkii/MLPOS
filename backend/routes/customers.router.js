@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
         console.log(userID)
         const { rows } = await pool.query(`
             SELECT * FROM customers
-            WHERE user_id = $1
+            WHERE user_id = $1 AND is_deleted = false
         `, [ userID ]);
         res.status(200).json(rows);
     } catch (error) {
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
     try {
         const { rows: [ user ] } = await pool.query(`
             SELECT * FROM customers
-            WHERE id = $1
+            WHERE id = $1 AND is_deleted = false
         `, [ req.params.id ]);
         res.status(200).json(user);
     } catch (error) {
@@ -96,16 +96,18 @@ router.put('/:id', async(req, res) => {
 
 router.delete('/:id', async(req, res) => {
     try {
-        const { id: customerID } = req.params.id;
+        const { id: customerID } = req.params;
+        console.log('### DLETEING ', req.params)
+        console.log('### DLETEING ', customerID)
         const userID = TEMP_USER_ID;
         await pool.query(`
             UPDATE CUSTOMERS
             SET is_deleted = 'true'
             WHERE
-                customers.id = $1 AND user_id = $2
-        `, [ customerID, userID ]
+                customers.id = $1
+        `, [ customerID ]
         );
-        res.status(201).json({ message: 'User created successfully' });
+        res.status(201).json({ message: 'User Deleted successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
