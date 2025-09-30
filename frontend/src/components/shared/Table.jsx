@@ -6,7 +6,7 @@ import { Button } from '@components';
 
 
 const HEADERS = {
-    customers: {
+    allCustomers: {
         name: 'Name',
         phone: 'Phone',
         email: 'Email',
@@ -43,6 +43,7 @@ export const Table = ({ data, onClick, isManage }) => {
     const [columnKeys, setColumnKeys] = useState([]);
 
     useEffect(() => {
+        console.log(appState)
         const displayColumns = Object.values(HEADERS[data]);
         const columnKeys = Object.keys(HEADERS[data]);
         if(isManage) {

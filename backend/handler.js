@@ -12,7 +12,7 @@ app.use(express.json());
 
 
 const CUSTOMERS_ROUTER = require('./routes/customers.router');
-app.use('/api/customer', CUSTOMERS_ROUTER);
+app.use('/api/customers', CUSTOMERS_ROUTER);
 const USER_ROUTER = require('./routes/user.router');
 app.use('/api/user', USER_ROUTER);
 

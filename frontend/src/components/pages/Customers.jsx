@@ -1,18 +1,18 @@
 import React from 'react';
-import { Button, Input, Table } from '@components';
+import { Table } from '@components';
 import { useStateManager } from '@useStateManager';
 
 
 
 export const CustomersPage = () => {
-    const { fetchCustomers } = useStateManager();
+    const { fetchAllCustomers } = useStateManager();
     React.useEffect(() => {
-        fetchCustomers();
+        fetchAllCustomers();
     }, [])
     return (
         <div className='max-w-170'>
             <h1>Customers:</h1>
-            <Table data={'customers'} isManage={true} />
+            <Table data={'allCustomers'} isManage={true} />
         </div>
     );
 };

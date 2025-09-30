@@ -5,6 +5,16 @@ export const MODAL_TYPES = {
     EDIT_CUSTOMER: 'editCustomer',
 };
 
+
+
+
+
+
+
+
+
+
+
 // store/slices/authSlice.js
 import axios from 'axios';
 
@@ -43,6 +53,17 @@ export const createAuthSlice = (set, get) => ({
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
 // store/slices/customerSlice.js
 import axios from 'axios';
 
@@ -60,7 +81,7 @@ export const createCustomerSlice = (set, get) => ({
   addNewCustomerForm: { ...initialCustomerForm },
 
   // Actions
-  fetchCustomers: async () => {
+  fetchAllCustomers: async () => {
     set({ isLoading: true, error: null });
     try {
       const res = await axios.get('/api/customer');
@@ -87,7 +108,7 @@ export const createCustomerSlice = (set, get) => ({
       });
       
       // Refresh customer list
-      await get().fetchCustomers();
+      await get().fetchAllCustomers();
       
       // Close modal if open
       get().closeModal();
@@ -121,6 +142,17 @@ export const createCustomerSlice = (set, get) => ({
     set({ addNewCustomerForm: { ...initialCustomerForm } });
   }
 });
+
+
+
+
+
+
+
+
+
+
+
 
 // store/slices/uiSlice.js
 import { MODAL_TYPES } from '../types';
@@ -166,6 +198,17 @@ export const createUISlice = (set, get) => ({
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
 // store/index.js
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -202,7 +245,7 @@ export const useCustomers = () => useStore(state => ({
   isLoading: state.isLoading,
   error: state.error,
   addNewCustomerForm: state.addNewCustomerForm,
-  fetchCustomers: state.fetchCustomers,
+  fetchAllCustomers: state.fetchAllCustomers,
   submitNewCustomer: state.submitNewCustomer,
   deleteCustomer: state.deleteCustomer,
   setNewCustomerForm: state.setNewCustomerForm,
@@ -217,6 +260,17 @@ export const useUI = () => useStore(state => ({
   addNotification: state.addNotification,
   removeNotification: state.removeNotification,
 }));
+
+
+
+
+
+
+
+
+
+
+
 
 // store/actions/customerActions.js - Complex business logic
 export const customerActions = {

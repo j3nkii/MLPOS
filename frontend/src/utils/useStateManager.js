@@ -49,7 +49,7 @@ const SUB_FUNCTION = (set, get) => ({
         set({ modal: modalKey })
     },
     closeModal: () => set({ modal: null }),
-    fetchCustomers: async () => getCustomersAPI(set, get),
+    fetchAllCustomers: async () => getCustomersAPI(set, get),
     logout: () => set({ user: null }),
     setLoginForm: ({ name, value }) => {
         console.log(name, value)

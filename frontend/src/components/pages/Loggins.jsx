@@ -10,8 +10,6 @@ export const LogginsPage = () => {
     // })
     const handlForm = (evt) => {
         const { target: { name, value }} = evt;
-        console.log(name, value)
-        console.log(evt)
         setLoginForm({ name, value })
         // setFormState(prev => ({ ...prev, [target.name]: target.value }))
     }
