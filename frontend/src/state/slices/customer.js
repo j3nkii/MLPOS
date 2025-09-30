@@ -12,7 +12,7 @@ export const createCustomerSlice = (set, get) => ({
     allCustomers: [],
     selectedCustomer: null,
     error: null,
-    addNewCustomerForm: { ...initialCustomerForm },
+    customerForm: { ...initialCustomerForm },
 
     // Actions
     fetchAllCustomers: async () => {
@@ -20,7 +20,6 @@ export const createCustomerSlice = (set, get) => ({
         const { user } = get();
         try {
             const res = await axios.get(`/api/customers?userID=${user.id}`)
-            console.log('#####', res)
             set({ allCustomers: res.data, isLoading: false });
         } catch (err) {
             set({ error: err.message, isLoading: false });
@@ -30,7 +29,7 @@ export const createCustomerSlice = (set, get) => ({
     fetchCustomer: async (id) => {
         set({ isLoading: true, error: null });
         try {
-            const res = await axios.get(`/api/customer/${id}`);
+            const res = await axios.get(`/api/customers/${id}`);
             set({ selectedCustomer: res.data, isLoading: false });
         } catch (err) {
             set({ error: err.message, isLoading: false });
@@ -38,16 +37,16 @@ export const createCustomerSlice = (set, get) => ({
     },
 
     submitNewCustomer: async () => {
-        const { addNewCustomerForm, user } = get();
+        const { customerForm, user } = get();
         const { fetchAllCustomers, closeModal } = get();
         set({ isLoading: true, error: null });
         try {
-            await axios.post('/api/customer', {
-                ...addNewCustomerForm,
+            await axios.post('/api/customers', {
+                ...customerForm,
                 userID: user.id
             });
             set({ 
-                addNewCustomerForm: { ...initialCustomerForm },
+                customerForm: { ...initialCustomerForm },
                 isLoading: false 
             });
             await fetchAllCustomers();
@@ -60,7 +59,7 @@ export const createCustomerSlice = (set, get) => ({
     deleteCustomer: async (customerId) => {
         set({ isLoading: true, error: null });
         try {
-            await axios.delete(`/api/customer/${customerId}`);
+            await axios.delete(`/api/customers/${customerId}`);
             set(state => ({
                 allCustomers: state.customers.filter(c => c.id !== customerId),
                 isLoading: false
@@ -73,13 +72,14 @@ export const createCustomerSlice = (set, get) => ({
 
     clearSelectedCustomer: () => set({ selectedCustomer: null }),
 
-    setCustomerForm: (field, value) => {
+    setCustomerForm: ({ name, value }) => {
+        console.log('### FORM', name, value)
         set(state => ({
-            addNewCustomerForm: { ...state.addNewCustomerForm, [field]: value }
+            customerForm: { ...state.customerForm, [name]: value }
         }));
     },
 
     resetCustomerForm: () => {
-        set({ addNewCustomerForm: { ...initialCustomerForm } });
+        set({ customerForm: { ...initialCustomerForm } });
     }
 });

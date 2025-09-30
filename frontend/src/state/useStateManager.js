@@ -44,11 +44,11 @@ export const useStateManager = create(
 //     customers: state.customers,
 //     isLoading: state.isLoading,
 //     error: state.error,
-//     addNewCustomerForm: state.addNewCustomerForm,
+//     customerForm: state.customerForm,
 //     fetchAllCustomers: state.fetchAllCustomers,
 //     submitNewCustomer: state.submitNewCustomer,
 //     deleteCustomer: state.deleteCustomer,
-//     setNewCustomerForm: state.setNewCustomerForm,
+//     setCustomerForm: state.setCustomerForm,
 //     resetCustomerForm: state.resetCustomerForm,
 // }));
 
