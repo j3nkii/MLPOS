@@ -1,10 +1,11 @@
 const MODAL_TYPES = ['confirmDelete', '']
 export const createModalSlice = (set, get) => ({
     modal: null,
-    setModal: (modalKey) => {
-        if(!MODAL_TYPES.includes(modalKey.type))
-            console.warn(`Modal Type: ${modalKey} : invalid`);
-        set({ modal: modalKey })
+    setModal: ( modal ) => {
+        const { key, item } = modal;
+        if(!MODAL_TYPES.includes(key))
+            console.warn(`Modal Type: ${key} : invalid`);
+        set({ modal: modal });
     },
     closeModal: () => {
         // as is, this is nuclear.

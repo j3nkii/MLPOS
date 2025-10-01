@@ -71,11 +71,18 @@ export const createCustomerSlice = (set, get) => ({
         }
     },
 
+    setSelectedCustomer: (selectedCustomer) => set({ selectedCustomer }),
+
     setCustomerForm: ({ name, value }) => {
         console.log('### FORM', name, value)
         set(state => ({
             customerForm: { ...state.customerForm, [name]: value }
         }));
+    },
+
+    prepopulateCustomerForm: () => {
+        const { selectedCustomer } = get();
+        set({ customerForm: selectedCustomer });
     },
 
     resetCustomerForm: () => {

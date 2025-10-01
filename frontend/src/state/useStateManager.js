@@ -8,13 +8,6 @@ import { createModalSlice } from './slices/modal';
 
 
 
-
-
-
-
-
-
-
 // Main store combining all slices
 export const useStateManager = create(
     devtools(
@@ -27,6 +20,16 @@ export const useStateManager = create(
         { name: 'app-store' }
     )
 );
+
+
+
+
+
+
+
+
+
+
 
 // Selective hooks for better performance
 // export const useAuth = () => useStore(state => ({

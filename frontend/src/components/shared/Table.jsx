@@ -15,8 +15,6 @@ const HEADERS = {
 
 
 
-
-
 /**
  * Reusable table component that accepts headers and data
  * @param {Object} props
@@ -26,8 +24,6 @@ const HEADERS = {
  * @param {string} [props.className] - Optional additional class name
  * @returns {JSX.Element}
  */
-
-
 export const Table = ({ data, onClick, isManage }) => {
     // uhhhmmmmmm, maybe wrap the table in something???
     // cant really drap and drop into this bitch, writing 
@@ -53,28 +49,6 @@ export const Table = ({ data, onClick, isManage }) => {
         setColumnKeys(columnKeys);
         setDisplayColumns(displayColumns);
     }, [data]);
-
-
-    // const handleRowClick = (event, rowData) => {
-    //     if (onClick) {
-    //         event.preventDefault();
-    //         onClick(rowData);
-    //     }
-    // };
-
-    const onDelete = (rowData) => {
-        // Handle delete logic here
-        console.log('Delete row:', rowData);
-    };
-
-    const onEdit = (rowData) => {
-        // Handle edit logic here
-        console.log('Edit row:', rowData);
-        onClick(rowData);
-    };
-
-
-
 
     return (
         <div className="w-full overflow-x-auto">
@@ -103,7 +77,7 @@ export const Table = ({ data, onClick, isManage }) => {
                                     key={colIndex} 
                                     className="px-4 py-3 text-gray-900 border-b border-gray-200"
                                 >
-                                    { field === 'actions' ? <ActionsCell item={row} onDelete={onDelete} onEdit={() => onEdit(row)} /> : row[field] || 'N/A'}
+                                    { field === 'actions' ? <ActionsCell item={row} /> : row[field] || 'N/A'}
                                 </td>
                             ))}
                         </tr>
@@ -115,14 +89,15 @@ export const Table = ({ data, onClick, isManage }) => {
 };
 
 
+
 const ActionsHeader = ({ header } ) => {
     const { setModal } = useStateManager();
     return (
         <div>
             { header }
             <Button
-                onClick={() => setModal('addCustomer')}
-                text="Delete"
+                onClick={() => setModal({ key: 'addCustomer' })}
+                text="Create"
             >
                 <DiamondPlus />
             </Button>
@@ -132,18 +107,30 @@ const ActionsHeader = ({ header } ) => {
 
 
 
-const ActionsCell = ({ onEdit, item }) => {
-    const { setModal } = useStateManager();
+const ActionsCell = ({ item }) => {
+    const { setModal, setSelectedCustomer } = useStateManager();
+
     const onDelete = (e) => {
         console.log('hey clicking delete')
         e.stopPropagation();
         setModal({
             // could be renamed key
-            type: 'confirmDelete',
-            title: 'Delete Confirmation',
-            item
+            key: 'confirmDelete',
+            item,
         });
     };
+
+    const onEdit = (e) => {
+        console.log('hey clicking delete')
+        e.stopPropagation();
+        setSelectedCustomer(item);
+        setModal({
+            // could be renamed key
+            key: 'updateCustomer',
+            item,
+        });
+    };
+
     return (
         <div className="flex items-center space-x-2">
             <Button 

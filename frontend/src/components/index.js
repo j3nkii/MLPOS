@@ -16,4 +16,4 @@ export { ModalManager } from './template/ModalManager'
 
 
 export { ConfirmDeleteModal } from './modals/ConfirmDeleteModal'
-export { AddCustomerModal } from './modals/AddCustomerModal'
+export { CustomerFormModal } from './modals/CustomerFormModal'

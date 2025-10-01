@@ -4,19 +4,21 @@ import { Modal, ModalHeader, ModalFooter } from '@components';
 import { useStateManager } from '@useStateManager';
 import { Button, Input } from '@components';
 
+export const CustomerFormModal = ({ update }) => {
+    const { customerForm } = useStateManager();
+    const { closeModal, setCustomerForm, submitNewCustomer, prepopulateCustomerForm, resetCustomerForm } = useStateManager();
 
-export const AddCustomerModal = () => {
-    const { closeModal, modal, customerForm, setCustomerForm, submitNewCustomer } = useStateManager();
+    useEffect(() => {
+        if(update)
+            prepopulateCustomerForm();
+    }, [])
 
     const handleConfirm = async () => {
-        console.warn('Something should probably happen');
-        console.log(modal);
         submitNewCustomer()
     };
 
     const handleChange = (evt) => {
-        console.log(evt);
-        const { target: {name, value }} = evt;
+        const { target: { name, value }} = evt;
         setCustomerForm({ name, value });
     }
 
