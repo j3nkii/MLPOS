@@ -6,7 +6,7 @@ import { Button, Input } from '@components';
 
 export const CustomerFormModal = ({ update }) => {
     const { customerForm } = useStateManager();
-    const { closeModal, setCustomerForm, submitNewCustomer, prepopulateCustomerForm, resetCustomerForm } = useStateManager();
+    const { closeModal, setCustomerForm, submitNewCustomer, prepopulateCustomerForm, resetCustomerForm, updateCustomer } = useStateManager();
 
     useEffect(() => {
         if(update)
@@ -14,7 +14,7 @@ export const CustomerFormModal = ({ update }) => {
     }, [])
 
     const handleConfirm = async () => {
-        submitNewCustomer()
+        update ? updateCustomer(customerForm.id) : submitNewCustomer();
     };
 
     const handleChange = (evt) => {

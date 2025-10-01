@@ -62,29 +62,29 @@ router.post('/', async(req, res) => {
 router.put('/:id', async(req, res) => {
     try {
         const { name, email, phone } = req.body;
-        const { id: customerID } = req.params.id;
-        const userID = TEMP_USER_ID;
-        if(!name || !email || !phone) throw new Error('Missing Fields');
+        const { id: customerID } = req.params;
+        if(!name && !email && !phone) throw new Error('Missing Fields');
         const INSERT_SQL = [];
         const INSERT_PARAMS = [];
         let idx = 2;
-        if(name)
-            INSERT_SQL.push(`name = ${idx++}`);
+        if(name) {
+            INSERT_SQL.push(`name = $${idx++}`);
             INSERT_PARAMS.push(name);
-        if(email)
-            INSERT_SQL.push(`email = ${idx++}`);
+        } if(email) {
+            INSERT_SQL.push(`email = $${idx++}`);
             INSERT_PARAMS.push(email);
-        if(phone)
-            INSERT_SQL.push(`phone = ${idx++}`);
+        } if(phone) {
+            INSERT_SQL.push(`phone = $${idx++}`);
             INSERT_PARAMS.push(phone);
-
-        await pool.query(`
+        }
+        const END_SQL = `
             UPDATE CUSTOMERS
-            SET ${INSERT_SQL.join(' ')}
+            SET ${INSERT_SQL.join(', ')}
             WHERE
-                customers.id = $1 AND user_id = $2
-        `, [ customerID, userID, ...INSERT_PARAMS ]
-        );
+                customers.id = $1
+        `
+        const END_PARAMS = [ customerID, ...INSERT_PARAMS ]
+        await pool.query(END_SQL, END_PARAMS);
         res.status(200).json({ message: 'User updated successfully' });
     } catch (error) {
         console.error(error);
