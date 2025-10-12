@@ -14,5 +14,4 @@ export const ModalManager = () => {
         return <CustomerFormModal />
     if( modal.key === 'updateCustomer' )
         return <CustomerFormModal update={true} />
-    
 };

@@ -20,12 +20,12 @@ export const createUserSlice = (set, get) => ({
         }
     },
 
-    clearLoginForm: () => set({ loginForm: INITIAL_LOGIN }),
-
     setLoginForm: ({ name, value }) => {
         const { loginForm } = get();
         set({ loginForm: { ...loginForm, [name]: value } });
     },
+
+    clearLoginForm: () => set({ loginForm: INITIAL_LOGIN }),
 
     logout: () => set({ user: null }),
 });
