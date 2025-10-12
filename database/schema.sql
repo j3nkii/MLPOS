@@ -22,6 +22,18 @@ CREATE TABLE customers (
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
+-- invoices (example POS feature)
+DROP TABLE IF EXISTS invoices;
+CREATE TABLE invoices (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id),       -- business owner
+    customer_id UUID NOT NULL REFERENCES customers(id), -- end client
+    amount NUMERIC(10,2) NOT NULL,
+    status VARCHAR(50), -- pending, paid, cancelled
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
 -- optional login creds for customers
 -- DROP TABLE IF EXISTS customer_credentials CASCADE;
 -- CREATE TABLE customer_credentials (
@@ -54,18 +66,6 @@ CREATE TABLE customers (
 --     user_id UUID NOT NULL REFERENCES users(id),
 --     customer_id UUID NOT NULL REFERENCES customers(id),
 --     UNIQUE (user_id, customer_id)
--- );
-
--- -- invoices (example POS feature)
--- DROP TABLE IF EXISTS invoices;
--- CREATE TABLE invoices (
---     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---     user_id UUID NOT NULL REFERENCES users(id),       -- business owner
---     customer_id UUID NOT NULL REFERENCES customers(id), -- end client
---     amount NUMERIC(10,2) NOT NULL,
---     status VARCHAR(50), -- pending, paid, cancelled
---     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
---     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 -- );
 
 -- -- appointments (scheduling feature)
