@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router";
 import { useStateManager } from '@useStateManager'
 import { Button } from '@components'
 import { CircleUserRound, LogOut } from 'lucide-react'
@@ -21,6 +22,7 @@ import { CircleUserRound, LogOut } from 'lucide-react'
 
 
 export const Navbar = () => {
+
     const { user, logout } = useStateManager();
 
     return (
@@ -31,6 +33,9 @@ export const Navbar = () => {
             {/* <Button className="bg-red-500 text-white px-3 py-1 rounded">
                 <CircleUserRound />
             </Button> */}
+            <Link to='/invoicing'>
+                invoicing
+            </Link>
             <Button onClick={logout} className="bg-red-500 text-white px-3 py-1 rounded">
                 <LogOut />
             </Button>

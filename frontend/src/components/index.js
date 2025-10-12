@@ -8,6 +8,7 @@ export { ModalFooter } from './shared/Modal'
 
 export { LogginsPage } from './pages/Loggins'
 export { CustomersPage } from './pages/Customers'
+export { InvoicesPage } from './pages/Invoices'
 
 
 export { Layout } from './template/Layout'

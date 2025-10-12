@@ -11,6 +11,11 @@ const HEADERS = {
         phone: 'Phone',
         email: 'Email',
     },
+    allInvoices: {
+        customer: 'Customer',
+        amount: 'Amount',
+        status: 'Status'
+    }
 }
 
 
@@ -40,6 +45,7 @@ export const Table = ({ data, onClick, isManage }) => {
 
     useEffect(() => {
         console.log(appState)
+        if(!HEADERS[data]) return
         const displayColumns = Object.values(HEADERS[data]);
         const columnKeys = Object.keys(HEADERS[data]);
         if(isManage) {

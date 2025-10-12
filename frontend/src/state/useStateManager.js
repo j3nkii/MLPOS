@@ -5,6 +5,7 @@ import { devtools } from 'zustand/middleware';
 import { createUserSlice } from './slices/user';
 import { createCustomerSlice } from './slices/customer';
 import { createModalSlice } from './slices/modal';
+import { createInvoicesSlice } from './slices/invoices';
 
 
 
@@ -16,6 +17,7 @@ export const useStateManager = create(
         ...createUserSlice(set, get, api),
         ...createCustomerSlice(set, get, api),
         ...createModalSlice(set, get, api),
+        ...createInvoicesSlice(set, get, api),
         }),
         { name: 'app-store' }
     )
