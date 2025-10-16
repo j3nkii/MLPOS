@@ -15,13 +15,14 @@ export const Navbar = () => {
         <div>
 
             <Link to='/'>
-                {/* customers */}
                 <Button className="bg-red-500 text-white px-3 py-1 rounded">
-                    <CircleUserRound />
+                    Customers
                 </Button>
             </Link>
             <Link to='/invoicing'>
-                invoicing
+                <Button className="bg-red-500 text-white px-3 py-1 rounded">
+                    Invoicing
+                </Button>
             </Link>
             <Button onClick={logout} className="bg-red-500 text-white px-3 py-1 rounded">
                 <LogOut />
