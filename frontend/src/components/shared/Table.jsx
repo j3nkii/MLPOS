@@ -38,7 +38,7 @@ export const CONFIGURATION = {
 
 
 
-export const TableWrapper = ( props ) => {
+export const TableHandler = ( props ) => {
     const { configKey, isManage } = props;
     const appState = useStateManager(store => store);
     const [tableProps, setTableProps] = useState(null);

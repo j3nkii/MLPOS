@@ -1,6 +1,6 @@
 export { Button } from './shared/Button'
 export { Input } from './shared/Input'
-export { TableWrapper } from './shared/Table'
+export { TableHandler } from './shared/Table'
 export { Modal } from './shared/Modal'
 export { ModalHeader } from './shared/Modal'
 export { ModalFooter } from './shared/Modal'
