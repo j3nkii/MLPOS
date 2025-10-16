@@ -110,15 +110,17 @@ export const Table = ( PROPS ) => {
 const ActionsHeader = ({ modalKeys }) => {
     const { setModal } = useStateManager();
     return (
-        <div>
-            Add New
-            <Button
-                onClick={() => setModal({ key: modalKeys.create })}
-                text="Create"
-            >
-                <DiamondPlus />
-            </Button>
-        </div>
+        <td>
+            <div>
+                Add New
+                <Button
+                    onClick={() => setModal({ key: modalKeys.create })}
+                    text="Create"
+                >
+                    <DiamondPlus />
+                </Button>
+            </div>
+        </td>
     )
 }
 
@@ -147,18 +149,20 @@ const ActionsCell = ({ item, modalKeys }) => {
     };
 
     return (
-        <div className="flex items-center space-x-2">
-            <Button 
-                onClick={onDelete} 
-                text="Delete"
-            >
-                <Trash2 />
-            </Button>
-            <Button 
-                onClick={onUpdate} 
-                text="Settings"
-            ><BookUser />
-            </Button>
-        </div>
+        <td>
+            <div className="flex items-center space-x-2">
+                <Button 
+                    onClick={onDelete} 
+                    text="Delete"
+                >
+                    <Trash2 />
+                </Button>
+                <Button 
+                    onClick={onUpdate} 
+                    text="Settings"
+                ><BookUser />
+                </Button>
+            </div>
+        </td>
     );
 }
