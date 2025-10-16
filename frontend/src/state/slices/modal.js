@@ -1,8 +1,8 @@
-const MODAL_TYPES = ['confirmDelete', '']
+const MODAL_TYPES = ['confirmDelete', 'updateCustomer', 'createCustomer']
 export const createModalSlice = (set, get) => ({
     modal: null,
     setModal: ( modal ) => {
-        const { key, item } = modal;
+        const { key } = modal;
         if(!MODAL_TYPES.includes(key))
             console.warn(`Modal Type: ${key} : invalid`);
         set({ modal: modal });

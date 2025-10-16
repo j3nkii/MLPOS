@@ -26,7 +26,7 @@ export const Navbar = () => {
     const { user, logout } = useStateManager();
 
     return (
-        <div className="w-full flex flex-row items-center justify-between px-25 py-5 mb-8 bg-gray-200 shadow">
+        <div className="w-full flex flex-row items-center justify-between px-25 py-5 bg-gray-200 shadow">
         <span className="text-lg font-bold">MLPOS</span>
         <div>
 

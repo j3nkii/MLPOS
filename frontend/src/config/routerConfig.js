@@ -3,7 +3,7 @@ import { LogginsPage, CustomersPage, Layout, InvoicesPage } from '@components';
 
 
 
-export const routerDefinition = [
+export const routerConfig = [
     {
         path: "/login",
         exact: true,

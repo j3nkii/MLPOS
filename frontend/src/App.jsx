@@ -1,9 +1,9 @@
 import React from 'react'
 import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom'
-import { routerDefinition } from './utils/routerDefinition'
+import { routerConfig } from './config/routerConfig'
 
 function App() {
-    const router = createHashRouter(routerDefinition);
+    const router = createHashRouter(routerConfig);
   return (
     <div>
       <RouterProvider router={router} />

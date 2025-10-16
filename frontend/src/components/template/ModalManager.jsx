@@ -10,7 +10,7 @@ export const ModalManager = () => {
         return null;
     if( modal.key === 'confirmDelete' )
         return <ConfirmDeleteModal />
-    if( modal.key === 'addCustomer' )
+    if( modal.key === 'createCustomer' )
         return <CustomerFormModal />
     if( modal.key === 'updateCustomer' )
         return <CustomerFormModal update={true} />

@@ -5,60 +5,67 @@ import { Button } from '@components';
 
 
 
-const HEADERS = {
-    allCustomers: {
-        name: 'Name',
-        phone: 'Phone',
-        email: 'Email',
+export const CONFIGURATION = {
+    customers: {
+        route: 'customers',
+        stateKey: 'allCustomers',
+        headers: {
+            name: 'Name',
+            phone: 'Phone',
+            email: 'Email',
+        },
+        modalKeys: {
+            update: 'updateCustomer',
+            create: 'createCustomer',
+            delete: 'confirmDelete',
+        },
     },
     allInvoices: {
-        customer: 'Customer',
-        amount: 'Amount',
-        status: 'Status'
+        headers: {
+            customer: 'Customer',
+            amount: 'Amount',
+            status: 'Status'
+        },
+        modalKeys: {
+            update: '',
+            create: '',
+            delete: '',
+        },
     }
 }
 
 
 
-/**
- * Reusable table component that accepts headers and data
- * @param {Object} props
- * @param {String} props.data
- * @param {Array} props.data - Array of data objects
- * @param {Function} [props.onClick] - Optional click handler for rows
- * @param {string} [props.className] - Optional additional class name
- * @returns {JSX.Element}
- */
-export const Table = ({ data, onClick, isManage }) => {
-    // uhhhmmmmmm, maybe wrap the table in something???
-    // cant really drap and drop into this bitch, writing 
-    // this as a passed component, plus creating a wrapper
-    // to tansform data / act as a stable state manager
 
-    // I know what i meant, currently being passed "keys"
-    // that tell it what state to grab from local, this
-    // could be a wrapper layer ontop of the like... paseed
-    // component. component should receive props. 
-    const appState = useStateManager();
-    const [displayColumns, setDisplayColumns] = useState([])
-    const [columnKeys, setColumnKeys] = useState([]);
 
+export const TableWrapper = ( props ) => {
+    const { configKey, isManage } = props;
+    const appState = useStateManager(store => store);
+    const [tableProps, setTableProps] = useState(null);
     useEffect(() => {
-        console.log(appState)
-        if(!HEADERS[data]) return
-        const displayColumns = Object.values(HEADERS[data]);
-        const columnKeys = Object.keys(HEADERS[data]);
-        if(isManage) {
-            displayColumns.push('Actions');
-            columnKeys.push('actions');
-        }
-        setColumnKeys(columnKeys);
-        setDisplayColumns(displayColumns);
-    }, [data]);
+        const { headers, stateKey, modalKeys } = CONFIGURATION[configKey]
+        const displayColumns = Object.values(headers);
+        const columnKeys = Object.keys(headers);
+        setTableProps({
+            isManage,
+            displayColumns,
+            columnKeys,
+            stateKey,
+            modalKeys,
+            data: appState[stateKey],
+        });
+    }, [configKey, appState]);
+    return <Table { ...tableProps } />;
+};
 
+
+
+
+export const Table = ( PROPS ) => {
+    const { data = [], onClick, isManage, displayColumns = [], columnKeys = [], stateKey, modalKeys } = PROPS;
     return (
         <div className="w-full overflow-x-auto">
-            <table className="w-full border-collapse bg-white shadow-sm">
+            <table className="table-fixed w-full border-collapse bg-white shadow-sm">
                 <thead>
                     <tr>
                         {displayColumns.map((header, index) => (
@@ -66,13 +73,14 @@ export const Table = ({ data, onClick, isManage }) => {
                                 key={index} 
                                 className="px-4 py-3 text-left bg-gray-50 font-medium text-gray-900"
                             >
-                                { header === 'Actions' ? <ActionsHeader header={header} /> : header }
+                                {header}
                             </th>
                         ))}
+                        { isManage && <ActionsHeader modalKeys={modalKeys} /> }
                     </tr>
                 </thead>
                 <tbody>
-                    {appState[data].map((row, rowIndex) => (
+                    {data.map((row, rowIndex) => (
                         <tr 
                             key={rowIndex} 
                             className="cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200"
@@ -83,9 +91,10 @@ export const Table = ({ data, onClick, isManage }) => {
                                     key={colIndex} 
                                     className="px-4 py-3 text-gray-900 border-b border-gray-200"
                                 >
-                                    { field === 'actions' ? <ActionsCell item={row} /> : row[field] || 'N/A'}
+                                    { row[field] || 'N/A'}
                                 </td>
                             ))}
+                        { isManage && <ActionsCell item={row} modalKeys={modalKeys} /> }
                         </tr>
                     ))}
                 </tbody>
@@ -96,13 +105,15 @@ export const Table = ({ data, onClick, isManage }) => {
 
 
 
-const ActionsHeader = ({ header } ) => {
+
+
+const ActionsHeader = ({ modalKeys }) => {
     const { setModal } = useStateManager();
     return (
         <div>
-            { header }
+            Add New
             <Button
-                onClick={() => setModal({ key: 'addCustomer' })}
+                onClick={() => setModal({ key: modalKeys.create })}
                 text="Create"
             >
                 <DiamondPlus />
@@ -113,26 +124,24 @@ const ActionsHeader = ({ header } ) => {
 
 
 
-const ActionsCell = ({ item }) => {
+
+
+const ActionsCell = ({ item, modalKeys }) => {
     const { setModal, setSelectedCustomer } = useStateManager();
 
     const onDelete = (e) => {
-        console.log('hey clicking delete')
         e.stopPropagation();
         setModal({
-            // could be renamed key
-            key: 'confirmDelete',
+            key: modalKeys.delete,
             item,
         });
     };
 
-    const onEdit = (e) => {
-        console.log('hey clicking delete')
+    const onUpdate = (e) => {
         e.stopPropagation();
         setSelectedCustomer(item);
         setModal({
-            // could be renamed key
-            key: 'updateCustomer',
+            key: modalKeys.update,
             item,
         });
     };
@@ -146,7 +155,7 @@ const ActionsCell = ({ item }) => {
                 <Trash2 />
             </Button>
             <Button 
-                onClick={onEdit} 
+                onClick={onUpdate} 
                 text="Settings"
             ><BookUser />
             </Button>
