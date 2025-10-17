@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Trash2, Settings, DiamondPlus, SquarePen, BookUser } from 'lucide-react'
 import { useStateManager } from '@useStateManager'
 import { Button } from '@components'
-import { TABLE_CONFIG } from '@config/tableConfig'
 
 
 
@@ -58,12 +57,10 @@ const ActionsHeader = ({ modalKeys }) => {
     return (
         <td>
             <div className='flex items-center justify-end gap-1 pr-3.5'>
-                {/* Add New */}
                 <Button
                     onClick={() => setModal({ key: modalKeys.create })}
                     text="Create"
-                >
-                    <DiamondPlus />
+                ><DiamondPlus />
                 </Button>
             </div>
         </td>
