@@ -29,7 +29,7 @@ export const Table = ( PROPS ) => {
                     {data.map((row, rowIndex) => (
                         <tr 
                             key={rowIndex} 
-                            className="cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200"
+                            className="hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200"
                             // onClick={(e) => handleRowClick(e, row)}
                         >
                             {columnKeys.map((field, colIndex) => (
@@ -57,8 +57,8 @@ const ActionsHeader = ({ modalKeys }) => {
     const { setModal } = useStateManager();
     return (
         <td>
-            <div className='flex items-center justify-end gap-3 pr-3.5'>
-                Add New
+            <div className='flex items-center justify-end gap-1 pr-3.5'>
+                {/* Add New */}
                 <Button
                     onClick={() => setModal({ key: modalKeys.create })}
                     text="Create"
