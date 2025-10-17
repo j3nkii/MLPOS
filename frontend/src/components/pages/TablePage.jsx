@@ -19,8 +19,8 @@ export const TablePage = () => {
         appState[listKey]();
     }, []);
     return (
-        <div className='pt-20 max-w-170 bg-white'>
-            <h1 className='p-8 text-4xl font-extrabold'>{pageTitle}:</h1>
+        <div className='max-w-170 bg-white'>
+            <h1 className='p-10 pt-20 text-4xl font-extrabold underline'>{pageTitle}:</h1>
             <Table {...{ displayColumns, columnKeys, stateKey, modalKeys, data: appState[stateKey] }} />
         </div>
     );

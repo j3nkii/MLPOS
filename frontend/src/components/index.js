@@ -1,18 +1,18 @@
-export { Button } from './shared/Button'
-export { Input } from './shared/Input'
-export { Table } from './shared/Table'
-export { Modal } from './shared/Modal'
-export { ModalHeader } from './shared/Modal'
-export { ModalFooter } from './shared/Modal'
+export { Button } from './commons/Button'
+export { Input } from './commons/Input'
+export { Table } from './commons/Table'
+export { Modal } from './commons/Modal'
+export { ModalHeader } from './commons/Modal'
+export { ModalFooter } from './commons/Modal'
 
 
 export { LogginsPage } from './pages/Loggins'
+export { TablePage } from './pages/TablePage'
 
 
 export { Layout } from './template/Layout'
 export { Navbar } from './template/Navbar'
 export { ModalManager } from './template/ModalManager'
-export { TablePage } from './template/TablePage'
 
 
 export { ConfirmDeleteModal } from './modals/ConfirmDeleteModal'
