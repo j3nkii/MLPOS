@@ -10,14 +10,14 @@ import { TABLE_CONFIG } from '@config/tableConfig'
 export const Table = ( PROPS ) => {
     const { data = [], onClick, isManage = true, displayColumns = [], columnKeys = [], modalKeys = {} } = PROPS;
     return (
-        <div className="w-full overflow-x-auto">
-            <table className="table-fixed w-full border-collapse bg-white shadow-sm">
+        <div className="rounded-2xl overflow-hidden border-2">
+            <table className="min-w-full border-collapse table-fixed w-full bg-white shadow-sm">
                 <thead>
-                    <tr>
+                    <tr className='bg-gray-200'>
                         {displayColumns.map((header, index) => (
                             <th 
                                 key={index} 
-                                className="px-4 py-3 text-left bg-gray-50 font-medium text-gray-900"
+                                className="px-4 py-3 text-left　font-medium text-gray-900"
                             >
                                 {header}
                             </th>
@@ -57,7 +57,7 @@ const ActionsHeader = ({ modalKeys }) => {
     const { setModal } = useStateManager();
     return (
         <td>
-            <div>
+            <div className='flex items-center justify-end gap-3 pr-3.5'>
                 Add New
                 <Button
                     onClick={() => setModal({ key: modalKeys.create })}
@@ -96,7 +96,7 @@ const ActionsCell = ({ item, modalKeys }) => {
 
     return (
         <td>
-            <div className="flex items-center space-x-2">
+            <div className='flex items-center justify-end gap-3 pr-3.5'>
                 <Button 
                     onClick={onDelete} 
                     text="Delete"
