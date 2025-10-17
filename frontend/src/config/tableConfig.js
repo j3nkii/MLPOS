@@ -21,7 +21,8 @@ export const TABLE_CONFIG = {
         headers: {
             customer: 'Customer',
             amount: 'Amount',
-            status: 'Status'
+            status: 'Status',
+            dateSent: 'Date Sent'
         },
         modalKeys: {
             update: '',
