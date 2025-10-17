@@ -1,6 +1,5 @@
 export { Button } from './shared/Button'
 export { Input } from './shared/Input'
-export { TableHandler } from './shared/Table'
 export { Table } from './shared/Table'
 export { Modal } from './shared/Modal'
 export { ModalHeader } from './shared/Modal'
