@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DETAULT_STYLE = "py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors"
+const DETAULT_STYLE = "py-2 px-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors rounded-4xl"
 const DEFAUL_PROPS = {
     id: '',
     type: 'button',

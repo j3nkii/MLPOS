@@ -11,23 +11,23 @@ export const Navbar = () => {
 
     return (
         <div className="w-full flex flex-row items-center justify-between px-25 py-5 bg-gray-200 shadow">
-        <span className="text-lg font-bold">MLPOS</span>
-        <div>
+            <span className="text-lg font-bold">MLPOS</span>
+            <div className='flex'>
 
-            <Link to='/'>
-                <Button className="bg-red-500 text-white px-3 py-1 rounded">
-                    Customers
+                <Link to='/customers'>
+                    <Button className="bg-red-500 text-white px-3 py-1 rounded">
+                        Customers
+                    </Button>
+                </Link>
+                <Link to='/invoicing'>
+                    <Button className="bg-red-500 text-white px-3 py-1 rounded">
+                        Invoicing
+                    </Button>
+                </Link>
+                <Button onClick={logout} className="bg-red-500 text-white px-3 py-1 rounded">
+                    <LogOut />
                 </Button>
-            </Link>
-            <Link to='/invoicing'>
-                <Button className="bg-red-500 text-white px-3 py-1 rounded">
-                    Invoicing
-                </Button>
-            </Link>
-            <Button onClick={logout} className="bg-red-500 text-white px-3 py-1 rounded">
-                <LogOut />
-            </Button>
-        </div>
+            </div>
         
         </div>
     );
