@@ -2,37 +2,39 @@ import React, { useEffect, useState } from 'react';
 import { Trash2, Settings, DiamondPlus, SquarePen, BookUser } from 'lucide-react';
 import { useStateManager } from '@useStateManager';
 import { Button } from '@components';
+import { TABLE_CONFIG } from '@config/tableConfig'
 
 
 
-export const CONFIGURATION = {
-    customers: {
-        route: 'customers',
-        stateKey: 'allCustomers',
-        headers: {
-            name: 'Name',
-            phone: 'Phone',
-            email: 'Email',
-        },
-        modalKeys: {
-            update: 'updateCustomer',
-            create: 'createCustomer',
-            delete: 'confirmDelete',
-        },
-    },
-    allInvoices: {
-        headers: {
-            customer: 'Customer',
-            amount: 'Amount',
-            status: 'Status'
-        },
-        modalKeys: {
-            update: '',
-            create: '',
-            delete: '',
-        },
-    }
-}
+// export const TABLE_CONFIG = {
+//     customers: {
+//         header: 'Customers',
+//         listKey: 'fetchAllCustomers',
+//         readKey: 'allCustomers',
+//         headers: {
+//             name: 'Name',
+//             phone: 'Phone',
+//             email: 'Email',
+//         },
+//         modalKeys: {
+//             update: 'updateCustomer',
+//             create: 'createCustomer',
+//             delete: 'confirmDelete',
+//         },
+//     },
+//     allInvoices: {
+//         headers: {
+//             customer: 'Customer',
+//             amount: 'Amount',
+//             status: 'Status'
+//         },
+//         modalKeys: {
+//             update: '',
+//             create: '',
+//             delete: '',
+//         },
+//     }
+// }
 
 
 
@@ -43,16 +45,16 @@ export const TableHandler = ( props ) => {
     const appState = useStateManager(store => store);
     const [tableProps, setTableProps] = useState(null);
     useEffect(() => {
-        const { headers, stateKey, modalKeys } = CONFIGURATION[configKey]
+        const { headers, readKey, modalKeys } = TABLE_CONFIG[configKey]
         const displayColumns = Object.values(headers);
         const columnKeys = Object.keys(headers);
         setTableProps({
             isManage,
             displayColumns,
             columnKeys,
-            stateKey,
+            readKey,
             modalKeys,
-            data: appState[stateKey],
+            data: appState[readKey],
         });
     }, [configKey, appState]);
     return <Table { ...tableProps } />;
@@ -62,7 +64,7 @@ export const TableHandler = ( props ) => {
 
 
 export const Table = ( PROPS ) => {
-    const { data = [], onClick, isManage, displayColumns = [], columnKeys = [], stateKey, modalKeys } = PROPS;
+    const { data = [], onClick, isManage = true, displayColumns = [], columnKeys = [], modalKeys = {} } = PROPS;
     return (
         <div className="w-full overflow-x-auto">
             <table className="table-fixed w-full border-collapse bg-white shadow-sm">

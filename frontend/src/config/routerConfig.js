@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogginsPage, CustomersPage, Layout, InvoicesPage } from '@components';
+import { LogginsPage, Layout, TablePage } from '@components';
 
 
 
@@ -14,14 +14,14 @@ export const routerConfig = [
         Component: Layout,
         children: [
             {
-                path: "/",
+                path: "/customers",
                 exact: true,
-                Component: CustomersPage
+                Component: TablePage
             },
             {
                 path: "/invoicing",
                 exact: true,
-                Component: InvoicesPage
+                Component: TablePage
             },
         ]
     },

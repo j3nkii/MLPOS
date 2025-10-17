@@ -6,6 +6,19 @@ const initialCustomerForm = {
     phone: '',
     email: '',
 };
+// const initialCustomerForm = {
+//     name: '',
+//     phone: '',
+//     email: '',
+//     address: '',
+//     city: '',
+//     state: '',
+//     zipCode: '',
+//     customerType: 'regular', // regular, vip, wholesale
+//     tags: [],
+//     notes: '',
+//     preferredContactMethod: 'phone', // phone, email, sms
+// };
 
 export const createCustomerSlice = (set, get) => ({
     // State

@@ -17,7 +17,7 @@ export const LogginsPage = () => {
         evt.preventDefault();
         fetchUser()
     }
-    if (user) return <Navigate to="/" replace />
+    if (user) return <Navigate to="/customers" replace />
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-500">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
