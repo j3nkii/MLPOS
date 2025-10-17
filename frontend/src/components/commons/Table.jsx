@@ -98,15 +98,14 @@ const ActionsCell = ({ item, modalKeys }) => {
         <td>
             <div className='flex items-center justify-end gap-3 pr-3.5'>
                 <Button 
-                    onClick={onDelete} 
-                    text="Delete"
-                >
-                    <Trash2 />
-                </Button>
-                <Button 
                     onClick={onUpdate} 
                     text="Settings"
                 ><BookUser />
+                </Button>
+                <Button 
+                    onClick={onDelete} 
+                    text="Delete"
+                ><Trash2 />
                 </Button>
             </div>
         </td>

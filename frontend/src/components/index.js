@@ -3,6 +3,7 @@ export { Input } from './commons/Input'
 export { Table } from './commons/Table'
 export { Modal } from './commons/Modal'
 export { ModalHeader } from './commons/Modal'
+export { ModalBody } from './commons/Modal'
 export { ModalFooter } from './commons/Modal'
 
 
