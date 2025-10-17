@@ -19,9 +19,9 @@ export const Navbar = () => {
                         Customers
                     </Button>
                 </Link>
-                <Link to='/invoicing'>
+                <Link to='/invoices'>
                     <Button className="bg-red-500 text-white px-3 py-1 rounded">
-                        Invoicing
+                        Invoices
                     </Button>
                 </Link>
                 <Button onClick={logout} className="bg-red-500 text-white px-3 py-1 rounded">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router'
 import { Table } from '@components';
 import { useStateManager } from '@useStateManager';

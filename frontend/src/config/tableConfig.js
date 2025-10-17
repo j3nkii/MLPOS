@@ -3,8 +3,6 @@ export const TABLE_CONFIG = {
         pageTitle: 'Customers',
         listKey: 'fetchAllCustomers',
         stateKey: 'allCustomers',
-        // columnKeys: [],
-        // columnHeaders: [],
         headers: {
             name: 'Name',
             phone: 'Phone',
@@ -16,7 +14,10 @@ export const TABLE_CONFIG = {
             delete: 'confirmDelete',
         },
     },
-    allInvoices: {
+    invoices: {
+        pageTitle: 'Invoices',
+        listKey: 'fetchAllCustomers',
+        stateKey: 'allCustomers',
         headers: {
             customer: 'Customer',
             amount: 'Amount',

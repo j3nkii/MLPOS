@@ -19,7 +19,7 @@ export const routerConfig = [
                 Component: TablePage
             },
             {
-                path: "/invoicing",
+                path: "/invoices",
                 exact: true,
                 Component: TablePage
             },
