@@ -15,7 +15,7 @@ export const LogginsPage = () => {
     }
     if (user)
         return <Navigate to="/customers" replace />
-    return (
+    else return (
         <div className="min-h-screen flex items-center justify-center bg-[#5d5d5d]">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
                 <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Welcome Back</h1>

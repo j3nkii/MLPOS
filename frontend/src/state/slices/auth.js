@@ -4,29 +4,38 @@ const INITIAL_LOGIN = {
     password: '',
 }
 
-export const createAuthSlice = (set, get) => ({
-    user: null,
-    loginForm: INITIAL_LOGIN,
+export const createAuthSlice = (set, get) => {
+    // const setAuth = (partial) => set(state => ({
+    //     auth: { ...state.auth, ...partial }
+    // }));
+    const setAuth = (partial) => set(state => ({ ...state.auth, ...partial }));
+    return {
+        user: null,
+        loginForm: INITIAL_LOGIN,
 
-    fetchUser: async () => {
-        const { loginForm, initApplication } = get();
-        set({ isLoading: true, error: null });
-        try {
-            const res = await axios.post('/api/user', loginForm);
-            set({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN });
-            initApplication();
-        } catch (err) {
-            console.log(err)
-            set({ error: err.message, isLoading: false });
-        }
-    },
+        fetchUser: async () => {
+            console.log('fu')
+            // const { auth: { loginForm }, initApplication } = get();
+            const { loginForm, initApplication } = get();
+            setAuth({ isLoading: true, error: null });
+            try {
+                const res = await axios.post('/api/user', loginForm);
+                setAuth({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN });
+                initApplication();
+            } catch (err) {
+                console.log(err)
+                setAuth({ error: err.message, isLoading: false });
+            }
+        },
 
-    setLoginForm: ({ name, value }) => {
-        const { loginForm } = get();
-        set({ loginForm: { ...loginForm, [name]: value } });
-    },
+        setLoginForm: ({ name, value }) => {
+            // const { auth: { loginForm }} = get();
+            const { loginForm } = get();
+            setAuth({ loginForm: { ...loginForm, [name]: value } });
+        },
 
-    clearLoginForm: () => set({ loginForm: INITIAL_LOGIN }),
+        clearLoginForm: () => setAuth({ loginForm: INITIAL_LOGIN }),
 
-    logout: () => set({ user: null }),
-});
+        logout: () => setAuth({ user: null }),
+    }
+};

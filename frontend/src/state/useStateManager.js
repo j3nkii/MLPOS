@@ -14,6 +14,7 @@ export const useStateManager = create(
     devtools(
         (set, get, api) => ({
         isLoading: false,
+        // auth: createAuthSlice(set, get, api),
         ...createAuthSlice(set, get, api),
         ...createCustomerSlice(set, get, api),
         ...createModalSlice(set, get, api),
@@ -29,14 +30,7 @@ export const useStateManager = create(
 
 
 
-export const useAuth = () => useStateManager(state => ({
-    user: state.user,
-    loginForm: state.loginForm,
-    fetchUser: state.fetchUser,
-    setLoginForm: state.setLoginForm,
-    clearLoginForm: state.clearLoginForm,
-    logout: state.logout,
-}));
+export const useAuth = () => useStateManager(state => state.auth);
 
 
 
