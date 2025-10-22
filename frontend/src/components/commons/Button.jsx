@@ -3,14 +3,14 @@ import React from 'react';
 
 
 const COLOR = {
-    black: 'bg-black text-white',
+    black: 'hover:bg-black hover:text-white',
     red: 'bg-red text-white',
     orange: 'gb-orange text-white',
 }
 
 
 
-const DETAULT_STYLE = "py-2 px-3 font-semibold transition-colors rounded-4xl cursor-pointer"
+const DETAULT_STYLE = "p-2 mx-1 font-semibold transition-colors rounded-md cursor-pointer"
 const DEFAUL_PROPS = {
     id: '',
     type: 'button',
@@ -28,7 +28,7 @@ export const Button = ({ id, type, name, onClick, children, color } = DEFAUL_PRO
             name={name}
             type={type}
             onClick={onClick}
-            className={`${DETAULT_STYLE} ${COLOR[color]}`}
+            className={`${DETAULT_STYLE} ${COLOR['black']}`}
         >
             {children}
         </button>

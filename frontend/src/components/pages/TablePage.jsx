@@ -15,8 +15,9 @@ export const TablePage = () => {
     const { pageTitle, headers, listKey, stateKey, modalKeys } = TABLE_CONFIG[configKey];
     const displayColumns = Object.values(headers);
     const columnKeys = Object.keys(headers);
+    const hydrate = appState[listKey];
     useEffect(() => {
-        appState[listKey]();
+        hydrate();
     }, []);
     return (
         <div className='max-w-170 bg-white'>

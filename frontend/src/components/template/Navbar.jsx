@@ -14,12 +14,12 @@ export const Navbar = () => {
             <div className='max-w-[2400px] min-w-[1000px] flex flex-row items-center justify-between'>
                 <span className="text-lg font-bold">MLPOS</span>
                 <div className='flex'>
-                    <Link to='/customers'>
+                    <Link className='hover:cursor-pointer' to='/customers'>
                         <Button className="bg-red-500 text-white px-3 py-1 rounded">
                             Customers
                         </Button>
                     </Link>
-                    <Link to='/invoices'>
+                    <Link className='hover:cursor-pointer' to='/invoices'>
                         <Button className="bg-red-500 text-white px-3 py-1 rounded">
                             Invoices
                         </Button>
