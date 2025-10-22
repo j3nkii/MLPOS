@@ -6,6 +6,10 @@ import { Button } from '@components';
 
 export const Modal = ({ children, onClose, className }) => {
 
+    const handleKeyDown = (evt) => {
+        if(evt.key === 'Escape') onClose();
+    }
+
     useEffect(() => {
         const { addEventListener, removeEventListener } = document;
         addEventListener('keydown', handleKeyDown);
@@ -13,10 +17,6 @@ export const Modal = ({ children, onClose, className }) => {
             removeEventListener('keydown', handleKeyDown);
         };
     }, [handleKeyDown]);
-
-    const handleKeyDown = (evt) => {
-        if(evt.key === 'Escape') onClose();
-    }
 
     const handleBackdropClick = (e) => {
         if (e.target === e.currentTarget) onClose();
