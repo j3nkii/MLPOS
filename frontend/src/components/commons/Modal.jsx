@@ -24,10 +24,10 @@ export const Modal = ({ children, onClose, className }) => {
 
     return (
         <div 
-            className={`fixed inset-0 bg-black/22 backdrop-blur-sm flex items-center justify-center z-50`}
+            className={`fixed inset-0 bg-black/55 backdrop-blur-sm flex items-center justify-center z-50`}
             onClick={handleBackdropClick}
         >
-            <div className={`border-2 border-black bg-white rounded-lg shadow-xl w-3/6 mx-4 overflow-hidden ${className || ''}`}>
+            <div className={`border-black bg-white rounded-lg w-3/6 mx-4 overflow-hidden ${className || ''}`}>
                 {children}
             </div>
         </div>
@@ -38,7 +38,7 @@ export const Modal = ({ children, onClose, className }) => {
 
 export const ModalHeader = ({ onClose, title }) => {
     return (
-        <div className="flex items-center justify-between p-4  text-black">
+        <div className="flex items-center justify-between pt-8 px-4 text-black">
             <div className="flex items-center gap-2">
                 <AlertTriangle className="text-orange-500" size={25} />
                 <h2 className="text-2xl font-semibold">
@@ -56,7 +56,7 @@ export const ModalHeader = ({ onClose, title }) => {
 
 export const ModalBody = ({ children }) => {
     return (
-        <div className='py-6'>
+        <div className='pb-6 pt-3 px-0'>
             {children}
         </div>
     )
