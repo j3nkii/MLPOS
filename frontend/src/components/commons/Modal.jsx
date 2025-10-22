@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { X, AlertTriangle } from 'lucide-react';
 import { Button } from '@components';
 
 
 
 export const Modal = ({ children, onClose, className }) => {
+
+    useEffect(() => {
+        const { addEventListener, removeEventListener } = document;
+        addEventListener('keydown', handleKeyDown);
+        return () => {
+            removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown]);
+
+    const handleKeyDown = (evt) => {
+        if(evt.key === 'Escape') onClose();
+    }
+
     const handleBackdropClick = (e) => {
-        if (e.target === e.currentTarget)
-            onClose();
-    };
+        if (e.target === e.currentTarget) onClose();
+    }
+
     return (
         <div 
             className={`fixed inset-0 bg-black/22 backdrop-blur-sm flex items-center justify-center z-50`}
