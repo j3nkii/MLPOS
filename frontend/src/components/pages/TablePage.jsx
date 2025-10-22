@@ -15,10 +15,6 @@ export const TablePage = () => {
     const { pageTitle, headers, listKey, stateKey, modalKeys } = TABLE_CONFIG[configKey];
     const displayColumns = Object.values(headers);
     const columnKeys = Object.keys(headers);
-    const hydrate = appState[listKey];
-    useEffect(() => {
-        hydrate();
-    }, []);
     return (
         <div className='max-w-170 bg-white'>
             <h1 className='p-10 pt-20 text-4xl font-extrabold underline'>{pageTitle}:</h1>

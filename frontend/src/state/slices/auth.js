@@ -9,11 +9,12 @@ export const createAuthSlice = (set, get) => ({
     loginForm: INITIAL_LOGIN,
 
     fetchUser: async () => {
-        const { loginForm } = get();
+        const { loginForm, initApplication } = get();
         set({ isLoading: true, error: null });
         try {
             const res = await axios.post('/api/user', loginForm);
             set({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN });
+            initApplication();
         } catch (err) {
             console.log(err)
             set({ error: err.message, isLoading: false });

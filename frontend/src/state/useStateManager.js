@@ -18,6 +18,10 @@ export const useStateManager = create(
         ...createCustomerSlice(set, get, api),
         ...createModalSlice(set, get, api),
         ...createInvoicesSlice(set, get, api),
+        initApplication: () => {
+            const { fetchAllCustomers } = get();
+            fetchAllCustomers();
+        }
         }),
         { name: 'app-store' }
     )
