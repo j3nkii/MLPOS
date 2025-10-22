@@ -4,7 +4,7 @@ const INITIAL_LOGIN = {
     password: '',
 }
 
-export const createUserSlice = (set, get) => ({
+export const createAuthSlice = (set, get) => ({
     user: null,
     loginForm: INITIAL_LOGIN,
 

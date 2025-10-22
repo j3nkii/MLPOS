@@ -2,7 +2,7 @@
 // store/index.js
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { createUserSlice } from './slices/user';
+import { createAuthSlice } from './slices/auth';
 import { createCustomerSlice } from './slices/customer';
 import { createModalSlice } from './slices/modal';
 import { createInvoicesSlice } from './slices/invoices';
@@ -14,7 +14,7 @@ export const useStateManager = create(
     devtools(
         (set, get, api) => ({
         isLoading: false,
-        ...createUserSlice(set, get, api),
+        ...createAuthSlice(set, get, api),
         ...createCustomerSlice(set, get, api),
         ...createModalSlice(set, get, api),
         ...createInvoicesSlice(set, get, api),
@@ -22,6 +22,31 @@ export const useStateManager = create(
         { name: 'app-store' }
     )
 );
+
+
+
+export const useAuth = () => useStateManager(state => ({
+    user: state.user,
+    loginForm: state.loginForm,
+    fetchUser: state.fetchUser,
+    setLoginForm: state.setLoginForm,
+    clearLoginForm: state.clearLoginForm,
+    logout: state.logout,
+}));
+
+
+
+export const useCustomers = () => useStateManager(state => ({
+    customers: state.customers,
+    isLoading: state.isLoading,
+    error: state.error,
+    customerForm: state.customerForm,
+    fetchAllCustomers: state.fetchAllCustomers,
+    submitNewCustomer: state.submitNewCustomer,
+    deleteCustomer: state.deleteCustomer,
+    setCustomerForm: state.setCustomerForm,
+    resetCustomerForm: state.resetCustomerForm,
+}));
 
 
 
@@ -34,28 +59,6 @@ export const useStateManager = create(
 
 
 // Selective hooks for better performance
-// export const useAuth = () => useStore(state => ({
-//     user: state.user,
-//     isLoading: state.isLoading,
-//     error: state.error,
-//     loginForm: state.loginForm,
-//     isAuthenticated: state.isAuthenticated,
-//     fetchUser: state.fetchUser,
-//     logout: state.logout,
-//     setLoginForm: state.setLoginForm,
-// }));
-
-// export const useCustomers = () => useStore(state => ({
-//     customers: state.customers,
-//     isLoading: state.isLoading,
-//     error: state.error,
-//     customerForm: state.customerForm,
-//     fetchAllCustomers: state.fetchAllCustomers,
-//     submitNewCustomer: state.submitNewCustomer,
-//     deleteCustomer: state.deleteCustomer,
-//     setCustomerForm: state.setCustomerForm,
-//     resetCustomerForm: state.resetCustomerForm,
-// }));
 
 // export const useUI = () => useStore(state => ({
 //     modal: state.modal,
