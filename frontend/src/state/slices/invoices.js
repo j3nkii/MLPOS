@@ -4,6 +4,8 @@ const initialInvoiceForm = {
     amount: '',
     invoice: '',
 };
+
+
 export const createInvoicesSlice = (set, get) => ({
     // State
     allInvoices: [],

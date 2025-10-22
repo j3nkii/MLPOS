@@ -28,13 +28,13 @@ export const Table = ( PROPS ) => {
                     {data.map((row, rowIndex) => (
                         <tr 
                             key={rowIndex} 
-                            className="hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200"
+                            className="hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200  border-b border-gray-200"
                             // onClick={(e) => handleRowClick(e, row)}
                         >
                             {columnKeys.map((field, colIndex) => (
                                 <td 
                                     key={colIndex} 
-                                    className="px-4 py-3 text-gray-900 border-b border-gray-200"
+                                    className="px-4 py-3 text-gray-900"
                                 >
                                     { row[field] || 'N/A'}
                                 </td>

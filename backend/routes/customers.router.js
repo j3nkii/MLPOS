@@ -4,14 +4,12 @@ const path = require('path');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-const TEMP_USER_ID = '52d9665a-3187-4b0c-8316-487784bf84a0'
 
 
 
 router.get('/', async (req, res) => {
     try {
         const userID = req.query.userID;
-        console.log(userID)
         const { rows } = await pool.query(`
             SELECT * FROM customers
             WHERE user_id = $1 AND is_deleted = false
@@ -19,7 +17,7 @@ router.get('/', async (req, res) => {
         res.status(200).json(rows);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Unknown Error' });
+        res.status(500).json({ error: 'Something went wrong' });
     }
 });
 
@@ -34,7 +32,7 @@ router.get('/:id', async (req, res) => {
         res.status(200).json(user);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Unknown Error' });
+        res.status(500).json({ error: 'Something went wrong' });
     }
 });
 
@@ -43,7 +41,6 @@ router.get('/:id', async (req, res) => {
 router.post('/', async(req, res) => {
     try {
         const { name, email, phone, userID } = req.body;
-        console.log(req.body)
         if(!name || !email || !phone) throw new Error('Missing Fields')
         await pool.query(`
             INSERT INTO customers (name, email, phone, user_id)
@@ -97,9 +94,6 @@ router.put('/:id', async(req, res) => {
 router.delete('/:id', async(req, res) => {
     try {
         const { id: customerID } = req.params;
-        console.log('### DLETEING ', req.params)
-        console.log('### DLETEING ', customerID)
-        const userID = TEMP_USER_ID;
         await pool.query(`
             UPDATE CUSTOMERS
             SET is_deleted = 'true'
