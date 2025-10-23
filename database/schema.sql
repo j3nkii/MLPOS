@@ -29,7 +29,7 @@ CREATE TABLE invoices (
     user_id UUID NOT NULL REFERENCES users(id),       -- business owner
     customer_id UUID NOT NULL REFERENCES customers(id), -- end client
     amount NUMERIC(10,2) NOT NULL,
-    status VARCHAR(50), -- pending, paid, cancelled
+    status VARCHAR(50), -- pending, paid, cancelled, overdue
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );

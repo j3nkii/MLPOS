@@ -19,7 +19,7 @@ export const createInvoicesSlice = (set, get) => {
         invoiceForm: { ...initialInvoiceForm },
 
         readAllInvoices: async () => {
-            const { user } = get().user;
+            const { user } = get().auth;
             setSlice({ isLoading: true, error: null });
             try {
                 const res = await axios.get(`/api/invoices?userID=${user.id}`)
@@ -46,11 +46,12 @@ export const createInvoicesSlice = (set, get) => {
         },
 
         updateInvoice: async (invoiceID) => {
-            const { invoiceForm, user } = get();
-            const { fetchAllInvoices, closeModal } = get();
+            const { invoiceForm, readAllInvoices } = get().invoice;
+            const { closeModal } = get().modal;
+            const { user } = get().auth;
             setSlice({ isLoading: true, error: null });
             try {
-                await axios.put(`/api/invoices/${invoiceID}`, {
+                await axios.put(`/api/invoice/${invoiceID}`, {
                     ...invoiceForm,
                     userID: user.id
                 });
@@ -58,7 +59,7 @@ export const createInvoicesSlice = (set, get) => {
                     invoiceForm: { ...initialInvoiceForm },
                     isLoading: false 
                 });
-                await fetchAllInvoices();
+                await readAllInvoices();
                 closeModal();
             } catch (err) {
                 console.error(err);
@@ -69,11 +70,12 @@ export const createInvoicesSlice = (set, get) => {
         },
 
         createInvoice: async () => {
-            const { invoiceForm, user } = get();
-            const { fetchAllInvoices, closeModal } = get();
+            const { invoiceForm, readAllInvoices } = get().invoice;
+            const { closeModal } = get().modal;
+            const { user } = get().auth;
             setSlice({ isLoading: true, error: null });
             try {
-                await axios.post('/api/invoices', {
+                await axios.post('/api/invoice', {
                     ...invoiceForm,
                     userID: user.id
                 });
@@ -81,7 +83,7 @@ export const createInvoicesSlice = (set, get) => {
                     invoiceForm: { ...initialInvoiceForm },
                     isLoading: false 
                 });
-                await fetchAllInvoices();
+                await readAllInvoices();
                 closeModal();
             } catch (err) {
                 console.error(err);
@@ -92,14 +94,15 @@ export const createInvoicesSlice = (set, get) => {
         },
 
         deleteInvoice: async (invoiceId) => {
+            const { closeModal } = get().modal;
             setSlice({ isLoading: true, error: null });
             try {
-                await axios.delete(`/api/invoices/${invoiceId}`);
+                await axios.delete(`/api/invoice/${invoiceId}`);
                 setSlice(state => ({
                     allInvoices: state.allInvoices.filter(c => c.id !== invoiceId),
                     isLoading: false
                 }));
-                get().closeModal();
+                closeModal();
             } catch (err) {
                 console.error(err)
                 setSlice({ error: err.message });

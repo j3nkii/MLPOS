@@ -36,6 +36,7 @@ const Standard = (props) => {
 
 const Select = (props) => {
     const { name = '', onChange = onChangeWarning, value = '', options = [] } = props;
+    console.log(options)
     return (
         <select onChange={onChange} name={name}>
             <option value={value}>---</option>

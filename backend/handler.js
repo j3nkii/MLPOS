@@ -11,10 +11,12 @@ app.use(express.json());
 // app.use('/api/SAMPLE', SAMPLE);
 
 
-const CUSTOMERS_ROUTER = require('./routes/customers.router');
-app.use('/api/customers', CUSTOMERS_ROUTER);
 const USER_ROUTER = require('./routes/user.router');
 app.use('/api/user', USER_ROUTER);
+const CUSTOMERS_ROUTER = require('./routes/customers.router');
+app.use('/api/customers', CUSTOMERS_ROUTER);
+const INVOICE_ROUTER = require('./routes/invoice.router');
+app.use('/api/invoice', INVOICE_ROUTER);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
