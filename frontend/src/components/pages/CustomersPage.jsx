@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router'
 import { Table } from '@components';
-import { useCustomers } from '@useStateManager';
+import { useCustomer } from '@useStateManager';
 export const TABLE_CONFIG = {
     customers: {
         pageTitle: 'Customers',
@@ -38,8 +38,7 @@ export const TABLE_CONFIG = {
 
 
 export const CustomersPage = () => {
-    const { allCustomers } = useCustomers();
-    const { readAllCustomers, updateCustomer, createCustomer } = useCustomers();
+    const { allCustomers } = useCustomer();
     const { headers, stateKey, modalKeys } = TABLE_CONFIG['customers'];
     const displayColumns = Object.values(headers);
     const columnKeys = Object.keys(headers);

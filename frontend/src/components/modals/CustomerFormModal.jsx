@@ -1,12 +1,13 @@
 
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
-import { useCustomers } from '@useStateManager';
+import { useCustomer, useModal } from '@useStateManager';
 import { Button, Input } from '@components';
 
 export const CustomerFormModal = ({ update }) => {
-    const { customerForm } = useCustomers();
-    const { closeModal, setCustomerForm, createCustomer, prepopulateCustomerForm, resetCustomerForm, updateCustomer } = useCustomers();
+    const { customerForm } = useCustomer();
+    const { setCustomerForm, createCustomer, prepopulateCustomerForm, updateCustomer } = useCustomer();
+    const { closeModal } = useModal();
 
     useEffect(() => {
         if(update)
@@ -27,9 +28,9 @@ export const CustomerFormModal = ({ update }) => {
             <ModalHeader title={'Confirm'} onClose={closeModal} />
             <ModalBody>
                 <form className="p-6">
-                    <Input onChange={handleChange} value={customerForm.name} label={'Name'} name={'name'} />
-                    <Input onChange={handleChange} value={customerForm.email} label={'Email'} name={'email'} />
-                    <Input onChange={handleChange} value={customerForm.phone} label={'Phone'} name={'phone'} />
+                    <Input onChange={handleChange} value={customerForm.name || ''} label={'Name'} name={'name'} />
+                    <Input onChange={handleChange} value={customerForm.email || ''} label={'Email'} name={'email'} />
+                    <Input onChange={handleChange} value={customerForm.phone || ''} label={'Phone'} name={'phone'} />
                 </form>
             </ModalBody>
 

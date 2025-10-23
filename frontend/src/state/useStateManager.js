@@ -13,16 +13,18 @@ import { createInvoicesSlice } from './slices/invoices';
 export const useStateManager = create(
     devtools(
         (set, get, api) => ({
-        isLoading: false,
         auth: createAuthSlice(set, get, api),
         customer: createCustomerSlice(set, get, api),
         modal: createModalSlice(set, get, api),
-        ...createInvoicesSlice(set, get, api),
-        initApplication: () => {
-            console.log('init applicaiton')
-            const { customers: { readAllCustomers }} = get();
-            readAllCustomers();
-        }
+        // ...createInvoicesSlice(set, get, api),
+        general: {
+            isLoading: false,
+            initApplication: () => {
+                console.log('$init applicaiton$')
+                const { readAllCustomers } = get().customer;
+                readAllCustomers();
+            }
+        },
         }),
         { name: 'app-store' }
     )
@@ -31,4 +33,5 @@ export const useStateManager = create(
 
 
 export const useAuth = () => useStateManager(state => state.auth);
-export const useCustomers = () => useStateManager(state => state.customer);
+export const useCustomer = () => useStateManager(state => state.customer);
+export const useModal = () => useStateManager(state => state.modal);

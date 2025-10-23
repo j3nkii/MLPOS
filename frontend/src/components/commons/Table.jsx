@@ -1,6 +1,6 @@
 import React from 'react'
 import { Trash2, Settings, DiamondPlus, SquarePen, BookUser } from 'lucide-react'
-import { useStateManager } from '@useStateManager'
+import { useModal } from '@useStateManager'
 import { Button } from '@components'
 
 
@@ -53,12 +53,12 @@ export const Table = ( PROPS ) => {
 
 
 const ActionsHeader = ({ modalKeys }) => {
-    const { setModal } = useStateManager();
+    const { setModal } = useModal();
     return (
         <td>
             <div className='flex items-center justify-end gap-1 pr-3.5'>
                 <Button
-                    onClick={() => setModal({ key: modalKeys.create })}
+                    onClick={() => setModal({ modalKey: modalKeys.create })}
                     text="Create"
                 ><DiamondPlus />
                 </Button>
@@ -72,21 +72,21 @@ const ActionsHeader = ({ modalKeys }) => {
 
 
 const ActionsCell = ({ item, modalKeys }) => {
-    const { setModal, setSelectedCustomer } = useStateManager();
+    const { setModal } = useModal();
 
     const onDelete = (e) => {
         e.stopPropagation();
         setModal({
-            key: modalKeys.delete,
+            modalKey: modalKeys.delete,
             item,
         });
     };
 
     const onUpdate = (e) => {
         e.stopPropagation();
-        setSelectedCustomer(item);
+        // setSelectedCustomer(item);
         setModal({
-            key: modalKeys.update,
+            modalKey: modalKeys.update,
             item,
         });
     };

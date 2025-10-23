@@ -14,7 +14,8 @@ export const createAuthSlice = (set, get) => {
         loginForm: INITIAL_LOGIN,
 
         fetchUser: async () => {
-            const { auth: { loginForm }, initApplication } = get();
+            const { initApplication } = get().general;
+            const { loginForm } = get().auth;
             setAuth({ isLoading: true, error: null });
             try {
                 const res = await axios.post('/api/user', loginForm);
@@ -27,7 +28,7 @@ export const createAuthSlice = (set, get) => {
         },
 
         setLoginForm: ({ name, value }) => {
-            const { auth: { loginForm }} = get();
+            const { loginForm } = get().auth;
             setAuth({ loginForm: { ...loginForm, [name]: value } });
         },
 

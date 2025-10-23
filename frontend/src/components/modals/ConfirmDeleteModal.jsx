@@ -1,12 +1,14 @@
 
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalFooter, ModalBody } from '@components';
-import { useStateManager } from '@useStateManager';
+import { useCustomer, useModal } from '@useStateManager';
 import { Button } from '@components';
 
 
 export const ConfirmDeleteModal = () => {
-    const { closeModal, modal: { item }, deleteCustomer } = useStateManager();
+    const { deleteCustomer } = useCustomer();
+    const { item } = useModal();
+    const {closeModal} = useModal();
 
     const handleConfirm = async () => {
         console.log(item.id)

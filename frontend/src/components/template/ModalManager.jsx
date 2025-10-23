@@ -1,14 +1,12 @@
 
 import React from "react";
 import { ConfirmDeleteModal, CustomerFormModal } from '@components';
-import { useStateManager } from '@useStateManager';
+import { useModal } from '@useStateManager';
 
 
 export const ModalManager = () => {
-    const { modal } = useStateManager();
-    if ( !modal )
-        return null;
-    switch (modal.key) {
+    const { modalKey } = useModal();
+    switch (modalKey) {
         case 'confirmDelete':
             return <ConfirmDeleteModal />
         case 'createCustomer':
@@ -16,6 +14,7 @@ export const ModalManager = () => {
         case 'updateCustomer':
             return <CustomerFormModal update={true} />
         default:
+            console.warn('INVALID MODAL ::', modalKey)
             return null;
     }
 };
