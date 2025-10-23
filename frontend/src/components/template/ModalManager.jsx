@@ -8,10 +8,14 @@ export const ModalManager = () => {
     const { modal } = useStateManager();
     if ( !modal )
         return null;
-    if( modal.key === 'confirmDelete' )
-        return <ConfirmDeleteModal />
-    if( modal.key === 'createCustomer' )
-        return <CustomerFormModal />
-    if( modal.key === 'updateCustomer' )
-        return <CustomerFormModal update={true} />
+    switch (modal.key) {
+        case 'confirmDelete':
+            return <ConfirmDeleteModal />
+        case 'createCustomer':
+            return <CustomerFormModal />
+        case 'updateCustomer':
+            return <CustomerFormModal update={true} />
+        default:
+            return null;
+    }
 };

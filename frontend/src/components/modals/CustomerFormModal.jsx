@@ -1,12 +1,12 @@
 
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
-import { useStateManager } from '@useStateManager';
+import { useCustomers } from '@useStateManager';
 import { Button, Input } from '@components';
 
 export const CustomerFormModal = ({ update }) => {
-    const { customerForm } = useStateManager();
-    const { closeModal, setCustomerForm, submitNewCustomer, prepopulateCustomerForm, resetCustomerForm, updateCustomer } = useStateManager();
+    const { customerForm } = useCustomers();
+    const { closeModal, setCustomerForm, createCustomer, prepopulateCustomerForm, resetCustomerForm, updateCustomer } = useCustomers();
 
     useEffect(() => {
         if(update)
@@ -14,7 +14,7 @@ export const CustomerFormModal = ({ update }) => {
     }, [])
 
     const handleConfirm = async () => {
-        update ? updateCustomer(customerForm.id) : submitNewCustomer();
+        update ? updateCustomer(customerForm.id) : createCustomer();
     };
 
     const handleChange = (evt) => {

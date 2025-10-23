@@ -1,7 +1,7 @@
 export const TABLE_CONFIG = {
     customers: {
         pageTitle: 'Customers',
-        listKey: 'fetchAllCustomers',
+        listKey: 'readAllCustomers',
         stateKey: 'allCustomers',
         headers: {
             name: 'Name',
@@ -16,7 +16,7 @@ export const TABLE_CONFIG = {
     },
     invoices: {
         pageTitle: 'Invoices',
-        listKey: 'fetchAllCustomers',
+        listKey: 'readAllCustomers',
         stateKey: 'allCustomers',
         headers: {
             customer: 'Customer',

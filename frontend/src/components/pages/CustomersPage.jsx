@@ -5,7 +5,7 @@ import { useCustomers } from '@useStateManager';
 export const TABLE_CONFIG = {
     customers: {
         pageTitle: 'Customers',
-        listKey: 'fetchAllCustomers',
+        listKey: 'readAllCustomers',
         stateKey: 'allCustomers',
         headers: {
             name: 'Name',
@@ -20,7 +20,7 @@ export const TABLE_CONFIG = {
     },
     invoices: {
         pageTitle: 'Invoices',
-        listKey: 'fetchAllCustomers',
+        listKey: 'readAllCustomers',
         stateKey: 'allCustomers',
         headers: {
             customer: 'Customer',
@@ -39,6 +39,7 @@ export const TABLE_CONFIG = {
 
 export const CustomersPage = () => {
     const { allCustomers } = useCustomers();
+    const { readAllCustomers, updateCustomer, createCustomer } = useCustomers();
     const { headers, stateKey, modalKeys } = TABLE_CONFIG['customers'];
     const displayColumns = Object.values(headers);
     const columnKeys = Object.keys(headers);

@@ -32,8 +32,17 @@ export const createCustomerSlice = (set, get) => {
         customerForm: { ...initialCustomerForm },
         error: null,
 
-        // Actions
-        fetchAllCustomers: async () => {
+        readCustomer: async (id) => {
+            setSlice({ isLoading: true, error: null });
+            try {
+                const res = await axios.get(`/api/customers/${id}`);
+                setSlice({ selectedCustomer: res.data, isLoading: false });
+            } catch (err) {
+                setSlice({ error: err.message, isLoading: false });
+            }
+        },
+
+        readAllCustomers: async () => {
             setSlice({ isLoading: true, error: null });
             const { user } = get().auth;
             try {
@@ -45,19 +54,9 @@ export const createCustomerSlice = (set, get) => {
             }
         },
 
-        fetchCustomer: async (id) => {
-            setSlice({ isLoading: true, error: null });
-            try {
-                const res = await axios.get(`/api/customers/${id}`);
-                setSlice({ selectedCustomer: res.data, isLoading: false });
-            } catch (err) {
-                setSlice({ error: err.message, isLoading: false });
-            }
-        },
-
         updateCustomer: async (customerID) => {
             const { customerForm, user } = get();
-            const { fetchAllCustomers, closeModal } = get();
+            const { readAllCustomers, closeModal } = get();
             setSlice({ isLoading: true, error: null });
             try {
                 await axios.put(`/api/customers/${customerID}`, {
@@ -68,16 +67,16 @@ export const createCustomerSlice = (set, get) => {
                     customerForm: { ...initialCustomerForm },
                     isLoading: false 
                 });
-                await fetchAllCustomers();
+                await readAllCustomers();
                 closeModal();
             } catch (err) {
                 setSlice({ error: err.message, isLoading: false });
             }
         },
 
-        submitNewCustomer: async () => {
+        createCustomer: async () => {
             const { customerForm, user } = get();
-            const { fetchAllCustomers, closeModal } = get();
+            const { readAllCustomers, closeModal } = get();
             setSlice({ isLoading: true, error: null });
             try {
                 await axios.post('/api/customers', {
@@ -88,7 +87,7 @@ export const createCustomerSlice = (set, get) => {
                     customerForm: { ...initialCustomerForm },
                     isLoading: false 
                 });
-                await fetchAllCustomers();
+                await readAllCustomers();
                 closeModal();
             } catch (err) {
                 setSlice({ error: err.message, isLoading: false });
