@@ -14,7 +14,6 @@ export const createAuthSlice = (set, get) => {
         loginForm: INITIAL_LOGIN,
 
         fetchUser: async () => {
-            console.log('fu')
             // const { auth: { loginForm }, initApplication } = get();
             const { loginForm, initApplication } = get();
             setAuth({ isLoading: true, error: null });
