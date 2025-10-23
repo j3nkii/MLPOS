@@ -15,8 +15,8 @@ export const useStateManager = create(
         (set, get, api) => ({
         isLoading: false,
         auth: createAuthSlice(set, get, api),
-        customers: createCustomerSlice(set, get, api),
-        ...createModalSlice(set, get, api),
+        customer: createCustomerSlice(set, get, api),
+        modal: createModalSlice(set, get, api),
         ...createInvoicesSlice(set, get, api),
         initApplication: () => {
             console.log('init applicaiton')
@@ -31,4 +31,4 @@ export const useStateManager = create(
 
 
 export const useAuth = () => useStateManager(state => state.auth);
-export const useCustomers = () => useStateManager(state => state.customers);
+export const useCustomers = () => useStateManager(state => state.customer);

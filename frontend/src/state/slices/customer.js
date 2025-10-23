@@ -23,7 +23,7 @@ const initialCustomerForm = {
 
 export const createCustomerSlice = (set, get) => {
     const setSlice = (partial) => set(state => ({
-        customers: { ...state.customers, ...partial }
+        customer: { ...state.customer, ...partial }
     }));
     return {
         // State
