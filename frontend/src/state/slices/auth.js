@@ -6,7 +6,7 @@ const INITIAL_LOGIN = {
 
 
 export const createAuthSlice = (set, get) => {
-    const setAuth = (partial) => set(state => ({
+    const setSlice = (partial) => set(state => ({
         auth: { ...state.auth, ...partial }
     }));
     return {
@@ -16,24 +16,24 @@ export const createAuthSlice = (set, get) => {
         fetchUser: async () => {
             const { initApplication } = get().general;
             const { loginForm } = get().auth;
-            setAuth({ isLoading: true, error: null });
+            setSlice({ isLoading: true, error: null });
             try {
                 const res = await axios.post('/api/user', loginForm);
-                setAuth({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN });
+                setSlice({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN });
                 initApplication();
             } catch (err) {
                 console.log(err)
-                setAuth({ error: err.message, isLoading: false });
+                setSlice({ error: err.message, isLoading: false });
             }
         },
 
         setLoginForm: ({ name, value }) => {
             const { loginForm } = get().auth;
-            setAuth({ loginForm: { ...loginForm, [name]: value } });
+            setSlice({ loginForm: { ...loginForm, [name]: value } });
         },
 
-        clearLoginForm: () => setAuth({ loginForm: INITIAL_LOGIN }),
+        clearLoginForm: () => setSlice({ loginForm: INITIAL_LOGIN }),
 
-        logout: () => setAuth({ user: null }),
+        logout: () => setSlice({ user: null }),
     }
 };

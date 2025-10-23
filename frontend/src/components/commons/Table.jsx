@@ -84,7 +84,6 @@ const ActionsCell = ({ item, modalKeys }) => {
 
     const onUpdate = (e) => {
         e.stopPropagation();
-        // setSelectedCustomer(item);
         setModal({
             modalKey: modalKeys.update,
             item,

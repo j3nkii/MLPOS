@@ -17,6 +17,7 @@ export const createModalSlice = (set, get) => {
             setSlice(modal);
         },
         closeModal: () => {
+            console.warn('close modal is destructive.');
             // as is, this is nuclear.
             const { resetCustomerForm, clearSelectedCustomer } = get().customer;
             clearSelectedCustomer();
