@@ -9,6 +9,7 @@ export { ModalFooter } from './commons/Modal'
 
 export { LogginsPage } from './pages/Loggins'
 export { CustomersPage } from './pages/CustomersPage'
+export { InvoicesPage } from './pages/InvoicesPage'
 export { TablePage } from './pages/TablePage'
 
 

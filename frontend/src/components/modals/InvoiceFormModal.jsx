@@ -4,7 +4,7 @@ import { useModal, useInvoice } from '@useStateManager';
 import { Button, Input } from '@components';
 
 export const InvoiceFormModal = ({ update }) => {
-    const { customerForm } = useInvoice();
+    const { invoiceForm } = useInvoice();
     const { setInvoiceForm, createInvoice, prepopulateInvoiceForm, updateInvoice } = useInvoice();
     const { closeModal } = useModal();
 
@@ -14,7 +14,7 @@ export const InvoiceFormModal = ({ update }) => {
     }, [])
 
     const handleConfirm = async () => {
-        update ? updateInvoice(customerForm.id) : createInvoice();
+        update ? updateInvoice(invoiceForm.id) : createInvoice();
     };
 
     const handleChange = (evt) => {
@@ -27,8 +27,8 @@ export const InvoiceFormModal = ({ update }) => {
             <ModalHeader title={'Confirm'} onClose={closeModal} />
             <ModalBody>
                 <form className="p-6">
-                    <Input onChange={handleChange} value={customerForm.amount} label={'Amount'} name={'amount'} />
-                    <Input onChange={handleChange} value={customerForm.customer} label={'customer'} name={'Customer'} />
+                    <Input onChange={handleChange} value={invoiceForm.amount} label={'Amount'} name={'amount'} />
+                    <Input onChange={handleChange} value={invoiceForm.customer} label={'customer'} name={'Customer'} />
                 </form>
             </ModalBody>
 
