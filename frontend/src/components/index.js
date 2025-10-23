@@ -19,3 +19,4 @@ export { ModalManager } from './template/ModalManager'
 
 export { ConfirmDeleteModal } from './modals/ConfirmDeleteModal'
 export { CustomerFormModal } from './modals/CustomerFormModal'
+export { InvoiceFormModal } from './modals/InvoiceFormModal'

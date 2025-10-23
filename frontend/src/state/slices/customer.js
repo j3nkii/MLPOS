@@ -112,8 +112,9 @@ export const createCustomerSlice = (set, get) => {
         setSelectedCustomer: (selectedCustomer) => setSlice({ selectedCustomer }),
 
         setCustomerForm: ({ name, value }) => {
+            console.log(name, value)
             setSlice(state => ({
-                customerForm: { ...state.customerForm, [name]: value }
+                customerForm: { ...state.customerForm, [name]: value, phone: 'fuck you' }
             }));
         },
 

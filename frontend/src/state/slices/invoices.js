@@ -2,110 +2,114 @@ import axios from 'axios';
 
 const initialInvoiceForm = {
     amount: '',
-    invoice: '',
+    customerID: '',
 };
 
 
-export const createInvoicesSlice = (set, get) => ({
-    // State
-    allInvoices: [],
-    selectedInvoice: null,
-    error: null,
-    invoiceForm: { ...initialInvoiceForm },
+export const createInvoicesSlice = (set, get) => {
+    const setSlice = (partial) => setSlice(state => ({
+        auth: { ...state.auth, ...partial }
+    }));
+    return {
+        error: null,
+        isLoading: false,
+        allInvoices: [],
+        selectedInvoice: null,
+        invoiceForm: { ...initialInvoiceForm },
 
-    // Actions
-    fetchAllInvoices: async () => {
-        set({ isLoading: true, error: null });
-        const { user } = get();
-        try {
-            const res = await axios.get(`/api/invoices?userID=${user.id}`)
-            set({ allInvoices: res.data, isLoading: false });
-        } catch (err) {
-            set({ error: err.message, isLoading: false });
-        }
-    },
+        readAllInvoices: async () => {
+            setSlice({ isLoading: true, error: null });
+            const { user } = get().user;
+            try {
+                const res = await axios.get(`/api/invoices?userID=${user.id}`)
+                setSlice({ allInvoices: res.data, isLoading: false });
+            } catch (err) {
+                setSlice({ error: err.message, isLoading: false });
+            }
+        },
 
-    fetchInvoice: async (id) => {
-        set({ isLoading: true, error: null });
-        try {
-            const res = await axios.get(`/api/invoices/${id}`);
-            set({ selectedInvoice: res.data, isLoading: false });
-        } catch (err) {
-            set({ error: err.message, isLoading: false });
-        }
-    },
+        readInvoice: async (id) => {
+            setSlice({ isLoading: true, error: null });
+            try {
+                const res = await axios.get(`/api/invoices/${id}`);
+                setSlice({ selectedInvoice: res.data, isLoading: false });
+            } catch (err) {
+                setSlice({ error: err.message, isLoading: false });
+            }
+        },
 
-    updateInvoice: async (invoiceID) => {
-        const { invoiceForm, user } = get();
-        const { fetchAllInvoices, closeModal } = get();
-        set({ isLoading: true, error: null });
-        try {
-            await axios.put(`/api/invoices/${invoiceID}`, {
-                ...invoiceForm,
-                userID: user.id
-            });
-            set({ 
-                invoiceForm: { ...initialInvoiceForm },
-                isLoading: false 
-            });
-            await fetchAllInvoices();
-            closeModal();
-        } catch (err) {
-            set({ error: err.message, isLoading: false });
-        }
-    },
+        updateInvoice: async (invoiceID) => {
+            const { invoiceForm, user } = get();
+            const { fetchAllInvoices, closeModal } = get();
+            setSlice({ isLoading: true, error: null });
+            try {
+                await axios.put(`/api/invoices/${invoiceID}`, {
+                    ...invoiceForm,
+                    userID: user.id
+                });
+                setSlice({ 
+                    invoiceForm: { ...initialInvoiceForm },
+                    isLoading: false 
+                });
+                await fetchAllInvoices();
+                closeModal();
+            } catch (err) {
+                setSlice({ error: err.message, isLoading: false });
+            }
+        },
 
-    submitNewInvoice: async () => {
-        const { invoiceForm, user } = get();
-        const { fetchAllInvoices, closeModal } = get();
-        set({ isLoading: true, error: null });
-        try {
-            await axios.post('/api/invoices', {
-                ...invoiceForm,
-                userID: user.id
-            });
-            set({ 
-                invoiceForm: { ...initialInvoiceForm },
-                isLoading: false 
-            });
-            await fetchAllInvoices();
-            closeModal();
-        } catch (err) {
-            set({ error: err.message, isLoading: false });
-        }
-    },
+        createInvoice: async () => {
+            const { invoiceForm, user } = get();
+            const { fetchAllInvoices, closeModal } = get();
+            setSlice({ isLoading: true, error: null });
+            try {
+                await axios.post('/api/invoices', {
+                    ...invoiceForm,
+                    userID: user.id
+                });
+                setSlice({ 
+                    invoiceForm: { ...initialInvoiceForm },
+                    isLoading: false 
+                });
+                await fetchAllInvoices();
+                closeModal();
+            } catch (err) {
+                setSlice({ error: err.message, isLoading: false });
+            }
+        },
 
-    deleteInvoice: async (invoiceId) => {
-        set({ isLoading: true, error: null });
-        try {
-            await axios.delete(`/api/invoices/${invoiceId}`);
-            set(state => ({
-                allInvoices: state.allInvoices.filter(c => c.id !== invoiceId),
-                isLoading: false
+        deleteInvoice: async (invoiceId) => {
+            setSlice({ isLoading: true, error: null });
+            try {
+                await axios.delete(`/api/invoices/${invoiceId}`);
+                setSlice(state => ({
+                    allInvoices: state.allInvoices.filter(c => c.id !== invoiceId),
+                    isLoading: false
+                }));
+                get().closeModal();
+            } catch (err) {
+                console.error(err)
+                setSlice({ error: err.message, isLoading: false });
+            }
+        },
+
+        setSelectedInvoice: (selectedInvoice) => setSlice({ selectedInvoice }),
+
+        setInvoiceForm: ({ name, value }) => {
+            setSlice(state => ({
+                invoiceForm: { ...state.invoiceForm, [name]: value }
             }));
-            get().closeModal();
-        } catch (err) {
-            console.error(err)
-            set({ error: err.message, isLoading: false });
-        }
-    },
+        },
 
-    setSelectedInvoice: (selectedInvoice) => set({ selectedInvoice }),
+        prepopulateInvoiceForm: () => {
+            const { selectedInvoice } = get();
+            setSlice({ invoiceForm: selectedInvoice });
+        },
 
-    setInvoiceForm: ({ name, value }) => {
-        set(state => ({
-            invoiceForm: { ...state.invoiceForm, [name]: value }
-        }));
-    },
+        resetInvoiceForm: () => {
+            setSlice({ invoiceForm: { ...initialInvoiceForm } });
+        },
 
-    prepopulateInvoiceForm: () => {
-        const { selectedInvoice } = get();
-        set({ invoiceForm: selectedInvoice });
-    },
-
-    resetInvoiceForm: () => {
-        set({ invoiceForm: { ...initialInvoiceForm } });
-    },
-
-    clearSelectedInvoice: () => set({ selectedInvoice: null }),
-});
+        clearSelectedInvoice: () => setSlice({ selectedInvoice: null }),
+}
+};

@@ -1,6 +1,6 @@
 
 import React from "react";
-import { ConfirmDeleteModal, CustomerFormModal } from '@components';
+import { ConfirmDeleteModal, CustomerFormModal, InvoiceFormModal } from '@components';
 import { useModal } from '@useStateManager';
 
 
@@ -13,6 +13,8 @@ export const ModalManager = () => {
             return <CustomerFormModal />
         case 'updateCustomer':
             return <CustomerFormModal update={true} />
+        case 'createInvoice':
+            return <InvoiceFormModal />
         default:
             console.warn('INVALID MODAL ::', modalKey)
             return null;

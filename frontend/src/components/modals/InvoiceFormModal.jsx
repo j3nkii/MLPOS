@@ -1,24 +1,25 @@
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
-import { useStateManager } from '@useStateManager';
+import { useModal, useInvoice } from '@useStateManager';
 import { Button, Input } from '@components';
 
 export const InvoiceFormModal = ({ update }) => {
-    const { customerForm } = useStateManager();
-    const { closeModal, setCustomerForm, createCustomer, prepopulateCustomerForm, resetCustomerForm, updateCustomer } = useStateManager();
+    const { customerForm } = useInvoice();
+    const { setInvoiceForm, createInvoice, prepopulateInvoiceForm, updateInvoice } = useInvoice();
+    const { closeModal } = useModal();
 
     useEffect(() => {
         if(update)
-            prepopulateCustomerForm();
+            prepopulateInvoiceForm();
     }, [])
 
     const handleConfirm = async () => {
-        update ? updateCustomer(customerForm.id) : createCustomer();
+        update ? updateInvoice(customerForm.id) : createInvoice();
     };
 
     const handleChange = (evt) => {
         const { target: { name, value }} = evt;
-        setCustomerForm({ name, value });
+        setInvoiceForm({ name, value });
     }
 
     return (
@@ -26,9 +27,8 @@ export const InvoiceFormModal = ({ update }) => {
             <ModalHeader title={'Confirm'} onClose={closeModal} />
             <ModalBody>
                 <form className="p-6">
-                    <Input onChange={handleChange} value={customerForm.name} label={'Name'} name={'name'} />
-                    <Input onChange={handleChange} value={customerForm.email} label={'Email'} name={'email'} />
-                    <Input onChange={handleChange} value={customerForm.phone} label={'Phone'} name={'phone'} />
+                    <Input onChange={handleChange} value={customerForm.amount} label={'Amount'} name={'amount'} />
+                    <Input onChange={handleChange} value={customerForm.customer} label={'customer'} name={'Customer'} />
                 </form>
             </ModalBody>
 
