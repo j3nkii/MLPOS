@@ -25,7 +25,10 @@ export const createInvoicesSlice = (set, get) => {
                 const res = await axios.get(`/api/invoices?userID=${user.id}`)
                 setSlice({ allInvoices: res.data, isLoading: false });
             } catch (err) {
-                setSlice({ error: err.message, isLoading: false });
+                console.error(err);
+                setSlice({ error: err.message });
+            } finally {
+                setSlice({ isLoading: false });
             }
         },
 
@@ -35,7 +38,10 @@ export const createInvoicesSlice = (set, get) => {
                 const res = await axios.get(`/api/invoices/${id}`);
                 setSlice({ selectedInvoice: res.data, isLoading: false });
             } catch (err) {
-                setSlice({ error: err.message, isLoading: false });
+                console.error(err);
+                setSlice({ error: err.message });
+            } finally {
+                setSlice({ isLoading: false });
             }
         },
 
@@ -55,7 +61,10 @@ export const createInvoicesSlice = (set, get) => {
                 await fetchAllInvoices();
                 closeModal();
             } catch (err) {
-                setSlice({ error: err.message, isLoading: false });
+                console.error(err);
+                setSlice({ error: err.message });
+            } finally {
+                setSlice({ isLoading: false });
             }
         },
 
@@ -75,7 +84,10 @@ export const createInvoicesSlice = (set, get) => {
                 await fetchAllInvoices();
                 closeModal();
             } catch (err) {
-                setSlice({ error: err.message, isLoading: false });
+                console.error(err);
+                setSlice({ error: err.message });
+            } finally {
+                setSlice({ isLoading: false });
             }
         },
 
@@ -90,7 +102,9 @@ export const createInvoicesSlice = (set, get) => {
                 get().closeModal();
             } catch (err) {
                 console.error(err)
-                setSlice({ error: err.message, isLoading: false });
+                setSlice({ error: err.message });
+            } finally {
+                setSlice({ isLoading: false });
             }
         },
 
