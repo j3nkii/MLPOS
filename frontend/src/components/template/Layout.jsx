@@ -1,10 +1,10 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { useStateManager } from '@useStateManager'
+import { useAuth } from '@useStateManager'
 import { ModalManager, Navbar } from '@components'
 
 export const Layout = () => {
-    const { user } = useStateManager();
+    const { user } = useAuth();
     if (!user)
         return <Navigate to="/login" replace />
     else return (

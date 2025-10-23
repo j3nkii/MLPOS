@@ -30,11 +30,12 @@ export const createCustomerSlice = (set, get) => ({
     // Actions
     fetchAllCustomers: async () => {
         set({ isLoading: true, error: null });
-        const { user } = get();
+        const { user } = get().auth;
         try {
             const res = await axios.get(`/api/customers?userID=${user.id}`)
             set({ allCustomers: res.data, isLoading: false });
         } catch (err) {
+            console.error(err)
             set({ error: err.message, isLoading: false });
         }
     },

@@ -14,12 +14,12 @@ export const useStateManager = create(
     devtools(
         (set, get, api) => ({
         isLoading: false,
-        // auth: createAuthSlice(set, get, api),
-        ...createAuthSlice(set, get, api),
+        auth: createAuthSlice(set, get, api),
         ...createCustomerSlice(set, get, api),
         ...createModalSlice(set, get, api),
         ...createInvoicesSlice(set, get, api),
         initApplication: () => {
+            console.log('init applicaiton')
             const { fetchAllCustomers } = get();
             fetchAllCustomers();
         }
