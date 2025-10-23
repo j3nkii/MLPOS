@@ -4,6 +4,7 @@ const INITIAL_LOGIN = {
     password: '',
 }
 
+
 export const createAuthSlice = (set, get) => {
     const setAuth = (partial) => set(state => ({
         auth: { ...state.auth, ...partial }

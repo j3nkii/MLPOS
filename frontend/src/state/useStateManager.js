@@ -15,12 +15,12 @@ export const useStateManager = create(
         (set, get, api) => ({
         isLoading: false,
         auth: createAuthSlice(set, get, api),
-        ...createCustomerSlice(set, get, api),
+        customers: createCustomerSlice(set, get, api),
         ...createModalSlice(set, get, api),
         ...createInvoicesSlice(set, get, api),
         initApplication: () => {
             console.log('init applicaiton')
-            const { fetchAllCustomers } = get();
+            const { customers: { fetchAllCustomers }} = get();
             fetchAllCustomers();
         }
         }),
@@ -31,20 +31,21 @@ export const useStateManager = create(
 
 
 export const useAuth = () => useStateManager(state => state.auth);
+export const useCustomers = () => useStateManager(state => state.customers);
 
 
 
-export const useCustomers = () => useStateManager(state => ({
-    customers: state.customers,
-    isLoading: state.isLoading,
-    error: state.error,
-    customerForm: state.customerForm,
-    fetchAllCustomers: state.fetchAllCustomers,
-    submitNewCustomer: state.submitNewCustomer,
-    deleteCustomer: state.deleteCustomer,
-    setCustomerForm: state.setCustomerForm,
-    resetCustomerForm: state.resetCustomerForm,
-}));
+// export const useCustomers = () => useStateManager(state => ({
+//     customers: state.customers,
+//     isLoading: state.isLoading,
+//     error: state.error,
+//     customerForm: state.customerForm,
+//     fetchAllCustomers: state.fetchAllCustomers,
+//     submitNewCustomer: state.submitNewCustomer,
+//     deleteCustomer: state.deleteCustomer,
+//     setCustomerForm: state.setCustomerForm,
+//     resetCustomerForm: state.resetCustomerForm,
+// }));
 
 
 
