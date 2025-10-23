@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
-import { useModal, useInvoice } from '@useStateManager';
+import { useModal, useInvoice, useCustomer } from '@useStateManager';
 import { Button, Input } from '@components';
 
 export const InvoiceFormModal = ({ update }) => {
     const { invoiceForm } = useInvoice();
+    const { allCustomers } = useCustomer();
     const { setInvoiceForm, createInvoice, prepopulateInvoiceForm, updateInvoice } = useInvoice();
     const { closeModal } = useModal();
 
@@ -18,6 +19,7 @@ export const InvoiceFormModal = ({ update }) => {
     };
 
     const handleChange = (evt) => {
+        console.log(evt)
         const { target: { name, value }} = evt;
         setInvoiceForm({ name, value });
     }
@@ -28,7 +30,7 @@ export const InvoiceFormModal = ({ update }) => {
             <ModalBody>
                 <form className="p-6">
                     <Input onChange={handleChange} value={invoiceForm.amount} label={'Amount'} name={'amount'} />
-                    <Input onChange={handleChange} value={invoiceForm.customer} label={'customer'} name={'Customer'} />
+                    <Input onChange={handleChange} value={invoiceForm.customer} label={'customer'} name={'Customer'} type={'select'} options={allCustomers} />
                 </form>
             </ModalBody>
 

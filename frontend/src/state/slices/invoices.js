@@ -7,9 +7,10 @@ const initialInvoiceForm = {
 
 
 export const createInvoicesSlice = (set, get) => {
-    const setSlice = (partial) => setSlice(state => ({
-        auth: { ...state.auth, ...partial }
-    }));
+    const setSlice = (partial) => set(state => {
+        const result =  { invoice: { ...state.invoice, ...partial }}
+        return result;
+    });
     return {
         error: null,
         isLoading: false,
@@ -18,8 +19,8 @@ export const createInvoicesSlice = (set, get) => {
         invoiceForm: { ...initialInvoiceForm },
 
         readAllInvoices: async () => {
-            setSlice({ isLoading: true, error: null });
             const { user } = get().user;
+            setSlice({ isLoading: true, error: null });
             try {
                 const res = await axios.get(`/api/invoices?userID=${user.id}`)
                 setSlice({ allInvoices: res.data, isLoading: false });
@@ -96,9 +97,8 @@ export const createInvoicesSlice = (set, get) => {
         setSelectedInvoice: (selectedInvoice) => setSlice({ selectedInvoice }),
 
         setInvoiceForm: ({ name, value }) => {
-            setSlice(state => ({
-                invoiceForm: { ...state.invoiceForm, [name]: value }
-            }));
+            const { invoiceForm } = get().invoice;
+            setSlice({ invoiceForm: { ...invoiceForm, [name]: value }});
         },
 
         prepopulateInvoiceForm: () => {
