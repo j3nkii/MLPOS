@@ -22,15 +22,16 @@ const initialCustomerForm = {
 
 
 export const createCustomerSlice = (set, get) => {
-    const setSlice = (partial) => set(state => ({
-        customer: { ...state.customer, ...partial }
-    }));
+    const setSlice = (partial) => set(state => {
+        const result =  { customer: { ...state.customer, ...partial }}
+        return result;
+    });
     return {
-        // State
+        error: null,
+        isLoading: false,
         allCustomers: [],
         selectedCustomer: null,
         customerForm: { ...initialCustomerForm },
-        error: null,
 
         readCustomer: async (id) => {
             setSlice({ isLoading: true, error: null });
@@ -47,54 +48,59 @@ export const createCustomerSlice = (set, get) => {
             const { user } = get().auth;
             try {
                 const res = await axios.get(`/api/customers?userID=${user.id}`)
-                setSlice({ allCustomers: res.data, isLoading: false });
+                setSlice({ allCustomers: res.data });
             } catch (err) {
-                console.error(err)
-                setSlice({ error: err.message, isLoading: false });
+                console.error(err);
+                setSlice({ error: err.message });
+            } finally {
+                setSlice({ isLoading: false });
             }
         },
 
         updateCustomer: async (customerID) => {
-            const { customerForm, user } = get();
-            const { readAllCustomers, closeModal } = get();
+            const { customerForm, readAllCustomers } = get().customer;
+            const { closeModal } = get().modal;
+            const { user } = get().auth;
             setSlice({ isLoading: true, error: null });
             try {
                 await axios.put(`/api/customers/${customerID}`, {
                     ...customerForm,
                     userID: user.id
                 });
-                setSlice({ 
-                    customerForm: { ...initialCustomerForm },
-                    isLoading: false 
-                });
+                setSlice({ customerForm: { ...initialCustomerForm }});
                 await readAllCustomers();
                 closeModal();
             } catch (err) {
-                setSlice({ error: err.message, isLoading: false });
+                console.error(err);
+                setSlice({ error: err.message });
+            } finally {
+                setSlice({ isLoading: false });
             }
         },
 
         createCustomer: async () => {
-            const { customerForm, user } = get();
-            const { readAllCustomers, closeModal } = get();
+            const { customerForm, readAllCustomers } = get().customer;
+            const { closeModal } = get().modal;
+            const { user } = get().auth;
             setSlice({ isLoading: true, error: null });
             try {
                 await axios.post('/api/customers', {
                     ...customerForm,
                     userID: user.id
                 });
-                setSlice({ 
-                    customerForm: { ...initialCustomerForm },
-                    isLoading: false 
-                });
+                setSlice({ customerForm: { ...initialCustomerForm }});
                 await readAllCustomers();
                 closeModal();
             } catch (err) {
-                setSlice({ error: err.message, isLoading: false });
+                console.error(err);
+                setSlice({ error: err.message });
+            } finally {
+                setSlice({ isLoading: false });
             }
         },
 
         deleteCustomer: async (customerId) => {
+            const { closeModal } = get().modal;
             setSlice({ isLoading: true, error: null });
             try {
                 await axios.delete(`/api/customers/${customerId}`);
@@ -102,20 +108,20 @@ export const createCustomerSlice = (set, get) => {
                     allCustomers: state.allCustomers.filter(c => c.id !== customerId),
                     isLoading: false
                 }));
-                get().closeModal();
+                closeModal();
             } catch (err) {
-                console.error(err)
-                setSlice({ error: err.message, isLoading: false });
+                console.error(err);
+                setSlice({ error: err.message });
+            } finally {
+                setSlice({ isLoading: false });
             }
         },
 
         setSelectedCustomer: (selectedCustomer) => setSlice({ selectedCustomer }),
 
         setCustomerForm: ({ name, value }) => {
-            console.log(name, value)
-            setSlice(state => ({
-                customerForm: { ...state.customerForm, [name]: value, phone: 'fuck you' }
-            }));
+            const { customerForm } = get().customer;
+            setSlice({ customerForm: { ...customerForm, [name]: value }});
         },
 
         prepopulateCustomerForm: () => {
