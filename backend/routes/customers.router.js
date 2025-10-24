@@ -11,8 +11,14 @@ router.get('/', async (req, res) => {
     try {
         const userID = req.query.userID;
         const { rows } = await pool.query(`
-            SELECT * FROM customers
-            WHERE user_id = $1 AND is_deleted = false
+            SELECT
+                customers.*,
+                JSON_AGG( invoices.* ) as invoices
+            FROM customers
+            JOIN invoices
+                ON invoices.customer_id = customers.id
+            WHERE customers.user_id = $1 AND is_deleted = false
+            GROUP BY customers.id;
         `, [ userID ]);
         res.status(200).json(rows);
     } catch (error) {
