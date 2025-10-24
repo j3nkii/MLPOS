@@ -22,7 +22,7 @@ export const createInvoicesSlice = (set, get) => {
             const { user } = get().auth;
             setSlice({ isLoading: true, error: null });
             try {
-                const res = await axios.get(`/api/invoices?userID=${user.id}`)
+                const res = await axios.get(`/api/invoice?userID=${user.id}`)
                 setSlice({ allInvoices: res.data, isLoading: false });
             } catch (err) {
                 console.error(err);

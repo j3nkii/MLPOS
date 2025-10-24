@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         const userID = req.query.userID;
         const { rows } = await pool.query(`
             SELECT * FROM invoices
-            WHERE user_id = $1 AND is_deleted = false
+            WHERE user_id = $1
         `, [ userID ]);
         res.status(200).json(rows);
     } catch (error) {

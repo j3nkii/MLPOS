@@ -41,7 +41,9 @@ export const useStateManager = create(
                 initApplication: () => {
                     console.log('$init application$')
                     const { readAllCustomers } = get().customer;
+                    const { readAllInvoices } = get().invoice;
                     readAllCustomers();
+                    readAllInvoices();
                 }
             },
         })),
