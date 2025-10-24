@@ -94,14 +94,12 @@ export const createInvoicesSlice = (set, get) => {
         },
 
         deleteInvoice: async (invoiceId) => {
+            const { readAllInvoices } = get().invoice;
             const { closeModal } = get().modal;
             setSlice({ isLoading: true, error: null });
             try {
                 await axios.delete(`/api/invoice/${invoiceId}`);
-                setSlice(state => ({
-                    allInvoices: state.allInvoices.filter(c => c.id !== invoiceId),
-                    isLoading: false
-                }));
+                await readAllInvoices();
                 closeModal();
             } catch (err) {
                 console.error(err)
@@ -119,8 +117,8 @@ export const createInvoicesSlice = (set, get) => {
         },
 
         prepopulateInvoiceForm: () => {
-            const { selectedInvoice } = get();
-            setSlice({ invoiceForm: selectedInvoice });
+            const { item } = get().modal;
+            setSlice({ invoiceForm: item });
         },
 
         resetInvoiceForm: () => {

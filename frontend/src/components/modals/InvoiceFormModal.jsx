@@ -19,7 +19,6 @@ export const InvoiceFormModal = ({ update }) => {
     };
 
     const handleChange = (evt) => {
-        console.log(evt)
         const { target: { name, value }} = evt;
         setInvoiceForm({ name, value });
     }

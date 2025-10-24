@@ -62,57 +62,57 @@ router.post('/', async(req, res) => {
 
 
 
-// router.put('/:id', async(req, res) => {
-//     try {
-//         const { name, email, phone } = req.body;
-//         const { id: customerID } = req.params;
-//         if(!name && !email && !phone) throw new Error('Missing Fields');
-//         const INSERT_SQL = [];
-//         const INSERT_PARAMS = [];
-//         let idx = 2;
-//         if(name) {
-//             INSERT_SQL.push(`name = $${idx++}`);
-//             INSERT_PARAMS.push(name);
-//         } if(email) {
-//             INSERT_SQL.push(`email = $${idx++}`);
-//             INSERT_PARAMS.push(email);
-//         } if(phone) {
-//             INSERT_SQL.push(`phone = $${idx++}`);
-//             INSERT_PARAMS.push(phone);
-//         }
-//         const END_SQL = `
-//             UPDATE CUSTOMERS
-//             SET ${INSERT_SQL.join(', ')}
-//             WHERE
-//                 invoices.id = $1
-//         `
-//         const END_PARAMS = [ customerID, ...INSERT_PARAMS ]
-//         await pool.query(END_SQL, END_PARAMS);
-//         res.status(200).json({ message: 'User updated successfully' });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: 'Something went wrong' });
-//     }
-// });
+router.put('/:id', async(req, res) => {
+    try {
+        const { name, email, phone } = req.body;
+        const { id: customerID } = req.params;
+        if(!name && !email && !phone) throw new Error('Missing Fields');
+        const INSERT_SQL = [];
+        const INSERT_PARAMS = [];
+        let idx = 2;
+        if(name) {
+            INSERT_SQL.push(`name = $${idx++}`);
+            INSERT_PARAMS.push(name);
+        } if(email) {
+            INSERT_SQL.push(`email = $${idx++}`);
+            INSERT_PARAMS.push(email);
+        } if(phone) {
+            INSERT_SQL.push(`phone = $${idx++}`);
+            INSERT_PARAMS.push(phone);
+        }
+        const END_SQL = `
+            UPDATE CUSTOMERS
+            SET ${INSERT_SQL.join(', ')}
+            WHERE
+                invoices.id = $1
+        `
+        const END_PARAMS = [ customerID, ...INSERT_PARAMS ]
+        await pool.query(END_SQL, END_PARAMS);
+        res.status(200).json({ message: 'User updated successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+});
 
 
 
-// router.delete('/:id', async(req, res) => {
-//     try {
-//         const { id: customerID } = req.params;
-//         await pool.query(`
-//             UPDATE CUSTOMERS
-//             SET is_deleted = 'true'
-//             WHERE
-//                 invoices.id = $1
-//         `, [ customerID ]
-//         );
-//         res.status(201).json({ message: 'User Deleted successfully' });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: 'Something went wrong' });
-//     }
-// });
+router.delete('/:id', async(req, res) => {
+    try {
+        const { id: customerID } = req.params;
+        await pool.query(`
+            UPDATE invoices
+            SET is_deleted = 'true'
+            WHERE
+                invoices.id = $1
+        `, [ customerID ]
+        );
+        res.status(201).json({ message: 'User Deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+});
 
 
 
