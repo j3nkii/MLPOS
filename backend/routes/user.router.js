@@ -15,7 +15,6 @@ router.post('/', async (req, res) => {
             LIMIT 1
         `, [req.body.username]);
         const { rows: [user] } = dbRes;
-        console.log(dbRes)
         res.status(200).json(user);
     } catch (error) {
         console.error(error);

@@ -100,14 +100,12 @@ export const createCustomerSlice = (set, get) => {
         },
 
         deleteCustomer: async (customerId) => {
+            const { readAllCustomers } = get().customer;
             const { closeModal } = get().modal;
             setSlice({ isLoading: true, error: null });
             try {
                 await axios.delete(`/api/customers/${customerId}`);
-                setSlice(state => ({
-                    allCustomers: state.allCustomers.filter(c => c.id !== customerId),
-                    isLoading: false
-                }));
+                await readAllCustomers();
                 closeModal();
             } catch (err) {
                 console.error(err);

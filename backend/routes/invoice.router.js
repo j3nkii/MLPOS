@@ -11,8 +11,13 @@ router.get('/', async (req, res) => {
     try {
         const userID = req.query.userID;
         const { rows } = await pool.query(`
-            SELECT * FROM invoices
-            WHERE user_id = $1
+            SELECT
+                invoices.*,
+                customers.name
+            FROM invoices
+            JOIN customers
+                ON customers.id = invoices.customer_id
+            WHERE invoices.user_id = $1
         `, [ userID ]);
         res.status(200).json(rows);
     } catch (error) {

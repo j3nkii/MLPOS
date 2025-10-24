@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
                 customers.*,
                 JSON_AGG( invoices.* ) as invoices
             FROM customers
-            JOIN invoices
+            LEFT JOIN invoices
                 ON invoices.customer_id = customers.id
             WHERE customers.user_id = $1 AND is_deleted = false
             GROUP BY customers.id;

@@ -31,3 +31,7 @@ clients
 email marketing
 document siginign
 training plans
+
+
+
+whenb dleeteing cascadables... like shoot a hey this customer has invoices? also delte invoices? are you super sure you wanna delete? ??
