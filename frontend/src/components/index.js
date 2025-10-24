@@ -18,6 +18,6 @@ export { Navbar } from './template/Navbar'
 export { ModalManager } from './template/ModalManager'
 
 
-export { ConfirmDeleteModal } from './modals/ConfirmDeleteModal'
+export { CustomerDeleteModal } from './modals/CustomerDeleteModal'
 export { CustomerFormModal } from './modals/CustomerFormModal'
 export { InvoiceFormModal } from './modals/InvoiceFormModal'

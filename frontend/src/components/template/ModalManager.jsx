@@ -1,6 +1,6 @@
 
 import React from "react";
-import { ConfirmDeleteModal, CustomerFormModal, InvoiceFormModal } from '@components';
+import { CustomerDeleteModal, CustomerFormModal, InvoiceFormModal } from '@components';
 import { useModal } from '@useStateManager';
 
 
@@ -8,7 +8,7 @@ export const ModalManager = () => {
     const { modalKey } = useModal();
     switch (modalKey) {
         case 'confirmDelete':
-            return <ConfirmDeleteModal />
+            return <CustomerDeleteModal />
         case 'createCustomer':
             return <CustomerFormModal />
         case 'updateCustomer':

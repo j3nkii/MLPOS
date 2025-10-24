@@ -5,7 +5,7 @@ import { useCustomer, useModal } from '@useStateManager';
 import { Button } from '@components';
 
 
-export const ConfirmDeleteModal = () => {
+export const CustomerDeleteModal = () => {
     const { deleteCustomer } = useCustomer();
     const { item } = useModal();
     const {closeModal} = useModal();
