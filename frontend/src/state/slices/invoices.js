@@ -3,6 +3,7 @@ import axios from 'axios';
 const initialInvoiceForm = {
     amount: '',
     customerID: '',
+    status: '',
 };
 
 
@@ -118,6 +119,7 @@ export const createInvoicesSlice = (set, get) => {
 
         prepopulateInvoiceForm: () => {
             const { item } = get().modal;
+            item.customerID = item.customer_id;
             setSlice({ invoiceForm: item });
         },
 
