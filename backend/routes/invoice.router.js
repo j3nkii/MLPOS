@@ -19,6 +19,7 @@ router.get('/', async (req, res) => {
                 ON customers.id = invoices.customer_id
             WHERE invoices.user_id = $1
                 AND invoices.is_deleted = false
+            ORDER BY created_at DESC;
         `, [ userID ]);
         res.status(200).json(rows);
     } catch (error) {
@@ -33,7 +34,8 @@ router.get('/:id', async (req, res) => {
     try {
         const { rows: [ user ] } = await pool.query(`
             SELECT * FROM invoices
-            WHERE id = $1 AND is_deleted = false
+            WHERE id = $1
+                AND is_deleted = false;
         `, [ req.params.id ]);
         res.status(200).json(user);
     } catch (error) {
@@ -51,7 +53,7 @@ router.post('/', async(req, res) => {
         if (!amount || !customerID || !userID) throw new Error('Missing Fields')
         await pool.query(`
             INSERT INTO invoices (amount, customer_id, user_id)
-            VALUES ($1, $2, $3)
+            VALUES ($1, $2, $3);
         `, [ amount, customerID, userID]
         );
         res.status(201).json({ message: 'User created successfully' });
@@ -85,7 +87,7 @@ router.put('/:id', async(req, res) => {
             UPDATE invoices
             SET ${INSERT_SQL.join(', ')}
             WHERE
-                invoices.id = $1
+                invoices.id = $1;
         `
         const END_PARAMS = [ invoiceID, ...INSERT_PARAMS ];
         await pool.query(END_SQL, END_PARAMS);
