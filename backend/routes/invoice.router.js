@@ -18,6 +18,7 @@ router.get('/', async (req, res) => {
             JOIN customers
                 ON customers.id = invoices.customer_id
             WHERE invoices.user_id = $1
+                AND invoices.is_deleted = false
         `, [ userID ]);
         res.status(200).json(rows);
     } catch (error) {
@@ -64,29 +65,29 @@ router.post('/', async(req, res) => {
 
 router.put('/:id', async(req, res) => {
     try {
-        const { name, email, phone } = req.body;
-        const { id: customerID } = req.params;
-        if(!name && !email && !phone) throw new Error('Missing Fields');
+        const { amount, customerID, status } = req.body;
+        const { id: invoiceID } = req.params;
+        if(!amount && !customerID && !status) throw new Error('Missing Fields');
         const INSERT_SQL = [];
         const INSERT_PARAMS = [];
         let idx = 2;
-        if(name) {
-            INSERT_SQL.push(`name = $${idx++}`);
-            INSERT_PARAMS.push(name);
-        } if(email) {
-            INSERT_SQL.push(`email = $${idx++}`);
-            INSERT_PARAMS.push(email);
-        } if(phone) {
-            INSERT_SQL.push(`phone = $${idx++}`);
-            INSERT_PARAMS.push(phone);
+        if(amount) {
+            INSERT_SQL.push(`amount = $${idx++}`);
+            INSERT_PARAMS.push(amount);
+        } if(customerID) {
+            INSERT_SQL.push(`customer_id = $${idx++}`);
+            INSERT_PARAMS.push(customerID);
+        } if(status) {
+            INSERT_SQL.push(`status = $${idx++}`);
+            INSERT_PARAMS.push(status);
         }
         const END_SQL = `
-            UPDATE CUSTOMERS
+            UPDATE invoices
             SET ${INSERT_SQL.join(', ')}
             WHERE
                 invoices.id = $1
         `
-        const END_PARAMS = [ customerID, ...INSERT_PARAMS ]
+        const END_PARAMS = [ invoiceID, ...INSERT_PARAMS ];
         await pool.query(END_SQL, END_PARAMS);
         res.status(200).json({ message: 'User updated successfully' });
     } catch (error) {
@@ -102,7 +103,7 @@ router.delete('/:id', async(req, res) => {
         const { id: customerID } = req.params;
         await pool.query(`
             UPDATE invoices
-            SET is_deleted = 'true'
+            SET is_deleted = true
             WHERE
                 invoices.id = $1
         `, [ customerID ]

@@ -38,8 +38,8 @@ const Select = (props) => {
     const { name = '', onChange = onChangeWarning, value = '', options = [] } = props;
     console.log(options)
     return (
-        <select onChange={onChange} name={name}>
-            <option value={value}>---</option>
+        <select onChange={onChange} name={name} value={value}>
+            <option value={''}>---</option>
             { options.map(opt => <option value={opt.value}>{opt.name}</option>) }
         </select>
     )

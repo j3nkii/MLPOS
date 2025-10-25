@@ -17,7 +17,9 @@ router.get('/', async (req, res) => {
             FROM customers
             LEFT JOIN invoices
                 ON invoices.customer_id = customers.id
-            WHERE customers.user_id = $1 AND is_deleted = false
+                AND invoices.is_deleted = false
+            WHERE customers.user_id = $1
+                AND customers.is_deleted = false
             GROUP BY customers.id;
         `, [ userID ]);
         res.status(200).json(rows);

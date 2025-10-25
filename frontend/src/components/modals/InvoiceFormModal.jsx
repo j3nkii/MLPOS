@@ -29,7 +29,8 @@ export const InvoiceFormModal = ({ update }) => {
             <ModalBody>
                 <form className="p-6">
                     <Input onChange={handleChange} value={invoiceForm.amount} label={'Amount'} name={'amount'} />
-                    <Input onChange={handleChange} value={invoiceForm.customer} label={'Customer'} name={'customerID'} type={'select'} options={allCustomers.map(cust => ({ name: cust.name, value: cust.id }))} />
+                    { update && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
+                    <Input onChange={handleChange} value={invoiceForm.customerID} label={'Customer'} name={'customerID'} type={'select'} options={allCustomers.map(cust => ({ name: cust.name, value: cust.id }))} />
                 </form>
             </ModalBody>
 
