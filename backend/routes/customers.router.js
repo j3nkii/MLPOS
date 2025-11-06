@@ -104,7 +104,7 @@ router.delete('/:id', async(req, res) => {
         const { id: customerID } = req.params;
         await pool.query(`
             UPDATE CUSTOMERS
-            SET is_deleted = 'true'
+            SET is_deleted = true
             WHERE
                 customers.id = $1
         `, [ customerID ]

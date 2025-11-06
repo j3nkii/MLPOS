@@ -73,13 +73,13 @@ router.put('/:id', async(req, res) => {
         const INSERT_SQL = [];
         const INSERT_PARAMS = [];
         let idx = 2;
-        if(amount) {
+        if (amount) {
             INSERT_SQL.push(`amount = $${idx++}`);
             INSERT_PARAMS.push(amount);
-        } if(customerID) {
+        } if (customerID) {
             INSERT_SQL.push(`customer_id = $${idx++}`);
             INSERT_PARAMS.push(customerID);
-        } if(status) {
+        } if (status) {
             INSERT_SQL.push(`status = $${idx++}`);
             INSERT_PARAMS.push(status);
         }
@@ -108,8 +108,7 @@ router.delete('/:id', async(req, res) => {
             SET is_deleted = true
             WHERE
                 invoices.id = $1
-        `, [ customerID ]
-        );
+        `, [ customerID ]);
         res.status(201).json({ message: 'User Deleted successfully' });
     } catch (error) {
         console.error(error);
