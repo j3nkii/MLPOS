@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon handler.js"
+    "local": "nodemon server.js",
+    "package": "zip -r lambda.zip . -x '*.git*' 'node_modules/aws-sdk/*'",
+    "deploy:backend": "npm run package && aws lambda update-function-code --function-name mlpos-backend --zip-file fileb://lambda.zip",
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@codegenie/serverless-express": "^4.17.0",
     "axios": "^1.12.2",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
