@@ -5,7 +5,7 @@
 
 terraform {
     backend "s3" {
-        bucket         = "mlpos-prod-bucket"
+        bucket         = "mplos-terraform-bucket"
         key            = "pos-system/terraform.tfstate"
         region         = "us-east-2"
         dynamodb_table = "terraform-lock-table"
