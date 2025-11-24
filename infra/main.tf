@@ -29,7 +29,7 @@ provider "aws" {
 ##################################################################### S3 BUCKET
 
 resource "aws_s3_bucket" "mlpos_static_bucket" {
-    bucket = "mlpos-bucket"
+    bucket = "mlpos-frontend"
     tags = {
         Name        = "MPLOS Bucket"
         Environment = "main"
@@ -74,10 +74,10 @@ resource "aws_s3_bucket_policy" "mlpos_static_bucket" {
 
 resource "aws_lambda_function" "express_app" {
     filename = "lambda.zip"
-    function_name = "express-app"
+    function_name = "mlpos-backend"
     role = aws_iam_role.lambda_exec.arn
-    handler = "index.handler"
-    runtime = "nodejs20.x"
+    handler = "lambda.handler"
+    runtime = "nodejs22.x"
     timeout = 30
     environment {
         variables = {
