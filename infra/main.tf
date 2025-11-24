@@ -14,7 +14,7 @@ terraform {
     required_providers {
         aws ={
             source  = "hashicorp/aws"
-            version = "~> 3.0"
+            version = "~> 6.0"
         }
     }
 }
@@ -31,8 +31,8 @@ provider "aws" {
 resource "aws_s3_bucket" "mlpos_static_bucket" {
     bucket = "mlpos-bucket"
     tags = {
-        Name        = "MPLOS Production Bucket"
-        Environment = var.environment
+        Name        = "MPLOS Bucket"
+        Environment = "main"
     }
 }
 
@@ -44,9 +44,9 @@ resource "aws_s3_bucket_public_access_block" "mlpos_static_bucket" {
     restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_policy" "mlpos-static-bucket" {
+resource "aws_s3_bucket_policy" "mlpos_static_bucket" {
     bucket = aws_s3_bucket.mlpos_static_bucket.id
-    policy = jsonecode({
+    policy = jsonencode({
         Version = "2012-10-17"
         Statement = [
             {
@@ -93,7 +93,7 @@ resource "aws_lambda_function_url" "express_app" {
 
 resource "aws_iam_role" "lambda_exec" {
     name = "lambda-exec-role"
-    assume_role_policy = jsonecode({
+    assume_role_policy = jsonencode({
         Version = "2012-10-17"
         Statement = [
             {
@@ -108,7 +108,7 @@ resource "aws_iam_role" "lambda_exec" {
 }
 
 resource "aws_iam_role_policy_attachment" "labda_basic" {
-    policy_arn = "arn:aws:iam:aws:policy/service-role/AWSLambdaBasicExecutionRole"
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
     role = aws_iam_role.lambda_exec.name
 }
 
@@ -122,12 +122,12 @@ resource "aws_cloudfront_distribution" "main" {
     default_root_object = "index.html"
     price_class = "PriceClass_100"
     origin {
-        domain_name = aws_s3_bucket.mlpos-prod-bucket
-        origin_id = "s3-origin"
+        domain_name = aws_s3_bucket.mlpos_static_bucket.bucket_regional_domain_name
         origin_access_control_id = aws_cloudfront_origin_access_control.s3_oac.id
-    }
+        origin_id = "s3-origin"
+     }
     origin {
-        domain_name = replace(aws_lambda_function_url.express_app.function_url, "https://", "")
+        domain_name = trimsuffix(replace(aws_lambda_function_url.express_app.function_url, "https://", ""), "/")
         origin_id = "express-origin"
         custom_origin_config {
             http_port = 80
@@ -194,4 +194,20 @@ resource "aws_cloudfront_origin_access_control" "s3_oac" {
 
 resource "aws_cloudfront_origin_access_identity" "oai" {
     comment = "OAI for my website"
+}
+
+output "cloudfront_url" {
+    value = aws_cloudfront_distribution.main.domain_name
+}
+
+output "lambda_function_url" {
+    value = aws_lambda_function_url.express_app.function_url
+}
+
+output "s3_bucket_name" {
+    value = aws_s3_bucket.mlpos_static_bucket.id
+}
+
+output "cloudfront_distribution_id" {
+    value = aws_cloudfront_distribution.main.id
 }
