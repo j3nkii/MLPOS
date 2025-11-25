@@ -15,6 +15,8 @@ router.post('/', async (req, res) => {
             LIMIT 1
         `, [req.body.username]);
         const { rows: [user] } = dbRes;
+        console.log(user);
+        if(!user) throw new Error('No user with that username')
         res.status(200).json(user);
     } catch (error) {
         console.error(error);
