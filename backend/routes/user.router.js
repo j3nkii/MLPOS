@@ -9,7 +9,16 @@ const router = express.Router();
 
 router.post('/login', async (req, res) => {
     try {
-        const tokens = await auth.signIn(email, password);
+        const { identity, password } = req.body;
+        let identifier = identity;
+        const usernameCheck = await pool.query(`
+            SELECT * FROM users
+            WHERE username = $1
+            LIMIT 1
+        `, [identifier]);
+        if(usernameCheck)
+            identifier = usernameCheck.email;
+        const tokens = await auth.signIn(identifier, password);
         const decoded = auth.decodeToken(tokens.accessToken);
         const dbRes = await pool.query(`
             SELECT * FROM users
@@ -18,8 +27,6 @@ router.post('/login', async (req, res) => {
         `, [decoded.sub]);
         const { rows: [user] } = dbRes;
         console.log(user);
-        if (!user)
-            throw new Error('No user with that username')
         res.status(200).json({
             tokens,
             user
