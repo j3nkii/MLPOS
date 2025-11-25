@@ -13,7 +13,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.939.0",
     "@codegenie/serverless-express": "^4.17.0",
+    "amazon-cognito-identity-js": "^6.3.16",
     "axios": "^1.12.2",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",

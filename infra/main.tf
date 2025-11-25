@@ -152,6 +152,28 @@ resource "aws_iam_role_policy" "lambda_rds_policy" {
   })
 }
 
+resource "aws_iam_role_policy" "lambda_cognito_policy" {
+  name = "lambda-cognito-access"
+  role = aws_iam_role.lambda_exec.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "cognito-idp:AdminGetUser",
+          "cognito-idp:AdminCreateUser",
+          "cognito-idp:AdminDeleteUser",
+          "cognito-idp:AdminUpdateUserAttributes",
+          "cognito-idp:ListUsers"
+        ]
+        Resource = aws_cognito_user_pool.user_pool.arn
+      }
+    ]
+  })
+}
+
 # Get default VPC subnets
 data "aws_vpc" "default" {
   default = true
@@ -298,6 +320,44 @@ resource "aws_db_instance" "mlpos_db" {
   }
 }
 
+#################################################################### COGNITO
+#################################################################### COGNITO
+#################################################################### COGNITO
+#################################################################### COGNITO
+
+# The user pool - where users live
+resource "aws_cognito_user_pool" "user_pool" {
+  name = "mlpos-user-pool"
+  # Users sign in with email
+  username_attributes = ["email"]
+  # Auto-verify emails
+  auto_verified_attributes = ["email"]
+
+  # Basic password rules
+  password_policy {
+    minimum_length    = 8
+    require_lowercase = true
+    require_numbers   = true
+    require_uppercase = true
+  }
+}
+# The app client - your frontend uses this to talk to Cognito
+resource "aws_cognito_user_pool_client" "app_client" {
+  name         = "mlpos-app-client"
+  user_pool_id = aws_cognito_user_pool.user_pool.id
+  # How long tokens last
+  access_token_validity  = 1  # 1 hour
+  id_token_validity      = 1  # 1 hour  
+  refresh_token_validity = 30 # 30 days
+  # Allow password login
+  explicit_auth_flows = [
+    "ALLOW_USER_PASSWORD_AUTH",
+    "ALLOW_REFRESH_TOKEN_AUTH"
+  ]
+  # No secret needed for frontend apps
+  generate_secret = false
+}
+
 ##################################################################### OUTPUT
 ##################################################################### OUTPUT
 ##################################################################### OUTPUT
@@ -317,4 +377,12 @@ output "s3_bucket_name" {
 
 output "cloudfront_distribution_id" {
     value = aws_cloudfront_distribution.main.id
+}
+
+output "cognito_user_pool_id" {
+  value = aws_cognito_user_pool.user_pool.id
+}
+
+output "cognito_app_client_id" {
+  value = aws_cognito_user_pool_client.app_client.id
 }
