@@ -79,9 +79,18 @@ resource "aws_lambda_function" "express_app" {
     handler = "lambda.handler"
     runtime = "nodejs22.x"
     timeout = 30
+    vpc_config {
+      subnet_ids         = data.aws_subnets.default.ids
+      security_group_ids = [aws_security_group.lambda_sg.id]
+    }
     environment {
         variables = {
-            NODE_ENV = "hello world"
+            NODE_ENV    = "production"
+            DB_HOST     = aws_db_instance.mlpos_db.address
+            DB_PORT     = "5432"
+            DB_NAME     = aws_db_instance.mlpos_db.db_name
+            DB_USER     = aws_db_instance.mlpos_db.username
+            DB_PASSWORD = aws_db_instance.mlpos_db.password
         }
     }
 }
@@ -110,6 +119,48 @@ resource "aws_iam_role" "lambda_exec" {
 resource "aws_iam_role_policy_attachment" "labda_basic" {
     policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
     role = aws_iam_role.lambda_exec.name
+}
+
+resource "aws_iam_role_policy" "lambda_rds_policy" {
+  name = "lambda-rds-access"
+  role = aws_iam_role.lambda_exec.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "rds:DescribeDBInstances",
+          "rds:DescribeDBClusters"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "ec2:CreateNetworkInterface",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DeleteNetworkInterface",
+          "ec2:AssignPrivateIpAddresses",
+          "ec2:UnassignPrivateIpAddresses"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+# Get default VPC subnets
+data "aws_vpc" "default" {
+  default = true
+}
+
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
 }
 
 ##################################################################### CLOUDFRONT
@@ -179,7 +230,6 @@ resource "aws_cloudfront_distribution" "main" {
     }
 }
 
-
 resource "aws_cloudfront_origin_access_control" "s3_oac" {
     name                              = "s3-oac"
     origin_access_control_origin_type = "s3"
@@ -187,14 +237,63 @@ resource "aws_cloudfront_origin_access_control" "s3_oac" {
     signing_protocol                  = "sigv4"
 }
 
-##################################################################### OUTPUT
-##################################################################### OUTPUT
-##################################################################### OUTPUT
-##################################################################### OUTPUT
+######################################################################## RDS
+######################################################################## RDS
+######################################################################## RDS
+######################################################################## RDS
 
-resource "aws_cloudfront_origin_access_identity" "oai" {
-    comment = "OAI for my website"
+resource "aws_security_group" "rds_sg" {
+  name        = "mlpos-rds-sg"
+  description = "Allow Lambda to access RDS"
+  vpc_id      = data.aws_vpc.default.id
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    security_groups = [aws_security_group.lambda_sg.id]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
+
+resource "aws_security_group" "lambda_sg" {
+  name        = "mlpos-lambda-sg"
+  description = "Allow Lambda to connect to RDS"
+  vpc_id      = data.aws_vpc.default.id
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_db_instance" "mlpos_db" {
+  allocated_storage      = 20
+  db_name                = "mlposdb"
+  engine                 = "postgres"
+  engine_version         = "16"
+  instance_class         = "db.t3.micro"
+  username               = "mlpos"
+  password               = "adminpassword"
+  parameter_group_name   = "default.postgres16"
+  skip_final_snapshot    = true
+  publicly_accessible    = false
+  vpc_security_group_ids = [aws_security_group.rds_sg.id]
+  tags = {
+    Name        = "MLPOS Database"
+    Environment = "main"
+  }
+}
+
+##################################################################### OUTPUT
+##################################################################### OUTPUT
+##################################################################### OUTPUT
+##################################################################### OUTPUT
 
 output "cloudfront_url" {
     value = aws_cloudfront_distribution.main.domain_name
