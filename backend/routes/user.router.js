@@ -18,7 +18,8 @@ router.post('/login', async (req, res) => {
         `, [decoded.sub]);
         const { rows: [user] } = dbRes;
         console.log(user);
-        if(!user) throw new Error('No user with that username')
+        if (!user)
+            throw new Error('No user with that username')
         res.status(200).json({
             tokens,
             user
@@ -34,10 +35,10 @@ router.post('/login', async (req, res) => {
 router.post('/signup', async(req, res) => {
     try {
         const { username, email, password } = req.body;
-        if(!username || !email || !password) throw new Error('Missing Fields');
+        if (!username || !email || !password)
+            throw new Error('Missing Fields');
         const cogRes = await auth.signUp(email, password);
         console.log(cogRes);
-
         await pool.query(`
             INSERT INTO users (username, email)
             VALUES ($1, $2)
@@ -46,12 +47,10 @@ router.post('/signup', async(req, res) => {
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
         if (error.code === '23505') {
-            if (error.constraint === 'users_username_key') {
+            if (error.constraint === 'users_username_key')
                 return res.status(400).json({ message: 'Username already taken' });
-            }
-            if (error.constraint === 'users_email_key') {
+            if (error.constraint === 'users_email_key')
                 return res.status(400).json({ message: 'Email already in use' });
-            }
         }
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
