@@ -279,10 +279,10 @@ resource "aws_db_instance" "mlpos_db" {
   engine_version         = "16"
   instance_class         = "db.t3.micro"
   username               = "mlpos"
-  password               = "adminpassword"
+  password               = var.db_password
   parameter_group_name   = "default.postgres16"
   skip_final_snapshot    = true
-  publicly_accessible    = false
+  publicly_accessible    = true
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   tags = {
     Name        = "MLPOS Database"
