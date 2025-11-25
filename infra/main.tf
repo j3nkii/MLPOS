@@ -30,6 +30,7 @@ provider "aws" {
 
 resource "aws_s3_bucket" "mlpos_static_bucket" {
     bucket = "mlpos-frontend"
+    force_destroy = true
     tags = {
         Name        = "MPLOS Bucket"
         Environment = "main"
