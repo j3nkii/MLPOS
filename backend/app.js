@@ -23,13 +23,13 @@ app.use((req, res, next) => {
 });
 
 
-// const SAMPLE = require('./routes/SAMPLE.router');
+// const SAMPLE = require('./routers/SAMPLE.router');
 // app.use('/api/SAMPLE', SAMPLE);
-const USER_ROUTER = require('./routes/user.router');
+const USER_ROUTER = require('./routers/user.router');
 app.use('/api/user', USER_ROUTER);
-const CUSTOMERS_ROUTER = require('./routes/customers.router');
+const CUSTOMERS_ROUTER = require('./routers/customers.router');
 app.use('/api/customers', CUSTOMERS_ROUTER);
-const INVOICE_ROUTER = require('./routes/invoice.router');
+const INVOICE_ROUTER = require('./routers/invoice.router');
 app.use('/api/invoice', INVOICE_ROUTER);
 
 
