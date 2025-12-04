@@ -10,12 +10,18 @@ const {
   GetUserCommand
 } = require('@aws-sdk/client-cognito-identity-provider');
 
+
+
 // Works in both Lambda and local dev
 const cognito = new CognitoIdentityProviderClient({
   region: process.env.AWS_REGION || 'us-east-2'
 });
 
+
+
 const CLIENT_ID = process.env.COGNITO_CLIENT_ID;
+
+
 
 // ============================================
 // SIGN UP
@@ -29,13 +35,14 @@ async function signUp(email, password) {
       { Name: 'email', Value: email }
     ]
   });
-
   const result = await cognito.send(command);
   return {
     userSub: result.UserSub,
     userConfirmed: result.UserConfirmed
   };
 }
+
+
 
 // ============================================
 // CONFIRM SIGN UP (with code from email)
@@ -46,10 +53,11 @@ async function confirmSignUp(email, code) {
     Username: email,
     ConfirmationCode: code
   });
-
   await cognito.send(command);
   return { confirmed: true };
 }
+
+
 
 // ============================================
 // SIGN IN
@@ -63,9 +71,7 @@ async function signIn(email, password) {
       PASSWORD: password
     }
   });
-
   const result = await cognito.send(command);
-  
   return {
     accessToken: result.AuthenticationResult.AccessToken,
     idToken: result.AuthenticationResult.IdToken,
@@ -73,6 +79,8 @@ async function signIn(email, password) {
     expiresIn: result.AuthenticationResult.ExpiresIn
   };
 }
+
+
 
 // ============================================
 // REFRESH TOKEN
@@ -85,15 +93,15 @@ async function refreshToken(refreshToken) {
       REFRESH_TOKEN: refreshToken
     }
   });
-
   const result = await cognito.send(command);
-  
   return {
     accessToken: result.AuthenticationResult.AccessToken,
     idToken: result.AuthenticationResult.IdToken,
     expiresIn: result.AuthenticationResult.ExpiresIn
   };
 }
+
+
 
 // ============================================
 // GET USER (from access token)
@@ -102,21 +110,20 @@ async function getUser(accessToken) {
   const command = new GetUserCommand({
     AccessToken: accessToken
   });
-
   const result = await cognito.send(command);
-  
   // Parse attributes into object
   const attributes = {};
   result.UserAttributes.forEach(attr => {
     attributes[attr.Name] = attr.Value;
   });
-
   return {
     username: result.Username,
     attributes,
     sub: attributes.sub // Cognito user ID
   };
 }
+
+
 
 // ============================================
 // FORGOT PASSWORD (sends reset code to email)
@@ -126,13 +133,13 @@ async function forgotPassword(email) {
     ClientId: CLIENT_ID,
     Username: email
   });
-
   const result = await cognito.send(command);
-  
   return {
     codeDeliveryDetails: result.CodeDeliveryDetails
   };
 }
+
+
 
 // ============================================
 // CONFIRM PASSWORD RESET (with code from email)
@@ -144,10 +151,11 @@ async function confirmPassword(email, code, newPassword) {
     ConfirmationCode: code,
     Password: newPassword
   });
-
   await cognito.send(command);
   return { success: true };
 }
+
+
 
 // ============================================
 // VERIFY TOKEN (decode without calling Cognito)
@@ -158,11 +166,9 @@ function decodeToken(token) {
   if (parts.length !== 3) {
     throw new Error('Invalid token');
   }
-  
   const payload = JSON.parse(
     Buffer.from(parts[1], 'base64').toString('utf8')
   );
-  
   return {
     sub: payload.sub,           // User ID
     email: payload.email,
@@ -171,6 +177,8 @@ function decodeToken(token) {
     token_use: payload.token_use // 'access' or 'id'
   };
 }
+
+
 
 module.exports = {
   signUp,
