@@ -3,7 +3,23 @@ import { Button, Input } from '@components';
 import { useAuth } from '@useStateManager'
 import { Navigate } from 'react-router-dom';
 
-export const LogginsPage = () => {
+
+
+export const AuthPage = () => {
+    const [tab, setTab] = useState(0);
+    const tabs = [ <Loggin /> ];
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-[#5d5d5d]">
+            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+                { tabs[tab] }
+            </div>
+        </div>
+    );
+}
+
+
+
+export const Loggin = () => {
     const { fetchUser, user, setLoginForm, loginForm } = useAuth();
     const handlForm = (evt) => {
         const { target: { name, value }} = evt;
@@ -16,8 +32,8 @@ export const LogginsPage = () => {
     if (user)
         return <Navigate to="/customers" replace />
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#5d5d5d]">
-            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+        <div>
+            {/* <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm"> */}
                 <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Welcome Back</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                         <Input
@@ -27,14 +43,15 @@ export const LogginsPage = () => {
                             value={loginForm.username}
                             onChange={handlForm}
                         />
-                        {/* <Input
+                        <Input
                             label="Password"
                             name="password"
                             placeholder="Enter your password"
-                        /> */}
+                        />
                     <Button children='Login' />
                 </form>
-            </div>
+                {/* <Button children='Forgot Password' onClick={} /> */}
+            {/* </div> */}
         </div>
     );
 };
