@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 const INITIAL_LOGIN = {
-    username: '',
+    email: '',
     password: '',
 }
 
@@ -37,5 +37,17 @@ export const createAuthSlice = (set, get) => {
         clearLoginForm: () => setSlice({ loginForm: INITIAL_LOGIN }),
 
         logout: () => setSlice({ user: null }),
+
+        createUser: async () => {
+            const { loginForm: { email, password }} = get().auth;
+            setSlice({ isLoading: true, error: null });
+            try {
+                const res = await axios.post('/api/auth/signup', { email, password });
+                setSlice({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN });
+            } catch (err) {
+                console.log(err)
+                setSlice({ error: err.message, isLoading: false });
+            }
+        }
     }
 };

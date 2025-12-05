@@ -25,6 +25,8 @@ app.use((req, res, next) => {
 
 // const SAMPLE = require('./routers/SAMPLE.router');
 // app.use('/api/SAMPLE', SAMPLE);
+const AUTH_ROUTER = require('./routers/auth.router');
+app.use('/api/auth', AUTH_ROUTER);
 const USER_ROUTER = require('./routers/user.router');
 app.use('/api/user', USER_ROUTER);
 const CUSTOMERS_ROUTER = require('./routers/customers.router');

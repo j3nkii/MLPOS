@@ -20,7 +20,7 @@ export const AuthPage = () => {
 
 
 export const Loggin = () => {
-    const { fetchUser, user, setLoginForm, loginForm } = useAuth();
+    const { fetchUser, user, setLoginForm, loginForm, createUser } = useAuth();
     const handlForm = (evt) => {
         const { target: { name, value }} = evt;
         setLoginForm({ name, value });
@@ -37,10 +37,10 @@ export const Loggin = () => {
                 <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Welcome Back</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                         <Input
-                            label="Username"
-                            name="username"
-                            placeholder="Enter your username"
-                            value={loginForm.username}
+                            label="Email"
+                            name="email"
+                            placeholder="Enter your email"
+                            value={loginForm.email}
                             onChange={handlForm}
                         />
                         <Input
@@ -49,6 +49,7 @@ export const Loggin = () => {
                             placeholder="Enter your password"
                         />
                     <Button children='Login' />
+                    <Button type='button' onClick={createUser} children='Sign Up' />
                 </form>
                 {/* <Button children='Forgot Password' onClick={} /> */}
             {/* </div> */}
