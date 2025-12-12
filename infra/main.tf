@@ -5,11 +5,11 @@
 
 terraform {
     backend "s3" {
-        bucket         = "mplos-terraform-bucket"
         key            = "pos-system/terraform.tfstate"
+        bucket         = "mplos-terraform-bucket"
         region         = "us-east-2"
-        dynamodb_table = "terraform-lock-table"
         encrypt        = true
+        dynamodb_table = "terraform-lock-table"
     }
     required_providers {
         aws ={
@@ -29,7 +29,7 @@ provider "aws" {
 ##################################################################### S3 BUCKET
 
 resource "aws_s3_bucket" "mlpos_static_bucket" {
-    bucket = "mlpos-frontend"
+    bucket        = "mlpos-frontend"
     force_destroy = true
     tags = {
         Name        = "MPLOS Bucket"
@@ -38,11 +38,11 @@ resource "aws_s3_bucket" "mlpos_static_bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "mlpos_static_bucket" {
-    bucket = aws_s3_bucket.mlpos_static_bucket.id
-    block_public_acls = true
-    block_public_policy = true
-    ignore_public_acls = true
+    block_public_acls       = true
+    ignore_public_acls      = true
+    block_public_policy     = true
     restrict_public_buckets = true
+    bucket                  = aws_s3_bucket.mlpos_static_bucket.id
 }
 
 resource "aws_s3_bucket_policy" "mlpos_static_bucket" {
@@ -51,13 +51,13 @@ resource "aws_s3_bucket_policy" "mlpos_static_bucket" {
         Version = "2012-10-17"
         Statement = [
             {
-                Sid = "AllowCloudFrontServicePrincipal"
-                Effect = "Allow"
+                Sid       = "AllowCloudFrontServicePrincipal"
+                Effect    = "Allow"
                 Principal = {
                     Service = "cloudfront.amazonaws.com"
                 }
-                Action = "s3:GetObject"
-                Resource = "${aws_s3_bucket.mlpos_static_bucket.arn}/*"
+                Action    = "s3:GetObject"
+                Resource  = "${aws_s3_bucket.mlpos_static_bucket.arn}/*"
                 Condition = {
                     StringEquals = {
                         "AWS:SourceArn" = aws_cloudfront_distribution.main.arn
@@ -74,12 +74,12 @@ resource "aws_s3_bucket_policy" "mlpos_static_bucket" {
 ##################################################################### LAMBDA
 
 resource "aws_lambda_function" "express_app" {
-    filename = "lambda.zip"
+    timeout       = 30
+    handler       = "lambda.handler"
+    runtime       = "nodejs22.x"
+    filename      = "lambda.zip"
     function_name = "mlpos-backend"
-    role = aws_iam_role.lambda_exec.arn
-    handler = "lambda.handler"
-    runtime = "nodejs22.x"
-    timeout = 30
+    role          = aws_iam_role.lambda_exec.arn
     vpc_config {
       subnet_ids         = data.aws_subnets.default.ids
       security_group_ids = [aws_security_group.lambda_sg.id]
@@ -87,8 +87,8 @@ resource "aws_lambda_function" "express_app" {
     environment {
         variables = {
             NODE_ENV    = "production"
-            DB_HOST     = aws_db_instance.mlpos_db.address
             DB_PORT     = "5432"
+            DB_HOST     = aws_db_instance.mlpos_db.address
             DB_NAME     = aws_db_instance.mlpos_db.db_name
             DB_USER     = aws_db_instance.mlpos_db.username
             DB_PASSWORD = aws_db_instance.mlpos_db.password
@@ -97,18 +97,18 @@ resource "aws_lambda_function" "express_app" {
 }
 
 resource "aws_lambda_function_url" "express_app" {
-    function_name = aws_lambda_function.express_app.function_name
+    function_name      = aws_lambda_function.express_app.function_name
     authorization_type = "NONE"
 }
 
 resource "aws_iam_role" "lambda_exec" {
-    name = "lambda-exec-role"
+    name               = "lambda-exec-role"
     assume_role_policy = jsonencode({
         Version = "2012-10-17"
         Statement = [
             {
-                Action = "sts:AssumeRole"
-                Effect = "Allow"
+                Action    = "sts:AssumeRole"
+                Effect    = "Allow"
                 Principal = {
                     Service = "lambda.amazonaws.com"
                 }
@@ -118,14 +118,13 @@ resource "aws_iam_role" "lambda_exec" {
 }
 
 resource "aws_iam_role_policy_attachment" "labda_basic" {
+    role       = aws_iam_role.lambda_exec.name
     policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-    role = aws_iam_role.lambda_exec.name
 }
 
 resource "aws_iam_role_policy" "lambda_rds_policy" {
-  name = "lambda-rds-access"
-  role = aws_iam_role.lambda_exec.id
-
+  name   = "lambda-rds-access"
+  role   = aws_iam_role.lambda_exec.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -152,27 +151,26 @@ resource "aws_iam_role_policy" "lambda_rds_policy" {
   })
 }
 
-resource "aws_iam_role_policy" "lambda_cognito_policy" {
-  name = "lambda-cognito-access"
-  role = aws_iam_role.lambda_exec.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "cognito-idp:AdminGetUser",
-          "cognito-idp:AdminCreateUser",
-          "cognito-idp:AdminDeleteUser",
-          "cognito-idp:AdminUpdateUserAttributes",
-          "cognito-idp:ListUsers"
-        ]
-        Resource = aws_cognito_user_pool.user_pool.arn
-      }
-    ]
-  })
-}
+# resource "aws_iam_role_policy" "lambda_cognito_policy" {
+#   name   = "lambda-cognito-access"
+#   role   = aws_iam_role.lambda_exec.id
+#   policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "cognito-idp:AdminGetUser",
+#           "cognito-idp:AdminCreateUser",
+#           "cognito-idp:AdminDeleteUser",
+#           "cognito-idp:AdminUpdateUserAttributes",
+#           "cognito-idp:ListUsers"
+#         ]
+#         Resource = aws_cognito_user_pool.user_pool.arn
+#       }
+#     ]
+#   })
+# }
 
 # Get default VPC subnets
 data "aws_vpc" "default" {
@@ -255,9 +253,9 @@ resource "aws_cloudfront_distribution" "main" {
 
 resource "aws_cloudfront_origin_access_control" "s3_oac" {
     name                              = "s3-oac"
-    origin_access_control_origin_type = "s3"
     signing_behavior                  = "always"
     signing_protocol                  = "sigv4"
+    origin_access_control_origin_type = "s3"
 }
 
 ######################################################################## RDS
@@ -275,13 +273,14 @@ resource "aws_security_group" "rds_sg" {
     protocol    = "tcp"
     security_groups = [aws_security_group.lambda_sg.id]
   }
-#   TODO REMOVE IN PRODUCTION
+  # TODO REMOVE IN PRODUCTION
   ingress {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  # END REMOVE
   egress {
     from_port   = 0
     to_port     = 0
@@ -326,37 +325,37 @@ resource "aws_db_instance" "mlpos_db" {
 #################################################################### COGNITO
 
 # The user pool - where users live
-resource "aws_cognito_user_pool" "user_pool" {
-  name = "mlpos-user-pool"
-  # Users sign in with email
-  username_attributes = ["email"]
-  # Auto-verify emails
-  auto_verified_attributes = ["email"]
+# resource "aws_cognito_user_pool" "user_pool" {
+#   name = "mlpos-user-pool"
+#   # Users sign in with email
+#   username_attributes = ["email"]
+#   # Auto-verify emails
+#   auto_verified_attributes = ["email"]
 
-  # Basic password rules
-  password_policy {
-    minimum_length    = 8
-    require_lowercase = true
-    require_numbers   = true
-    require_uppercase = true
-  }
-}
-# The app client - your frontend uses this to talk to Cognito
-resource "aws_cognito_user_pool_client" "app_client" {
-  name         = "mlpos-app-client"
-  user_pool_id = aws_cognito_user_pool.user_pool.id
-  # How long tokens last
-  access_token_validity  = 1  # 1 hour
-  id_token_validity      = 1  # 1 hour  
-  refresh_token_validity = 30 # 30 days
-  # Allow password login
-  explicit_auth_flows = [
-    "ALLOW_USER_PASSWORD_AUTH",
-    "ALLOW_REFRESH_TOKEN_AUTH"
-  ]
-  # No secret needed for frontend apps
-  generate_secret = false
-}
+#   # Basic password rules
+#   password_policy {
+#     minimum_length    = 8
+#     require_lowercase = true
+#     require_numbers   = true
+#     require_uppercase = true
+#   }
+# }
+# # The app client - your frontend uses this to talk to Cognito
+# resource "aws_cognito_user_pool_client" "app_client" {
+#   name         = "mlpos-app-client"
+#   user_pool_id = aws_cognito_user_pool.user_pool.id
+#   # How long tokens last
+#   access_token_validity  = 1  # 1 hour
+#   id_token_validity      = 1  # 1 hour  
+#   refresh_token_validity = 30 # 30 days
+#   # Allow password login
+#   explicit_auth_flows = [
+#     "ALLOW_USER_PASSWORD_AUTH",
+#     "ALLOW_REFRESH_TOKEN_AUTH"
+#   ]
+#   # No secret needed for frontend apps
+#   generate_secret = false
+# }
 
 ##################################################################### OUTPUT
 ##################################################################### OUTPUT
@@ -379,10 +378,10 @@ output "cloudfront_distribution_id" {
     value = aws_cloudfront_distribution.main.id
 }
 
-output "cognito_user_pool_id" {
-  value = aws_cognito_user_pool.user_pool.id
-}
+# output "cognito_user_pool_id" {
+#   value = aws_cognito_user_pool.user_pool.id
+# }
 
-output "cognito_app_client_id" {
-  value = aws_cognito_user_pool_client.app_client.id
-}
+# output "cognito_app_client_id" {
+#   value = aws_cognito_user_pool_client.app_client.id
+# }
