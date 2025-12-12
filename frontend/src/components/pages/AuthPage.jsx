@@ -34,6 +34,7 @@ export const Loggin = () => {
     return (
         <div>
             {/* <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm"> */}
+            {/* use loggin as default, wait on response, then ask for signup if no user found */}
                 <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Welcome Back</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                         <Input

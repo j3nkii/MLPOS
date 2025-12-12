@@ -10,10 +10,10 @@ export const Layout = () => {
     else return (
         <div className='min-h-screen'>
             <Navbar />
-            <ModalManager />
             <div className='flex justify-center'>
                 <Outlet />
             </div>
+            <ModalManager />
         </div>
         
     );
