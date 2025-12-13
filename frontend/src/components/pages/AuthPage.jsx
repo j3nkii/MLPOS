@@ -6,8 +6,8 @@ import { Navigate } from 'react-router-dom';
 
 
 export const AuthPage = () => {
-    const [tab, setTab] = useState(0);
-    const tabs = [ <Loggin /> ];
+    const [tab, setTab] = useState(1);
+    const tabs = [ <Loggin />, <ConfirmEmail /> ];
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#5d5d5d]">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
@@ -19,9 +19,37 @@ export const AuthPage = () => {
 
 
 
+const ConfirmEmail = () => {
+    const { confirmationCode, setConfirmationCode, postConfirmation } = useAuth();
+    const handleForm = (evt) => {
+        const { target: { value }} = evt;
+        setConfirmationCode(value);
+    }
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+        postConfirmation();
+    }
+    return (
+        <div>
+            <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Check email for confirmation code.</h1>
+            <form onSubmit={handleSubmit} className="space-y-4 pb-8">
+                <Input
+                    label="Code"
+                    name="code"
+                    value={confirmationCode}
+                    onChange={handleForm}
+                />
+                <Button children='Submit' />
+            </form>
+        </div>
+    )
+}
+
+
+
 export const Loggin = () => {
     const { fetchUser, user, setLoginForm, loginForm, createUser } = useAuth();
-    const handlForm = (evt) => {
+    const handleForm = (evt) => {
         const { target: { name, value }} = evt;
         setLoginForm({ name, value });
     }
@@ -33,27 +61,29 @@ export const Loggin = () => {
         return <Navigate to="/customers" replace />
     return (
         <div>
-            {/* <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm"> */}
-            {/* use loggin as default, wait on response, then ask for signup if no user found */}
-                <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Welcome Back</h1>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                        <Input
-                            label="Email"
-                            name="email"
-                            placeholder="Enter your email"
-                            value={loginForm.email}
-                            onChange={handlForm}
-                        />
-                        <Input
-                            label="Password"
-                            name="password"
-                            placeholder="Enter your password"
-                        />
-                    <Button children='Login' />
-                    <Button type='button' onClick={createUser} children='Sign Up' />
-                </form>
-                {/* <Button children='Forgot Password' onClick={} /> */}
-            {/* </div> */}
+            <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Welcome Back</h1>
+            <form onSubmit={handleSubmit} className="space-y-4">
+                    <Input
+                        label="Email"
+                        name="email"
+                        placeholder="Enter your email"
+                        value={loginForm.email}
+                        onChange={handleForm}
+                    />
+                    <Input
+                        label="Password"
+                        name="password"
+                        placeholder="Enter your password"
+                        value={loginForm.password}
+                        onChange={handleForm}
+                    />
+                <Button children='Login' />
+                <Button type='button' onClick={createUser} children='Sign Up' />
+            </form>
+            {/* <div>
+                <a>Sign up</a>
+                <a>Forgot Email</a>
+            </div> */}
         </div>
     );
 };
