@@ -30,7 +30,7 @@ async function signUp(email, password) {
   const command = new SignUpCommand({
     ClientId: CLIENT_ID,
     Username: email,
-    Password: 'Buttkiss420.',
+    Password: password,
     UserAttributes: [
       { Name: 'email', Value: email }
     ]
