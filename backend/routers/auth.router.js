@@ -8,6 +8,11 @@ const router = express.Router();
 router.post('/signup', async (req, res) => {
   try {
     const result = await cognito.signUp(req.body.email, req.body.password);
+    const dbRes = await db.query(`
+        INSERT INTO users (username, email)
+        VALUES ($1, $1)
+      `, [req.body.email])
+    const user = await db.query('SELECT * FROM users WHERE cognito_id = $1', [decoded.sub]);
     console.log(result)
     res.json(result);
   } catch (err) {
@@ -34,16 +39,19 @@ router.post('/confirm', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const tokens = await cognito.signIn(req.body.email, req.body.password);
-    // Decode to get user ID
     const decoded = cognito.decodeToken(tokens.accessToken);
-    // Hydrate from RDS
     const user = await db.query('SELECT * FROM users WHERE cognito_id = $1', [decoded.sub]);
     res.json({
       tokens,
       user: user.rows[0]
     });
   } catch (err) {
-    res.status(401).json({ error: err.message });
+    console.error(err);
+    if(err.customErr){
+      res.status(403).json(err);
+    } else {
+      res.status(500).json({ error: err.message });
+    }
   }
 });
 

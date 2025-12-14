@@ -7,8 +7,10 @@ const {
   InitiateAuthCommand,
   ForgotPasswordCommand,
   ConfirmForgotPasswordCommand,
-  GetUserCommand
+  GetUserCommand,
+  ResendConfirmationCodeCommand
 } = require('@aws-sdk/client-cognito-identity-provider');
+const { MPLOSerr } = require('./errHandle');
 
 
 
@@ -27,7 +29,8 @@ const CLIENT_ID = process.env.COGNITO_CLIENT_ID;
 // SIGN UP
 // ============================================
 async function signUp(email, password) {
-  const command = new SignUpCommand({
+  const command = new 
+  ({
     ClientId: CLIENT_ID,
     Username: email,
     Password: password,
@@ -57,27 +60,88 @@ async function confirmSignUp(email, code) {
   return { confirmed: true };
 }
 
+// ============================================
+// RESEND CONFIRMATION CODE
+// ============================================
+async function resendConfirmationCode(email) {
+  try {
+    const command = new ResendConfirmationCodeCommand({
+      ClientId: CLIENT_ID,
+      Username: email
+    });
+    const result = await cognito.send(command);
+    return {
+      success: true,
+      message: 'Confirmation code sent successfully',
+      destination: result.CodeDeliveryDetails.Destination,
+      deliveryMedium: result.CodeDeliveryDetails.DeliveryMedium
+    };
+  } catch (error) {
+    if (error.name === 'LimitExceededException') {
+      return {
+        success: false,
+        message: 'Too many requests. Please wait before trying again.'
+      };
+    } else if (error.name === 'InvalidParameterException') {
+      return {
+        success: false,
+        message: 'User is already confirmed'
+      };
+    } else if (error.name === 'UserNotFoundException') {
+      return {
+        success: false,
+        message: 'User not found'
+      };
+    }
+    throw error;
+  }
+}
+
 
 
 // ============================================
 // SIGN IN
 // ============================================
 async function signIn(email, password) {
-  const command = new InitiateAuthCommand({
-    AuthFlow: 'USER_PASSWORD_AUTH',
-    ClientId: CLIENT_ID,
-    AuthParameters: {
-      USERNAME: email,
-      PASSWORD: password
-    }
-  });
-  const result = await cognito.send(command);
-  return {
-    accessToken: result.AuthenticationResult.AccessToken,
-    idToken: result.AuthenticationResult.IdToken,
-    refreshToken: result.AuthenticationResult.RefreshToken,
-    expiresIn: result.AuthenticationResult.ExpiresIn
-  };
+  try {
+    const command = new InitiateAuthCommand({
+      AuthFlow: 'USER_PASSWORD_AUTH',
+      ClientId: CLIENT_ID,
+      AuthParameters: {
+        USERNAME: email,
+        PASSWORD: password
+      }
+    });
+    const result = await cognito.send(command);
+    return {
+      accessToken: result.AuthenticationResult.AccessToken,
+      idToken: result.AuthenticationResult.IdToken,
+      refreshToken: result.AuthenticationResult.RefreshToken,
+      expiresIn: result.AuthenticationResult.ExpiresIn
+    };
+  } catch (error) {
+    if (error.name === 'UserNotConfirmedException') {
+      resendConfirmationCode(email);
+      console.log('\n\n RESENDING BBY')
+      const metadata = {
+        success: false,
+        needsConfirmation: true,
+        email: email,
+      }
+      throw new MPLOSerr('Please confirm your account', metadata);
+    } else if (error.name === 'NotAuthorizedException') {
+      return {
+        success: false,
+        message: 'Incorrect username or password'
+      };
+    } else if (error.name === 'UserNotFoundException') {
+      return {
+        success: false,
+        message: 'User not found'
+      };
+    } else throw error;
+  }
+
 }
 
 

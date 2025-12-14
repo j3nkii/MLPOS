@@ -38,7 +38,7 @@ export const createAuthSlice = (set, get) => {
             const { loginForm } = get().auth;
             setSlice({ isLoading: true, error: null });
             try {
-                const res = await axios.post('/api/user/login', loginForm);
+                const res = await axios.post('/api/auth/login', loginForm);
                 setSlice({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN });
                 initApplication();
             } catch (err) {
