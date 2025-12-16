@@ -29,7 +29,7 @@ const CLIENT_ID = process.env.COGNITO_CLIENT_ID;
 // SIGN UP
 // ============================================
 async function signUp(email, password) {
-  const command = new 
+  const command = new SignUpCommand
   ({
     ClientId: CLIENT_ID,
     Username: email,
@@ -56,8 +56,9 @@ async function confirmSignUp(email, code) {
     Username: email,
     ConfirmationCode: code
   });
-  await cognito.send(command);
-  return { confirmed: true };
+  const cogres = await cognito.send(command);
+  console.log(cogres);
+  return cogres;
 }
 
 // ============================================
