@@ -8,12 +8,10 @@ const router = express.Router();
 router.post('/signup', async (req, res) => {
   try {
     const result = await cognito.signUp(req.body.email, req.body.password);
-    const dbRes = await db.query(`
+    await db.query(`
         INSERT INTO users (username, email)
         VALUES ($1, $1)
-      `, [req.body.email])
-    const user = await db.query('SELECT * FROM users WHERE cognito_id = $1', [decoded.sub]);
-    console.log(result)
+      `, [req.body.email]);
     res.json(result);
   } catch (err) {
     console.error(err)

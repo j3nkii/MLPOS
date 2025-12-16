@@ -8,7 +8,7 @@ const {
   ForgotPasswordCommand,
   ConfirmForgotPasswordCommand,
   GetUserCommand,
-  ResendConfirmationCodeCommand
+  ResendConfirmationCodeCommand,
 } = require('@aws-sdk/client-cognito-identity-provider');
 const { MPLOSerr } = require('./errHandle');
 
@@ -122,7 +122,6 @@ async function signIn(email, password) {
   } catch (error) {
     if (error.name === 'UserNotConfirmedException') {
       resendConfirmationCode(email);
-      console.log('\n\n RESENDING BBY')
       const metadata = {
         success: false,
         needsConfirmation: true,
