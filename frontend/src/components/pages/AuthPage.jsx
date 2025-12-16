@@ -6,12 +6,14 @@ import { Navigate } from 'react-router-dom';
 
 
 export const AuthPage = () => {
+    const { pageView } = useAuth();
     const [tab, setTab] = useState(0);
     const tabs = [ <Loggin const={setTab} />, <ConfirmEmail /> ];
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#5d5d5d]">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-                { tabs[tab] }
+                { pageView === 'login' && <Loggin const={setTab} /> }
+                { pageView === 'confirm' && <ConfirmEmail /> }
             </div>
         </div>
     );

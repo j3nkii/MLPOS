@@ -5,6 +5,16 @@ const INITIAL_LOGIN = {
     email: '',
     password: '',
 }
+const INITIAL_CONFIRMATION = {
+    email: '',
+    code: '',
+}
+const PAGE_VIEWS = {
+    login: 'login',
+    confirmation: 'confirm',
+    signup: 'signup',
+    forgot: 'forgot',
+}
 
 
 export const createAuthSlice = (set, get) => {
@@ -12,20 +22,25 @@ export const createAuthSlice = (set, get) => {
         auth: { ...state.auth, ...partial }
     }));
     return {
+        pageView: PAGE_VIEWS.login,
         user: null,
-        confirmationCode: '',
+        confirmationCodeForm: INITIAL_CONFIRMATION,
         loginForm: INITIAL_LOGIN,
 
+        setPageView: (payload) => {
+            setSlice({ pageView: payload });
+        },
+
         setConfirmationCode: (payload) => {
-            setSlice({ confirmationCode: payload });
+            setSlice({ confirmationCodeForm: { confirmationCode: payload }});
         },
 
         postConfirmation: async () => {
             try {
-                const { confirmationCode } = get().auth;
+                const { confirmationCodeForm } = get().auth;
                 setSlice({ isLoading: true, error: null });
-                const res = await axios.post('/api/user/confirm', confirmationCode);
-                setSlice({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN, confirmationCode: '' });
+                const res = await axios.post('/api/user/confirm', confirmationCodeForm);
+                setSlice({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN, confirmationCodeForm: INITIAL_CONFIRMATION });
                 initApplication();
             } catch (err) {
                 console.error(err);
@@ -39,10 +54,17 @@ export const createAuthSlice = (set, get) => {
             setSlice({ isLoading: true, error: null });
             try {
                 const res = await axios.post('/api/auth/login', loginForm);
+                console.log('#### RES');
+                console.log(res)
                 setSlice({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN });
                 initApplication();
             } catch (err) {
-                console.error(err);
+                console.error(err.response.data);
+                if(err.response.data.customErr){
+                    if(err.response.data.metadata.needsConfirmation){
+                        setSlice({ pageView: PAGE_VIEWS.confirmation, confirmationCodeForm: { code: '', email: err.response.data.metadata.email }});
+                    }
+                };
                 setSlice({ error: err.message, isLoading: false });
             }
         },
