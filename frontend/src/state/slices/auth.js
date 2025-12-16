@@ -2,8 +2,8 @@ import axios from 'axios'
 
 
 const INITIAL_LOGIN = {
-    email: '',
-    password: '',
+    email: 'jacob.larson55112@gmail.com',
+    password: 'Password123!',
 }
 const INITIAL_CONFIRMATION = {
     email: '',
@@ -57,7 +57,10 @@ export const createAuthSlice = (set, get) => {
                 const res = await axios.post('/api/auth/login', loginForm);
                 console.log('#### RES');
                 console.log(res)
-                setSlice({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN });
+                sessionStorage.setItem('accessToken', res.data.tokens.accessToken);
+                sessionStorage.setItem('refreshToken', res.data.tokens.refreshToken);
+                sessionStorage.setItem('idToken', res.data.tokens.idToken);
+                setSlice({ user: res.data.user, isLoading: false, loginForm: INITIAL_LOGIN });
                 initApplication();
             } catch (err) {
                 console.error(err.response.data);
@@ -84,7 +87,7 @@ export const createAuthSlice = (set, get) => {
             setSlice({ isLoading: true, error: null });
             try {
                 const res = await axios.post('/api/auth/signup', { email, password });
-                setSlice({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN });
+                setSlice({ pageView: PAGE_VIEWS.confirmation, isLoading: false, loginForm: INITIAL_LOGIN, confirmationCodeForm: { email, code: '' }});
             } catch (err) {
                 console.error(err);
                 setSlice({ error: err.message, isLoading: false });
@@ -92,11 +95,7 @@ export const createAuthSlice = (set, get) => {
         },
 
         isAuthenticated: () => {
-            const token = sessionStorage.getItem('accessToken');
-            if (!token)
-                return false;
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            return payload.exp * 1000 > Date.now();
+            return !!sessionStorage.getItem('accessToken');
         }
     }
 };

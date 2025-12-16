@@ -40,8 +40,8 @@ router.post('/confirm', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const tokens = await cognito.signIn(req.body.email, req.body.password);
-    const decoded = cognito.decodeToken(tokens.accessToken);
-    const user = await pool.query('SELECT * FROM users WHERE email = $1', [decoded.sub]);
+    const decoded = cognito.decodeToken(tokens.idToken);
+    const user = await pool.query('SELECT * FROM users WHERE email = $1', [decoded.email]);
     res.json({
       tokens,
       user: user.rows[0]
