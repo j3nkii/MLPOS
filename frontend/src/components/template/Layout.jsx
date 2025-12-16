@@ -5,6 +5,7 @@ import { ModalManager, Navbar } from '@components'
 
 export const Layout = () => {
     const { user } = useAuth();
+    console.log(user)
     if (!user)
         return <Navigate to="/login" replace />
     else return (

@@ -49,6 +49,11 @@ export const createAuthSlice = (set, get) => {
             }
         },
 
+        setUser: (user) => {
+            console.log('setting user', user)
+            setSlice({ user });
+        },
+
         fetchUser: async () => {
             const { initApplication } = get().general;
             const { loginForm } = get().auth;

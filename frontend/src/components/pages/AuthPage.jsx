@@ -1,14 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Input } from '@components';
-import { useAuth } from '@useStateManager'
+import { useAuth } from '@useStateManager';
+import { useNavigate } from "react-router";
 import { Navigate } from 'react-router-dom';
+import axios from 'axios'
 
 
 
 export const AuthPage = () => {
-    const { pageView } = useAuth();
+    const navigate = useNavigate();
+    const { setUser, pageView } = useAuth();
     const [tab, setTab] = useState(0);
     const tabs = [ <Loggin const={setTab} />, <ConfirmEmail /> ];
+
+  useEffect(() => {
+    isAuthenticated();
+  }, []);
+  
+  const isAuthenticated = async () => {
+    if(sessionStorage.getItem('accessToken')){
+      try {
+        const user = await axios.post('/api/auth/get-user', { accessToken: sessionStorage.getItem('accessToken') });
+        console.log('hey user whatre we doing', user)
+        setUser(user);
+        navigate('/customers')
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#5d5d5d]">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
