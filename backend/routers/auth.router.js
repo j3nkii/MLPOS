@@ -58,6 +58,18 @@ router.post('/login', async (req, res) => {
 
 
 
+router.post('/get-user', async (req, res) => {
+  console.log('getting user')
+  try {
+    const cogres = await cognito.getUser(req.body.accessToken);
+    const user = await pool.query('SELECT * FROM users WHERE email = $1', [cogres.attributes.email]);
+    res.status(200).json({ user: user.rows[0] });
+  } catch (err) {
+      res.status(401).json({ error: 'Invalid token' });
+    }
+});
+
+
 // Forgot password route
 router.post('/forgot', async (req, res) => {
   try {
