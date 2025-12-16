@@ -22,7 +22,7 @@ export const AuthPage = () => {
 
 
 const ConfirmEmail = () => {
-    const { confirmationCode, setConfirmationCode, postConfirmation } = useAuth();
+    const { confirmationCodeForm: { code }, setConfirmationCode, postConfirmation } = useAuth();
     const handleForm = (evt) => {
         const { target: { value }} = evt;
         setConfirmationCode(value);
@@ -38,7 +38,7 @@ const ConfirmEmail = () => {
                 <Input
                     label="Code"
                     name="code"
-                    value={confirmationCode}
+                    value={code}
                     onChange={handleForm}
                 />
                 <Button children='Submit' />

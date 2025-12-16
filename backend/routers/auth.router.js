@@ -1,5 +1,6 @@
 const express = require('express');
 const cognito = require('../modules/cognito');
+const pool = require('../modules/pool');
 const router = express.Router();
 
 
@@ -7,11 +8,12 @@ const router = express.Router();
 // Sign up route
 router.post('/signup', async (req, res) => {
   try {
-    const result = await cognito.signUp(req.body.email, req.body.password);
-    await db.query(`
+    await pool.query(`
         INSERT INTO users (username, email)
         VALUES ($1, $1)
       `, [req.body.email]);
+    const result = await cognito.signUp(req.body.email, req.body.password);
+    console.log(result)
     res.json(result);
   } catch (err) {
     console.error(err)
@@ -24,7 +26,8 @@ router.post('/signup', async (req, res) => {
 // Confirm signup route
 router.post('/confirm', async (req, res) => {
   try {
-    await cognito.confirmSignUp(req.body.email, req.body.code);
+    const cogRes = await cognito.confirmSignUp(req.body.email, req.body.code);
+    console.log(cogRes)
     res.json({ message: 'Email confirmed' });
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -38,7 +41,7 @@ router.post('/login', async (req, res) => {
   try {
     const tokens = await cognito.signIn(req.body.email, req.body.password);
     const decoded = cognito.decodeToken(tokens.accessToken);
-    const user = await db.query('SELECT * FROM users WHERE cognito_id = $1', [decoded.sub]);
+    const user = await pool.query('SELECT * FROM users WHERE email = $1', [decoded.sub]);
     res.json({
       tokens,
       user: user.rows[0]

@@ -32,14 +32,15 @@ export const createAuthSlice = (set, get) => {
         },
 
         setConfirmationCode: (payload) => {
-            setSlice({ confirmationCodeForm: { confirmationCode: payload }});
+            const { confirmationCodeForm } = get().auth;
+            setSlice({ confirmationCodeForm: { ...confirmationCodeForm, code: payload }});
         },
 
         postConfirmation: async () => {
             try {
                 const { confirmationCodeForm } = get().auth;
                 setSlice({ isLoading: true, error: null });
-                const res = await axios.post('/api/user/confirm', confirmationCodeForm);
+                const res = await axios.post('/api/auth/confirm', confirmationCodeForm);
                 setSlice({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN, confirmationCodeForm: INITIAL_CONFIRMATION });
                 initApplication();
             } catch (err) {
