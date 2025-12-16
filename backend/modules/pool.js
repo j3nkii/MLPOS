@@ -18,8 +18,6 @@ const configDev = {
     idleTimeoutMillis: 30000,
 };
 const config = process.env.NODE_ENV === "production" ? configProd : configDev;
-console.log(process.env.NODE_ENV);
-console.log(config);
 const pool = new pg.Pool(config);
 pool.on('error', (err) => {
     console.error('Unexpected error on idle client', err);
