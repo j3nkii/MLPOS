@@ -21,7 +21,6 @@ export const AuthPage = () => {
     if(sessionStorage.getItem('accessToken')){
       try {
         const user = await axios.post('/api/auth/get-user', { accessToken: sessionStorage.getItem('accessToken') });
-        console.log('hey user whatre we doing', user)
         setUser(user);
         navigate('/customers')
       } catch (error) {
