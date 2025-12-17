@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import axios from 'axios'
+import 'react'
 import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom'
 import { routerConfig } from './config/routerConfig';
 import './config/axiosConfig';

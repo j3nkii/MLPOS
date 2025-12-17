@@ -50,7 +50,6 @@ export const createAuthSlice = (set, get) => {
         },
 
         setUser: (user) => {
-            console.log('setting user', user)
             setSlice({ user });
         },
 
@@ -60,8 +59,6 @@ export const createAuthSlice = (set, get) => {
             setSlice({ isLoading: true, error: null });
             try {
                 const res = await axios.post('/api/auth/login', loginForm);
-                console.log('#### RES');
-                console.log(res)
                 sessionStorage.setItem('accessToken', res.data.tokens.accessToken);
                 sessionStorage.setItem('refreshToken', res.data.tokens.refreshToken);
                 sessionStorage.setItem('idToken', res.data.tokens.idToken);
@@ -85,7 +82,10 @@ export const createAuthSlice = (set, get) => {
 
         clearLoginForm: () => setSlice({ loginForm: INITIAL_LOGIN }),
 
-        logout: () => setSlice({ user: null }),
+        logout: async () => {
+            sessionStorage.clear();
+            setSlice({ user: null });
+        },
 
         createUser: async () => {
             const { loginForm: { email, password }} = get().auth;
