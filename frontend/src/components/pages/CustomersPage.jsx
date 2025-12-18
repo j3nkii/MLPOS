@@ -36,7 +36,7 @@ export const CustomersPage = () => {
     }, []);
     return (
         <div className='max-w-170 bg-white'>
-            <h1 className='p-10 pt-20 text-4xl font-extrabold'>Customers:</h1>
+            <h1 className='p-10 pt-10 text-4xl font-extrabold'>Customers:</h1>
             <Table {...{ displayColumns, columnKeys, modalKeys, data: allCustomers }} />
         </div>
     );
