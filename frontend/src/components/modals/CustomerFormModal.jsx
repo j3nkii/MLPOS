@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useCustomer, useModal } from '@useState';
 import { Button, Input } from '@components';
 
-import { useCustomerActions } from '../../actions/useCustomerActions';
+import { useCustomerActions } from '@actions';
 
 const INITIAL_FORM = {
     name: '',

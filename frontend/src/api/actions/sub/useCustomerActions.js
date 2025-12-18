@@ -2,7 +2,7 @@ import 'react';
 import { useCustomer, useModal } from '@useState';
 
 
-import customerService from '../services/customer';
+import { customerService } from '@services';
 
 
 export const useCustomerActions = () => {
