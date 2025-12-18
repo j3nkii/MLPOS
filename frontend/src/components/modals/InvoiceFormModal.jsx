@@ -13,16 +13,20 @@ const INITIAL = {
 
 
 export const InvoiceFormModal = ({ update }) => {
-    // const { invoiceForm } = useInvoice();
-    const { prepopulateInvoiceForm } = useInvoice();
-    const { allCustomers } = useCustomer();
-    const { closeModal } = useModal();
-    const { createInvoice, updateInvoice } = useInvoiceActions();
     const [invoiceForm, setInvoiceForm] = useState(INITIAL);
+    const { createInvoice, updateInvoice } = useInvoiceActions();
+    const { allCustomers } = useCustomer();
+    const { closeModal, item } = useModal();
 
     useEffect(() => {
-        if(update)
-            prepopulateInvoiceForm();
+        if(update){
+            console.log(item)
+            setInvoiceForm({
+                amount: item.amount,
+                customerID: item.customer_id,
+                status: item.status,
+            })
+        }
     }, [])
 
     const handleConfirm = async () => {

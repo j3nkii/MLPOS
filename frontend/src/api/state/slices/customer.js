@@ -124,10 +124,10 @@ export const createCustomerSlice = (set, get) => {
             setSlice({ customerForm: { ...customerForm, [name]: value }});
         },
 
-        prepopulateCustomerForm: () => {
-            const { item } = get().modal;
-            setSlice({ customerForm: item });
-        },
+        // prepopulateCustomerForm: () => {
+        //     const { item } = get().modal;
+        //     setSlice({ customerForm: item });
+        // },
 
         resetCustomerForm: () => {
             setSlice({ customerForm: { ...initialCustomerForm } });

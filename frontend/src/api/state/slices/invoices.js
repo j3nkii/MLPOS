@@ -118,11 +118,11 @@ export const createInvoicesSlice = (set, get) => {
             setSlice({ invoiceForm: { ...invoiceForm, [name]: value }});
         },
 
-        prepopulateInvoiceForm: () => {
-            const { item } = get().modal;
-            item.customerID = item.customer_id;
-            setSlice({ invoiceForm: item });
-        },
+        // prepopulateInvoiceForm: () => {
+        //     const { item } = get().modal;
+        //     item.customerID = item.customer_id;
+        //     setSlice({ invoiceForm: item });
+        // },
 
         resetInvoiceForm: () => {
             setSlice({ invoiceForm: { ...initialInvoiceForm } });

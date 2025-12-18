@@ -14,13 +14,17 @@ const INITIAL_FORM = {
 
 export const CustomerFormModal = ({ update }) => {
     const [customerForm, setCustomerForm] = useState(INITIAL_FORM);
-    // const { customerForm } = useCustomer();
-    const { createCustomer, prepopulateCustomerForm, updateCustomer } = useCustomerActions();
-    const { closeModal } = useModal();
+    const { createCustomer, updateCustomer } = useCustomerActions();
+    const { closeModal, item } = useModal();
 
     useEffect(() => {
-        if(update)
-            prepopulateCustomerForm();
+        if(update){
+            setCustomerForm({
+                name: item.name,
+                phone: item.phone,
+                email: item.email,
+            })
+        }
     }, [])
 
     const handleConfirm = async () => {

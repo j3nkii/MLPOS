@@ -34,7 +34,6 @@ const protoProps = [
 
 
 export const Form = ({ onSubmit, fields = [], isUpdate = false, form = {}, setForm = () => console.warn('NO FORM FUNCTION') }) => {
-    // const [form, setForm] = useState({});
 
     useEffect(() => {
         const toArr = fields.map(x => [
