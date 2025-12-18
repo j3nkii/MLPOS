@@ -115,6 +115,8 @@ export const createCustomerSlice = (set, get) => {
             }
         },
 
+        setAllCustomers: (allCustomers) => setSlice({ allCustomers }),
+
         setSelectedCustomer: (selectedCustomer) => setSlice({ selectedCustomer }),
 
         setCustomerForm: ({ name, value }) => {
@@ -132,5 +134,7 @@ export const createCustomerSlice = (set, get) => {
         },
 
         clearSelectedCustomer: () => setSlice({ selectedCustomer: null }),
+
+        setLoading: (loading) => setSlice({ loading })
     }
 };
