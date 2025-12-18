@@ -32,7 +32,7 @@ app.use('/api/auth', AUTH_ROUTER);
 const USER_ROUTER = require('./routers/user.router');
 app.use('/api/user', authMiddleware, USER_ROUTER);
 const CUSTOMERS_ROUTER = require('./routers/customers.router');
-app.use('/api/customers', authMiddleware, CUSTOMERS_ROUTER);
+app.use('/api/customer', authMiddleware, CUSTOMERS_ROUTER);
 const INVOICE_ROUTER = require('./routers/invoice.router');
 app.use('/api/invoice', authMiddleware, INVOICE_ROUTER);
 
