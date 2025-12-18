@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const userID = req.query.userID;
+        const userID = req.user.attributes.mlpos_id;
         const { rows } = await pool.query(`
             SELECT
                 customers.*,
@@ -48,7 +48,8 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async(req, res) => {
     try {
-        const { name, email, phone, userID } = req.body;
+        const userID = req.user.attributes.mlpos_id;
+        const { name, email, phone } = req.body;
         if(!name || !email || !phone) throw new Error('Missing Fields')
         await pool.query(`
             INSERT INTO customers (name, email, phone, user_id)
