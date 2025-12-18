@@ -111,6 +111,7 @@ export const createInvoicesSlice = (set, get) => {
         // },
 
         setSelectedInvoice: (selectedInvoice) => setSlice({ selectedInvoice }),
+        setAllInvoices: (allInvoices) => setSlice({ allInvoices }),
 
         setInvoiceForm: ({ name, value }) => {
             const { invoiceForm } = get().invoice;

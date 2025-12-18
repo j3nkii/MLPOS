@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const userID = req.query.userID;
+        const userID = req.user.attributes.mlpos_id;
         const { rows } = await pool.query(`
             SELECT
                 invoices.*,
@@ -48,9 +48,9 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async(req, res) => {
     try {
-        console.log(req.body);
-        const { amount, customerID, userID } = req.body;
-        if (!amount || !customerID || !userID) throw new Error('Missing Fields')
+        const userID = req.user.attributes.mlpos_id;
+        const { amount, customerID } = req.body;
+        if (!amount || !customerID) throw new Error('Missing Fields')
         await pool.query(`
             INSERT INTO invoices (amount, customer_id, user_id)
             VALUES ($1, $2, $3);

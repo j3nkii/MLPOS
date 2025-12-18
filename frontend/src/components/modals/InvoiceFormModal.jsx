@@ -1,13 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Button, Input } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModal, useInvoice, useCustomer } from '@useState';
-import { Button, Input } from '@components';
+import { useInvoiceActions } from '@actions';
+
+
+const INITIAL = {
+    amount: '',
+    customerID: '',
+    status: '',
+};
+
 
 export const InvoiceFormModal = ({ update }) => {
-    const { invoiceForm } = useInvoice();
+    // const { invoiceForm } = useInvoice();
+    const { prepopulateInvoiceForm } = useInvoice();
     const { allCustomers } = useCustomer();
-    const { setInvoiceForm, createInvoice, prepopulateInvoiceForm, updateInvoice } = useInvoice();
     const { closeModal } = useModal();
+    const { createInvoice, updateInvoice } = useInvoiceActions();
+    const [invoiceForm, setInvoiceForm] = useState(INITIAL);
 
     useEffect(() => {
         if(update)
@@ -15,12 +26,12 @@ export const InvoiceFormModal = ({ update }) => {
     }, [])
 
     const handleConfirm = async () => {
-        update ? updateInvoice(invoiceForm.id) : createInvoice();
+        update ? updateInvoice(invoiceForm.id, invoiceForm) : createInvoice(invoiceForm);
     };
 
     const handleChange = (evt) => {
         const { target: { name, value }} = evt;
-        setInvoiceForm({ name, value });
+        setInvoiceForm({ ...invoiceForm, [name]: value });
     }
 
     return (
