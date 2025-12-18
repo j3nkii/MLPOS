@@ -59,7 +59,6 @@ router.post('/login', async (req, res) => {
 
 
 router.post('/get-user', async (req, res) => {
-  console.log('getting user')
   try {
     const cogres = await cognito.getUser(req.body.accessToken);
     const user = await pool.query('SELECT * FROM users WHERE email = $1', [cogres.attributes.email]);
