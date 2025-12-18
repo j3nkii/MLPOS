@@ -15,7 +15,6 @@ export const useCustomerActions = () => {
     }
 
     const createCustomer = async (body) => {
-        console.log(body)
         try {
             setLoading(true);
             await customerService.createCustomer(body);
