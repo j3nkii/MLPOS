@@ -42,7 +42,7 @@ export const createAuthSlice = (set, get) => {
                 setSlice({ isLoading: true, error: null });
                 const res = await axios.post('/api/auth/confirm', confirmationCodeForm);
                 setSlice({ user: res.data, isLoading: false, loginForm: INITIAL_LOGIN, confirmationCodeForm: INITIAL_CONFIRMATION });
-                initApplication();
+                // initApplication();
             } catch (err) {
                 console.error(err);
                 setSlice({ error: err.message, isLoading: false });
@@ -54,7 +54,7 @@ export const createAuthSlice = (set, get) => {
         },
 
         fetchUser: async () => {
-            const { initApplication } = get().general;
+            // const { initApplication } = get().general;
             const { loginForm } = get().auth;
             setSlice({ isLoading: true, error: null });
             try {
@@ -63,7 +63,7 @@ export const createAuthSlice = (set, get) => {
                 sessionStorage.setItem('refreshToken', res.data.tokens.refreshToken);
                 sessionStorage.setItem('idToken', res.data.tokens.idToken);
                 setSlice({ user: res.data.user, isLoading: false, loginForm: INITIAL_LOGIN });
-                initApplication();
+                // initApplication();
             } catch (err) {
                 console.error(err.response.data);
                 if(err.response.data.customErr){

@@ -36,16 +36,16 @@ export const useState = create(
             modal: createModalSlice(set, get, api),
             customer: createCustomerSlice(set, get, api),
             invoice: createInvoicesSlice(set, get, api),
-            general: {
-                isLoading: false,
-                initApplication: () => {
-                    console.log('$init application$')
-                    const { readAllCustomers } = get().customer;
-                    const { readAllInvoices } = get().invoice;
-                    readAllCustomers();
-                    readAllInvoices();
-                }
-            },
+            // general: {
+            //     isLoading: false,
+            //     initApplication: () => {
+            //         console.log('$init application$')
+            //         const { readAllCustomers } = get().customer;
+            //         const { readAllInvoices } = get().invoice;
+            //         readAllCustomers();
+            //         readAllInvoices();
+            //     }
+            // },
         })),
         { name: 'app-store' }
     )
