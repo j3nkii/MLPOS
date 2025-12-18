@@ -7,7 +7,7 @@ import { invoiceService } from '@services';
 
 export const useInvoiceActions = () => {
     const { setSelectedInvoice, setAllInvoices, setLoading } = useInvoice();
-    const { closModal } = useModal();
+    const { closeModal } = useModal();
 
     const _refreshInvoices = async() => {
         const res = await invoiceService.readAllInvoices();
@@ -19,7 +19,7 @@ export const useInvoiceActions = () => {
             setLoading(true);
             await invoiceService.createInvoice(body);
             _refreshInvoices();
-            closModal();
+            closeModal();
         } catch (error) {
             console.error(error);
             // setError(error);
@@ -59,7 +59,7 @@ export const useInvoiceActions = () => {
             setLoading(true);
             await invoiceService.updateInvoice(invoiceID, body);
             _refreshInvoices();
-            closModal();
+            closeModal();
         } catch (error) {
             console.error(error);
             // setError(error);
@@ -73,7 +73,7 @@ export const useInvoiceActions = () => {
             setLoading(true);
             await invoiceService.deleteInvoice(invoiceID);
             _refreshInvoices();
-            closModal();
+            closeModal();
         } catch (error) {
             console.error(error);
             // setError(error);
