@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Table } from '@components';
 import { useCustomer } from '@useStateManager';
+import { useCustomerActions } from '../../actions/useCustomerActions';
 
 
 const headers = {
@@ -16,9 +17,13 @@ const modalKeys = {
 
 
 export const CustomersPage = () => {
+    const { readAllCustomers } = useCustomerActions();
     const { allCustomers } = useCustomer();
     const displayColumns = Object.values(headers);
     const columnKeys = Object.keys(headers);
+    useEffect(() => {
+        readAllCustomers();
+    }, [])
     return (
         <div className='max-w-170 bg-white'>
             <h1 className='p-10 pt-20 text-4xl font-extrabold'>Customers:</h1>

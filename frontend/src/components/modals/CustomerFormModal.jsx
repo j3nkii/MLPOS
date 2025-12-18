@@ -1,12 +1,21 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useCustomer, useModal } from '@useStateManager';
 import { Button, Input } from '@components';
 
+import { useCustomerActions } from '../../actions/useCustomerActions';
+
+const INITIAL_FORM = {
+    name: '',
+    phone: '',
+    email: '',
+};
+
 export const CustomerFormModal = ({ update }) => {
-    const { customerForm } = useCustomer();
-    const { setCustomerForm, createCustomer, prepopulateCustomerForm, updateCustomer } = useCustomer();
+    const [customerForm, setCustomerForm] = useState(INITIAL_FORM);
+    // const { customerForm } = useCustomer();
+    const { createCustomer, prepopulateCustomerForm, updateCustomer } = useCustomerActions();
     const { closeModal } = useModal();
 
     useEffect(() => {
@@ -15,12 +24,12 @@ export const CustomerFormModal = ({ update }) => {
     }, [])
 
     const handleConfirm = async () => {
-        update ? updateCustomer(customerForm.id) : createCustomer();
+        update ? updateCustomer(customerForm.id) : createCustomer(customerForm);
     };
 
     const handleChange = (evt) => {
         const { target: { name, value }} = evt;
-        setCustomerForm({ name, value });
+        setCustomerForm({ ...customerForm, [name]: value });
     }
 
     return (

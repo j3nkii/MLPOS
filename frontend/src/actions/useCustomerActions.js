@@ -1,12 +1,13 @@
 import 'react';
-import { useCustomer } from '@useStateManager';
+import { useCustomer, useModal } from '@useStateManager';
 
 
 import customerService from '../service/customer';
 
 
-export const useToggle = () => {
-    const { setSelectedCustomer, setAllCustomers, setloading } = useCustomer();
+export const useCustomerActions = () => {
+    const { setSelectedCustomer, setAllCustomers, setLoading } = useCustomer();
+    const { closModal } = useModal();
 
     const _refreshCustomers = async() => {
         const res = await customerService.readAllCustomers();
@@ -14,67 +15,71 @@ export const useToggle = () => {
     }
 
     const createCustomer = async (body) => {
+        console.log(body)
         try {
-            setloading(true);
+            setLoading(true);
             await customerService.createCustomer(body);
-            _refreshCustomers()
+            _refreshCustomers();
+            closModal();
         } catch (error) {
             console.error(error);
             // setError(error);
         } finally {
-            setloading(false);
+            setLoading(false);
         }
     }
 
     const readCustomer = async (customerID) => {
         try {
-            setloading(true);
+            setLoading(true);
             const res = await customerService.readCustomer(customerID);
             setSelectedCustomer(res.data);
         } catch (error) {
             console.error(error);
             // setError(error);
         } finally {
-            setloading(false);
+            setLoading(false);
         }
     }
 
     const readAllCustomers = async () => {
         try {
-            setloading(true);
+            setLoading(true);
             const res = await customerService.readAllCustomers();
             setAllCustomers(res.data);
         } catch (error) {
             console.error(error);
             // setError(error);
         } finally {
-            setloading(false);
+            setLoading(false);
         }
     }
 
     const updateCustomer = async (customerID, body) => {
         try {
-            setloading(true);
+            setLoading(true);
             await customerService.updateCustomer(customerID, body);
             _refreshCustomers();
+            closModal();
         } catch (error) {
             console.error(error);
             // setError(error);
         } finally {
-            setloading(false);
+            setLoading(false);
         }
     }
 
     const deleteCustomer = async (customerID) => {
         try {
-            setloading(true);
+            setLoading(true);
             await customerService.deleteCustomer(customerID);
             _refreshCustomers();
+            closModal();
         } catch (error) {
             console.error(error);
             // setError(error);
         } finally {
-            setloading(false);
+            setLoading(false);
         }
     }
 
