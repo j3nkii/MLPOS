@@ -9,7 +9,7 @@ export const Navbar = () => {
     const { logout } = useAuth();
     return (
         <div className="flex justify-center w-full px-25 py-5 bg-[#5d5d5d] text-white shadow">
-            <div className='max-w-[2400px] min-w-[1000px] flex flex-row items-center justify-between'>
+            <div className='max-w-[2400px] w-170 flex flex-row items-center justify-between'>
                 <span className="text-lg font-bold">MLPOS</span>
                 <div className='flex'>
                     <Link className='hover:cursor-pointer' to='/customers'>

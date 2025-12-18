@@ -92,7 +92,7 @@ const ActionsCell = ({ item, modalKeys }) => {
 
     return (
         <td>
-            <div className='flex items-center justify-end gap-3 pr-3.5'>
+            <div className='flex items-center justify-end pr-3.5'>
                 <Button 
                     onClick={onUpdate} 
                     text="Settings"
