@@ -115,6 +115,7 @@ async function signIn(email, password) {
     });
     const result = await cognito.send(command);
     return {
+      success: true,
       accessToken: result.AuthenticationResult.AccessToken,
       idToken: result.AuthenticationResult.IdToken,
       refreshToken: result.AuthenticationResult.RefreshToken,
