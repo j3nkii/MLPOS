@@ -3,56 +3,63 @@ import { Input } from '@components'
 
 
 
-const labelMap = {
-    name: '',
-    phone: '',
-    email: '',
-    amount: '',
-    customerID: '',
-    status: '',
-}
 const protoProps = [
     {
         label: 'Name',
         value: 'name',
-        type: 'text'
-    }
+    },
+    {
+        label: 'Phone',
+        value: 'phone',
+    },
+    {
+        label: 'Customer ID',
+        value: 'customerID',
+        type: 'select',
+        options: [
+            {
+                name: 'Jason',
+                value: '123'
+            },
+            {
+                name: 'Alison',
+                value: '113'
+            },
+        ]
+    },
 ]
 
 
-export const Form = ({ onChange, onSubmit, fields }) => {
+export const Form = ({ onSubmit, fields = protoProps }) => {
     const [form, setForm] = useState({});
+
+    useEffect(() => {
+        const toArr = fields.map(x => [x.value, '']);
+        const toObj = Object.fromEntries(toArr);
+        setForm(toObj)
+    }, []);
 
     const handleChange = (evt) => {
         const { target: { name, value }} = evt;
         setForm({ ...form, [name]: value });
     }
 
-    useEffect(() => {
-        console.log('#$$$$$$ UE')
-        const test = protoProps.map(x => [x.value, '']);
-        console.log(test)
-        const anotherTest = Object.fromEntries(test)
-        console.log(anotherTest)
-    }, []);
-
-
-
-
     return (
         <div>
             <form onSubmit={onSubmit}>
-                { protoProps.map((input) => {
-                    console.log('### input', input)
+                { protoProps.map((input, idx) => {
                     return (
-                    <Input
-                        onChange={handleChange}
-                        value={form[input.value]}
-                        label={input.label}
-                        name={input.value}
-                        type={input.type}
-                    />
-                )})}
+                        <Input
+                            key={idx}
+                            onChange={handleChange}
+                            value={form[input.value]}
+                            label={input.label}
+                            name={input.value}
+                            type={input.type || 'text'}
+                            options={input.options || []}
+                        />
+                    )
+                })}
             </form>
         </div>
     )
