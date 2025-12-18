@@ -7,14 +7,17 @@ const protoProps = [
     {
         label: 'Name',
         value: 'name',
+        prefill: 'Gata'
     },
     {
         label: 'Phone',
         value: 'phone',
+        prefill: '6125559090'
     },
     {
         label: 'Customer ID',
         value: 'customerID',
+        prefill: '123',
         type: 'select',
         options: [
             {
@@ -30,13 +33,16 @@ const protoProps = [
 ]
 
 
-export const Form = ({ onSubmit, fields = protoProps }) => {
-    const [form, setForm] = useState({});
+export const Form = ({ onSubmit, fields = [], isUpdate = false, form = {}, setForm = () => console.warn('NO FORM FUNCTION') }) => {
+    // const [form, setForm] = useState({});
 
     useEffect(() => {
-        const toArr = fields.map(x => [x.value, '']);
+        const toArr = fields.map(x => [
+            x.value,
+            isUpdate ? x.prefill : ''
+        ]);
         const toObj = Object.fromEntries(toArr);
-        setForm(toObj)
+        setForm(toObj);
     }, []);
 
     const handleChange = (evt) => {
@@ -44,10 +50,14 @@ export const Form = ({ onSubmit, fields = protoProps }) => {
         setForm({ ...form, [name]: value });
     }
 
+    const handleSubmit = () => {
+        onSubmit(form);
+    }
+
     return (
         <div>
-            <form onSubmit={onSubmit}>
-                { protoProps.map((input, idx) => {
+            <form onSubmit={handleSubmit}>
+                { fields.map((input, idx) => {
                     return (
                         <Input
                             key={idx}
