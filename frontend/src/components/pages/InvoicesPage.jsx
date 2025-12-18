@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from '@components';
-import { useInvoice } from '@useStateManager';
+import { useInvoice } from '@useState';
 
 
 const headers = [

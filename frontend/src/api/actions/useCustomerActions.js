@@ -1,8 +1,8 @@
 import 'react';
-import { useCustomer, useModal } from '@useStateManager';
+import { useCustomer, useModal } from '@useState';
 
 
-import customerService from '../service/customer';
+import customerService from '../services/customer';
 
 
 export const useCustomerActions = () => {

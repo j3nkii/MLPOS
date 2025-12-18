@@ -1,7 +1,7 @@
 
 import React from "react";
 import { CustomerDeleteModal, CustomerFormModal, InvoiceFormModal, InvoiceDeleteModal } from '@components';
-import { useModal } from '@useStateManager';
+import { useModal } from '@useState';
 
 
 export const ModalManager = () => {

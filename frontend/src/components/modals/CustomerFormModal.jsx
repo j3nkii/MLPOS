@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
-import { useCustomer, useModal } from '@useStateManager';
+import { useCustomer, useModal } from '@useState';
 import { Button, Input } from '@components';
 
 import { useCustomerActions } from '../../actions/useCustomerActions';

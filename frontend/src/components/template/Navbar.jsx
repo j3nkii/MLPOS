@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router";
-import { useAuth } from '@useStateManager'
+import { useAuth } from '@useState'
 import { Button } from '@components'
 import { CircleUserRound, LogOut } from 'lucide-react'
 

@@ -14,7 +14,9 @@ export default defineConfig({
       // '@': path.resolve(__dirname, './src'), // now `@` points to `src`
       '@components': path.resolve(__dirname, './src/components'),
       '@config': path.resolve(__dirname, './src/config'),
-      '@useStateManager': path.resolve(__dirname, './src/state/useStateManager'),
+      '@useState': path.resolve(__dirname, './src/state/api/useState'),
+      '@services': path.resolve(__dirname, './src/state/api/services'),
+      '@actions': path.resolve(__dirname, './src/state/api/actions'),
     },
   },
   server: {

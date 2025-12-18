@@ -29,7 +29,7 @@ const loggerMiddleware = (config) => (set, get, api) =>
     );
 
 // Wrap with both devtools AND logger
-export const useStateManager = create(
+export const useState = create(
     devtools(
         loggerMiddleware((set, get, api) => ({
             auth: createAuthSlice(set, get, api),
@@ -52,7 +52,7 @@ export const useStateManager = create(
 );
 
 
-export const useAuth = () => useStateManager(state => state.auth);
-export const useModal = () => useStateManager(state => state.modal);
-export const useCustomer = () => useStateManager(state => state.customer);
-export const useInvoice = () => useStateManager(state => state.invoice);
+export const useAuth = () => useState(state => state.auth);
+export const useModal = () => useState(state => state.modal);
+export const useCustomer = () => useState(state => state.customer);
+export const useInvoice = () => useState(state => state.invoice);

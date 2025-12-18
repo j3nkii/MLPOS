@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalFooter, ModalBody } from '@components';
-import { useInvoice, useModal } from '@useStateManager';
+import { useInvoice, useModal } from '@useState';
 import { Button } from '@components';
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Table } from '@components';
-import { useCustomer } from '@useStateManager';
+import { useCustomer } from '@useState';
 import { useCustomerActions } from '../../actions/useCustomerActions';
 
 

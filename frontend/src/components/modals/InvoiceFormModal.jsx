@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
-import { useModal, useInvoice, useCustomer } from '@useStateManager';
+import { useModal, useInvoice, useCustomer } from '@useState';
 import { Button, Input } from '@components';
 
 export const InvoiceFormModal = ({ update }) => {
