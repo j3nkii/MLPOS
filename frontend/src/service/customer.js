@@ -1,26 +1,11 @@
 import axios from 'axios'
 
-
-
-export const getCustomer = async ( userID ) => {
-    try {
-        // const { userID } = body;
-        const res = await axios.get(`/api/customer?userID=${userID}`);
-        return res;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
+const customerService = {
+    createCustomer: (body) => axios.post('/api/customers', body),
+    readCustomer: (customerID) => axios.get(`/api/customers/${customerID}`),
+    readAllCustomers: () => axios.get(`/api/customers`),
+    updateCustomer: (customerID, body) => axios.put(`/api/customers/${customerID}`, body),
+    deleteCustomer: (customerID) =>  axios.delete(`/api/customers/${customerID}`),
 }
 
-
-
-export const getAllCustomers = async ( body ) => {
-    try {
-        const res = await axios.get(`/api/customers`);
-        return res;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
-}
+export default customerService;
