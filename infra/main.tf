@@ -92,6 +92,7 @@ resource "aws_lambda_function" "express_app" {
             DB_NAME     = aws_db_instance.mlpos_db.db_name
             DB_USER     = aws_db_instance.mlpos_db.username
             DB_PASSWORD = aws_db_instance.mlpos_db.password
+            COGNITO_CLIENT_ID = aws_cognito_user_pool_client.app_client.id
         }
     }
 }
