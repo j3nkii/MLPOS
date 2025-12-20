@@ -156,7 +156,6 @@ resource "aws_iam_role_policy" "lambda_rds_policy" {
 resource "aws_iam_role_policy" "lambda_cognito_policy" {
   name = "lambda-cognito-access"
   role = aws_iam_role.lambda_exec.id
-
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -167,24 +166,13 @@ resource "aws_iam_role_policy" "lambda_cognito_policy" {
           "cognito-idp:AdminCreateUser",
           "cognito-idp:AdminDeleteUser",
           "cognito-idp:AdminUpdateUserAttributes",
+          "cognito-idp:AdminInitiateAuth",
           "cognito-idp:ListUsers"
         ]
         Resource = aws_cognito_user_pool.user_pool.arn
       }
     ]
   })
-}
-
-# Get default VPC subnets
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnets" "default" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
-  }
 }
 
 ##################################################################### CLOUDFRONT
@@ -357,6 +345,44 @@ resource "aws_cognito_user_pool_client" "app_client" {
   ]
   # No secret needed for frontend apps
   generate_secret = false
+}
+
+######################################################################## VPC
+######################################################################## VPC
+######################################################################## VPC
+######################################################################## VPC
+
+# This is a new resource - it creates a "door" in your VPC
+resource "aws_vpc_endpoint" "cognito_idp" {
+  vpc_id              = data.aws_vpc.default.id  # Which VPC (house)
+  service_name        = "com.amazonaws.${var.region}.cognito-idp"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = data.aws_subnets.default.ids  # Use .ids (plural)
+  security_group_ids  = [aws_security_group.vpc_endpoints.id]
+  private_dns_enabled = true
+}
+
+# Security group to allow Lambda to hit the endpoint
+resource "aws_security_group" "vpc_endpoints" {
+  name        = "vpc-endpoints-sg"
+  vpc_id      = data.aws_vpc.default.id
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [data.aws_vpc.default.cidr_block]
+  }
+}
+
+data "aws_vpc" "default" {
+  default = true
+}
+
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
 }
 
 ##################################################################### OUTPUT
