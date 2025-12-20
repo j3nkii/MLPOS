@@ -7,7 +7,7 @@ import { customerService } from '@services';
 
 export const useCustomerActions = () => {
     const { setSelectedCustomer, setAllCustomers, setLoading } = useCustomer();
-    const { closModal } = useModal();
+    const { closeModal } = useModal();
 
     const _refreshCustomers = async() => {
         const res = await customerService.readAllCustomers();
@@ -19,7 +19,7 @@ export const useCustomerActions = () => {
             setLoading(true);
             await customerService.createCustomer(body);
             _refreshCustomers();
-            closModal();
+            closeModal();
         } catch (error) {
             console.error(error);
             // setError(error);
@@ -59,7 +59,7 @@ export const useCustomerActions = () => {
             setLoading(true);
             await customerService.updateCustomer(customerID, body);
             _refreshCustomers();
-            closModal();
+            closeModal();
         } catch (error) {
             console.error(error);
             // setError(error);
@@ -73,7 +73,7 @@ export const useCustomerActions = () => {
             setLoading(true);
             await customerService.deleteCustomer(customerID);
             _refreshCustomers();
-            closModal();
+            closeModal();
         } catch (error) {
             console.error(error);
             // setError(error);

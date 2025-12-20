@@ -1,12 +1,13 @@
 
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalFooter, ModalBody } from '@components';
-import { useCustomer, useModal } from '@useState';
+import { useModal } from '@useState';
+import { useCustomerActions } from '@actions';
 import { Button } from '@components';
 
 
 export const CustomerDeleteModal = () => {
-    const { deleteCustomer } = useCustomer();
+    const { deleteCustomer } = useCustomerActions();
     const { item } = useModal();
     const {closeModal} = useModal();
 
