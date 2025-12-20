@@ -372,6 +372,12 @@ resource "aws_security_group" "vpc_endpoints" {
     protocol    = "tcp"
     cidr_blocks = [data.aws_vpc.default.cidr_block]
   }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 data "aws_vpc" "default" {
