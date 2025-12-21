@@ -142,7 +142,6 @@ async function signIn(email, password) {
       };
     } else throw error;
   }
-
 }
 
 

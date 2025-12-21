@@ -5,6 +5,7 @@ class MPLOSerr extends Error {
     this.customErr = true;
     this.metadata = metadata;
     this.timestamp = new Date().toISOString();
+    this.message = message;
   }
 }
 

@@ -3,23 +3,25 @@ const cognito = require('../modules/cognito');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+const { MPLOSerr } = require('../modules/errHandle')
 
 
-// Sign up route
-router.post('/signup', async (req, res) => {
-  try {
-    await pool.query(`
-        INSERT INTO users (username, email)
-        VALUES ($1, $1)
-      `, [req.body.email]);
-    const result = await cognito.signUp(req.body.email, req.body.password);
-    console.log(result)
-    res.json(result);
-  } catch (err) {
-    console.error(err)
-    res.status(400).json({ error: err.message });
-  }
-});
+
+// // Sign up route
+// router.post('/signup', async (req, res) => {
+//   try {
+//     await pool.query(`
+//         INSERT INTO users (username, email)
+//         VALUES ($1, $1)
+//       `, [req.body.email]);
+//     const result = await cognito.signUp(req.body.email, req.body.password);
+//     console.log(result)
+//     res.json(result);
+//   } catch (err) {
+//     console.error(err)
+//     res.status(400).json({ error: err.message });
+//   }
+// });
 
 
 
@@ -39,10 +41,21 @@ router.post('/confirm', async (req, res) => {
 // Sign in route
 router.post('/login', async (req, res) => {
   try {
+    const user = await pool.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [req.body.email]);
+    if(!user.rows[0]){
+      const client = await pool.connect();
+      await client.query('BEGIN;')
+      await client.query(`
+          INSERT INTO users (username, email)
+          VALUES ($1, $1)
+        `, [req.body.email]);
+      const result = await cognito.signUp(req.body.email, req.body.password);
+      await client.query('COMMIT;');
+      await client.end();
+      res.json(result);
+    }
     const tokens = await cognito.signIn(req.body.email, req.body.password);
     if(!tokens.success) return res.status(401).json(tokens)
-    const decoded = cognito.decodeToken(tokens.idToken);
-    const user = await pool.query('SELECT * FROM users WHERE email = $1', [decoded.email]);
     res.json({
       tokens,
       user: user.rows[0]
@@ -50,7 +63,7 @@ router.post('/login', async (req, res) => {
   } catch (err) {
     console.error(err);
     if(err.customErr){
-      res.status(403).json(err);
+      res.status(403).json({ ...err, message: err.message });
     } else {
       res.status(500).json({ error: err.message });
     }
