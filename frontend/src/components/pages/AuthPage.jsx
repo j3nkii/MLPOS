@@ -10,8 +10,6 @@ import axios from 'axios'
 export const AuthPage = () => {
     const navigate = useNavigate();
     const { setUser, pageView } = useAuth();
-    const [tab, setTab] = useState(0);
-    const tabs = [ <Loggin const={setTab} />, <ConfirmEmail /> ];
 
   useEffect(() => {
     isAuthenticated();
@@ -22,7 +20,7 @@ export const AuthPage = () => {
       try {
         const user = await axios.post('/api/auth/get-user', { accessToken: sessionStorage.getItem('accessToken') });
         setUser(user);
-        navigate('/customers')
+        navigate('/customers');
       } catch (error) {
         console.error(error);
       }
@@ -31,7 +29,7 @@ export const AuthPage = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#5d5d5d]">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-                { pageView === 'login' && <Loggin const={setTab} /> }
+                { pageView === 'login' && <Loggin /> }
                 { pageView === 'confirm' && <ConfirmEmail /> }
             </div>
         </div>
@@ -68,7 +66,7 @@ const ConfirmEmail = () => {
 
 
 
-export const Loggin = ({ setTab }) => {
+export const Loggin = () => {
     const { fetchUser, user, setLoginForm, loginForm, createUser } = useAuth();
     const handleForm = (evt) => {
         const { target: { name, value }} = evt;

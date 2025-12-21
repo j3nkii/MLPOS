@@ -2,8 +2,8 @@ import axios from 'axios'
 
 
 const INITIAL_LOGIN = {
-    email: 'jacob.larson55112@gmail.com',
-    password: 'Password123!',
+    email: '',
+    password: '',
 }
 const INITIAL_CONFIRMATION = {
     email: '',
