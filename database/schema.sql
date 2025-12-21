@@ -36,6 +36,13 @@ CREATE TABLE invoices (
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE IF EXISTS auth_confirmation;
+CREATE TABLE auth_confirmation (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id),
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+)
+
 -- optional login creds for customers
 -- DROP TABLE IF EXISTS customer_credentials CASCADE;
 -- CREATE TABLE customer_credentials (
