@@ -10,7 +10,7 @@ const COLOR = {
 
 
 
-const DETAULT_STYLE = "p-2 mx-1 font-semibold transition-colors rounded-md cursor-pointer"
+const DETAULT_STYLE = "p-2 mx-1 font-semibold transition-colors rounded-md cursor-pointer bg-[#cdcdcd]"
 const DEFAUL_PROPS = {
     id: '',
     type: 'button',
