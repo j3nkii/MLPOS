@@ -4,9 +4,9 @@ import { useAuth } from '@useState';
 import { authService } from '@services';
 
 
-export const useAuthctions = () => {
+export const useAuthActions = () => {
     const navigate = useNavigate();
-    const { setUser, setLoading, setError, setPageView } = useAuth();
+    const { setUser, setLoading, setError, setPageView, loginForm } = useAuth();
 
     const postConfirmation = async (body) => {
         try {
@@ -22,11 +22,11 @@ export const useAuthctions = () => {
         }
     }
 
-    const fetchUser = async (body) => {
+    const fetchUser = async () => {
         try {
             setError(null);
             setLoading(true);
-            const res = await authService.readAuth(body);
+            const res = await authService.readAuth(loginForm);
             setUser(res.data);
             sessionStorage.setItem('accessToken', res.data.tokens.accessToken);
             sessionStorage.setItem('refreshToken', res.data.tokens.refreshToken);

@@ -41,6 +41,15 @@ router.post('/confirm', async (req, res) => {
 // Sign in route
 router.post('/login', async (req, res) => {
   try {
+    console.log('######')
+    console.log(req.body)
+    if(process.env.NODE_ENV === 'develop'){
+      const user = await pool.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [req.body.email]);
+      res.json({
+        user: user.rows[0]
+      });
+      return;
+    }
     const user = await pool.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [req.body.email]);
     if(!user.rows[0]){
       const client = await pool.connect();

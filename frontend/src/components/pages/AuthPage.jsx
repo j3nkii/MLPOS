@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Input } from '@components';
 import { useAuth } from '@useState';
+import { useAuthActions } from '@actions';
 import { useNavigate } from "react-router";
 import { Navigate } from 'react-router-dom';
 import axios from 'axios'
@@ -67,7 +68,8 @@ const ConfirmEmail = () => {
 
 
 export const Loggin = () => {
-    const { fetchUser, user, setLoginForm, loginForm, createUser } = useAuth();
+    const { user, setLoginForm, loginForm, createUser } = useAuth();
+    const { fetchUser } = useAuthActions();
     const handleForm = (evt) => {
         const { target: { name, value }} = evt;
         setLoginForm({ name, value });

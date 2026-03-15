@@ -22,6 +22,7 @@ export const createAuthSlice = (set, get) => {
         auth: { ...state.auth, ...partial }
     }));
     return {
+        isLoading: false,
         pageView: PAGE_VIEWS.login,
         user: null,
         confirmationCodeForm: INITIAL_CONFIRMATION,
@@ -74,6 +75,10 @@ export const createAuthSlice = (set, get) => {
         //         setSlice({ error: err.message, isLoading: false });
         //     }
         // },
+
+        setLoading: (isLoading = null) => {
+            setSlice({ isLoading });
+        },
 
         setError: (error = null) => {
             setSlice({ error });
