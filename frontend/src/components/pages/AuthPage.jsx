@@ -77,7 +77,7 @@ export const Loggin = () => {
     }
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        fetchUser();
+        fetchUser.mutate();
     }
     if (user)
         return <Navigate to="/customers" replace />

@@ -3,10 +3,10 @@ const pool = require('../modules/pool');
 
 
 const authMiddleware = async (req, res, next) => {
-    const ENVIRONMENT = process.env.ENVIRONMENT;
-    if(ENVIRONMENT === 'production')
+    const NODE_ENV = process.env.NODE_ENV;
+    if(NODE_ENV === 'production')
         handleCognito(req, res, next);
-    if(ENVIRONMENT === 'develop')
+    if(NODE_ENV === 'develop')
         handleLocalAuth(req, res, next);
 };
 

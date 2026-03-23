@@ -85,12 +85,17 @@ router.post('/login', async (req, res) => {
 
 
 router.post('/get-user', async (req, res) => {
-  try {
-    const cogres = await cognito.getUser(req.body.accessToken);
-    const user = await pool.query('SELECT * FROM users WHERE email = $1', [cogres.attributes.email]);
-    res.status(200).json({ user: user.rows[0] });
-  } catch (err) {
-      res.status(401).json({ error: 'Invalid token' });
+    try {
+        if (process.env.NODE_ENV === 'develop') {
+            const user = await pool.query('SELECT * FROM users WHERE email = $1', [req.body.accessToken]);
+            return res.status(200).json({ user: user.rows[0] });
+        }
+        const cogres = await cognito.getUser(req.body.accessToken);
+        const user = await pool.query('SELECT * FROM users WHERE email = $1', [cogres.attributes.email]);
+        res.status(200).json({ user: user.rows[0] });
+    } catch (err) {
+        console.error(err)
+        res.status(401).json({ error: 'Invalid token' });
     }
 });
 
