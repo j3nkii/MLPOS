@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@useZustand';
 import { authService } from '@services';
 
-export const useAuthActions = () => {
+export const useAuthQuery = () => {
     const navigate = useNavigate();
     const { setPageView, loginForm } = useAuth();
 

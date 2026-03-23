@@ -17,13 +17,14 @@ export default defineConfig({
       '@useZustand': path.resolve(__dirname, './src/api/zustand/useZustand'),
       '@services': path.resolve(__dirname, './src/api/services'),
       '@actions': path.resolve(__dirname, './src/api/actions'),
+      '@query': path.resolve(__dirname, './src/api/reactQuery'),
     },
   },
   server: {
-    port: 4200, // your frontend port
+    port: 4200,
     proxy: {
       '/api': {
-        target: 'http://localhost:8000', // your Node server
+        target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
       },

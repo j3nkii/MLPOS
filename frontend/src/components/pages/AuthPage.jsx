@@ -1,7 +1,8 @@
 import React, { useZustand, useEffect } from 'react';
 import { Button, Input } from '@components';
 import { useAuth } from '@useZustand';
-import { useAuthActions } from '@actions';
+// import { useAuthActions } from '@actions';
+import { useAuthQuery } from '@query';
 import { useNavigate } from "react-router";
 import { Navigate } from 'react-router-dom';
 import axios from 'axios'
@@ -69,7 +70,7 @@ const ConfirmEmail = () => {
 
 export const Loggin = () => {
     const { user, setLoginForm, loginForm, createUser } = useAuth();
-    const { fetchUser } = useAuthActions();
+    const { fetchUser } = useAuthQuery();
     const handleForm = (evt) => {
         const { target: { name, value }} = evt;
         setLoginForm({ name, value });
