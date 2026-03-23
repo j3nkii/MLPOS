@@ -1,6 +1,6 @@
 import 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@useState';
+import { useAuth } from '@useZustand';
 import { authService } from '@services';
 
 

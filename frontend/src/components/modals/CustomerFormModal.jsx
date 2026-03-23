@@ -1,7 +1,7 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useZustand } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
-import { useCustomer, useModal } from '@useState';
+import { useCustomer, useModal } from '@useZustand';
 import { Button, Input } from '@components';
 
 import { useCustomerActions } from '@actions';
@@ -13,7 +13,7 @@ const INITIAL_FORM = {
 };
 
 export const CustomerFormModal = ({ update }) => {
-    const [customerForm, setCustomerForm] = useState(INITIAL_FORM);
+    const [customerForm, setCustomerForm] = useZustand(INITIAL_FORM);
     const { createCustomer, updateCustomer } = useCustomerActions();
     const { closeModal, item } = useModal();
 

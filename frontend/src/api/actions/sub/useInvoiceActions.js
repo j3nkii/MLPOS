@@ -1,5 +1,5 @@
 import 'react';
-import { useInvoice, useModal } from '@useState';
+import { useInvoice, useModal } from '@useZustand';
 
 
 import { invoiceService } from '@services';

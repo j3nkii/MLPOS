@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router'
 import { Table } from '@components';
-import { useState } from '@useState';
+import { useZustand } from '@useZustand';
 import { TABLE_CONFIG } from '@config/tableConfig'
 
 
@@ -11,7 +11,7 @@ export const TablePage = () => {
     const configKey = location.pathname.slice(1);
     if(!TABLE_CONFIG[configKey])
         return null;
-    const appState = useState(store => store);
+    const appState = useZustand(store => store);
     const { pageTitle, headers, listKey, stateKey, modalKeys } = TABLE_CONFIG[configKey];
     const displayColumns = Object.values(headers);
     const columnKeys = Object.keys(headers);

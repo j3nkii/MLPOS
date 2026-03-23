@@ -1,5 +1,5 @@
 import 'react';
-import { useCustomer, useModal } from '@useState';
+import { useCustomer, useModal } from '@useZustand';
 
 
 import { customerService } from '@services';

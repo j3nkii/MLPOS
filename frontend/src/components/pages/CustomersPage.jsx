@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Table, Form } from '@components';
-import { useCustomer } from '@useState';
+import { useCustomer } from '@useZustand';
 import { useCustomerActions } from '@actions';
 
 

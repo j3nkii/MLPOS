@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalFooter, ModalBody } from '@components';
-import { useModal } from '@useState';
+import { useModal } from '@useZustand';
 import { useCustomerActions } from '@actions';
 import { Button } from '@components';
 

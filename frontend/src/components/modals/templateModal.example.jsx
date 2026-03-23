@@ -1,12 +1,12 @@
 
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalFooter } from '@components';
-import { useState } from '@useState';
+import { useZustand } from '@useZustand';
 import { Button } from '@components';
 
 
 export const template = () => {
-    const { closeModal, modal: { item } } = useState();
+    const { closeModal, modal: { item } } = useZustand();
 
     const handleConfirm = async () => {
         console.warn('Something should probably happen');

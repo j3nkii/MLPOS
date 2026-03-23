@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Table } from '@components';
-import { useInvoice } from '@useState';
+import { useInvoice } from '@useZustand';
 import { useInvoiceActions } from '@actions';
 
 

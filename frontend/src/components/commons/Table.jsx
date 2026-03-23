@@ -1,6 +1,6 @@
 import React from 'react'
 import { Trash2, Settings, DiamondPlus, SquarePen, BookUser } from 'lucide-react'
-import { useModal } from '@useState'
+import { useModal } from '@useZustand'
 import { Button } from '@components'
 
 
