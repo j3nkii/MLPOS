@@ -5,7 +5,7 @@ import { routerConfig } from './config/routerConfig'
 import './config/axiosConfig'
 
 
-const client = QueryClient();
+const client = new QueryClient();
 
 
 function App() {
