@@ -1,4 +1,4 @@
-import React, { useEffect, useZustand } from "react";
+import React, { useEffect, useState } from "react";
 
 const LOADING_TEXT = [ 'Loading.', 'Loading..', 'Loading...', 'Loading....', 'Loading.....' ];
 
@@ -6,7 +6,7 @@ const LOADING_TEXT = [ 'Loading.', 'Loading..', 'Loading...', 'Loading....', 'Lo
 
 
 export const Loading = () => {
-    const [text, setText] = useZustand(0);
+    const [text, setText] = useState(0);
     useEffect(() => {
         setTimeout(() => setText(prev => ((prev + 1) % LOADING_TEXT.length)), 400)
     }, [ text ]);
