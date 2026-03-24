@@ -28,7 +28,9 @@ export const CustomerFormModal = ({ update }) => {
     }, [])
 
     const handleConfirm = async () => {
-        update ? updateCustomer(customerForm.id) : createCustomer(customerForm);
+        const payload = { customerID: item?.id, body: customerForm }
+        const handleFn = update ? updateCustomer : createCustomer;
+        handleFn.mutate(payload);
     };
 
     const handleChange = (evt) => {

@@ -1,5 +1,5 @@
 import 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCustomer, useModal } from '@useZustand';
 
 
@@ -7,6 +7,7 @@ import { customerService } from '@services';
 
 
 export const useCustomerQuery = () => {
+    const queryClient = useQueryClient()
     const { setSelectedCustomer, setAllCustomers, setLoading } = useCustomer();
     const { closeModal } = useModal();
 
@@ -35,7 +36,7 @@ export const useCustomerQuery = () => {
     })
 
     const updateCustomer = useMutation({
-        mutationFn: (res) => customerService.updateCustomer(res.data),
+        mutationFn: (body) => customerService.updateCustomer(body),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allCustomers'] });
             closeModal();

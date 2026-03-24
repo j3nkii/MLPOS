@@ -12,8 +12,7 @@ export const CustomerDeleteModal = () => {
     const {closeModal} = useModal();
 
     const handleConfirm = async () => {
-        console.log(item.id)
-        deleteCustomer(item.id);
+        deleteCustomer.mutate(item.id);
     };
 
     return (
