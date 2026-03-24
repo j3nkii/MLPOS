@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useCustomer, useModal } from '@useZustand';
 import { Button, Input } from '@components';
 
-import { useCustomerActions } from '@actions';
+import { useCustomerQuery } from '@query';
 
 const INITIAL_FORM = {
     name: '',
@@ -14,7 +14,7 @@ const INITIAL_FORM = {
 
 export const CustomerFormModal = ({ update }) => {
     const [customerForm, setCustomerForm] = useZustand(INITIAL_FORM);
-    const { createCustomer, updateCustomer } = useCustomerActions();
+    const { createCustomer, updateCustomer } = useCustomerQuery();
     const { closeModal, item } = useModal();
 
     useEffect(() => {

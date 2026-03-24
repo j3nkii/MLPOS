@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Table, Form } from '@components';
 import { useCustomer } from '@useZustand';
-import { useCustomerActions } from '@actions';
+import { useCustomerQuery } from '@query';
 
 
 const headers = [
@@ -27,17 +27,14 @@ const modalKeys = {
 
 
 export const CustomersPage = () => {
-    const { readAllCustomers } = useCustomerActions();
-    const { allCustomers } = useCustomer();
+    const { readAllCustomers } = useCustomerQuery();
+    console.log(readAllCustomers.data)
     const displayColumns = headers.map(x => x.display);
     const columnKeys = headers.map(x => x.key);
-    useEffect(() => {
-        readAllCustomers();
-    }, []);
     return (
         <div className='max-w-170 bg-white'>
             <h1 className='p-10 pt-10 text-4xl font-extrabold'>Customers:</h1>
-            <Table {...{ displayColumns, columnKeys, modalKeys, data: allCustomers }} />
+            <Table {...{ displayColumns, columnKeys, modalKeys, data: readAllCustomers?.data?.data }} />
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useCustomer, useModal } from '@useZustand';
 
 
@@ -18,16 +19,16 @@ export const useCustomerQuery = () => {
         onError: (error) => console.error(error),
     })
 
-    const readCustomer = useQuery({
-        queryKey: ['customer', customerID],
-        queryFn: () => customerService.readCustomer(customerID),
-        onSuccess: (res) => setSelectedCustomer(res.data),
-        onError: (error) => console.error(error),
-        enabled: !!customerID,
-    })
+    // const readCustomer = useQuery({
+    //     queryKey: ['customer', customerID],
+    //     queryFn: () => customerService.readCustomer(customerID),
+    //     onSuccess: (res) => setSelectedCustomer(res.data),
+    //     onError: (error) => console.error(error),
+    //     enabled: !!customerID,
+    // })
 
-    const readAllCustomers = useMutation({
-        queryKey: ['allCustomers', ],
+    const readAllCustomers = useQuery({
+        queryKey: ['allCustomers'],
         queryFn: () => customerService.readAllCustomers(),
         onSuccess: (res) => setAllCustomers(res.data),
         onError: (error) => console.error(error),
@@ -53,7 +54,7 @@ export const useCustomerQuery = () => {
 
     return {
         createCustomer,
-        readCustomer,
+        // readCustomer,
         readAllCustomers,
         updateCustomer,
         deleteCustomer,
