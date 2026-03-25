@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Input } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModal, useInvoice, useCustomer } from '@useZustand';
-import { useInvoiceActions } from '@actions';
+import { useInvoiceQuery } from '@query';
 
 
 const INITIAL = {
@@ -14,7 +14,7 @@ const INITIAL = {
 
 export const InvoiceFormModal = ({ update }) => {
     const [invoiceForm, setInvoiceForm] = useZustand(INITIAL);
-    const { createInvoice, updateInvoice } = useInvoiceActions();
+    const { createInvoice, updateInvoice } = useInvoiceQuery();
     const { allCustomers } = useCustomer();
     const { closeModal, item } = useModal();
 

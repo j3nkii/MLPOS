@@ -16,7 +16,6 @@ export default defineConfig({
       '@config': path.resolve(__dirname, './src/config'),
       '@useZustand': path.resolve(__dirname, './src/api/zustand/useZustand'),
       '@services': path.resolve(__dirname, './src/api/services'),
-      '@actions': path.resolve(__dirname, './src/api/actions'),
       '@query': path.resolve(__dirname, './src/api/reactQuery'),
     },
   },

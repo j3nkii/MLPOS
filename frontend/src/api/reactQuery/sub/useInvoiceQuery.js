@@ -6,7 +6,7 @@ import { useInvoice, useModal } from '@useZustand';
 import { invoiceService } from '@services';
 
 
-export const useInvoiceActions = () => {
+export const useInvoiceQuery = () => {
     const queryClient = useQueryClient();
     const { setSelectedInvoice, setAllInvoices, setLoading } = useInvoice();
     const { closeModal } = useModal();
