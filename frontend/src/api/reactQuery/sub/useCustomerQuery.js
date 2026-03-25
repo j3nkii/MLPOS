@@ -7,7 +7,7 @@ import { customerService } from '@services';
 
 
 export const useCustomerQuery = () => {
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     const { setSelectedCustomer, setAllCustomers, setLoading } = useCustomer();
     const { closeModal } = useModal();
 
@@ -31,7 +31,6 @@ export const useCustomerQuery = () => {
     const readAllCustomers = useQuery({
         queryKey: ['allCustomers'],
         queryFn: () => customerService.readAllCustomers(),
-        onSuccess: (res) => setAllCustomers(res.data),
         onError: (error) => console.error(error),
     })
 
