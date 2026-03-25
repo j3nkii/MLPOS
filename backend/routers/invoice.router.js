@@ -68,6 +68,8 @@ router.post('/', async(req, res) => {
 router.put('/:id', async(req, res) => {
     try {
         const { amount, customerID, status } = req.body;
+        console.log(req.body)
+        console.log(req.params)
         const { id: invoiceID } = req.params;
         if(!amount && !customerID && !status) throw new Error('Missing Fields');
         const INSERT_SQL = [];
