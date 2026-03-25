@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Table, Form } from '@components';
-import { useCustomer } from '@zussy';
 import { useCustomerQuery } from '@query';
 
 

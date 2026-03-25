@@ -1,9 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { createAuthSlice } from './slices/auth';
-import { createCustomerSlice } from './slices/customer';
 
-export { useModalZussy } from './stores/useModalZussy';
+export { useModalZussy } from './sub/useModalZussy';
 
 const zustandLogger = (storeName, newState, prevState) => {
     // console.groupCollapsed(
@@ -33,7 +32,6 @@ export const useZustand = create(
     devtools(
         loggerMiddleware((set, get, api) => ({
             auth: createAuthSlice(set, get, api),
-            customer: createCustomerSlice(set, get, api),
         })),
         { name: 'app-store' }
     )
@@ -41,4 +39,3 @@ export const useZustand = create(
 
 
 export const useAuth = () => useZustand(state => state.auth);
-export const useCustomer = () => useZustand(state => state.customer);
