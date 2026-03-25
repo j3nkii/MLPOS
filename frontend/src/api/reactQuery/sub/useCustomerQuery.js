@@ -1,6 +1,6 @@
 import 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useModal } from '@useZustand';
+import { useModal } from '@zussy';
 
 
 import { customerService } from '@services';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router";
-import { useAuth } from '@useZustand'
+import { useAuth } from '@zussy'
 import { Button } from '@components'
 import { CircleUserRound, LogOut } from 'lucide-react'
 

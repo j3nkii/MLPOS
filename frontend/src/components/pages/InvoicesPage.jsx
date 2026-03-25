@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Table } from '@components';
-import { useInvoice } from '@useZustand';
+import { useInvoice } from '@zussy';
 import { useInvoiceQuery } from '@query';
 
 

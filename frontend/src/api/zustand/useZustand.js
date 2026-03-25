@@ -5,6 +5,8 @@ import { createCustomerSlice } from './slices/customer';
 import { createModalSlice } from './slices/modal';
 import { createInvoicesSlice } from './slices/invoices';
 
+export { useModalZussy } from './stores/useModalZussy';
+
 const zustandLogger = (storeName, newState, prevState) => {
     // console.groupCollapsed(
     //     `%c🔄 ${storeName} State Changed`,

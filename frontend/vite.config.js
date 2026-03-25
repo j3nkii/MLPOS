@@ -14,7 +14,7 @@ export default defineConfig({
       // '@': path.resolve(__dirname, './src'), // now `@` points to `src`
       '@components': path.resolve(__dirname, './src/components'),
       '@config': path.resolve(__dirname, './src/config'),
-      '@useZustand': path.resolve(__dirname, './src/api/zustand/useZustand'),
+      '@zussy': path.resolve(__dirname, './src/api/zustand/useZustand'),
       '@services': path.resolve(__dirname, './src/api/services'),
       '@query': path.resolve(__dirname, './src/api/reactQuery'),
     },

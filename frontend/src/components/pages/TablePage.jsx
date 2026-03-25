@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router'
 import { Table } from '@components';
-import { useZustand } from '@useZustand';
+import { useZustand } from '@zussy';
 import { TABLE_CONFIG } from '@config/tableConfig'
 
 
