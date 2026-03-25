@@ -1,15 +1,15 @@
 
 import React, { useEffect } from 'react';
 import { Modal, ModalHeader, ModalFooter, ModalBody } from '@components';
-import { useModal } from '@zussy';
+import { useModalZussy} from '@zussy';
 import { useCustomerQuery } from '@query';
 import { Button } from '@components';
 
 
 export const CustomerDeleteModal = () => {
     const { deleteCustomer } = useCustomerQuery();
-    const { item } = useModal();
-    const {closeModal} = useModal();
+    const { item } = useModalZussy();
+    const {closeModal} = useModalZussy();
 
     const handleConfirm = async () => {
         deleteCustomer.mutate(item.id);

@@ -1,15 +1,15 @@
 
 import 'react';
 import { Modal, ModalHeader, ModalFooter, ModalBody } from '@components';
-import { useModal } from '@zussy';
+import { useModalZussy} from '@zussy';
 import { useInvoiceQuery } from '@query';
 import { Button } from '@components';
 
 
 export const InvoiceDeleteModal = () => {
     const { deleteInvoice } = useInvoiceQuery();
-    const { item } = useModal();
-    const {closeModal} = useModal();
+    const { item } = useModalZussy();
+    const {closeModal} = useModalZussy();
 
     const handleConfirm = async () => {
         deleteInvoice.mutate({ invoiceID: item.id });

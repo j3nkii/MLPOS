@@ -1,11 +1,11 @@
 
 import React from "react";
 import { CustomerDeleteModal, CustomerFormModal, InvoiceFormModal, InvoiceDeleteModal } from '@components';
-import { useModal } from '@zussy';
+import { useModalZussy} from '@zussy';
 
 
 export const ModalManager = () => {
-    const { modalKey } = useModal();
+    const { modalKey } = useModalZussy();
     switch (modalKey) {
         case 'confirmDelete':
             return <CustomerDeleteModal />

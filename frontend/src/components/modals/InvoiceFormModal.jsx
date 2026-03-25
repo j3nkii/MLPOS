@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Input } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
-import { useModal, useCustomer } from '@zussy';
+import { useModalZussy, useCustomer } from '@zussy';
 import { useInvoiceQuery, useCustomerQuery } from '@query';
 
 
@@ -16,7 +16,7 @@ export const InvoiceFormModal = ({ update }) => {
     const [invoiceForm, setInvoiceForm] = useState(INITIAL);
     const { createInvoice, updateInvoice } = useInvoiceQuery();
     const { readAllCustomers } = useCustomerQuery();
-    const { closeModal, item } = useModal();
+    const { closeModal, item } = useModalZussy();
 
     useEffect(() => {
         console.log()

@@ -1,6 +1,6 @@
 import 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useModal } from '@zussy';
+import { useModalZussy} from '@zussy';
 
 
 import { invoiceService } from '@services';
@@ -8,7 +8,7 @@ import { invoiceService } from '@services';
 
 export const useInvoiceQuery = () => {
     const queryClient = useQueryClient();
-    const { closeModal } = useModal();
+    const { closeModal } = useModalZussy();
 
     const createInvoice = useMutation({
         mutationFn: invoiceService.createInvoice,

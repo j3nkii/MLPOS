@@ -45,6 +45,5 @@ export const useZustand = create(
 
 
 export const useAuth = () => useZustand(state => state.auth);
-export const useModal = () => useZustand(state => state.modal);
 export const useCustomer = () => useZustand(state => state.customer);
 export const useInvoice = () => useZustand(state => state.invoice);

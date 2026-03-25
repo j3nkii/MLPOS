@@ -1,6 +1,6 @@
 import React from 'react'
 import { Trash2, Settings, DiamondPlus, SquarePen, BookUser } from 'lucide-react'
-import { useModal } from '@zussy'
+import { useModalZussy} from '@zussy'
 import { Button } from '@components'
 
 
@@ -53,7 +53,7 @@ export const Table = ( PROPS ) => {
 
 
 const ActionsHeader = ({ modalKeys }) => {
-    const { setModal } = useModal();
+    const { setModal } = useModalZussy();
     return (
         <td>
             <div className='flex items-center justify-end gap-1 pr-3.5'>
@@ -72,7 +72,7 @@ const ActionsHeader = ({ modalKeys }) => {
 
 
 const ActionsCell = ({ item, modalKeys }) => {
-    const { setModal } = useModal();
+    const { setModal } = useModalZussy();
 
     const onDelete = (e) => {
         e.stopPropagation();
