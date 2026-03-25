@@ -1,18 +1,18 @@
 
-import React, { useEffect } from 'react';
+import 'react';
 import { Modal, ModalHeader, ModalFooter, ModalBody } from '@components';
-import { useInvoice, useModal } from '@useZustand';
+import { useModal } from '@useZustand';
+import { useInvoiceQuery } from '@query';
 import { Button } from '@components';
 
 
 export const InvoiceDeleteModal = () => {
-    const { deleteInvoice } = useInvoice();
+    const { deleteInvoice } = useInvoiceQuery();
     const { item } = useModal();
     const {closeModal} = useModal();
 
     const handleConfirm = async () => {
-        console.log(item.id)
-        deleteInvoice(item.id);
+        deleteInvoice.mutate({ invoiceID: item.id });
     };
 
     return (

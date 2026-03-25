@@ -1,6 +1,6 @@
 import 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useCustomer, useModal } from '@useZustand';
+import { useModal } from '@useZustand';
 
 
 import { customerService } from '@services';
@@ -8,7 +8,6 @@ import { customerService } from '@services';
 
 export const useCustomerQuery = () => {
     const queryClient = useQueryClient();
-    const { setSelectedCustomer, setAllCustomers, setLoading } = useCustomer();
     const { closeModal } = useModal();
 
     const createCustomer = useMutation({

@@ -1,6 +1,6 @@
 import 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useInvoice, useModal } from '@useZustand';
+import { useModal } from '@useZustand';
 
 
 import { invoiceService } from '@services';
@@ -8,16 +8,10 @@ import { invoiceService } from '@services';
 
 export const useInvoiceQuery = () => {
     const queryClient = useQueryClient();
-    const { setSelectedInvoice, setAllInvoices, setLoading } = useInvoice();
     const { closeModal } = useModal();
 
-    const _refreshInvoices = async() => {
-        const res = await invoiceService.readAllInvoices();
-        setAllInvoices(res.data);
-    }
-
     const createInvoice = useMutation({
-        mutationFn: ({ body }) => invoiceService.createInvoice(body),
+        mutationFn: invoiceService.createInvoice,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             closeModal();
@@ -35,12 +29,12 @@ export const useInvoiceQuery = () => {
 
     const readAllInvoices = useQuery({
         queryKey: ['allInvoices'],
-        queryFn: () => invoiceService.readAllInvoices(),
+        queryFn: invoiceService.readAllInvoices,
         onError: (error) => console.error(error),
     });
 
     const updateInvoice = useMutation({
-        mutationFn: ({ body }) => invoiceService.updateInvoice(body),
+        mutationFn: invoiceService.updateInvoice,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             closeModal();
@@ -49,7 +43,7 @@ export const useInvoiceQuery = () => {
     });
 
     const deleteInvoice = useMutation({
-        mutationFn: ({ invoiceID }) => invoiceService.deleteInvoice(invoiceID),
+        mutationFn: invoiceService.deleteInvoice,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             closeModal();

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Input } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
-import { useModal, useInvoice, useCustomer } from '@useZustand';
-import { useInvoiceQuery } from '@query';
+import { useModal, useCustomer } from '@useZustand';
+import { useInvoiceQuery, useCustomerQuery } from '@query';
 
 
 const INITIAL = {
@@ -13,12 +13,13 @@ const INITIAL = {
 
 
 export const InvoiceFormModal = ({ update }) => {
-    const [invoiceForm, setInvoiceForm] = useZustand(INITIAL);
+    const [invoiceForm, setInvoiceForm] = useState(INITIAL);
     const { createInvoice, updateInvoice } = useInvoiceQuery();
-    const { allCustomers } = useCustomer();
+    const { readAllCustomers } = useCustomerQuery();
     const { closeModal, item } = useModal();
 
     useEffect(() => {
+        console.log()
         if(update){
             console.log(item)
             setInvoiceForm({
@@ -30,7 +31,9 @@ export const InvoiceFormModal = ({ update }) => {
     }, [])
 
     const handleConfirm = async () => {
-        update ? updateInvoice(invoiceForm.id, invoiceForm) : createInvoice(invoiceForm);
+        const handler = update ? updateInvoice : createInvoice;
+        const body = { invoiceID: invoiceForm.id, body: invoiceForm }
+        handler.mutate(body);
     };
 
     const handleChange = (evt) => {
@@ -45,7 +48,7 @@ export const InvoiceFormModal = ({ update }) => {
                 <form className="p-6">
                     <Input onChange={handleChange} value={invoiceForm.amount} label={'Amount'} name={'amount'} />
                     { update && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
-                    <Input onChange={handleChange} value={invoiceForm.customerID} label={'Customer'} name={'customerID'} type={'select'} options={allCustomers.map(cust => ({ name: cust.name, value: cust.id }))} />
+                    <Input onChange={handleChange} value={invoiceForm.customerID} label={'Customer'} name={'customerID'} type={'select'} options={readAllCustomers?.data?.data.map(cust => ({ name: cust.name, value: cust.id }))} />
                 </form>
             </ModalBody>
 
