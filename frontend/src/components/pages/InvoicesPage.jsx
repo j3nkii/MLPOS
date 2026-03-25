@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Table } from '@components';
-import { useInvoice } from '@zussy';
 import { useInvoiceQuery } from '@query';
 
 
@@ -32,12 +31,8 @@ const modalKeys = {
 
 export const InvoicesPage = () => {
     const { readAllInvoices } = useInvoiceQuery();
-    // const { allInvoices } = useInvoice();
     const displayColumns = headers.map(x => x.display);
     const columnKeys = headers.map(x => x.key);
-    // useEffect(() => {
-    //     readAllInvoices();
-    // }, []);
     return (
         <div className='max-w-170 bg-white'>
             <h1 className='p-10 pt-10 text-4xl font-extrabold'>Invoices:</h1>
