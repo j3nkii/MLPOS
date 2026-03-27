@@ -5,7 +5,13 @@ import { routerConfig } from './config/routerConfig'
 import './config/axiosConfig'
 
 
-const client = new QueryClient();
+const client = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 1000 * 60 * 5, // 5 minutes
+        }
+    }
+});
 
 
 function App() {
