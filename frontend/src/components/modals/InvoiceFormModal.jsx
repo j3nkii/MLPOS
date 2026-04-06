@@ -32,7 +32,7 @@ export const InvoiceFormModal = ({ update }) => {
 
     const handleConfirm = async () => {
         const handler = update ? updateInvoice : createInvoice;
-        const body = { invoiceID: item.id, body: invoiceForm }
+        const body = { invoiceID: item?.id, body: invoiceForm }
         handler.mutate(body);
     };
 

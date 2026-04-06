@@ -3,6 +3,7 @@ import { devtools } from 'zustand/middleware';
 import { createAuthSlice } from './slices/auth';
 
 export { useModalZussy } from './sub/useModalZussy';
+export { useAuthZussy } from './sub/useAuthZussy';
 
 const zustandLogger = (storeName, newState, prevState) => {
     // console.groupCollapsed(
