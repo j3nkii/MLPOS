@@ -1,12 +1,17 @@
 import { create } from 'zustand';
+
+
+
 const INITIAL_LOGIN = {
     email: '',
     password: '',
 }
+
 const INITIAL_CONFIRMATION = {
     email: '',
     code: '',
 }
+
 const PAGE_VIEWS = {
     login: 'login',
     confirmation: 'confirm',
