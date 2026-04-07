@@ -45,7 +45,7 @@ export const ModalHeader = ({ onClose, title }) => {
                     {title || 'Modal Title'}
                 </h2>
             </div>
-            <Button type={'iconDanger'} onClick={onClose} >
+            <Button onClick={onClose} >
                 <X size={20} />
             </Button>
         </div>

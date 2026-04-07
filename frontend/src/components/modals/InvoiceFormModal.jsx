@@ -1,8 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Input } from '@components';
+import { Button, Input, TableForm } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModalZussy } from '@zussy';
 import { useInvoiceQuery, useCustomerQuery } from '@query';
+
+
+
+const headers = [
+    {
+        display: 'Item',
+        key: 'name'
+    },
+    {
+        display: 'Amount',
+        key: 'amount'
+    }
+];
+
+
 
 
 const INITIAL = {
@@ -18,6 +33,10 @@ export const InvoiceFormModal = ({ update }) => {
     const { readAllCustomers } = useCustomerQuery();
     const { closeModal, item } = useModalZussy();
 
+
+    const displayColumns = headers.map(x => x.display);
+    const columnKeys = headers.map(x => x.key);
+
     useEffect(() => {
         if(update){
             setInvoiceForm({
@@ -28,7 +47,9 @@ export const InvoiceFormModal = ({ update }) => {
         }
     }, [])
 
-    const handleConfirm = async () => {
+    const handleConfirm = async (evt) => {
+        evt.preventDefault()
+        console.log('###CONFIRM')
         const handler = update ? updateInvoice : createInvoice;
         const body = { invoiceID: item?.id, body: invoiceForm }
         handler.mutate(body);
@@ -43,10 +64,11 @@ export const InvoiceFormModal = ({ update }) => {
         <Modal onClose={closeModal}>
             <ModalHeader title={'Confirm'} onClose={closeModal} />
             <ModalBody>
-                <form className="p-6">
+                <form onSubmit={handleConfirm} className="p-6">
                     <Input onChange={handleChange} value={invoiceForm.amount} label={'Amount'} name={'amount'} />
                     { update && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
                     <Input onChange={handleChange} value={invoiceForm.customerID} label={'Customer'} name={'customerID'} type={'select'} options={readAllCustomers?.data?.data.map(cust => ({ name: cust.name, value: cust.id }))} />
+                    <TableForm {...{ displayColumns, columnKeys }} />
                 </form>
             </ModalBody>
 

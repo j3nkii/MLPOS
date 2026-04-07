@@ -21,7 +21,7 @@ const DEFAUL_PROPS = {
 
 
 
-export const Button = ({ id, type, name, onClick, children, color } = DEFAUL_PROPS) => {
+export const Button = ({ id, type = 'button', name, onClick, children, color } = DEFAUL_PROPS) => {
     return (
         <button
             id={id}

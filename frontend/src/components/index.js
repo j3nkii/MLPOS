@@ -1,6 +1,7 @@
 export { Button } from './commons/Button'
 export { Input } from './commons/Input'
 export { Table } from './commons/Table'
+export { TableForm } from './commons/TableForm'
 export { Modal } from './commons/Modal'
 export { Form } from './commons/Form'
 export { ModalHeader } from './commons/Modal'
