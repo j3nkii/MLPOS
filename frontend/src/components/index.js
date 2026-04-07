@@ -11,7 +11,6 @@ export { ModalFooter } from './commons/Modal'
 export { AuthPage } from './pages/AuthPage'
 export { CustomersPage } from './pages/CustomersPage'
 export { InvoicesPage } from './pages/InvoicesPage'
-export { TablePage } from './pages/TablePage'
 
 
 export { Layout } from './template/Layout'
