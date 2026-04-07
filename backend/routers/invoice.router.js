@@ -13,14 +13,20 @@ router.get('/', async (req, res) => {
         const { rows } = await pool.query(`
             SELECT
                 invoices.*,
-                customers.name
+                customers.name,
+                JSON_AGG(invoices_details) as details
             FROM invoices
+            JOIN invoices_details
+                ON invoices_details.invoices_id = invoices.id
+                AND invoices_details.is_deleted = false
             JOIN customers
                 ON customers.id = invoices.customer_id
             WHERE invoices.user_id = $1
                 AND invoices.is_deleted = false
+            GROUP BY invoices.id, customers.name
             ORDER BY created_at DESC;
         `, [ userID ]);
+        console.log(rows)
         res.status(200).json(rows);
     } catch (error) {
         console.error(error);
@@ -32,12 +38,19 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const { rows: [ user ] } = await pool.query(`
-            SELECT * FROM invoices
+        const { rows: [ invoice ] } = await pool.query(`
+            SELECT
+                *,
+                JSON_AGG(invoice_details)
+            FROM invoices
+            JOIN invoice_details
+                ON invoice_details.invoices_id = invoices.id
+                AND invoice_details.is_deleted = false
             WHERE id = $1
                 AND is_deleted = false;
         `, [ req.params.id ]);
-        res.status(200).json(user);
+        console.log(invoice)
+        res.status(200).json(invoice);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Something went wrong' });
