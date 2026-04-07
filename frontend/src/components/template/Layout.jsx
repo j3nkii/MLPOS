@@ -1,10 +1,10 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { useAuth } from '@zussy'
+import { useAuthZussy } from '@zussy'
 import { ModalManager, Navbar } from '@components'
 
 export const Layout = () => {
-    const { user } = useAuth();
+    const { user } = useAuthZussy();
     console.log(user)
     if (!user)
         return <Navigate to="/login" replace />

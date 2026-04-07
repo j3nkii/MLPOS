@@ -1,6 +1,6 @@
 import React, { useZustand, useEffect } from 'react';
 import { Button, Input } from '@components';
-import { useAuth } from '@zussy';
+import { useAuthZussy } from '@zussy';
 import { useAuthQuery } from '@query';
 import { useNavigate } from "react-router";
 import { Navigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ import axios from 'axios'
 
 export const AuthPage = () => {
     const navigate = useNavigate();
-    const { setUser, pageView } = useAuth();
+    const { setUser, pageView } = useAuthZussy();
 
   useEffect(() => {
     isAuthenticated();
@@ -40,7 +40,7 @@ export const AuthPage = () => {
 
 
 const ConfirmEmail = () => {
-    const { confirmationCodeForm: { code }, setConfirmationCode, postConfirmation } = useAuth();
+    const { confirmationCodeForm: { code }, setConfirmationCode, postConfirmation } = useAuthZussy();
     const handleForm = (evt) => {
         const { target: { value }} = evt;
         setConfirmationCode(value);
@@ -68,7 +68,7 @@ const ConfirmEmail = () => {
 
 
 export const Loggin = () => {
-    const { user, setLoginForm, loginForm, createUser } = useAuth();
+    const { user, setLoginForm, loginForm, createUser } = useAuthZussy();
     const { fetchUser } = useAuthQuery();
     const handleForm = (evt) => {
         const { target: { name, value }} = evt;

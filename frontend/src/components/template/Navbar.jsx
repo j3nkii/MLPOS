@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from "react-router";
-import { useAuth } from '@zussy'
+import { useAuthZussy } from '@zussy'
 import { Button } from '@components'
 import { CircleUserRound, LogOut } from 'lucide-react'
 
 
 export const Navbar = () => {
-    const { logout } = useAuth();
+    const { logout } = useAuthZussy();
     return (
         <div className="flex justify-center w-full px-25 py-5 bg-[#5d5d5d] text-white shadow">
             <div className='max-w-[2400px] w-170 flex flex-row items-center justify-between'>
