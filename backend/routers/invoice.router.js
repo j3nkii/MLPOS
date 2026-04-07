@@ -26,7 +26,6 @@ router.get('/', async (req, res) => {
             GROUP BY invoices.id, customers.name
             ORDER BY created_at DESC;
         `, [ userID ]);
-        console.log(rows)
         res.status(200).json(rows);
     } catch (error) {
         console.error(error);
