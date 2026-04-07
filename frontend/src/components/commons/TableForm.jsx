@@ -6,8 +6,11 @@ import { Button, Input } from '@components'
 const reIndex = (x, index) => ({ ...x, index })
 
 export const TableForm = ( PROPS ) => {
-    const { prefillData = [], onClick, displayColumns = [], columnKeys = [] } = PROPS;
+    const { prefillData = [], onClick, displayColumns = [], columnKeys = [], getDetails } = PROPS;
     const [data, setData] = useState(prefillData);
+    useEffect(() => {
+        getDetails(data);
+    }, [data])
     const onAddInput = () => {
         const newInput = {}
         columnKeys.forEach((key) => newInput[key] = '');
@@ -22,11 +25,7 @@ export const TableForm = ( PROPS ) => {
     const handleChange = (evt, rowIndex) => {
         const { target: { name, value }} = evt;
         const result = [...data];
-        console.log(result)
-        console.log(name, value, rowIndex)
         result[rowIndex][name] = value;
-        // console.log(data)
-        console.log(result)
         setData(result);
     }
     return (

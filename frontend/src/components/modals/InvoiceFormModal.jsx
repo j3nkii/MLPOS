@@ -29,6 +29,7 @@ const INITIAL = {
 
 export const InvoiceFormModal = ({ update }) => {
     const [invoiceForm, setInvoiceForm] = useState(INITIAL);
+    const [total, setTotal] = useState(0);
     const { createInvoice, updateInvoice } = useInvoiceQuery();
     const { readAllCustomers } = useCustomerQuery();
     const { closeModal, item } = useModalZussy();
@@ -49,7 +50,6 @@ export const InvoiceFormModal = ({ update }) => {
 
     const handleConfirm = async (evt) => {
         evt.preventDefault()
-        console.log('###CONFIRM')
         const handler = update ? updateInvoice : createInvoice;
         const body = { invoiceID: item?.id, body: invoiceForm }
         handler.mutate(body);
@@ -60,16 +60,22 @@ export const InvoiceFormModal = ({ update }) => {
         setInvoiceForm({ ...invoiceForm, [name]: value });
     }
 
+    const getDetails = (details) => {
+        let result = 0;
+        details.forEach(x => result += Number(x.amount));
+        setTotal(result)
+    };
+
     return (
         <Modal onClose={closeModal}>
             <ModalHeader title={'Confirm'} onClose={closeModal} />
             <ModalBody>
                 <form onSubmit={handleConfirm} className="p-6">
-                    <Input onChange={handleChange} value={invoiceForm.amount} label={'Amount'} name={'amount'} />
                     { update && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
                     <Input onChange={handleChange} value={invoiceForm.customerID} label={'Customer'} name={'customerID'} type={'select'} options={readAllCustomers?.data?.data.map(cust => ({ name: cust.name, value: cust.id }))} />
-                    <TableForm {...{ displayColumns, columnKeys }} />
+                    <TableForm getDetails={getDetails} {...{ displayColumns, columnKeys }} />
                 </form>
+                <div>total: {total}</div>
             </ModalBody>
 
             <ModalFooter>
