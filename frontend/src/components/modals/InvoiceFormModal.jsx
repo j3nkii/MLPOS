@@ -19,9 +19,7 @@ export const InvoiceFormModal = ({ update }) => {
     const { closeModal, item } = useModalZussy();
 
     useEffect(() => {
-        console.log()
         if(update){
-            console.log(item)
             setInvoiceForm({
                 amount: item.amount,
                 customerID: item.customer_id,
