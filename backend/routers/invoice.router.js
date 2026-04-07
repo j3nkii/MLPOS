@@ -70,17 +70,34 @@ router.post('/', async(req, res) => {
             invoiceTotal += Number(detail.amount);
         });
         await client.query('BEGIN');
-        await client.query(`
+        const {rows: [result]} = await client.query(`
             INSERT INTO invoices (amount, customer_id, user_id)
-            VALUES ($1, $2, $3);
+            VALUES ($1, $2, $3)
+            RETURNING id;
         `, [ invoiceTotal, customerID, userID]
         );
+        console.log(result);
+        let idx = 2;
+        const detailsParams = [result.id];
+        const detailsSQLArray = [];
+        details.forEach(detail => {
+            detailsParams.push(detail.name, detail.amount)
+            detailsSQLArray.push(`($1, $${idx++}, $${idx++})`);
+        });
+        const detailsSQL = (`
+            INSERT INTO invoices_details (invoices_id, name, amount)
+            VALUES ${detailsSQLArray.join(', ')}
+        `);
+        console.log(detailsSQL, detailsParams)
+        await client.query(detailsSQL, detailsParams);
         await client.query('COMMIT');
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
         await client.query('ROLLBACK');
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
+    } finally {
+        client.release();
     }
 });
 
