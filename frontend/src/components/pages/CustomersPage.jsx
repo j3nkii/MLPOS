@@ -27,7 +27,6 @@ const modalKeys = {
 
 export const CustomersPage = () => {
     const { readAllCustomers } = useCustomerQuery();
-    console.log(readAllCustomers.data)
     const displayColumns = headers.map(x => x.display);
     const columnKeys = headers.map(x => x.key);
     return (
