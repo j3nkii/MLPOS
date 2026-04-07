@@ -1,9 +1,9 @@
-import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { createAuthSlice } from './slices/auth';
 
 export { useModalZussy } from './sub/useModalZussy';
 export { useAuthZussy } from './sub/useAuthZussy';
+
+
 
 const zustandLogger = (storeName, newState, prevState) => {
     // console.groupCollapsed(
@@ -14,6 +14,8 @@ const zustandLogger = (storeName, newState, prevState) => {
     // console.log('%cNew State:', 'color: #22c55e; font-weight: bold;', newState);
     // console.groupEnd();
 };
+
+
 
 // Custom logger middleware
 const loggerMiddleware = (config) => (set, get, api) =>
@@ -27,16 +29,3 @@ const loggerMiddleware = (config) => (set, get, api) =>
         get,
         api
     );
-
-// Wrap with both devtools AND logger
-export const useZustand = create(
-    devtools(
-        loggerMiddleware((set, get, api) => ({
-            auth: createAuthSlice(set, get, api),
-        })),
-        { name: 'app-store' }
-    )
-);
-
-
-export const useAuth = () => useZustand(state => state.auth);
