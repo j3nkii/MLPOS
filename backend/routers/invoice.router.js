@@ -14,9 +14,9 @@ router.get('/', async (req, res) => {
             SELECT
                 invoices.*,
                 customers.name,
-                JSON_AGG(invoices_details) as details
+                COALESCE(JSON_AGG(invoices_details) FILTER (WHERE invoices_details.invoices_id IS NOT NULL), '[]') as details
             FROM invoices
-            JOIN invoices_details
+            LEFT JOIN invoices_details
                 ON invoices_details.invoices_id = invoices.id
                 AND invoices_details.is_deleted = false
             JOIN customers
@@ -59,17 +59,26 @@ router.get('/:id', async (req, res) => {
 
 
 router.post('/', async(req, res) => {
+    const client = await pool.connect();
     try {
         const userID = req.user.attributes.mlpos_id;
-        const { amount, customerID } = req.body;
-        if (!amount || !customerID) throw new Error('Missing Fields')
-        await pool.query(`
+        const { details, customerID } = req.body;
+        if (!details || !customerID) throw new Error('Missing Fields');
+        console.log(details);
+        let invoiceTotal = 0;
+        details.forEach(detail => {
+            invoiceTotal += Number(detail.amount);
+        });
+        await client.query('BEGIN');
+        await client.query(`
             INSERT INTO invoices (amount, customer_id, user_id)
             VALUES ($1, $2, $3);
-        `, [ amount, customerID, userID]
+        `, [ invoiceTotal, customerID, userID]
         );
+        await client.query('COMMIT');
         res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
+        await client.query('ROLLBACK');
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
     }

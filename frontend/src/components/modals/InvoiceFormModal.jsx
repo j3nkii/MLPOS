@@ -17,13 +17,11 @@ const headers = [
     }
 ];
 
-
-
-
 const INITIAL = {
     amount: '',
     customerID: '',
     status: '',
+    details: [],
 };
 
 
@@ -44,6 +42,7 @@ export const InvoiceFormModal = ({ update }) => {
                 amount: item.amount,
                 customerID: item.customer_id,
                 status: item.status,
+                details: item.details,
             })
         }
     }, [])
@@ -60,11 +59,9 @@ export const InvoiceFormModal = ({ update }) => {
         setInvoiceForm({ ...invoiceForm, [name]: value });
     }
 
-    const getDetails = (details) => {
-        let result = 0;
-        details.forEach(x => result += Number(x.amount));
-        setTotal(result)
-    };
+    const setDetails = (details) => {
+        setInvoiceForm({ ...invoiceForm, details });
+    }
 
     return (
         <Modal onClose={closeModal}>
@@ -72,8 +69,19 @@ export const InvoiceFormModal = ({ update }) => {
             <ModalBody>
                 <form onSubmit={handleConfirm} className="p-6">
                     { update && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
-                    <Input onChange={handleChange} value={invoiceForm.customerID} label={'Customer'} name={'customerID'} type={'select'} options={readAllCustomers?.data?.data.map(cust => ({ name: cust.name, value: cust.id }))} />
-                    <TableForm getDetails={getDetails} {...{ displayColumns, columnKeys }} />
+                    <Input
+                        onChange={handleChange}
+                        value={invoiceForm.customerID}
+                        label={'Customer'}
+                        name={'customerID'}
+                        type={'select'}
+                        options={readAllCustomers?.data?.data.map(cust => ({ name: cust.name, value: cust.id }))}
+                    />
+                    <TableForm
+                        setDetails={setDetails}
+                        details={invoiceForm.details}
+                        {...{ displayColumns, columnKeys }}
+                    />
                 </form>
                 <div>total: {total}</div>
             </ModalBody>
