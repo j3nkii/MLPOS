@@ -19,6 +19,8 @@ export const ModalManager = () => {
             return <InvoiceFormModal update={true} />
         case 'deleteInvoice':
             return <InvoiceDeleteModal />
+        case null:
+            return null;
         default:
             console.warn('INVALID MODAL ::', modalKey)
             return null;
