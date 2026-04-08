@@ -34,27 +34,27 @@ router.get('/', async (req, res) => {
 });
 
 
-
-router.get('/:id', async (req, res) => {
-    try {
-        const { rows: [ invoice ] } = await pool.query(`
-            SELECT
-                *,
-                JSON_AGG(invoice_details)
-            FROM invoices
-            JOIN invoice_details
-                ON invoice_details.invoices_id = invoices.id
-                AND invoice_details.is_deleted = false
-            WHERE id = $1
-                AND is_deleted = false;
-        `, [ req.params.id ]);
-        console.log(invoice)
-        res.status(200).json(invoice);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Something went wrong' });
-    }
-});
+// CURRENTLY GET / FETCHES ALL DATA, SO FRONT END DOES NOT NEED A "DETAILED" VIEW
+// router.get('/:id', async (req, res) => {
+//     try {
+//         const { rows: [ invoice ] } = await pool.query(`
+//             SELECT
+//                 *,
+//                 JSON_AGG(invoice_details)
+//             FROM invoices
+//             JOIN invoice_details
+//                 ON invoice_details.invoices_id = invoices.id
+//                 AND invoice_details.is_deleted = false
+//             WHERE id = $1
+//                 AND is_deleted = false;
+//         `, [ req.params.id ]);
+//         console.log(invoice)
+//         res.status(200).json(invoice);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Something went wrong' });
+//     }
+// });
 
 
 
@@ -101,12 +101,15 @@ router.post('/', async(req, res) => {
 
 
 router.put('/:id', async(req, res) => {
+    const client = await pool.connect();
     try {
-        const { amount, customerID, status } = req.body;
+
+        const { amount, customerID, status, details } = req.body;
         console.log(req.body)
         console.log(req.params)
         const { id: invoiceID } = req.params;
-        if(!amount && !customerID && !status) throw new Error('Missing Fields');
+        if(!amount && !customerID && !status && !details) throw new Error('No Fields Detected');
+        if(!customerID || !invoiceID) throw new Error('Missing Essential Fields');
         const INSERT_SQL = [];
         const INSERT_PARAMS = [];
         let idx = 2;
@@ -119,6 +122,20 @@ router.put('/:id', async(req, res) => {
         } if (status) {
             INSERT_SQL.push(`status = $${idx++}`);
             INSERT_PARAMS.push(status);
+        } if (details) {
+            await client.query('UPDATE invoices_details SET is_deleted = true WHERE invoices_id = $1', [invoiceID]);
+            let paramIndex = 2;
+            let detailsSQLArray = [];
+            let detailsParams = [invoiceID];
+            details.forEach(detail => {
+                detailsParams.push(detail.name, detail.amount, detail.quantity)
+                detailsSQLArray.push(`($1, $${paramIndex++}, $${paramIndex++}, $${paramIndex++})`);
+            });
+            const detailsSQL = (`
+                INSERT INTO invoices_details (invoices_id, name, amount, quantity)
+                VALUES ${detailsSQLArray.join(', ')}
+            `);
+            await client.query(detailsSQL, detailsParams);
         }
         const END_SQL = `
             UPDATE invoices
@@ -127,11 +144,15 @@ router.put('/:id', async(req, res) => {
                 invoices.id = $1;
         `
         const END_PARAMS = [ invoiceID, ...INSERT_PARAMS ];
-        await pool.query(END_SQL, END_PARAMS);
+        await client.query(END_SQL, END_PARAMS);
+        await client.query('COMMIT');
         res.status(200).json({ message: 'User updated successfully' });
     } catch (error) {
+        await client.query('ROLLBACK');
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
+    } finally {
+        client.release();
     }
 });
 
