@@ -124,18 +124,20 @@ router.put('/:id', async(req, res) => {
             INSERT_PARAMS.push(status);
         } if (details) {
             await client.query('UPDATE invoices_details SET is_deleted = true WHERE invoices_id = $1', [invoiceID]);
-            let paramIndex = 2;
-            let detailsSQLArray = [];
-            let detailsParams = [invoiceID];
-            details.forEach(detail => {
-                detailsParams.push(detail.name, detail.amount, detail.quantity)
-                detailsSQLArray.push(`($1, $${paramIndex++}, $${paramIndex++}, $${paramIndex++})`);
-            });
-            const detailsSQL = (`
-                INSERT INTO invoices_details (invoices_id, name, amount, quantity)
-                VALUES ${detailsSQLArray.join(', ')}
-            `);
-            await client.query(detailsSQL, detailsParams);
+            if (details.length > 0) {
+                let paramIndex = 2;
+                let detailsSQLArray = [];
+                let detailsParams = [invoiceID];
+                details.forEach(detail => {
+                    detailsParams.push(detail.name, detail.amount, detail.quantity)
+                    detailsSQLArray.push(`($1, $${paramIndex++}, $${paramIndex++}, $${paramIndex++})`);
+                });
+                const detailsSQL = (`
+                    INSERT INTO invoices_details (invoices_id, name, amount, quantity)
+                    VALUES ${detailsSQLArray.join(', ')}
+                `);
+                await client.query(detailsSQL, detailsParams);
+            }
         }
         const END_SQL = `
             UPDATE invoices
