@@ -46,8 +46,13 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                 amount: item.amount,
                 customerID: item.customer_id,
                 status: item.status,
-                details: item.details,
-            })
+                details: item.details.map((detail, index) => ({
+                    ...detail,
+                    // inEdit: false,
+                    // isMutated: false,
+                    index
+                })),
+            });
         }
     }, [])
 

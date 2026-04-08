@@ -24,9 +24,11 @@ export const TableForm = ( PROPS ) => {
         result[rowIndex][name] = value;
         setDetails(result);
     }
-    const onEdit = () => {
-        
-    }
+    // const onEdit = (item) => {
+    //     const result = [...details]
+    //     result[item.index].inEdit = !result[item.index].inEdit
+    //     setDetails(result)
+    // }
     return (
         <div className="rounded-2xl overflow-hidden border-2">
             <table className="min-w-full border-collapse table-fixed w-full bg-white shadow-sm">
@@ -57,6 +59,7 @@ export const TableForm = ( PROPS ) => {
                                     className="px-4 py-3 text-gray-900"
                                 >
                                     <Input
+                                        // disabled={!row.inEdit}
                                         onChange={(evt) => handleChange(evt, rowIndex)}
                                         value={details[rowIndex][field]}
                                         label={null}
@@ -113,11 +116,11 @@ const ActionsCell = ({ item, onDelete, onEdit, isUpdate }) => {
     return (
         <td>
             <div className='flex items-center justify-end pr-3.5'>
-                {isUpdate && <Button 
+                {/* {isUpdate && <Button 
                     onClick={() => onEdit(item)} 
                     text="Edit"
                 ><Pencil />
-                </Button>}
+                </Button>} */}
                 <Button 
                     onClick={() => onDelete(item)} 
                     text="Delete"
