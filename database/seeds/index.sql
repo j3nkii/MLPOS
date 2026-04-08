@@ -1,63 +1,65 @@
--- Seed Data for Invoice System
+-- Seed data for users (businesses/staff)
+INSERT INTO users (id, username, email, created_at, updated_at) VALUES
+    ('a5eecb49-095e-484a-a054-01efc20586b0', 'acme_corp', 'owner@acmecorp.com', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('bc4e2e6c-2b6b-4105-8c80-d67f6e3051f9', 'beta_solutions', 'admin@betasolutions.io', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('be17f394-5386-4c30-baa8-23ac13c2f6a2', 'gamma_store', 'manager@gammastore.com', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00');
 
--- Insert system users (businesses/staff)
-INSERT INTO users (id, username, email, is_deleted, created_at, updated_at) VALUES
-('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'acme_corp', 'contact@acmecorp.com', FALSE, '2024-01-15 09:00:00+00', '2024-01-15 09:00:00+00'),
-('b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a22', 'techstart_solutions', 'hello@techstart.io', FALSE, '2024-02-01 10:30:00+00', '2024-02-01 10:30:00+00'),
-('c2eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'design_studio', 'info@designstudio.co', FALSE, '2024-02-20 14:15:00+00', '2024-02-20 14:15:00+00'),
-('d3eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'consulting_pro', 'admin@consultingpro.com', FALSE, '2024-03-05 08:45:00+00', '2024-03-05 08:45:00+00'),
-('e4eebc99-9c0b-4ef8-bb6d-6bb9bd380a55', 'creative_agency', 'team@creativeagency.com', FALSE, '2024-03-12 11:20:00+00', '2024-03-12 11:20:00+00');
+-- Seed data for customers
+INSERT INTO customers (id, user_id, name, email, phone, created_at, updated_at) VALUES
+    ('168ef77c-f74f-4936-a758-494f3a910f24', 'a5eecb49-095e-484a-a054-01efc20586b0', 'Customer 1 of acme_corp', 'cust1@acme_corp.com', '+1-555-001-10', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('91fe6190-55ee-4e67-9614-ab9e92546941', 'a5eecb49-095e-484a-a054-01efc20586b0', 'Customer 2 of acme_corp', 'cust2@acme_corp.com', '+1-555-001-11', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('f42e4177-fdb0-4abb-9392-a566371ba871', 'a5eecb49-095e-484a-a054-01efc20586b0', 'Customer 3 of acme_corp', 'cust3@acme_corp.com', '+1-555-001-12', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('528390e6-71e8-4a45-8349-364db9db5e79', 'bc4e2e6c-2b6b-4105-8c80-d67f6e3051f9', 'Customer 1 of beta_solutions', 'cust1@beta_solutions.com', '+1-555-002-10', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('082d225f-2657-481d-9cf6-39d55f6e2880', 'bc4e2e6c-2b6b-4105-8c80-d67f6e3051f9', 'Customer 2 of beta_solutions', 'cust2@beta_solutions.com', '+1-555-002-11', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('1ea620dc-0308-4071-b949-ee09388d2a04', 'bc4e2e6c-2b6b-4105-8c80-d67f6e3051f9', 'Customer 3 of beta_solutions', 'cust3@beta_solutions.com', '+1-555-002-12', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('1db00b8a-3554-4809-81f7-04c7ec2c66c4', 'be17f394-5386-4c30-baa8-23ac13c2f6a2', 'Customer 1 of gamma_store', 'cust1@gamma_store.com', '+1-555-003-10', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('807f1b6a-3c8d-4262-ac74-26ad90ae29cf', 'be17f394-5386-4c30-baa8-23ac13c2f6a2', 'Customer 2 of gamma_store', 'cust2@gamma_store.com', '+1-555-003-11', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('dee6af35-6001-4bd6-93b5-01186b308123', 'be17f394-5386-4c30-baa8-23ac13c2f6a2', 'Customer 3 of gamma_store', 'cust3@gamma_store.com', '+1-555-003-12', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00');
 
--- Insert customers for each business
-INSERT INTO customers (id, user_id, name, email, phone, is_deleted, created_at, updated_at) VALUES
--- Customers for acme_corp
-('f5eebc99-9c0b-4ef8-bb6d-6bb9bd380a66', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'John Smith', 'john.smith@email.com', '+1-555-0101', FALSE, '2024-01-16 10:00:00+00', '2024-01-16 10:00:00+00'),
-('f6eebc99-9c0b-4ef8-bb6d-6bb9bd380a77', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Sarah Johnson', 'sarah.j@email.com', '+1-555-0102', FALSE, '2024-01-20 14:30:00+00', '2024-01-20 14:30:00+00'),
-('f7eebc99-9c0b-4ef8-bb6d-6bb9bd380a88', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Michael Brown', 'mbrown@email.com', '+1-555-0103', FALSE, '2024-02-05 09:15:00+00', '2024-02-05 09:15:00+00'),
+-- Seed data for invoices
+INSERT INTO invoices (id, user_id, customer_id, status, date_sent, created_at, updated_at) VALUES
+    ('e3301fdf-f595-40f9-a423-613f6d510c3c', 'a5eecb49-095e-484a-a054-01efc20586b0', '168ef77c-f74f-4936-a758-494f3a910f24', 'pending', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('07a48c84-0c6c-439a-a7ac-b86df63e8098', 'a5eecb49-095e-484a-a054-01efc20586b0', '168ef77c-f74f-4936-a758-494f3a910f24', 'cancelled', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('a9577811-a8e4-4be2-a36e-dc4468ab8401', 'a5eecb49-095e-484a-a054-01efc20586b0', '91fe6190-55ee-4e67-9614-ab9e92546941', 'cancelled', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('d01f6d3b-abae-4d18-9a83-3f0421d47631', 'a5eecb49-095e-484a-a054-01efc20586b0', '91fe6190-55ee-4e67-9614-ab9e92546941', 'pending', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('e5468ecb-6203-42f6-a643-c2ee3a65526f', 'bc4e2e6c-2b6b-4105-8c80-d67f6e3051f9', '528390e6-71e8-4a45-8349-364db9db5e79', 'pending', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('e2c33e0f-399a-48c5-b3ab-6fd39cadf9cb', 'bc4e2e6c-2b6b-4105-8c80-d67f6e3051f9', '528390e6-71e8-4a45-8349-364db9db5e79', 'cancelled', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('adf7280f-85b1-4398-9e25-4285838d75c6', 'bc4e2e6c-2b6b-4105-8c80-d67f6e3051f9', '082d225f-2657-481d-9cf6-39d55f6e2880', 'cancelled', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('53cbdaa0-b190-420f-995c-6cae146ceca7', 'bc4e2e6c-2b6b-4105-8c80-d67f6e3051f9', '082d225f-2657-481d-9cf6-39d55f6e2880', 'pending', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('1e6e22dc-10ee-4def-abb4-19d0d5a90bc8', 'be17f394-5386-4c30-baa8-23ac13c2f6a2', '1db00b8a-3554-4809-81f7-04c7ec2c66c4', 'pending', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('8bd41ce2-f710-4d89-88af-5c9bfee518ff', 'be17f394-5386-4c30-baa8-23ac13c2f6a2', '1db00b8a-3554-4809-81f7-04c7ec2c66c4', 'cancelled', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('8273b768-f9b8-4185-921e-504629d7d6a4', 'be17f394-5386-4c30-baa8-23ac13c2f6a2', '807f1b6a-3c8d-4262-ac74-26ad90ae29cf', 'cancelled', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('48362ddd-bb11-467f-9181-37f9efe6da4f', 'be17f394-5386-4c30-baa8-23ac13c2f6a2', '807f1b6a-3c8d-4262-ac74-26ad90ae29cf', 'pending', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00');
 
--- Customers for techstart_solutions
-('f8eebc99-9c0b-4ef8-bb6d-6bb9bd380a99', 'b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a22', 'Emily Davis', 'emily.davis@company.com', '+1-555-0201', FALSE, '2024-02-02 11:00:00+00', '2024-02-02 11:00:00+00'),
-('f9eebc99-9c0b-4ef8-bb6d-6bb9bd380aaa', 'b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a22', 'David Wilson', 'dwilson@enterprise.com', '+1-555-0202', FALSE, '2024-02-10 15:45:00+00', '2024-02-10 15:45:00+00'),
-
--- Customers for design_studio
-('faeebc99-9c0b-4ef8-bb6d-6bb9bd380abb', 'c2eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'Jessica Martinez', 'jmartinez@startup.io', '+1-555-0301', FALSE, '2024-02-21 10:30:00+00', '2024-02-21 10:30:00+00'),
-('fbeebc99-9c0b-4ef8-bb6d-6bb9bd380acc', 'c2eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'Robert Taylor', 'rtaylor@business.com', '+1-555-0302', FALSE, '2024-03-01 13:20:00+00', '2024-03-01 13:20:00+00'),
-('fceebc99-9c0b-4ef8-bb6d-6bb9bd380add', 'c2eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'Amanda Lee', 'alee@email.com', '+1-555-0303', FALSE, '2024-03-10 16:00:00+00', '2024-03-10 16:00:00+00'),
-
--- Customers for consulting_pro
-('fdeebc99-9c0b-4ef8-bb6d-6bb9bd380aee', 'd3eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'Christopher Anderson', 'canderson@corp.com', '+1-555-0401', FALSE, '2024-03-06 09:00:00+00', '2024-03-06 09:00:00+00'),
-('feeebc99-9c0b-4ef8-bb6d-6bb9bd380aff', 'd3eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'Jennifer White', 'jwhite@organization.org', '+1-555-0402', FALSE, '2024-03-15 12:30:00+00', '2024-03-15 12:30:00+00'),
-
--- Customers for creative_agency
-('ffeebc99-9c0b-4ef8-bb6d-6bb9bd380b00', 'e4eebc99-9c0b-4ef8-bb6d-6bb9bd380a55', 'Daniel Harris', 'dharris@tech.com', '+1-555-0501', FALSE, '2024-03-13 14:00:00+00', '2024-03-13 14:00:00+00'),
-('00febc99-9c0b-4ef8-bb6d-6bb9bd380b11', 'e4eebc99-9c0b-4ef8-bb6d-6bb9bd380a55', 'Michelle Clark', 'mclark@email.com', '+1-555-0502', FALSE, '2024-03-20 10:45:00+00', '2024-03-20 10:45:00+00');
-
--- Insert invoices with various statuses
-INSERT INTO invoices (id, user_id, customer_id, amount, status, date_sent, is_deleted, created_at, updated_at) VALUES
--- Invoices for acme_corp
-('10febc99-9c0b-4ef8-bb6d-6bb9bd380b22', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'f5eebc99-9c0b-4ef8-bb6d-6bb9bd380a66', 150000, 'paid', '2024-01-17 10:00:00+00', FALSE, '2024-01-17 10:00:00+00', '2024-01-25 14:30:00+00'),
-('11febc99-9c0b-4ef8-bb6d-6bb9bd380b33', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'f5eebc99-9c0b-4ef8-bb6d-6bb9bd380a66', 275000, 'paid', '2024-02-15 09:30:00+00', FALSE, '2024-02-15 09:30:00+00', '2024-02-20 11:00:00+00'),
-('12febc99-9c0b-4ef8-bb6d-6bb9bd380b44', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'f6eebc99-9c0b-4ef8-bb6d-6bb9bd380a77', 89500, 'pending', '2024-11-15 10:00:00+00', FALSE, '2024-11-15 10:00:00+00', '2024-11-15 10:00:00+00'),
-('13febc99-9c0b-4ef8-bb6d-6bb9bd380b55', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'f7eebc99-9c0b-4ef8-bb6d-6bb9bd380a88', 320000, 'overdue', '2024-09-10 08:00:00+00', FALSE, '2024-09-10 08:00:00+00', '2024-09-10 08:00:00+00'),
-
--- Invoices for techstart_solutions
-('14febc99-9c0b-4ef8-bb6d-6bb9bd380b66', 'b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a22', 'f8eebc99-9c0b-4ef8-bb6d-6bb9bd380a99', 500000, 'paid', '2024-02-05 11:00:00+00', FALSE, '2024-02-05 11:00:00+00', '2024-02-12 16:30:00+00'),
-('15febc99-9c0b-4ef8-bb6d-6bb9bd380b77', 'b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a22', 'f8eebc99-9c0b-4ef8-bb6d-6bb9bd380a99', 750000, 'pending', '2024-11-10 09:00:00+00', FALSE, '2024-11-10 09:00:00+00', '2024-11-10 09:00:00+00'),
-('16febc99-9c0b-4ef8-bb6d-6bb9bd380b88', 'b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a22', 'f9eebc99-9c0b-4ef8-bb6d-6bb9bd380aaa', 425000, 'paid', '2024-03-01 14:00:00+00', FALSE, '2024-03-01 14:00:00+00', '2024-03-08 10:15:00+00'),
-
--- Invoices for design_studio
-('17febc99-9c0b-4ef8-bb6d-6bb9bd380b99', 'c2eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'faeebc99-9c0b-4ef8-bb6d-6bb9bd380abb', 185000, 'paid', '2024-02-25 10:30:00+00', FALSE, '2024-02-25 10:30:00+00', '2024-03-02 09:00:00+00'),
-('18febc99-9c0b-4ef8-bb6d-6bb9bd380baa', 'c2eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'fbeebc99-9c0b-4ef8-bb6d-6bb9bd380acc', 295000, 'overdue', '2024-08-20 13:00:00+00', FALSE, '2024-08-20 13:00:00+00', '2024-08-20 13:00:00+00'),
-('19febc99-9c0b-4ef8-bb6d-6bb9bd380bbb', 'c2eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'fceebc99-9c0b-4ef8-bb6d-6bb9bd380add', 125000, 'pending', '2024-11-18 15:30:00+00', FALSE, '2024-11-18 15:30:00+00', '2024-11-18 15:30:00+00'),
-
--- Invoices for consulting_pro
-('1afebc99-9c0b-4ef8-bb6d-6bb9bd380bcc', 'd3eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'fdeebc99-9c0b-4ef8-bb6d-6bb9bd380aee', 680000, 'paid', '2024-03-10 09:00:00+00', FALSE, '2024-03-10 09:00:00+00', '2024-03-18 14:00:00+00'),
-('1bfebc99-9c0b-4ef8-bb6d-6bb9bd380bdd', 'd3eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'fdeebc99-9c0b-4ef8-bb6d-6bb9bd380aee', 920000, 'pending', '2024-11-12 10:30:00+00', FALSE, '2024-11-12 10:30:00+00', '2024-11-12 10:30:00+00'),
-('1cfebc99-9c0b-4ef8-bb6d-6bb9bd380bee', 'd3eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'feeebc99-9c0b-4ef8-bb6d-6bb9bd380aff', 540000, 'paid', '2024-10-05 11:00:00+00', FALSE, '2024-10-05 11:00:00+00', '2024-10-15 09:30:00+00'),
-('1dfebc99-9c0b-4ef8-bb6d-6bb9bd380bff', 'd3eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'feeebc99-9c0b-4ef8-bb6d-6bb9bd380aff', 385000, 'cancelled', '2024-07-15 14:00:00+00', FALSE, '2024-07-15 14:00:00+00', '2024-07-20 16:00:00+00'),
-
--- Invoices for creative_agency
-('1efebc99-9c0b-4ef8-bb6d-6bb9bd380c00', 'e4eebc99-9c0b-4ef8-bb6d-6bb9bd380a55', 'ffeebc99-9c0b-4ef8-bb6d-6bb9bd380b00', 215000, 'paid', '2024-03-18 14:00:00+00', FALSE, '2024-03-18 14:00:00+00', '2024-03-25 10:00:00+00'),
-('1ffebc99-9c0b-4ef8-bb6d-6bb9bd380c11', 'e4eebc99-9c0b-4ef8-bb6d-6bb9bd380a55', 'ffeebc99-9c0b-4ef8-bb6d-6bb9bd380b00', 465000, 'pending', '2024-11-20 09:00:00+00', FALSE, '2024-11-20 09:00:00+00', '2024-11-20 09:00:00+00'),
-('20febc99-9c0b-4ef8-bb6d-6bb9bd380c22', 'e4eebc99-9c0b-4ef8-bb6d-6bb9bd380a55', '00febc99-9c0b-4ef8-bb6d-6bb9bd380b11', 175000, 'paid', '2024-09-12 13:30:00+00', FALSE, '2024-09-12 13:30:00+00', '2024-09-20 11:45:00+00'),
-('21febc99-9c0b-4ef8-bb6d-6bb9bd380c33', 'e4eebc99-9c0b-4ef8-bb6d-6bb9bd380a55', '00febc99-9c0b-4ef8-bb6d-6bb9bd380b11', 335000, 'overdue', '2024-09-01 10:00:00+00', FALSE, '2024-09-01 10:00:00+00', '2024-09-01 10:00:00+00');
+-- Seed data for invoices_details
+INSERT INTO invoices_details (id, invoices_id, name, quantity, amount, created_at, updated_at) VALUES
+    ('9c1dbabd-9305-4c66-98a5-d75f14a41a6a', 'e3301fdf-f595-40f9-a423-613f6d510c3c', 'Item 1 for invoice', 1, 1000, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('93ff6f2c-6852-43e6-8103-39563a3e7d1f', 'e3301fdf-f595-40f9-a423-613f6d510c3c', 'Item 2 for invoice', 2, 1500, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('5d98a656-a5c4-437a-8684-ebb4805c7c76', '07a48c84-0c6c-439a-a7ac-b86df63e8098', 'Item 1 for invoice', 1, 1200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('d286dc78-a60a-4083-84aa-f55f82278549', '07a48c84-0c6c-439a-a7ac-b86df63e8098', 'Item 2 for invoice', 2, 1700, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('5be26bb9-c96b-4960-ad8f-efe25cd1102b', '07a48c84-0c6c-439a-a7ac-b86df63e8098', 'Item 3 for invoice', 3, 2200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('c5e42a5f-538a-469f-a2d1-6f0679699586', 'a9577811-a8e4-4be2-a36e-dc4468ab8401', 'Item 1 for invoice', 1, 1000, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('e3dbed76-4a64-4629-a3c3-292bfaa354bb', 'a9577811-a8e4-4be2-a36e-dc4468ab8401', 'Item 2 for invoice', 2, 1500, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('31c545ea-beb0-4fab-8e66-33d273337e5f', 'd01f6d3b-abae-4d18-9a83-3f0421d47631', 'Item 1 for invoice', 1, 1200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('76d5de2c-f7d1-4e02-b037-713313787583', 'd01f6d3b-abae-4d18-9a83-3f0421d47631', 'Item 2 for invoice', 2, 1700, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('a8588518-3a98-4345-b559-d81dc3c55a4b', 'd01f6d3b-abae-4d18-9a83-3f0421d47631', 'Item 3 for invoice', 3, 2200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('082c2442-133a-4e22-b060-c341805a8503', 'e5468ecb-6203-42f6-a643-c2ee3a65526f', 'Item 1 for invoice', 1, 1000, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('5c2b2439-4d47-4287-80a2-6babc2550ddc', 'e5468ecb-6203-42f6-a643-c2ee3a65526f', 'Item 2 for invoice', 2, 1500, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('44f5d600-4a39-4cda-8230-0b5bb14b571e', 'e2c33e0f-399a-48c5-b3ab-6fd39cadf9cb', 'Item 1 for invoice', 1, 1200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('37a429e7-544c-42db-8bd2-5f6505abc295', 'e2c33e0f-399a-48c5-b3ab-6fd39cadf9cb', 'Item 2 for invoice', 2, 1700, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('369adf68-b0fe-499e-b4e7-317176ea8548', 'e2c33e0f-399a-48c5-b3ab-6fd39cadf9cb', 'Item 3 for invoice', 3, 2200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('15e6a794-f747-4ec1-a974-efe791f32ba5', 'adf7280f-85b1-4398-9e25-4285838d75c6', 'Item 1 for invoice', 1, 1000, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('22a923f5-d07e-4268-8053-03ea12f60c6d', 'adf7280f-85b1-4398-9e25-4285838d75c6', 'Item 2 for invoice', 2, 1500, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('88403773-4b1d-45b1-bc7e-cf1061696d89', '53cbdaa0-b190-420f-995c-6cae146ceca7', 'Item 1 for invoice', 1, 1200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('8c6aea86-8187-412b-b6cf-eae24dff9694', '53cbdaa0-b190-420f-995c-6cae146ceca7', 'Item 2 for invoice', 2, 1700, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('a5685960-09e7-458d-b148-b4de8193fd19', '53cbdaa0-b190-420f-995c-6cae146ceca7', 'Item 3 for invoice', 3, 2200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('8457a037-2477-49b5-8679-9e59644a6aa8', '1e6e22dc-10ee-4def-abb4-19d0d5a90bc8', 'Item 1 for invoice', 1, 1000, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('2ba46c02-cce9-410d-bcbe-ec4a23a2204d', '1e6e22dc-10ee-4def-abb4-19d0d5a90bc8', 'Item 2 for invoice', 2, 1500, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('314b23bd-d89e-4c44-81f5-bc03cb6f1279', '8bd41ce2-f710-4d89-88af-5c9bfee518ff', 'Item 1 for invoice', 1, 1200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('3ed17975-3e41-4e62-bfc2-dede04a5f460', '8bd41ce2-f710-4d89-88af-5c9bfee518ff', 'Item 2 for invoice', 2, 1700, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('3768ea26-d4e4-4283-801c-f6f6cceda2fe', '8bd41ce2-f710-4d89-88af-5c9bfee518ff', 'Item 3 for invoice', 3, 2200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('2f8f5317-542e-45c6-bdcc-3498881135dd', '8273b768-f9b8-4185-921e-504629d7d6a4', 'Item 1 for invoice', 1, 1000, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('2bd6a868-2fa1-43d2-b473-f0225a640614', '8273b768-f9b8-4185-921e-504629d7d6a4', 'Item 2 for invoice', 2, 1500, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('51e10b46-cc04-4392-be91-328ed38a6c17', '48362ddd-bb11-467f-9181-37f9efe6da4f', 'Item 1 for invoice', 1, 1200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('1ba95b23-c56b-4f05-8c4f-9beb630e730d', '48362ddd-bb11-467f-9181-37f9efe6da4f', 'Item 2 for invoice', 2, 1700, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('c762f757-79a1-4970-b5eb-af2f01e8dd81', '48362ddd-bb11-467f-9181-37f9efe6da4f', 'Item 3 for invoice', 3, 2200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00');

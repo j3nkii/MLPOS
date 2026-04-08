@@ -64,31 +64,28 @@ router.post('/', async(req, res) => {
         const userID = req.user.attributes.mlpos_id;
         const { details, customerID } = req.body;
         if (!details || !customerID) throw new Error('Missing Fields');
-        console.log(details);
         let invoiceTotal = 0;
         details.forEach(detail => {
             invoiceTotal += Number(detail.amount);
         });
         await client.query('BEGIN');
         const {rows: [result]} = await client.query(`
-            INSERT INTO invoices (amount, customer_id, user_id)
-            VALUES ($1, $2, $3)
+            INSERT INTO invoices (customer_id, user_id)
+            VALUES ($1, $2)
             RETURNING id;
-        `, [ invoiceTotal, customerID, userID]
+        `, [ customerID, userID]
         );
-        console.log(result);
         let idx = 2;
         const detailsParams = [result.id];
         const detailsSQLArray = [];
         details.forEach(detail => {
-            detailsParams.push(detail.name, detail.amount)
-            detailsSQLArray.push(`($1, $${idx++}, $${idx++})`);
+            detailsParams.push(detail.name, detail.amount, detail.quantity)
+            detailsSQLArray.push(`($1, $${idx++}, $${idx++}, $${idx++})`);
         });
         const detailsSQL = (`
-            INSERT INTO invoices_details (invoices_id, name, amount)
+            INSERT INTO invoices_details (invoices_id, name, amount, quantity)
             VALUES ${detailsSQLArray.join(', ')}
         `);
-        console.log(detailsSQL, detailsParams)
         await client.query(detailsSQL, detailsParams);
         await client.query('COMMIT');
         res.status(201).json({ message: 'User created successfully' });

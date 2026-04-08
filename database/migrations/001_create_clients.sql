@@ -1,8 +1,0 @@
-CREATE TABLE user_details (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email VARCHAR(2080),
-    description VARCHAR(2080),
-    phone VARCHAR(2080),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);

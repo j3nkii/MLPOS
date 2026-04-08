@@ -23,12 +23,11 @@ CREATE TABLE customers (
 );
 
 -- invoices (example POS feature)
-DROP TABLE IF EXISTS invoices;
+DROP TABLE IF EXISTS invoices CASCADE;
 CREATE TABLE invoices (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id),       -- business owner
     customer_id UUID NOT NULL REFERENCES customers(id), -- end client
-    amount INTEGER NOT NULL, --wont need since amount will be inferred from details, leaving until its finished.
     status VARCHAR(50) DEFAULT 'pending', -- pending, paid, cancelled, overdue
     date_sent TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     is_deleted BOOLEAN DEFAULT FALSE,
@@ -36,7 +35,7 @@ CREATE TABLE invoices (
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
-DROP TABLE IF EXISTS invoices_details;
+DROP TABLE IF EXISTS invoices_details CASCADE;
 CREATE TABLE invoices_details (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     invoices_id UUID NOT NULL REFERENCES invoices(id),
