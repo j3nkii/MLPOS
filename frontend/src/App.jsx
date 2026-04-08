@@ -1,8 +1,9 @@
-import 'react'
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom'
-import { routerConfig } from './config/routerConfig'
-import './config/axiosConfig'
+import 'react';
+import { useAuthQuery, useUserQuery } from '@query';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom';
+import { routerConfig } from './config/routerConfig';
+import './config/axiosConfig';
 
 
 const client = new QueryClient({
@@ -16,6 +17,7 @@ const client = new QueryClient({
 
 function App() {
   const router = createHashRouter(routerConfig);
+  
   return (
     <div>
       <QueryClientProvider client={client} >
