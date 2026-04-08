@@ -30,6 +30,7 @@ const INITIAL = {
 
 
 export const InvoiceFormModal = ({ isUpdate }) => {
+    const [modalTitle] = useState(isUpdate ? 'Update Invoice' : 'Create Invoice')
     const [invoiceForm, setInvoiceForm] = useState(INITIAL);
     const [total, setTotal] = useState(0);
     const { createInvoice, updateInvoice } = useInvoiceQuery();
@@ -74,7 +75,7 @@ export const InvoiceFormModal = ({ isUpdate }) => {
 
     return (
         <Modal onClose={closeModal}>
-            <ModalHeader title={'Confirm'} onClose={closeModal} />
+            <ModalHeader title={modalTitle} onClose={closeModal} />
             <ModalBody>
                 <form onSubmit={handleConfirm} className="p-6">
                     { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }

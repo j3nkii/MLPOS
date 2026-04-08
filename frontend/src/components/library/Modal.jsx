@@ -40,7 +40,7 @@ export const ModalHeader = ({ onClose, title }) => {
     return (
         <div className="flex items-center justify-between pt-8 px-4 text-black">
             <div className="flex items-center gap-2">
-                <AlertTriangle className="text-orange-500" size={25} />
+                {/* <AlertTriangle className="text-orange-500" size={25} /> */}
                 <h2 className="text-2xl font-semibold">
                     {title || 'Modal Title'}
                 </h2>

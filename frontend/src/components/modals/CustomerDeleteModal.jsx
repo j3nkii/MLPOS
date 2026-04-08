@@ -17,7 +17,7 @@ export const CustomerDeleteModal = () => {
 
     return (
         <Modal onClose={closeModal}>
-            <ModalHeader title={'Confirm'} onClose={closeModal} />
+            <ModalHeader title={'Delete Customer'} onClose={closeModal} />
             <ModalBody>
                 <div className="p-6">
                     <p>Are you sure you want to delete this person?</p>

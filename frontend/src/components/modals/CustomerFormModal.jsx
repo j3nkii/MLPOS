@@ -13,6 +13,7 @@ const INITIAL_FORM = {
 };
 
 export const CustomerFormModal = ({ isUpdate }) => {
+    const [modalTitle] = useState(isUpdate ? 'Update Customer' : 'Create Customer')
     const [customerForm, setCustomerForm] = useState(INITIAL_FORM);
     const { createCustomer, updateCustomer } = useCustomerQuery();
     const { closeModal, item } = useModalZussy();
@@ -40,7 +41,7 @@ export const CustomerFormModal = ({ isUpdate }) => {
 
     return (
         <Modal onClose={closeModal}>
-            <ModalHeader title={'Confirm'} onClose={closeModal} />
+            <ModalHeader title={modalTitle} onClose={closeModal} />
             <ModalBody>
                 <form className="p-6">
                     <Input onChange={handleChange} value={customerForm.name || ''} label={'Name'} name={'name'} />

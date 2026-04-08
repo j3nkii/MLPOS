@@ -10,25 +10,18 @@ const COLOR = {
 
 
 
-const DETAULT_STYLE = "p-2 mx-1 font-semibold transition-colors rounded-md cursor-pointer bg-[#cdcdcd]"
-const DEFAUL_PROPS = {
-    id: '',
-    type: 'button',
-    children: 'CLICK ME',
-    name: 'button',
-    color: 'black'
-}
+const DETAULT_STYLE = "p-2 mx-1 font-semibold transition-colors rounded-md cursor-pointer bg-[#cdcdcd]";
 
 
 
-export const Button = ({ id, type = 'button', name, onClick, children, color } = DEFAUL_PROPS) => {
+export const Button = ({ id = '', type = 'button', name = 'button', onClick = () => (null), children = null, color = 'black' }) => {
     return (
         <button
             id={id}
             name={name}
             type={type}
             onClick={onClick}
-            className={`${DETAULT_STYLE} ${COLOR['black']}`}
+            className={`${DETAULT_STYLE} ${COLOR[color]}`}
         >
             {children}
         </button>

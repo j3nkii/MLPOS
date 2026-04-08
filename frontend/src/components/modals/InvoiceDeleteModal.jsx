@@ -17,7 +17,7 @@ export const InvoiceDeleteModal = () => {
 
     return (
         <Modal onClose={closeModal}>
-            <ModalHeader title={'Confirm'} onClose={closeModal} />
+            <ModalHeader title={'Delete Invoice'} onClose={closeModal} />
             <ModalBody>
                 <div className="p-6">
                     <p>Are you sure you want to delete this Invoice?</p>
