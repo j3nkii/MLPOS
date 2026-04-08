@@ -26,7 +26,7 @@ export const InvoiceDeleteModal = () => {
             </ModalBody>
 
             <ModalFooter>
-                <Button onClick={handleConfirm}>Delete</Button>
+                <Button color={'red'} onClick={handleConfirm}>Delete</Button>
                 <Button onClick={closeModal}>Cancel</Button>
             </ModalFooter>
         </Modal>

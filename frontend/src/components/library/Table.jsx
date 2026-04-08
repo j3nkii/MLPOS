@@ -58,6 +58,7 @@ const ActionsHeader = ({ modalKeys }) => {
         <td>
             <div className='flex items-center justify-end gap-1 pr-3.5'>
                 <Button
+                    color={'green'}
                     onClick={() => setModal({ modalKey: modalKeys.create })}
                     text="Create"
                 ><DiamondPlus />
@@ -98,7 +99,8 @@ const ActionsCell = ({ item, modalKeys }) => {
                     text="Settings"
                 ><BookUser />
                 </Button>
-                <Button 
+                <Button
+                    color={'red'}
                     onClick={onDelete} 
                     text="Delete"
                 ><Trash2 />

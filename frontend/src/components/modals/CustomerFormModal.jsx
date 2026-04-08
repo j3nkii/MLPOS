@@ -51,7 +51,7 @@ export const CustomerFormModal = ({ isUpdate }) => {
             </ModalBody>
 
             <ModalFooter>
-                <Button onClick={handleConfirm}>Create</Button>
+                <Button color={'green'} onClick={handleConfirm}>Create</Button>
                 <Button onClick={closeModal}>Cancel</Button>
             </ModalFooter>
         </Modal>
