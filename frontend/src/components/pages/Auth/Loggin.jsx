@@ -1,54 +1,54 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { Button, Input } from '@components';
-import { useAuthZussy } from '@zussy';
-import { useAuthQuery } from '@query';
+import { useAuthQuery, useUserQuery } from '@query';
 import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router';
-import axios from 'axios'
 
+// export const AuthPage = () => {
+//     const navigate = useNavigate();
+//     const { setUser, pageView } = useAuthZussy();
 
-
-export const AuthPage = () => {
-    const navigate = useNavigate();
-    const { setUser, pageView } = useAuthZussy();
-
-  useEffect(() => {
-    isAuthenticated();
-  }, []);
+//   useEffect(() => {
+//     isAuthenticated();
+//   }, []);
   
-  const isAuthenticated = async () => {
-    if(sessionStorage.getItem('accessToken')){
-      try {
-        const user = await axios.post('/api/auth/get-user', { accessToken: sessionStorage.getItem('accessToken') });
-        setUser(user);
-        navigate('/customers');
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
-    return (
-        <div className='min-h-screen flex items-center justify-center bg-[#5d5d5d]'>
-            <div className='bg-white p-8 rounded-lg shadow-md w-full max-w-sm'>
-                { pageView === 'login' && <Loggin /> }
-                { pageView === 'confirm' && <ConfirmEmail /> }
-            </div>
-        </div>
-    );
-}
+//   const isAuthenticated = async () => {
+//     if(sessionStorage.getItem('accessToken')){
+//       try {
+//         const user = await axios.post('/api/auth/get-user', { accessToken: sessionStorage.getItem('accessToken') });
+//         setUser(user);
+//         navigate('/customers');
+//       } catch (error) {
+//         console.error(error);
+//       }
+//     }
+//   }
+//     return (
+//         <div className='min-h-screen flex items-center justify-center bg-[#5d5d5d]'>
+//             <div className='bg-white p-8 rounded-lg shadow-md w-full max-w-sm'>
+//                 { pageView === 'login' && <Loggin /> }
+//                 { pageView === 'confirm' && <ConfirmEmail /> }
+//             </div>
+//         </div>
+//     );
+// }
 
 
 
 export const Loggin = () => {
-    const { user, setLoginForm, loginForm, createUser } = useAuthZussy();
-    const { fetchUser } = useAuthQuery();
+    const { user } = useUserQuery();
+    const { loggin } = useAuthQuery();
+    const [logginForm, setLogginForm] = useState({
+        email: '',
+        password: '',
+    })
     const handleForm = (evt) => {
         const { target: { name, value }} = evt;
-        setLoginForm({ name, value });
+        setLogginForm({ ...logginForm, [name]: value });
     }
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        fetchUser.mutate();
+        loggin.mutate(logginForm);
     }
     if (user)
         return <Navigate to='/customers' replace />
@@ -62,14 +62,14 @@ export const Loggin = () => {
                                 label='Email'
                                 name='email'
                                 placeholder='Enter your email'
-                                value={loginForm.email}
+                                value={logginForm.email}
                                 onChange={handleForm}
                             />
                             <Input
                                 label='Password'
                                 name='password'
                                 placeholder='Enter your password'
-                                value={loginForm.password}
+                                value={logginForm.password}
                                 onChange={handleForm}
                             />
                         <Button type='submit' children='Login / Sign Up' />
