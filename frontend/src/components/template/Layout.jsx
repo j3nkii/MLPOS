@@ -1,7 +1,9 @@
-import React from 'react'
-import { Navigate, Outlet } from 'react-router-dom'
-import { useAuthZussy } from '@zussy'
-import { ModalManager, Navbar } from '@components'
+import 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { ModalManager, Navbar } from '@components';
+import { useAuthZussy } from '@zussy';
+
+
 
 export const Layout = () => {
     const { user } = useAuthZussy();
@@ -15,6 +17,5 @@ export const Layout = () => {
             </div>
             <ModalManager />
         </div>
-        
     );
 }

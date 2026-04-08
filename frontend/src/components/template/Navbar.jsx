@@ -1,8 +1,8 @@
 import 'react';
 import { Link } from "react-router";
+import { LogOut } from 'lucide-react';
 import { useAuthZussy } from '@zussy';
 import { Button } from '@components';
-import { LogOut } from 'lucide-react';
 
 
 export const Navbar = () => {
