@@ -1,6 +1,7 @@
 import 'react';
 
 const DETAULT_STYLE = "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+const DISABLED_STYLE = "w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 const onChangeWarning = () => console.warn('No Warning set for on change.')
 
 
@@ -19,14 +20,15 @@ export const Input = (props) => {
 
 
 const Standard = (props) => {
-    const {  type = 'text', name = '', placeholder = '', onChange = onChangeWarning, value = ''} = props;
+    const {  type = 'text', name = '', placeholder = '', onChange = onChangeWarning, value = '', disabled = false } = props;
     return (
         <input
+            disabled={disabled}
             id={name}
             name={name}
             type={type}
             placeholder={placeholder}
-            className={DETAULT_STYLE}
+            className={disabled ? DISABLED_STYLE : DETAULT_STYLE}
             value={value}
             onChange={onChange}
         />
@@ -35,9 +37,9 @@ const Standard = (props) => {
 
 
 const Select = (props) => {
-    const { name = '', onChange = onChangeWarning, value = '', options = [] } = props;
+    const { name = '', onChange = onChangeWarning, value = '', options = [], disabled = false } = props;
     return (
-        <select onChange={onChange} name={name} value={value}>
+        <select disabled={disabled} onChange={onChange} name={name} value={value}>
             <option value={''}>---</option>
             { options.map(opt => <option value={opt.value}>{opt.name}</option>) }
         </select>
