@@ -16,8 +16,6 @@ const DETAULT_STYLE = "p-2 mx-1 font-semibold transition-colors rounded-md curso
 
 
 export const Button = ({ id = '', type = 'button', name = 'button', onClick = () => (null), children = null, color = 'black' }) => {
-    console.log(color)
-    console.log(`${DETAULT_STYLE} ${COLOR[color]}`)
     return (
         <button
             id={id}
