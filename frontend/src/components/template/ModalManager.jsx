@@ -12,11 +12,11 @@ export const ModalManager = () => {
         case 'createCustomer':
             return <CustomerFormModal />
         case 'updateCustomer':
-            return <CustomerFormModal update={true} />
+            return <CustomerFormModal isUpdate={true} />
         case 'createInvoice':
             return <InvoiceFormModal />
         case 'updateInvoice':
-            return <InvoiceFormModal update={true} />
+            return <InvoiceFormModal isUpdate={true} />
         case 'deleteInvoice':
             return <InvoiceDeleteModal />
         case null:

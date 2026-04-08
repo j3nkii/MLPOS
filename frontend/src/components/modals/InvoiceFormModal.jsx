@@ -25,7 +25,7 @@ const INITIAL = {
 };
 
 
-export const InvoiceFormModal = ({ update }) => {
+export const InvoiceFormModal = ({ isUpdate }) => {
     const [invoiceForm, setInvoiceForm] = useState(INITIAL);
     const [total, setTotal] = useState(0);
     const { createInvoice, updateInvoice } = useInvoiceQuery();
@@ -37,7 +37,7 @@ export const InvoiceFormModal = ({ update }) => {
     const columnKeys = headers.map(x => x.key);
 
     useEffect(() => {
-        if(update){
+        if(isUpdate){
             setInvoiceForm({
                 amount: item.amount,
                 customerID: item.customer_id,
@@ -49,7 +49,7 @@ export const InvoiceFormModal = ({ update }) => {
 
     const handleConfirm = async (evt) => {
         evt.preventDefault()
-        const handler = update ? updateInvoice : createInvoice;
+        const handler = isUpdate ? updateInvoice : createInvoice;
         const body = { invoiceID: item?.id, body: invoiceForm }
         handler.mutate(body);
     };
@@ -68,7 +68,7 @@ export const InvoiceFormModal = ({ update }) => {
             <ModalHeader title={'Confirm'} onClose={closeModal} />
             <ModalBody>
                 <form onSubmit={handleConfirm} className="p-6">
-                    { update && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
+                    { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
                     <Input
                         onChange={handleChange}
                         value={invoiceForm.customerID}
@@ -80,7 +80,9 @@ export const InvoiceFormModal = ({ update }) => {
                     <TableForm
                         setDetails={setDetails}
                         details={invoiceForm.details}
-                        {...{ displayColumns, columnKeys }}
+                        isUpdate={isUpdate}
+                        displayColumns={displayColumns}
+                        columnKeys={columnKeys}
                     />
                 </form>
                 <div>total: {total}</div>

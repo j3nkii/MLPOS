@@ -12,13 +12,13 @@ const INITIAL_FORM = {
     email: '',
 };
 
-export const CustomerFormModal = ({ update }) => {
+export const CustomerFormModal = ({ isUpdate }) => {
     const [customerForm, setCustomerForm] = useState(INITIAL_FORM);
     const { createCustomer, updateCustomer } = useCustomerQuery();
     const { closeModal, item } = useModalZussy();
 
     useEffect(() => {
-        if(update){
+        if(isUpdate){
             setCustomerForm({
                 name: item.name,
                 phone: item.phone,
@@ -29,7 +29,7 @@ export const CustomerFormModal = ({ update }) => {
 
     const handleConfirm = async () => {
         const payload = { customerID: item?.id, body: customerForm }
-        const handleFn = update ? updateCustomer : createCustomer;
+        const handleFn = isUpdate ? updateCustomer : createCustomer;
         handleFn.mutate(payload);
     };
 
