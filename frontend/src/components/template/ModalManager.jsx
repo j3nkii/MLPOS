@@ -1,5 +1,5 @@
 
-import React from "react";
+import 'react';
 import { CustomerDeleteModal, CustomerFormModal, InvoiceFormModal, InvoiceDeleteModal } from '@components';
 import { useModalZussy} from '@zussy';
 
