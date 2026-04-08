@@ -14,6 +14,10 @@ const headers = [
     {
         display: 'Amount',
         key: 'amount'
+    },
+    {
+        display: 'Quantity',
+        key: 'quantity'
     }
 ];
 
