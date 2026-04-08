@@ -13,7 +13,7 @@ export const useAuthQuery = () => {
     })
 
     const fetchUser = useMutation({
-        mutationFn: () => authService.readAuth(loginForm),
+        mutationFn: () => authService.login(loginForm),
         onSuccess: (res) => {
             sessionStorage.setItem('accessToken', res.data.tokens.accessToken);
             // sessionStorage.setItem('refreshToken', res.data.tokens.refreshToken); <-- not in use.
