@@ -70,7 +70,7 @@ export const TableForm = ( PROPS ) => {
                             <ActionsCell
                                 isUpdate={isUpdate}
                                 item={row}
-                                onEdit={onEdit}
+                                // onEdit={onEdit}
                                 onDelete={onDeleteInput}
                             />
                         </tr>
