@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Trash2, Settings, DiamondPlus, SquarePen, BookUser } from 'lucide-react'
+import { Trash2, Settings, DiamondPlus, SquarePen, BookUser, Pencil } from 'lucide-react'
 import { Button, Input } from '@components'
 
 // right now this is basically hard coded to invoice details. 
-const reIndex = (x, index) => ({ ...x, index })
+const reIndex = (x, index) => ({ ...x, index });
 
 export const TableForm = ( PROPS ) => {
-    const { details = [], setDetails, displayColumns = [], columnKeys = [] } = PROPS;
+    const { isUpdate = false, details = [], setDetails, displayColumns = [], columnKeys = [] } = PROPS;
     const onAddInput = () => {
         const newInput = {}
         columnKeys.forEach((key) => newInput[key] = '');
@@ -23,6 +23,9 @@ export const TableForm = ( PROPS ) => {
         const result = [...details];
         result[rowIndex][name] = value;
         setDetails(result);
+    }
+    const onEdit = () => {
+        
     }
     return (
         <div className="rounded-2xl overflow-hidden border-2">
@@ -61,7 +64,12 @@ export const TableForm = ( PROPS ) => {
                                     />
                                 </td>
                             ))}
-                            <ActionsCell item={row} onDelete={onDeleteInput} />
+                            <ActionsCell
+                                isUpdate={isUpdate}
+                                item={row}
+                                onEdit={onEdit}
+                                onDelete={onDeleteInput}
+                            />
                         </tr>
                     ))}
                     <tr>
@@ -101,15 +109,21 @@ const AddInput = ({ onClick }) => {
 
 
 
-const ActionsCell = ({ item, onDelete }) => {
+const ActionsCell = ({ item, onDelete, onEdit, isUpdate }) => {
     return (
         <td>
             <div className='flex items-center justify-end pr-3.5'>
+                {isUpdate && <Button 
+                    onClick={() => onEdit(item)} 
+                    text="Edit"
+                ><Pencil />
+                </Button>}
                 <Button 
                     onClick={() => onDelete(item)} 
                     text="Delete"
                 ><Trash2 />
                 </Button>
+                
             </div>
         </td>
     );
