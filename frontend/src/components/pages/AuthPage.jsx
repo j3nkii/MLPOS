@@ -98,7 +98,7 @@ export const Loggin = () => {
                         value={loginForm.password}
                         onChange={handleForm}
                     />
-                <Button children='Login / Sign Up' />
+                <Button type='submit' children='Login / Sign Up' />
                 {/* <Button type='button' onClick={createUser} children='Sign Up' /> */}
             </form>
             {/* <div>

@@ -43,6 +43,8 @@ export const useAuthZussy = create((set, get) => ({
 
     setUser: (user) => set({ user }),
 
-
-
+    logout: () => {
+        sessionStorage.clear();
+        set({ user: null });
+    }
 }));
