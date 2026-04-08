@@ -1,8 +1,8 @@
-import React from 'react';
+import 'react';
 import { Link } from "react-router";
-import { useAuthZussy } from '@zussy'
-import { Button } from '@components'
-import { CircleUserRound, LogOut } from 'lucide-react'
+import { useAuthZussy } from '@zussy';
+import { Button } from '@components';
+import { LogOut } from 'lucide-react';
 
 
 export const Navbar = () => {
@@ -27,8 +27,6 @@ export const Navbar = () => {
                     </Button>
                 </div>
             </div>
-
-        
         </div>
     );
 };
