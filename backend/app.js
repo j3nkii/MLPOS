@@ -19,6 +19,8 @@ const CUSTOMERS_ROUTER = require('./routers/customers.router');
 app.use('/api/customer', authMiddleware, CUSTOMERS_ROUTER);
 const INVOICE_ROUTER = require('./routers/invoice.router');
 app.use('/api/invoice', authMiddleware, INVOICE_ROUTER);
+const PAYMENTS_ROUTER = require('./routers/payments.router');
+app.use('/api/payments', authMiddleware, PAYMENTS_ROUTER);
 
 
 module.exports = app;
