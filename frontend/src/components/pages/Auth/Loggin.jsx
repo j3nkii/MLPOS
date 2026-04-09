@@ -36,7 +36,7 @@ import { useNavigate } from 'react-router';
 
 
 export const Loggin = () => {
-    const { user } = useUserQuery();
+    const { readUser } = useUserQuery();
     const { loggin } = useAuthQuery();
     const [logginForm, setLogginForm] = useState({
         email: '',
@@ -50,7 +50,8 @@ export const Loggin = () => {
         evt.preventDefault();
         loggin.mutate(logginForm);
     }
-    if (user)
+    
+    if (readUser.data)
         return <Navigate to='/customers' replace />
     return (
         <div className='min-h-screen flex items-center justify-center bg-[#5d5d5d]'>

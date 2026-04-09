@@ -17,15 +17,18 @@ export const useAuthQuery = () => {
             sessionStorage.setItem('accessToken', res.data.tokens.accessToken);
             // sessionStorage.setItem('refreshToken', res.data.tokens.refreshToken); <-- not in use.
             sessionStorage.setItem('idToken', res.data.tokens.idToken);
-            // CLAUDE , i need to access readUser from useUserQuery, but its in a different hook, and I cannot use hooks here.
             await queryClient.fetchQuery({
                 queryKey: ['user'],
                 queryFn: () => userService.readUser(),
+                onSuccess: () => {
+                    console.log('success');
+                    navigate('/customers');
+                },
+                onError: (error) => console.error(error)
             });
-            navigate('/customers');
         },
         onError: (error) => console.error(error),
-    })
+    });
 
     const createUser = useMutation({
         mutationFn: (body) => authService.createAuth(body),
