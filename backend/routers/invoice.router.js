@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
             SELECT
                 invoices.*,
                 customers.name,
+                SUM(invoices_details.amount * invoices_details.quantity) as amount,
                 COALESCE(JSON_AGG(invoices_details) FILTER (WHERE invoices_details.invoices_id IS NOT NULL), '[]') as details
             FROM invoices
             LEFT JOIN invoices_details
@@ -111,10 +112,7 @@ router.put('/:id', async(req, res) => {
         const INSERT_SQL = [];
         const INSERT_PARAMS = [];
         let idx = 2;
-        if (amount) {
-            INSERT_SQL.push(`amount = $${idx++}`);
-            INSERT_PARAMS.push(amount);
-        } if (customerID) {
+        if (customerID) {
             INSERT_SQL.push(`customer_id = $${idx++}`);
             INSERT_PARAMS.push(customerID);
         } if (status) {
