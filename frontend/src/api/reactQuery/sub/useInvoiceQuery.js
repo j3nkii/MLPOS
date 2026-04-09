@@ -1,9 +1,8 @@
 import 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { invoiceService } from '@services';
 import { useModalZussy} from '@zussy';
 
-
-import { invoiceService } from '@services';
 
 
 export const useInvoiceQuery = () => {

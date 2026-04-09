@@ -8,6 +8,7 @@ export { ModalHeader } from './library/Modal'
 export { ModalBody } from './library/Modal'
 export { ModalFooter } from './library/Modal'
 
+export { Loggin } from './pages/Auth/Loggin'
 
 export { AuthPage } from './pages/AuthPage'
 export { CustomersPage } from './pages/CustomersPage'

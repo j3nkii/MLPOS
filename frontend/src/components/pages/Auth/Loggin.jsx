@@ -72,7 +72,7 @@ export const Loggin = () => {
                                 value={logginForm.password}
                                 onChange={handleForm}
                             />
-                        <Button type='submit' children='Login / Sign Up' />
+                        <Button type='submit' children='Login' />
                     </form>
                 </div>
             </div>

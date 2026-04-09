@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthPage, Layout, CustomersPage, InvoicesPage } from '@components';
+import { Loggin, Layout, CustomersPage, InvoicesPage } from '@components';
 
 
 
@@ -7,7 +7,7 @@ export const routerConfig = [
     {
         path: "/login",
         exact: true,
-        Component: AuthPage
+        Component: Loggin
     },
     {
         path: "/",

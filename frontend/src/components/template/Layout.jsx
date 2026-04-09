@@ -1,13 +1,13 @@
 import 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { ModalManager, Navbar } from '@components';
-import { useAuthZussy } from '@zussy';
+import { useUserQuery } from '@query';
 
 
 
 export const Layout = () => {
-    const { user } = useAuthZussy();
-    if (!user)
+    const { readUser } = useUserQuery();
+    if (!readUser.data)
         return <Navigate to="/login" replace />
     else return (
         <div className='min-h-screen'>
