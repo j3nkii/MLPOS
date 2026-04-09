@@ -47,57 +47,20 @@ CREATE TABLE invoices_details (
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE IF EXISTS payments CASCADE;
+CREATE TABLE payments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    invoices_id UUID NOT NULL REFERENCES invoices(id),
+    cents INTEGER,
+    method VARCHAR(50), -- cash, check, venmo, stripe, paypal, cashapp, zelle .... ect.
+    is_deleted BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
 -- DROP TABLE IF EXISTS auth_confirmation;
 -- CREATE TABLE auth_confirmation (
 --     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 --     user_id UUID NOT NULL REFERENCES users(id),
 --     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 -- )
-
--- optional login creds for customers
--- DROP TABLE IF EXISTS customer_credentials CASCADE;
--- CREATE TABLE customer_credentials (
---     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---     customer_id UUID NOT NULL REFERENCES customers(id),
---     email_identification VARCHAR(320) UNIQUE,
---     password_hash TEXT, -- you'll need this if they log in
---     is_deleted BOOLEAN DEFAULT FALSE,
---     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
---     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
--- );
-
-
--- customers (end clients of the businesses)
--- DROP TABLE IF EXISTS customer_relation;
--- CREATE TABLE customer_relation (
---     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---     user
---     is_deleted BOOLEAN DEFAULT 'false',
---     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
---     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
--- );
-
-
-
--- -- link customers to users (mini-CRM per user)
--- DROP TABLE IF EXISTS customer_user_links;
--- CREATE TABLE customer_user_links (
---     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---     user_id UUID NOT NULL REFERENCES users(id),
---     customer_id UUID NOT NULL REFERENCES customers(id),
---     UNIQUE (user_id, customer_id)
--- );
-
--- -- appointments (scheduling feature)
--- DROP TABLE IF EXISTS appointments;
--- CREATE TABLE appointments (
---     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---     user_id UUID NOT NULL REFERENCES users(id),
---     customer_id UUID NOT NULL REFERENCES customers(id),
---     start_time TIMESTAMPTZ NOT NULL,
---     end_time TIMESTAMPTZ NOT NULL,
---     notes TEXT,
---     status VARCHAR(50), -- booked, cancelled, completed
---     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
---     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
--- );
