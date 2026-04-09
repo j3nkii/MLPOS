@@ -7,7 +7,7 @@ import { useUserQuery } from '@query';
 
 export const Layout = () => {
     const { readUser } = useUserQuery();
-    if (!readUser.data)
+    if (!readUser.data && !sessionStorage.getItem('accessToken'))
         return <Navigate to="/login" replace />
     else return (
         <div className='min-h-screen'>
