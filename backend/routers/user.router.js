@@ -3,8 +3,6 @@ const cognito = require('../modules/cognito');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-const { MPLOSerr } = require('../modules/errHandle')
-
 
 
 router.get('/', async (req, res) => {

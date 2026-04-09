@@ -1,31 +1,9 @@
 const express = require('express');
 const cognito = require('../modules/cognito');
-const pool = require('../modules/pool');
 const router = express.Router();
 
-const { MPLOSerr } = require('../modules/errHandle')
 
 
-
-// // Sign up route
-// router.post('/signup', async (req, res) => {
-//   try {
-//     await pool.query(`
-//         INSERT INTO users (username, email)
-//         VALUES ($1, $1)
-//       `, [req.body.email]);
-//     const result = await cognito.signUp(req.body.email, req.body.password);
-//     console.log(result)
-//     res.json(result);
-//   } catch (err) {
-//     console.error(err)
-//     res.status(400).json({ error: err.message });
-//   }
-// });
-
-
-
-// Confirm signup route
 router.post('/confirm', async (req, res) => {
   try {
     const cogRes = await cognito.confirmSignUp(req.body.email, req.body.code);
@@ -38,7 +16,6 @@ router.post('/confirm', async (req, res) => {
 
 
 
-// Sign in route
 router.post('/login', async (req, res) => {
   try {
     if(process.env.NODE_ENV === 'develop'){
@@ -70,7 +47,6 @@ router.post('/login', async (req, res) => {
 
 
 
-// Forgot password route
 router.post('/forgot', async (req, res) => {
   try {
     await cognito.forgotPassword(req.body.email);
@@ -82,7 +58,6 @@ router.post('/forgot', async (req, res) => {
 
 
 
-// Reset password route
 router.post('/reset', async (req, res) => {
   try {
     const { email, code, newPassword } = req.body;

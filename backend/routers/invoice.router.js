@@ -1,9 +1,6 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 const pool = require('../modules/pool');
 const router = express.Router();
-
 
 
 
@@ -32,6 +29,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
+
 
 
 // CURRENTLY GET / FETCHES ALL DATA, SO FRONT END DOES NOT NEED A "DETAILED" VIEW
