@@ -42,35 +42,19 @@ router.post('/confirm', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     if(process.env.NODE_ENV === 'develop'){
-      const user = await pool.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [req.body.email]);
       res.json({
         tokens: {
           accessToken: req.body.email,
           refreshToken: req.body.email,
           idToken: req.body.email,
         },
-        user: user.rows[0]
       });
       return;
-    }
-    const user = await pool.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [req.body.email]);
-    if(!user.rows[0]){
-      const client = await pool.connect();
-      await client.query('BEGIN;')
-      await client.query(`
-          INSERT INTO users (username, email)
-          VALUES ($1, $1)
-        `, [req.body.email]);
-      const result = await cognito.signUp(req.body.email, req.body.password);
-      await client.query('COMMIT;');
-      await client.end();
-      res.json(result);
     }
     const tokens = await cognito.signIn(req.body.email, req.body.password);
     if(!tokens.success) return res.status(401).json(tokens)
     res.json({
       tokens,
-      user: user.rows[0]
     });
   } catch (err) {
     console.error(err);
@@ -84,20 +68,6 @@ router.post('/login', async (req, res) => {
 
 
 
-router.post('/get-user', async (req, res) => {
-    try {
-        if (process.env.NODE_ENV === 'develop') {
-            const user = await pool.query('SELECT * FROM users WHERE email = $1', [req.body.accessToken]);
-            return res.status(200).json({ user: user.rows[0] });
-        }
-        const cogres = await cognito.getUser(req.body.accessToken);
-        const user = await pool.query('SELECT * FROM users WHERE email = $1', [cogres.attributes.email]);
-        res.status(200).json({ user: user.rows[0] });
-    } catch (err) {
-        console.error(err)
-        res.status(401).json({ error: 'Invalid token' });
-    }
-});
 
 
 // Forgot password route

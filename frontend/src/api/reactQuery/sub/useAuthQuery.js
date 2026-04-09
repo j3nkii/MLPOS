@@ -1,9 +1,9 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '@services';
-import { useUserQuery } from './useUserQuery';
+import { authService, userService } from '@services';
 
 export const useAuthQuery = () => {
+    const queryClient = useQueryClient();
     const navigate = useNavigate();
 
     const postConfirmation = useMutation({
@@ -13,10 +13,15 @@ export const useAuthQuery = () => {
 
     const loggin = useMutation({
         mutationFn: (body) => authService.login(body),
-        onSuccess: (res) => {
+        onSuccess: async (res) => {
             sessionStorage.setItem('accessToken', res.data.tokens.accessToken);
             // sessionStorage.setItem('refreshToken', res.data.tokens.refreshToken); <-- not in use.
             sessionStorage.setItem('idToken', res.data.tokens.idToken);
+            // CLAUDE , i need to access readUser from useUserQuery, but its in a different hook, and I cannot use hooks here.
+            await queryClient.fetchQuery({
+                queryKey: ['user'],
+                queryFn: () => userService.readUser(),
+            });
             navigate('/customers');
         },
         onError: (error) => console.error(error),

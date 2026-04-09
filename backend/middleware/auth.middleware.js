@@ -13,7 +13,6 @@ const authMiddleware = async (req, res, next) => {
 const handleLocalAuth = async (req, res, next) =>{
     const token = req.headers.authorization?.replace('Bearer ', '');
     try {
-        console.log(token);
         const dbRes = await pool.query('SELECT id FROM users WHERE email = $1', [token]);
         req.user = { attributes: { mlpos_id: dbRes.rows[0].id }}
         next();
