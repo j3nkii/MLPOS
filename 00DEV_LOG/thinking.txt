@@ -1,25 +1,30 @@
-so im thinking.... 
-
-need to hammer out auth flow before any type of release. right now its fine since local doesnt use cognito.
-could have a light deployment to just spin up a cog pool. 
-
-ideas. 
+THOUGHTS / IDEAS ::
 should implement a direct add invoice to the customer section. 
 should be able to view invoices in customer details.
 should be able to view more custoemr details on invoice headers.
 should add a generic loader. this will do for now, just .. if anything is loading, show a whole screen loader, dont allow any interactions until loading is finished.
-should add id's to urls for linking, then i can click a customer from an invoice and see all of their other invoices. 
+should add id's to urls for linking, then i can click a customer from an invoice and see all of their other invoices.
+could have a light deployment to just spin up a cog pool. 
 
-UI needs more work. 
+
+
+UI :: 
 select should be prettier.
 inputs should have a clear disabled / edit state. 
 forms should have a better view / edit state.
+filter / sort state for tables.
 
-API work.
+
+
+API ::
 there should be some type of verification method to determine if a field has been updated or not, since as is, it just sends the entire object back to the backend.
 implement a history change log.
 is_updated needs to be used when updating feilds.
 
+
+
+BUGS ::
+logout does not work, need to destroy react query store to remove user.
 
 
 
