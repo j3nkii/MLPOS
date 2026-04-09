@@ -1,6 +1,5 @@
-import React from 'react';
+import 'react';
 import { Loggin, Layout, CustomersPage, InvoicesPage } from '@components';
-
 
 
 export const routerConfig = [
