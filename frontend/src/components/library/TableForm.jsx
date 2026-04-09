@@ -99,6 +99,7 @@ const AddInput = ({ onClick }) => {
         <td>
             <div className='flex items-center justify-end gap-1 pr-3.5'>
                 <Button
+                    color={'green'}
                     onClick={onClick}
                     text="Create"
                 ><DiamondPlus />
@@ -121,7 +122,8 @@ const ActionsCell = ({ item, onDelete, onEdit, isUpdate }) => {
                     text="Edit"
                 ><Pencil />
                 </Button>} */}
-                <Button 
+                <Button
+                    color={'red'}
                     onClick={() => onDelete(item)} 
                     text="Delete"
                 ><Trash2 />

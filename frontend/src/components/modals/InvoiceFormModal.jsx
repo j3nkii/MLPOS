@@ -55,7 +55,13 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                 })),
             });
         }
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        let newTotal = 0;
+        invoiceForm.details.forEach(x => newTotal += (x.amount * x.quantity));
+        setTotal(newTotal)
+    }, [invoiceForm]);
 
     const handleConfirm = async (evt) => {
         evt.preventDefault()
