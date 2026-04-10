@@ -75,7 +75,7 @@ export const TableForm = ( PROPS ) => {
                             />
                         </tr>
                     ))}
-                    <tr>
+                    <tr className='bg-gray-200'>
                         {columnKeys.map((field, colIndex) => (
                             <td 
                                 key={colIndex} 
@@ -128,7 +128,6 @@ const ActionsCell = ({ item, onDelete, onEdit, isUpdate }) => {
                     text='Delete'
                 ><Trash2 />
                 </Button>
-                
             </div>
         </td>
     );
