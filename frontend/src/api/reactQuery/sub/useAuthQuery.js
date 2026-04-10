@@ -35,10 +35,17 @@ export const useAuthQuery = () => {
         onSuccess: () => navigate('/confirm-account'),
         onError: (error) => console.error(error),
     });
+    
+    const logout = () => {
+        queryClient.removeQueries({ queryKey: ['user'] });
+        sessionStorage.clear();
+        navigate('/login');
+    }
 
     return {
         postConfirmation,
         loggin,
         createUser,
+        logout,
     }
 }
