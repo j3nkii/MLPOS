@@ -16,7 +16,7 @@ export const template = () => {
     return (
         <Modal onClose={closeModal}>
             <ModalHeader title={'Confirm'} onClose={closeModal} />
-            <div className="p-6">
+            <div className='p-6'>
                 <p>This should probably say something</p>
             </div>
             <ModalFooter>

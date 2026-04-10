@@ -83,7 +83,7 @@ export const InvoiceFormModal = ({ isUpdate }) => {
         <Modal onClose={closeModal}>
             <ModalHeader title={modalTitle} onClose={closeModal} />
             <ModalBody>
-                <form onSubmit={handleConfirm} className="p-6">
+                <form onSubmit={handleConfirm} className='p-6'>
                     { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
                     <Input
                         onChange={handleChange}

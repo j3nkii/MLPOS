@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const LOADING_TEXT = [ 'Loading.', 'Loading..', 'Loading...', 'Loading....', 'Loading.....' ];
 

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Trash2, Settings, DiamondPlus, SquarePen, BookUser, Pencil } from 'lucide-react'
+import 'react'
+import { Trash2, DiamondPlus } from 'lucide-react'
 import { Button, Input } from '@components'
 
 // right now this is basically hard coded to invoice details. 
@@ -30,14 +30,14 @@ export const TableForm = ( PROPS ) => {
     //     setDetails(result)
     // }
     return (
-        <div className="rounded-2xl overflow-hidden border-2">
-            <table className="min-w-full border-collapse table-fixed w-full bg-white shadow-sm">
+        <div className='rounded-2xl overflow-hidden border-2'>
+            <table className='min-w-full border-collapse table-fixed w-full bg-white shadow-sm'>
                 <thead>
                     <tr className='bg-gray-200'>
                         {displayColumns.map((header, index) => (
                             <th 
                                 key={index} 
-                                className="px-4 py-3 text-left　font-medium text-gray-900"
+                                className='px-4 py-3 text-left　font-medium text-gray-900'
                             >
                                 {header}
                             </th>
@@ -51,12 +51,12 @@ export const TableForm = ( PROPS ) => {
                     {details.map((row, rowIndex) => (
                         <tr 
                             key={rowIndex} 
-                            className="hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200  border-b border-gray-200"
+                            className='hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200  border-b border-gray-200'
                         >
                             {columnKeys.map((field, colIndex) => (
                                 <td 
                                     key={colIndex} 
-                                    className="px-4 py-3 text-gray-900"
+                                    className='px-4 py-3 text-gray-900'
                                 >
                                     <Input
                                         // disabled={!row.inEdit}
@@ -79,7 +79,7 @@ export const TableForm = ( PROPS ) => {
                         {columnKeys.map((field, colIndex) => (
                             <td 
                                 key={colIndex} 
-                                className="px-4 py-3 text-gray-900"
+                                className='px-4 py-3 text-gray-900'
                             />
                         ))}
                         <AddInput onClick={onAddInput} />
@@ -101,7 +101,7 @@ const AddInput = ({ onClick }) => {
                 <Button
                     color={'green'}
                     onClick={onClick}
-                    text="Create"
+                    text='Create'
                 ><DiamondPlus />
                 </Button>
             </div>
@@ -119,13 +119,13 @@ const ActionsCell = ({ item, onDelete, onEdit, isUpdate }) => {
             <div className='flex items-center justify-end pr-3.5'>
                 {/* {isUpdate && <Button 
                     onClick={() => onEdit(item)} 
-                    text="Edit"
+                    text='Edit'
                 ><Pencil />
                 </Button>} */}
                 <Button
                     color={'red'}
                     onClick={() => onDelete(item)} 
-                    text="Delete"
+                    text='Delete'
                 ><Trash2 />
                 </Button>
                 

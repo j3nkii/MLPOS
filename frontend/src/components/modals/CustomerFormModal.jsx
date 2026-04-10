@@ -43,7 +43,7 @@ export const CustomerFormModal = ({ isUpdate }) => {
         <Modal onClose={closeModal}>
             <ModalHeader title={modalTitle} onClose={closeModal} />
             <ModalBody>
-                <form className="p-6">
+                <form className='p-6'>
                     <Input onChange={handleChange} value={customerForm.name || ''} label={'Name'} name={'name'} />
                     <Input onChange={handleChange} value={customerForm.email || ''} label={'Email'} name={'email'} />
                     <Input onChange={handleChange} value={customerForm.phone || ''} label={'Phone'} name={'phone'} />

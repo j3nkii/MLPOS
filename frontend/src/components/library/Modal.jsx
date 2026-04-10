@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from "react";
-import { X, AlertTriangle } from 'lucide-react';
+import { useEffect } from 'react';
+import { X } from 'lucide-react';
 import { Button } from '@components';
 
 
@@ -38,10 +38,10 @@ export const Modal = ({ children, onClose, className }) => {
 
 export const ModalHeader = ({ onClose, title }) => {
     return (
-        <div className="flex items-center justify-between pt-8 px-4 text-black">
-            <div className="flex items-center gap-2">
-                {/* <AlertTriangle className="text-orange-500" size={25} /> */}
-                <h2 className="text-2xl font-semibold">
+        <div className='flex items-center justify-between pt-8 px-4 text-black'>
+            <div className='flex items-center gap-2'>
+                {/* <AlertTriangle className='text-orange-500' size={25} /> */}
+                <h2 className='text-2xl font-semibold'>
                     {title || 'Modal Title'}
                 </h2>
             </div>
@@ -66,7 +66,7 @@ export const ModalBody = ({ children }) => {
 
 export const ModalFooter = ({ children }) => {
     return (
-        <div className="flex gap-3 p-4 bg-[#bfbfbf] text-white">
+        <div className='flex gap-3 p-4 bg-[#bfbfbf] text-white'>
             {children}
         </div>
     );

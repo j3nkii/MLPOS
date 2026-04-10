@@ -1,5 +1,5 @@
-import React from 'react'
-import { Trash2, Settings, DiamondPlus, SquarePen, BookUser } from 'lucide-react'
+import 'react'
+import { Trash2, DiamondPlus, BookUser } from 'lucide-react'
 import { useModalZussy} from '@zussy'
 import { Button } from '@components'
 
@@ -9,14 +9,14 @@ import { Button } from '@components'
 export const Table = ( PROPS ) => {
     const { data = [], onClick, isManage = true, displayColumns = [], columnKeys = [], modalKeys = {} } = PROPS;
     return (
-        <div className="rounded-2xl overflow-hidden border-2">
-            <table className="min-w-full border-collapse table-fixed w-full bg-white shadow-sm">
+        <div className='rounded-2xl overflow-hidden border-2'>
+            <table className='min-w-full border-collapse table-fixed w-full bg-white shadow-sm'>
                 <thead>
                     <tr className='bg-gray-200'>
                         {displayColumns.map((header, index) => (
                             <th 
                                 key={index} 
-                                className="px-4 py-3 text-left　font-medium text-gray-900"
+                                className='px-4 py-3 text-left　font-medium text-gray-900'
                             >
                                 {header}
                             </th>
@@ -28,13 +28,13 @@ export const Table = ( PROPS ) => {
                     {data.map((row, rowIndex) => (
                         <tr 
                             key={rowIndex} 
-                            className="hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200  border-b border-gray-200"
+                            className='hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200  border-b border-gray-200'
                             // onClick={(e) => handleRowClick(e, row)}
                         >
                             {columnKeys.map((field, colIndex) => (
                                 <td 
                                     key={colIndex} 
-                                    className="px-4 py-3 text-gray-900"
+                                    className='px-4 py-3 text-gray-900'
                                 >
                                     { row[field] || 'N/A'}
                                 </td>
@@ -60,7 +60,7 @@ const ActionsHeader = ({ modalKeys }) => {
                 <Button
                     color={'green'}
                     onClick={() => setModal({ modalKey: modalKeys.create })}
-                    text="Create"
+                    text='Create'
                 ><DiamondPlus />
                 </Button>
             </div>
@@ -96,13 +96,13 @@ const ActionsCell = ({ item, modalKeys }) => {
             <div className='flex items-center justify-end pr-3.5'>
                 <Button 
                     onClick={onUpdate} 
-                    text="Settings"
+                    text='Settings'
                 ><BookUser />
                 </Button>
                 <Button
                     color={'red'}
                     onClick={onDelete} 
-                    text="Delete"
+                    text='Delete'
                 ><Trash2 />
                 </Button>
             </div>
