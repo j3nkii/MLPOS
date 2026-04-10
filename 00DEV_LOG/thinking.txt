@@ -17,6 +17,7 @@ forms should have a better view / edit state.
 filter / sort state for tables.
 data format for tables. (dates, currency)
 strict data entry for appropraite fields (set input types to text / number / w/e)
+tailwind classes can be declared at the top of the file for fast editing. 
 
 
 

@@ -2,7 +2,7 @@ import 'react';
 
 const DETAULT_STYLE = 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
 const DISABLED_STYLE = 'w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-const onChangeWarning = () => console.warn('No Warning set for on change.')
+const onChangeWarning = () => console.warn('No Warning set for on change.');
 
 
 export const Input = (props) => {
