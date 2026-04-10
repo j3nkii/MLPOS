@@ -34,7 +34,7 @@ export const useAuthQuery = () => {
         mutationFn: (body) => authService.createAuth(body),
         onSuccess: () => navigate('/confirm-account'),
         onError: (error) => console.error(error),
-    })
+    });
 
     return {
         postConfirmation,

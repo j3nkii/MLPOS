@@ -1,12 +1,20 @@
 import 'react';
 import { Link } from "react-router";
 import { LogOut } from 'lucide-react';
-import { useAuthZussy } from '@zussy';
+import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
+
 import { Button } from '@components';
 
 
 export const Navbar = () => {
-    const { logout } = useAuthZussy();
+    const queryClient = useQueryClient();
+    const navigate = useNavigate()
+    const logout = () => {
+        queryClient.removeQueries({ queryKey: ['user'] });
+        sessionStorage.clear();
+        navigate('/login');
+    }
     return (
         <div className="flex justify-center w-full px-25 py-5 bg-[#5d5d5d] text-white shadow">
             <div className='max-w-[2400px] w-170 flex flex-row items-center justify-between'>
