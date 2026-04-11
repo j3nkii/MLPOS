@@ -5,21 +5,21 @@ const router = express.Router();
 
 // right now invoices will be in charge of fetching most of this data.
 // this will be used for reporting in the future.... should there be a reporting route...? no, probbs not.
-router.get('/', async (req, res) => {
-    try {
-        const { mplos_id } = req.user;
-        const { rows } = await pool.query(`
-            SELECT * FROM payments
-            JOIN invoices ON 
-                invoices.id = payments.invoices_id
-            AND user_id = $1
-        `, [mplos_id])
-        res.status(200).json({ success: true, data: rows});
-    } catch (err) {
-        console.error(err);
-        res.status(401).json({ success: false });
-    }
-});
+// router.get('/', async (req, res) => {
+//     try {
+//         const { mplos_id } = req.user;
+//         const { rows } = await pool.query(`
+//             SELECT * FROM payments
+//             JOIN invoices ON 
+//                 invoices.id = payments.invoices_id
+//             AND user_id = $1
+//         `, [mplos_id])
+//         res.status(200).json({ success: true, data: rows});
+//     } catch (err) {
+//         console.error(err);
+//         res.status(401).json({ success: false });
+//     }
+// });
 
 
 

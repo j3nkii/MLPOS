@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModalZussy} from '@zussy';
 import { Button, Input } from '@components';
 
-// import { usePaymentQuery } from '@query';
+import { usePaymentQuery } from '@query';
 
 const INITIAL_FORM = {
     price: '',
@@ -14,7 +14,7 @@ const INITIAL_FORM = {
 export const PaymentFormModal = ({ isUpdate }) => {
     const [modalTitle] = useState(isUpdate ? 'Update Payment' : 'Create Payment')
     const [paymentForm, setPaymentForm] = useState(INITIAL_FORM);
-    // const { createPayment, updatePayment } = usePaymentQuery();
+    const { createPayment, updatePayment } = usePaymentQuery();
     const { setModal, item } = useModalZussy();
 
     useEffect(() => {
@@ -34,8 +34,8 @@ export const PaymentFormModal = ({ isUpdate }) => {
 
     const handleConfirm = async () => {
         const payload = { paymentID: item?.id, body: paymentForm }
-        // const handleFn = isUpdate ? updatePayment : createPayment;
-        const handleFn = () => console.log('hey confirm payment');
+        const handleFn = isUpdate ? updatePayment : createPayment;
+        // const handleFn = () => console.log('hey confirm payment');
         handleFn.mutate(payload);
     };
 

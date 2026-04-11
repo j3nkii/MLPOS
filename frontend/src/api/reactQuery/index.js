@@ -2,6 +2,7 @@ export { useCustomerQuery } from './sub/useCustomerQuery';
 export { useAuthQuery } from './sub/useAuthQuery';
 export { useInvoiceQuery } from './sub/useInvoiceQuery';
 export { useUserQuery } from './sub/useUserQuery';
+export { usePaymentQuery } from './sub/usePaymentQuery';
 
 
 import { QueryClient } from '@tanstack/react-query';
