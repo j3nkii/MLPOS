@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
         for(let row of paymentsRows){
             totalPaid += row.cents;
         }
-        if(invoice.amount <= totalPaid){
+        if(invoice.price <= totalPaid){
             await client.query(`UPDATE invoice SET status = 'paid' WHERE id = $1`);
         } else {
             // not sure how were going to handle refunds. refund will probably be a sperate payment with negative cents. will need to configure rules for automated status setting (pending, paid overdue ect.)
@@ -86,7 +86,7 @@ router.put('/:paymentID', async (req, res) => {
         for(let row of paymentsRows){
             totalPaid += row.cents;
         }
-        if(invoice.amount <= totalPaid){
+        if(invoice.price <= totalPaid){
             await client.query(`UPDATE invoice SET status = 'pending' WHERE id = $1`);
         }
         await client.query('COMMIT');
@@ -120,7 +120,7 @@ router.delete('/:paymentID', async (req, res) => {
         for(let row of paymentsRows){
             totalPaid += row.cents;
         }
-        if(invoice.amount <= totalPaid){
+        if(invoice.price <= totalPaid){
             await client.query(`UPDATE invoice SET status = 'pending' WHERE id = $1`);
         }
         await client.query('COMMIT');

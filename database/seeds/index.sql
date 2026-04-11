@@ -1,6 +1,6 @@
 -- Seed data for users (businesses/staff)
 INSERT INTO users (id, username, email, created_at, updated_at) VALUES
-    ('a5eecb49-095e-484a-a054-01efc20586b0', 'acme_corp', 'owner@acmecorp.com', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
+    ('a5eecb49-095e-484a-a054-01efc20586b0', 'acme_corp', 'test', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
     ('bc4e2e6c-2b6b-4105-8c80-d67f6e3051f9', 'beta_solutions', 'admin@betasolutions.io', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
     ('be17f394-5386-4c30-baa8-23ac13c2f6a2', 'gamma_store', 'manager@gammastore.com', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00');
 
@@ -32,7 +32,7 @@ INSERT INTO invoices (id, user_id, customer_id, status, date_sent, created_at, u
     ('48362ddd-bb11-467f-9181-37f9efe6da4f', 'be17f394-5386-4c30-baa8-23ac13c2f6a2', '807f1b6a-3c8d-4262-ac74-26ad90ae29cf', 'pending', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00');
 
 -- Seed data for invoices_details
-INSERT INTO invoices_details (id, invoices_id, name, quantity, amount, created_at, updated_at) VALUES
+INSERT INTO invoices_details (id, invoices_id, name, quantity, price, created_at, updated_at) VALUES
     ('9c1dbabd-9305-4c66-98a5-d75f14a41a6a', 'e3301fdf-f595-40f9-a423-613f6d510c3c', 'Item 1 for invoice', 1, 1000, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
     ('93ff6f2c-6852-43e6-8103-39563a3e7d1f', 'e3301fdf-f595-40f9-a423-613f6d510c3c', 'Item 2 for invoice', 2, 1500, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),
     ('5d98a656-a5c4-437a-8684-ebb4805c7c76', '07a48c84-0c6c-439a-a7ac-b86df63e8098', 'Item 1 for invoice', 1, 1200, '2026-04-08T15:28:12.971891+00:00', '2026-04-08T15:28:12.971891+00:00'),

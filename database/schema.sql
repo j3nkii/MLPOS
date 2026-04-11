@@ -41,7 +41,7 @@ CREATE TABLE invoices_details (
     invoices_id UUID NOT NULL REFERENCES invoices(id),
     name VARCHAR(257),
     quantity INTEGER,
-    amount INTEGER,
+    price INTEGER,
     is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
@@ -51,8 +51,9 @@ DROP TABLE IF EXISTS payments CASCADE;
 CREATE TABLE payments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     invoices_id UUID NOT NULL REFERENCES invoices(id),
-    cents INTEGER,
-    method VARCHAR(50), -- cash, check, venmo, stripe, paypal, cashapp, zelle .... ect.
+    price INTEGER NOT NULL,
+    method VARCHAR(50) NOT NULL, -- cash, check, venmo, stripe, paypal, cashapp, zelle .... ect.
+    alt_id VARCHAR(50), -- id's or payment no's from alternate payment methods. (stripe will be default) ... maybe stripe ID goes here too? 
     is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP

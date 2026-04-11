@@ -13,7 +13,7 @@ const headers = [
     },
     {
         display: 'Amount',
-        key: 'amount'
+        key: 'price'
     },
     {
         display: 'Quantity',
@@ -22,7 +22,7 @@ const headers = [
 ];
 
 const INITIAL = {
-    amount: '',
+    price: '',
     customerID: '',
     status: '',
     details: [],
@@ -44,7 +44,7 @@ export const InvoiceFormModal = ({ isUpdate }) => {
     useEffect(() => {
         if(isUpdate){
             setInvoiceForm({
-                amount: item.amount,
+                price: item.price,
                 customerID: item.customer_id,
                 status: item.status,
                 details: item.details.map((detail, index) => ({
@@ -59,7 +59,7 @@ export const InvoiceFormModal = ({ isUpdate }) => {
 
     useEffect(() => {
         let newTotal = 0;
-        invoiceForm.details.forEach(x => newTotal += (x.amount * x.quantity));
+        invoiceForm.details.forEach(x => newTotal += (x.price * x.quantity));
         setTotal(newTotal)
     }, [invoiceForm]);
 

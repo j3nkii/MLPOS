@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
             SELECT
                 invoices.*,
                 customers.name,
-                SUM(invoices_details.amount * invoices_details.quantity) as amount,
+                SUM(invoices_details.price * invoices_details.quantity) as price,
                 COALESCE(JSON_AGG(invoices_details) FILTER (WHERE invoices_details.invoices_id IS NOT NULL), '[]') as details
             FROM invoices
             LEFT JOIN invoices_details
@@ -65,7 +65,7 @@ router.post('/', async(req, res) => {
         if (!details || !customerID) throw new Error('Missing Fields');
         let invoiceTotal = 0;
         details.forEach(detail => {
-            invoiceTotal += Number(detail.amount);
+            invoiceTotal += Number(detail.price);
         });
         await client.query('BEGIN');
         const {rows: [result]} = await client.query(`
@@ -78,11 +78,11 @@ router.post('/', async(req, res) => {
         const detailsParams = [result.id];
         const detailsSQLArray = [];
         details.forEach(detail => {
-            detailsParams.push(detail.name, detail.amount, detail.quantity)
+            detailsParams.push(detail.name, detail.price, detail.quantity)
             detailsSQLArray.push(`($1, $${idx++}, $${idx++}, $${idx++})`);
         });
         const detailsSQL = (`
-            INSERT INTO invoices_details (invoices_id, name, amount, quantity)
+            INSERT INTO invoices_details (invoices_id, name, price, quantity)
             VALUES ${detailsSQLArray.join(', ')}
         `);
         await client.query(detailsSQL, detailsParams);
@@ -103,11 +103,11 @@ router.put('/:id', async(req, res) => {
     const client = await pool.connect();
     try {
 
-        const { amount, customerID, status, details } = req.body;
+        const { price, customerID, status, details } = req.body;
         console.log(req.body)
         console.log(req.params)
         const { id: invoiceID } = req.params;
-        if(!amount && !customerID && !status && !details) throw new Error('No Fields Detected');
+        if(!price && !customerID && !status && !details) throw new Error('No Fields Detected');
         if(!customerID || !invoiceID) throw new Error('Missing Essential Fields');
         const INSERT_SQL = [];
         const INSERT_PARAMS = [];
@@ -125,11 +125,11 @@ router.put('/:id', async(req, res) => {
                 let detailsSQLArray = [];
                 let detailsParams = [invoiceID];
                 details.forEach(detail => {
-                    detailsParams.push(detail.name, detail.amount, detail.quantity)
+                    detailsParams.push(detail.name, detail.price, detail.quantity)
                     detailsSQLArray.push(`($1, $${paramIndex++}, $${paramIndex++}, $${paramIndex++})`);
                 });
                 const detailsSQL = (`
-                    INSERT INTO invoices_details (invoices_id, name, amount, quantity)
+                    INSERT INTO invoices_details (invoices_id, name, price, quantity)
                     VALUES ${detailsSQLArray.join(', ')}
                 `);
                 await client.query(detailsSQL, detailsParams);

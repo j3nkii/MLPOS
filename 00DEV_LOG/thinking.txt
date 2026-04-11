@@ -20,6 +20,7 @@ filter / sort state for tables. --> will need to hit an api.. for now... loading
 data format for tables. (dates, currency)
 strict data entry for appropraite fields (set input types to text / number / w/e)
 tailwind classes can be declared at the top of the file for fast editing. 
+on save should not close modals.
 
 
 
@@ -27,7 +28,7 @@ API ::
 there should be some type of verification method to determine if a field has been updated or not, since as is, it just sends the entire object back to the backend.
 implement a history change log.
 is_updated needs to be used when updating feilds.
-amount should be cents / pennies / price
+price should be cents / pennies / price
 
 
 

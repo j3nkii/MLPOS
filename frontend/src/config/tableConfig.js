@@ -20,7 +20,7 @@ export const TABLE_CONFIG = {
         stateKey: 'allCustomers',
         headers: {
             customer: 'Customer',
-            amount: 'Amount',
+            price: 'Amount',
             status: 'Status',
             dateSent: 'Date Sent'
         },

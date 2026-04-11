@@ -37,6 +37,7 @@ export const useAuthQuery = () => {
     });
     
     const logout = () => {
+        queryClient.invalidateQueries({ queryKey: ['user'] });
         queryClient.removeQueries({ queryKey: ['user'] });
         sessionStorage.clear();
         navigate('/login');

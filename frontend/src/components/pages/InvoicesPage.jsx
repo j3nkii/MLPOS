@@ -10,7 +10,7 @@ const headers = [
     },
     {
         display: 'Amount',
-        key: 'amount'
+        key: 'price'
     },
     {
         display: 'Status',
