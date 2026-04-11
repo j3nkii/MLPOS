@@ -26,22 +26,22 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const client = await pool.connect();
     try {
-        const { invoiceID, cents, method } = req.body;
+        const { invoiceID, price, method } = req.body;
         await client.query('BEGIN');
         await client.query(
-            'INSERT INTO payments (invoices_id, cents, method) VALUES ($1, $2, $3)',
-            [invoiceID, cents, method]
+            'INSERT INTO payments (invoices_id, price, method) VALUES ($1, $2, $3)',
+            [invoiceID, price, method]
         );
         let totalPaid = 0;
         const { rows:  [ invoice ] } = await client.query('SELECT * FROM invoices WHERE id = $1', [invoiceID]);
         const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND id_deleted = 'false'`, [invoiceID]);
         for(let row of paymentsRows){
-            totalPaid += row.cents;
+            totalPaid += row.price;
         }
         if(invoice.price <= totalPaid){
             await client.query(`UPDATE invoice SET status = 'paid' WHERE id = $1`);
         } else {
-            // not sure how were going to handle refunds. refund will probably be a sperate payment with negative cents. will need to configure rules for automated status setting (pending, paid overdue ect.)
+            // not sure how were going to handle refunds. refund will probably be a sperate payment with negative price. will need to configure rules for automated status setting (pending, paid overdue ect.)
             // await client.query(`UPDATE invoice SET status = 'pending' WHERE id = $1`);
         }
         await client.query('COMMIT');
@@ -60,14 +60,14 @@ router.post('/', async (req, res) => {
 router.put('/:paymentID', async (req, res) => {
     const client = await pool.connect();
     try {
-        const { cents, method } = req.body;
+        const { price, method } = req.body;
         const { paymentID, } = req.params;
         await client.query('BEGIN');
         let updateSQL = [];
         const updateParams = [paymentID];
-        if(cents){
-            updateParams.push(cents);
-            updateSQL.push(`cents = ${updateParams.length}`);
+        if(price){
+            updateParams.push(price);
+            updateSQL.push(`price = ${updateParams.length}`);
         }
         if(method){
             updateParams.push(method);
@@ -84,7 +84,7 @@ router.put('/:paymentID', async (req, res) => {
         const { rows:  [ invoice ] } = await client.query('SELECT * FROM invoices WHERE id = $1', [invoiceID]);
         const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND id_deleted = 'false'`, [invoiceID]);
         for(let row of paymentsRows){
-            totalPaid += row.cents;
+            totalPaid += row.price;
         }
         if(invoice.price <= totalPaid){
             await client.query(`UPDATE invoice SET status = 'pending' WHERE id = $1`);
@@ -118,7 +118,7 @@ router.delete('/:paymentID', async (req, res) => {
         const { rows:  [ invoice ] } = await client.query('SELECT * FROM invoices WHERE id = $1', [invoiceID]);
         const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND id_deleted = 'false'`, [invoiceID]);
         for(let row of paymentsRows){
-            totalPaid += row.cents;
+            totalPaid += row.price;
         }
         if(invoice.price <= totalPaid){
             await client.query(`UPDATE invoice SET status = 'pending' WHERE id = $1`);
