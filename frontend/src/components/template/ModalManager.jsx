@@ -1,6 +1,6 @@
 
 import 'react';
-import { CustomerDeleteModal, CustomerFormModal, InvoiceFormModal, InvoiceDeleteModal } from '@components';
+import { CustomerDeleteModal, CustomerFormModal, InvoiceFormModal, InvoiceDeleteModal, PaymentFormModal } from '@components';
 import { useModalZussy} from '@zussy';
 
 
@@ -19,6 +19,8 @@ export const ModalManager = () => {
             return <InvoiceFormModal isUpdate={true} />
         case 'deleteInvoice':
             return <InvoiceDeleteModal />
+        case 'createPayment':
+            return <PaymentFormModal />
         case null:
             return null;
         default:

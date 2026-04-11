@@ -35,7 +35,7 @@ export const InvoiceFormModal = ({ isUpdate }) => {
     const [total, setTotal] = useState(0);
     const { createInvoice, updateInvoice } = useInvoiceQuery();
     const { readAllCustomers } = useCustomerQuery();
-    const { closeModal, item } = useModalZussy();
+    const { closeModal, setModal, item } = useModalZussy();
 
 
     const displayColumns = headers.map(x => x.display);
@@ -79,12 +79,15 @@ export const InvoiceFormModal = ({ isUpdate }) => {
         setInvoiceForm({ ...invoiceForm, details });
     }
 
+    const addPayment = () => {
+        setModal({ modalKey: 'createPayment' });
+    }
+
     return (
         <Modal onClose={closeModal}>
             <ModalHeader title={modalTitle} onClose={closeModal} />
             <ModalBody>
                 <form onSubmit={handleConfirm} className='p-6'>
-                    { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
                     <Input
                         onChange={handleChange}
                         value={invoiceForm.customerID}
@@ -100,8 +103,10 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                         displayColumns={displayColumns}
                         columnKeys={columnKeys}
                     />
+                    <div>total: {total}</div>
+                    { isUpdate && <Button onClick={addPayment}>Make Payment</Button> }
+                    { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
                 </form>
-                <div>total: {total}</div>
             </ModalBody>
 
             <ModalFooter>

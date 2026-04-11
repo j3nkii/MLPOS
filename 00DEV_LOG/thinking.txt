@@ -4,8 +4,10 @@ should be able to view invoices in customer details.
 should be able to view more custoemr details on invoice headers.
 should add a generic loader. this will do for now, just .. if anything is loading, show a whole screen loader, dont allow any interactions until loading is finished.
 should add id's to urls for linking, then i can click a customer from an invoice and see all of their other invoices.
+should be able to view sent invoice history
 could have a light deployment to just spin up a cog pool.
 I need to start thinking about mobile developement. right now it looks ... okay on the macbook, but this might ultimately be a mobile web app. on mobile the tables get all scrunched, so well need to horizontal stack em or something.. maybe a scroll ??
+enable some type of quoting system... could create invoice, save as quote kinda shit. could be a status identifier.
 
 
 
@@ -14,7 +16,7 @@ UI ::
 select should be prettier.
 inputs should have a clear disabled / edit state. 
 forms should have a better view / edit state.
-filter / sort state for tables.
+filter / sort state for tables. --> will need to hit an api.. for now... loading all data will be fine ?? first time businesses shouldnt have massive ammounts of data. 
 data format for tables. (dates, currency)
 strict data entry for appropraite fields (set input types to text / number / w/e)
 tailwind classes can be declared at the top of the file for fast editing. 
@@ -39,4 +41,4 @@ whip up payments UI.
 implement stripe connect.
 whip up stripe onboarding.
 figure out how to actually send invoices (i think stripe has some type of built in shit for this that'll work for now)
-hammer out auth flow. (login, signup, forgot pass, code cache + code confirmation)
+hammer out auth flow. (login, signup, forgot pass, code confirmations cache + code confirmation)
