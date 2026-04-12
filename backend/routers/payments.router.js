@@ -120,16 +120,17 @@ router.delete('/:paymentID', async (req, res) => {
     try {
         const { paymentID } = req.params;
         await client.query('BEGIN');
-        const {rows: [{ invoices_ID: invoiceID }]} = await client.query(`
+        const {rows: [{ invoices_id: invoiceID }]} = await client.query(`
             UPDATE payments
-            SET is_deleted = 'false'
+            SET is_deleted = true
             WHERE id = $1
             RETURNING invoices_id;
             `, [paymentID]
         );
+        console.log(invoiceID)
         let totalPaid = 0;
         const { rows:  [ invoice ] } = await client.query('SELECT * FROM invoices WHERE id = $1', [invoiceID]);
-        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND id_deleted = 'false'`, [invoiceID]);
+        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND is_deleted = 'false'`, [invoiceID]);
         for(let row of paymentsRows){
             totalPaid += row.price;
         }

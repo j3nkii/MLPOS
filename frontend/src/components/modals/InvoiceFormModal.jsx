@@ -89,6 +89,10 @@ export const InvoiceFormModal = ({ isUpdate }) => {
         setModal({ modalKey: 'updatePayment', item: { ...item, selectedPayment }});
     }
 
+    const deletePayment = (selectedPayment) => {
+        setModal({ modalKey: 'deletePayment', item: { ...item, selectedPayment }});
+    }
+
     return (
         <Modal onClose={closeModal}>
             <ModalHeader title={modalTitle} onClose={closeModal} />
@@ -115,6 +119,7 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                     { isUpdate && invoiceForm.payments.map(payment => (<>
                         <p>{payment.price} {payment.quantity} {payment.method}</p>
                         <Button onClick={() => editPayment(payment)}>EDIT</Button>
+                        <Button onClick={() => deletePayment(payment)}>DELTE</Button>
                     </>))}
                 </form>
             </ModalBody>

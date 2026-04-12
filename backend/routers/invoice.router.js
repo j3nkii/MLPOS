@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
                 COALESCE(JSON_AGG(invoices_details) FILTER (WHERE invoices_details.invoices_id IS NOT NULL), '[]') as details,
                 COALESCE((
                     WITH payments_clone AS (
-                        SELECT * FROM payments WHERE invoices_id = invoices.id
+                        SELECT * FROM payments WHERE invoices_id = invoices.id AND is_deleted = false
                     )
                     SELECT JSON_AGG(payments_clone.*) AS reults FROM payments_clone
                 ), '[]') AS payments
