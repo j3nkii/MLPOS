@@ -13,6 +13,7 @@ export { Loggin } from './pages/Auth/Loggin'
 export { AuthPage } from './pages/AuthPage'
 export { CustomersPage } from './pages/CustomersPage'
 export { InvoicesPage } from './pages/InvoicesPage'
+export { SelectedInvoicePage } from './pages/SelectedInvoicePage'
 
 
 export { Layout } from './template/Layout'
