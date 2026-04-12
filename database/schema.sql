@@ -1,6 +1,6 @@
 -- accounts / tennants , used to umbrella users .
 DROP TABLE IF EXISTS accounts CASCADE;
-CREATE TABLE account (
+CREATE TABLE accounts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     account_id UUID NOT NULL REFERENCES accounts(id),
-    role VARCHAR(320) NOT NULL VARCHAR(50),
+    role VARCHAR(320) NOT NULL DEFAULT 'primary',
     username VARCHAR(320) UNIQUE NOT NULL,
     email VARCHAR(320) UNIQUE NOT NULL,
     is_deleted BOOLEAN DEFAULT FALSE,
@@ -62,8 +62,8 @@ CREATE TABLE invoices (
 
 
 
-DROP TABLE IF EXISTS invoices_details CASCADE;
-CREATE TABLE invoices_details (
+DROP TABLE IF EXISTS invoice_line_items CASCADE;
+CREATE TABLE invoice_line_items (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     invoices_id UUID NOT NULL REFERENCES invoices(id),
     name VARCHAR(257),
@@ -90,17 +90,30 @@ CREATE TABLE payments (
 
 
 
-DROP TABLE IF EXISTS product CASCADE;
-CREATE TABLE inventory (
+DROP TABLE IF EXISTS products CASCADE;
+CREATE TABLE products (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
     price INTEGER NOT NULL,
     unit VARCHAR(50) NOT NULL -- single, gram, oz, pound, ..ect,
-    wholesale_price INTEGER, 
+    wholesale_price INTEGER,
     internal_sku VARCHAR(50) NOT NULL, -- maybe define default sku system for mlpos inventory.
     external_sku VARCHAR(50) NOT NULL,
-
+    api_available BOOLEAN DEFAULT false NOT NULL, -- weather or not this can be booked or sold online
     is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- Add this for mechanics (or post-MVP) via claude
+CREATE TABLE inventory_transactions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    product_id UUID NOT NULL REFERENCES products(id),
+    quantity_delta INTEGER NOT NULL, -- +/- amount
+    type VARCHAR(50) NOT NULL, -- 'sale', 'restock', 'adjustment'
+    invoice_line_item_id UUID REFERENCES invoice_line_items(id),
+    notes TEXT,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
