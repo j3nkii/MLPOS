@@ -12,13 +12,18 @@ router.get('/', async (req, res) => {
                 invoices.*,
                 customers.name,
                 SUM(invoices_details.price * invoices_details.quantity) as price,
-                COALESCE(JSON_AGG(invoices_details) FILTER (WHERE invoices_details.invoices_id IS NOT NULL), '[]') as details
+                COALESCE(JSON_AGG(invoices_details) FILTER (WHERE invoices_details.invoices_id IS NOT NULL), '[]') as details,
+                COALESCE(JSON_AGG(payments) FILTER (WHERE payments.invoices_id IS NOT NULL), '[]') as payments
             FROM invoices
             LEFT JOIN invoices_details
                 ON invoices_details.invoices_id = invoices.id
                 AND invoices_details.is_deleted = false
+            LEFT JOIN payments
+                ON payments.invoices_id = invoices.id
+                AND payments.is_deleted = false
             JOIN customers
                 ON customers.id = invoices.customer_id
+                AND customers.is_deleted = false
             WHERE invoices.user_id = $1
                 AND invoices.is_deleted = false
             GROUP BY invoices.id, customers.name
