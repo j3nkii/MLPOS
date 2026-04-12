@@ -131,13 +131,15 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                     />
                     <div>total: {total}</div>
                     { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
-                    {/* { isUpdate && <Button onClick={addPayment}>Make Payment</Button> } */}
-                    <Table {...{ displayColumns: paymentHeaders.map(x => x.display), columnKeys: paymentHeaders.map(x => x.key), modalKeys, data: invoiceForm.payments }} />
-                    {/* { isUpdate && invoiceForm.payments.map(payment => (<>
-                        <p>{payment.price} {payment.quantity} {payment.method}</p>
-                        <Button onClick={() => editPayment(payment)}>EDIT</Button>
-                        <Button onClick={() => deletePayment(payment)}>DELTE</Button>
-                    </>))} */}
+                    {/* <Table {...{ displayColumns: paymentHeaders.map(x => x.display), columnKeys: paymentHeaders.map(x => x.key), modalKeys, data: invoiceForm.payments }} /> */}
+                    { isUpdate && <Button onClick={addPayment}>Make Payment</Button> }
+                    { isUpdate && invoiceForm.payments.map(payment => (
+                        <div className='flex justify-center'>
+                            <p>PRICE::{payment.price} METHOD::{payment.method}</p>
+                            <Button onClick={() => editPayment(payment)}>EDIT</Button>
+                            <Button onClick={() => deletePayment(payment)}>DELTE</Button>
+                        </div>
+                    ))}
                 </form>
             </ModalBody>
 
