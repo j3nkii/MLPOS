@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Input, TableForm } from '@components';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from '@components';
 import { useModalZussy } from '@zussy';
 import { useInvoiceQuery, useCustomerQuery } from '@query';
 
@@ -29,6 +29,22 @@ const INITIAL = {
     payments: [],
 };
 
+const paymentHeaders = [
+    {
+        display: 'Price',
+        key: 'price'
+    },
+    {
+        display: 'Method',
+        key: 'method'
+    }
+]
+
+const modalKeys = {
+    update: 'updatePayment',
+    create: 'createPayment',
+    delete: 'deletePayment',
+}
 
 export const InvoiceFormModal = ({ isUpdate }) => {
     const [modalTitle] = useState(isUpdate ? 'Update Invoice' : 'Create Invoice')
@@ -115,12 +131,13 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                     />
                     <div>total: {total}</div>
                     { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
-                    { isUpdate && <Button onClick={addPayment}>Make Payment</Button> }
-                    { isUpdate && invoiceForm.payments.map(payment => (<>
+                    {/* { isUpdate && <Button onClick={addPayment}>Make Payment</Button> } */}
+                    <Table {...{ displayColumns: paymentHeaders.map(x => x.display), columnKeys: paymentHeaders.map(x => x.key), modalKeys, data: invoiceForm.payments }} />
+                    {/* { isUpdate && invoiceForm.payments.map(payment => (<>
                         <p>{payment.price} {payment.quantity} {payment.method}</p>
                         <Button onClick={() => editPayment(payment)}>EDIT</Button>
                         <Button onClick={() => deletePayment(payment)}>DELTE</Button>
-                    </>))}
+                    </>))} */}
                 </form>
             </ModalBody>
 
