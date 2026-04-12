@@ -21,6 +21,8 @@ export const ModalManager = () => {
             return <InvoiceDeleteModal />
         case 'createPayment':
             return <PaymentFormModal />
+        case 'updatePayment':
+            return <PaymentFormModal isUpdate={true}  />
         case null:
             return null;
         default:

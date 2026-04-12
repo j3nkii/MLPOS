@@ -57,23 +57,25 @@ router.post('/', async (req, res) => {
 
 
 
-router.put('/:paymentID', async (req, res) => {
+router.put('/', async (req, res) => {
     const client = await pool.connect();
     try {
-        const { price, method } = req.body;
-        const { paymentID, } = req.params;
+        console.log(req.body)
+        const { price, method, paymentID } = req.body;
         await client.query('BEGIN');
         let updateSQL = [];
         const updateParams = [paymentID];
         if(price){
             updateParams.push(price);
-            updateSQL.push(`price = ${updateParams.length}`);
+            updateSQL.push(`price = $${updateParams.length}`);
         }
         if(method){
             updateParams.push(method);
-            updateSQL.push(`method = ${updateParams.length}`);
+            updateSQL.push(`method = $${updateParams.length}`);
         }
-        const {rows: [{ invoices_ID: invoiceID }]} = await client.query(`
+        console.log(updateParams)
+        console.log(updateSQL)
+        const {rows: [{ invoices_id: invoiceID }]} = await client.query(`
             UPDATE payments
             SET ${updateSQL.join(', ')}
             WHERE id = $1
@@ -81,13 +83,24 @@ router.put('/:paymentID', async (req, res) => {
             `, updateParams
         );
         let totalPaid = 0;
-        const { rows:  [ invoice ] } = await client.query('SELECT * FROM invoices WHERE id = $1', [invoiceID]);
-        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND id_deleted = 'false'`, [invoiceID]);
+        const { rows:  [ invoice ] } = await client.query(`
+            SELECT
+                invoices.*,
+                SUM(invoices_details.price * invoices_details.quantity) as price
+            FROM invoices
+            LEFT JOIN invoices_details
+                ON invoices_details.invoices_id = invoices.id
+                AND invoices_details.is_deleted = false
+            WHERE invoices.id = $1
+            GROUP BY invoices.id;`
+            , [invoiceID]);
+            console.log(invoice)
+        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND is_deleted = 'false'`, [invoiceID]);
         for(let row of paymentsRows){
             totalPaid += row.price;
         }
         if(invoice.price <= totalPaid){
-            await client.query(`UPDATE invoice SET status = 'pending' WHERE id = $1`);
+            await client.query(`UPDATE invoice SET status = 'pending' WHERE id = $1`, [invoiceID]);
         }
         await client.query('COMMIT');
         res.status(200).json({ success: true});

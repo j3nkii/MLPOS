@@ -82,7 +82,11 @@ export const InvoiceFormModal = ({ isUpdate }) => {
     }
 
     const addPayment = () => {
-        setModal({ modalKey: 'createPayment' });
+        setModal({ modalKey: 'createPayment',});
+    }
+
+    const editPayment = (selectedPayment) => {
+        setModal({ modalKey: 'updatePayment', item: { ...item, selectedPayment }});
     }
 
     return (
@@ -108,7 +112,10 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                     <div>total: {total}</div>
                     { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
                     { isUpdate && <Button onClick={addPayment}>Make Payment</Button> }
-                    { isUpdate && invoiceForm.payments.map(payment => <p>{payment.price}</p>) }
+                    { isUpdate && invoiceForm.payments.map(payment => (<>
+                        <p>{payment.price} {payment.quantity} {payment.method}</p>
+                        <Button onClick={() => editPayment(payment)}>EDIT</Button>
+                    </>))}
                 </form>
             </ModalBody>
 

@@ -12,7 +12,7 @@ export const usePaymentQuery = () => {
     const createPayment = useMutation({
         mutationFn: paymentService.createPayment,
         onSuccess: () => {
-            // queryClient.invalidateQueries({ queryKey: ['allPayments'] });
+            queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             closeModal();
         },
         onError: (error) => console.error(error),
@@ -32,29 +32,29 @@ export const usePaymentQuery = () => {
     //     onError: (error) => console.error(error),
     // });
 
-    // const updatePayment = useMutation({
-    //     mutationFn: paymentService.updatePayment,
-    //     onSuccess: () => {
-    //         // queryClient.invalidateQueries({ queryKey: ['allPayments'] });
-    //         closeModal();
-    //     },
-    //     onError: (error) => console.error(error),
-    // });
+    const updatePayment = useMutation({
+        mutationFn: paymentService.updatePayment,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
+            closeModal();
+        },
+        onError: (error) => console.error(error),
+    });
 
-    // const deletePayment = useMutation({
-    //     mutationFn: paymentService.deletePayment,
-    //     onSuccess: () => {
-    //         // queryClient.invalidateQueries({ queryKey: ['allPayments'] });
-    //         closeModal();
-    //     },
-    //     onError: (error) => console.error(error),
-    // });
+    const deletePayment = useMutation({
+        mutationFn: paymentService.deletePayment,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
+            closeModal();
+        },
+        onError: (error) => console.error(error),
+    });
 
     return {
         createPayment,
         // readPayment,
         // readAllPayments,
-        // updatePayment,
-        // deletePayment,
+        updatePayment,
+        deletePayment,
     }
 }

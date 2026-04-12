@@ -29,6 +29,7 @@ there should be some type of verification method to determine if a field has bee
 implement a history change log.
 is_updated needs to be used when updating feilds.
 price should be cents / pennies / price
+split account from users
 
 
 

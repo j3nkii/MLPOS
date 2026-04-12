@@ -15,7 +15,7 @@ export const PaymentFormModal = ({ isUpdate }) => {
     const [modalTitle] = useState(isUpdate ? 'Update Payment' : 'Create Payment')
     const [paymentForm, setPaymentForm] = useState(INITIAL_FORM);
     const { createPayment, updatePayment } = usePaymentQuery();
-    const { setModal, item } = useModalZussy();
+    const { setModal, item: { selectedPayment: item }, item: invoiceItem } = useModalZussy();
 
     useEffect(() => {
         if(isUpdate){
@@ -27,12 +27,13 @@ export const PaymentFormModal = ({ isUpdate }) => {
     }, []);
 
     const closeModal = () => {
-        // we need to close this modal to show the original update invoice modal. 
-        setModal({ modalKey: 'updateInvoice' });
+        const result = { ...invoiceItem }
+        delete result.selectedPayment
+        setModal({ modalKey: 'updateInvoice', item: result });
     }
 
     const handleConfirm = async () => {
-        const payload = { invoiceID: item?.id, ...paymentForm }
+        const payload = { invoiceID: invoiceItem?.id, ...paymentForm, paymentID: item.id }
         const handleFn = isUpdate ? updatePayment : createPayment;
         handleFn.mutate(payload);
     };
