@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
         );
         let totalPaid = 0;
         const { rows:  [ invoice ] } = await client.query('SELECT * FROM invoices WHERE id = $1', [invoiceID]);
-        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND id_deleted = 'false'`, [invoiceID]);
+        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND is_deleted = 'false'`, [invoiceID]);
         for(let row of paymentsRows){
             totalPaid += row.price;
         }
@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
     } catch (err) {
         await client.query('ROLLBACK');
         console.error(err);
-        res.status(401).json({ success: false });
+        res.status(500).json({ success: false });
     } finally {
         client.release();
     }

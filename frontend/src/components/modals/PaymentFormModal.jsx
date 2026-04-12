@@ -18,7 +18,6 @@ export const PaymentFormModal = ({ isUpdate }) => {
     const { setModal, item } = useModalZussy();
 
     useEffect(() => {
-        console.log(item)
         if(isUpdate){
             setPaymentForm({
                 price: item.price,
@@ -33,9 +32,8 @@ export const PaymentFormModal = ({ isUpdate }) => {
     }
 
     const handleConfirm = async () => {
-        const payload = { paymentID: item?.id, body: paymentForm }
+        const payload = { invoiceID: item?.id, ...paymentForm }
         const handleFn = isUpdate ? updatePayment : createPayment;
-        // const handleFn = () => console.log('hey confirm payment');
         handleFn.mutate(payload);
     };
 
