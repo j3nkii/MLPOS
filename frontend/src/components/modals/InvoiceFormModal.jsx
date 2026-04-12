@@ -26,6 +26,7 @@ const INITIAL = {
     customerID: '',
     status: '',
     details: [],
+    payments: [],
 };
 
 
@@ -53,6 +54,7 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                     // isMutated: false,
                     index
                 })),
+                payments: item.payments
             });
         }
     }, []);
@@ -104,8 +106,9 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                         columnKeys={columnKeys}
                     />
                     <div>total: {total}</div>
-                    { isUpdate && <Button onClick={addPayment}>Make Payment</Button> }
                     { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
+                    { isUpdate && <Button onClick={addPayment}>Make Payment</Button> }
+                    { isUpdate && invoiceForm.payments.map(payment => <p>{payment.price}</p>) }
                 </form>
             </ModalBody>
 
