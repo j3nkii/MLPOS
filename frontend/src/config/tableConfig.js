@@ -64,7 +64,7 @@ export const TABLE_CONFIG = {
         tableActions: {
             create: 'createInvoiceLine',
             update: 'updateInvoiceLine',
-            delete: 'deleteLineItem',
+            delete: 'deleteInvoiceLine',
         }
     },
     payments: {

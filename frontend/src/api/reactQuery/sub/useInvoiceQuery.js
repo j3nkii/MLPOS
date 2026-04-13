@@ -81,6 +81,16 @@ export const useInvoiceQuery = () => {
             // not super sure why this had to be done this way in order to work. invalidate was not refreshing data. 
             await _refreshInvoices()
             queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
+        },
+        onError: (error) => console.error(error),
+    });
+
+    const deleteInvoiceItem = useMutation({
+        mutationFn: invoiceService.deleteInvoiceItem,
+        onSuccess: async () => {
+            // not super sure why this had to be done this way in order to work. invalidate was not refreshing data. 
+            await _refreshInvoices()
+            queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             closeModal();
         },
         onError: (error) => console.error(error),
@@ -94,5 +104,6 @@ export const useInvoiceQuery = () => {
         deleteInvoice,
         createInvoiceItem,
         updateInvoiceItem,
+        deleteInvoiceItem,
     }
 }

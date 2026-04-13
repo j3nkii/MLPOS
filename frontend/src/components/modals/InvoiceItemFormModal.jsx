@@ -27,15 +27,22 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
-            })
+            });
         }
     }, []);
 
-    const handleConfirm = async () => {
+    const handleConfirm = async (evt, isNext) => {
         const payload = { invoiceID: params.invoiceID, invoiceItemID: item?.id, body: invoiceItemForm }
         const handleFn = isUpdate ? updateInvoiceItem : createInvoiceItem;
         handleFn.mutate(payload);
+        if(isNext)return;
+        closeModal();
     };
+
+    const saveAndNext = (evt) => {
+        handleConfirm(evt, true);
+        setInvoiceItemForm(INITIAL_FORM);
+    }
 
     const handleChange = (evt) => {
         const { target: { name, value }} = evt;
@@ -55,7 +62,7 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
 
             <ModalFooter>
                 <Button color={'green'} onClick={handleConfirm}>Create</Button>
-                <Button onClick={closeModal}>Cancel</Button>
+                <Button color={'black'} onClick={saveAndNext}>Create + Next</Button>
             </ModalFooter>
         </Modal>
     );

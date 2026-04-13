@@ -6,21 +6,21 @@ import { useInvoiceQuery } from '@query';
 import { Button } from '@components';
 
 
-export const InvoiceDeleteModal = () => {
-    const { deleteInvoice } = useInvoiceQuery();
+export const InvoiceItemDeleteModal = () => {
+    const { deleteInvoiceItem } = useInvoiceQuery();
     const { item } = useModalZussy();
     const {closeModal} = useModalZussy();
 
     const handleConfirm = async () => {
-        deleteInvoice.mutate({ invoiceID: item.id });
+        deleteInvoiceItem.mutate({ invoiceItemID: item.id });
     };
 
     return (
         <Modal onClose={closeModal}>
-            <ModalHeader title={'Delete Invoice'} onClose={closeModal} />
+            <ModalHeader title={'Delete Item Invoice'} onClose={closeModal} />
             <ModalBody>
                 <div className='p-6'>
-                    <p>Are you sure you want to delete this Invoice?</p>
+                    <p>Are you sure you want to delete this Invoice Item?</p>
                     <p className='text-red-500'>{item.name}</p>
                 </div>
             </ModalBody>
