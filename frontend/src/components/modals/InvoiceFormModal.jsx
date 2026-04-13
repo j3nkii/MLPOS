@@ -6,45 +6,6 @@ import { useInvoiceQuery, useCustomerQuery } from '@query';
 
 
 
-const headers = [
-    {
-        display: 'Item',
-        key: 'name'
-    },
-    {
-        display: 'Amount',
-        key: 'price'
-    },
-    {
-        display: 'Quantity',
-        key: 'quantity'
-    }
-];
-
-const INITIAL = {
-    price: '',
-    customerID: '',
-    status: '',
-    details: [],
-    payments: [],
-};
-
-const paymentHeaders = [
-    {
-        display: 'Price',
-        key: 'price'
-    },
-    {
-        display: 'Method',
-        key: 'method'
-    }
-]
-
-const modalKeys = {
-    update: 'updatePayment',
-    create: 'createPayment',
-    delete: 'deletePayment',
-}
 
 export const InvoiceFormModal = ({ isUpdate }) => {
     const [modalTitle] = useState(isUpdate ? 'Update Invoice' : 'Create Invoice')
@@ -131,7 +92,6 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                     />
                     <div>total: {total}</div>
                     { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
-                    {/* <Table {...{ displayColumns: paymentHeaders.map(x => x.display), columnKeys: paymentHeaders.map(x => x.key), modalKeys, data: invoiceForm.payments }} /> */}
                     { isUpdate && <Button onClick={addPayment}>Make Payment</Button> }
                     { isUpdate && invoiceForm.payments.map(payment => (
                         <div className='flex justify-center'>

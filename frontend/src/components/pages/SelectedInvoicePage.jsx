@@ -6,22 +6,6 @@ import { useInvoiceQuery, useCustomerQuery } from '@query';
 import { useParams } from 'react-router-dom';
 
 
-
-const headers = [
-    {
-        display: 'Item',
-        key: 'name'
-    },
-    {
-        display: 'Amount',
-        key: 'price'
-    },
-    {
-        display: 'Quantity',
-        key: 'quantity'
-    }
-];
-
 const INITIAL = {
     price: '',
     customerID: '',
@@ -30,23 +14,6 @@ const INITIAL = {
     payments: [],
 };
 
-const paymentHeaders = [
-    {
-        display: 'Price',
-        key: 'price'
-    },
-    {
-        display: 'Method',
-        key: 'method'
-    }
-]
-
-const modalKeys = {
-    update: 'updatePayment',
-    create: 'createPayment',
-    delete: 'deletePayment',
-}
-
 export const SelectedInvoicePage = ({ isUpdate }) => {
     const params = useParams();
     const { createInvoice, updateInvoice, readAllInvoices } = useInvoiceQuery();
@@ -54,10 +21,6 @@ export const SelectedInvoicePage = ({ isUpdate }) => {
     const [selectedInvoice, setSelectedInvoice] = useState(INITIAL);
     const [invoiceForm, setInvoiceForm] = useState(INITIAL);
     const [total, setTotal] = useState(0);
-
-
-    const displayColumns = headers.map(x => x.display);
-    const columnKeys = headers.map(x => x.key);
 
     useEffect(() => {
         const { invoiceID } = params;
@@ -114,16 +77,10 @@ export const SelectedInvoicePage = ({ isUpdate }) => {
                     type={'select'}
                     options={readAllCustomers?.data?.data.map(cust => ({ name: cust.name, value: cust.id }))}
                 />
-                <TableForm
-                    setDetails={setDetails}
-                    details={invoiceForm.details}
-                    isUpdate={isUpdate}
-                    displayColumns={displayColumns}
-                    columnKeys={columnKeys}
-                />
+                <Table config={'lineItems'} data={invoiceForm.details} />
                 <div>total: {total}</div>
                 { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
-                <Table {...{ displayColumns: paymentHeaders.map(x => x.display), columnKeys: paymentHeaders.map(x => x.key), modalKeys, data: invoiceForm.payments }} />
+                <Table config={'payments'} data={invoiceForm.payments} />
             </form>
         </div>
     );

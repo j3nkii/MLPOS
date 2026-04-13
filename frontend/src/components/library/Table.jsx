@@ -10,7 +10,10 @@ import { TABLE_CONFIG } from '@config/tableConfig';
 
 
 export const Table = ( PROPS ) => {
-    const { data = [], isManage = true, displayColumns = [], columnKeys = [], modalKeys = {} } = PROPS;
+    const { data = [], isManage = true, config = '' } = PROPS;
+    const displayColumns = TABLE_CONFIG[config].headers.map(x => x.display);
+    const columnKeys = TABLE_CONFIG[config].headers.map(x => x.key);
+    const tableActions = TABLE_CONFIG[config].tableActions
     return (
         <div className='rounded-2xl overflow-hidden border-2'>
             <table className='min-w-full border-collapse table-fixed w-full bg-white shadow-sm'>
@@ -24,7 +27,7 @@ export const Table = ( PROPS ) => {
                                 {header}
                             </th>
                         ))}
-                        { isManage && <ActionsHeader modalKeys={modalKeys} /> }
+                        { isManage && <ActionsHeader tableActions={tableActions} /> }
                     </tr>
                 </thead>
                 <tbody>
@@ -41,7 +44,7 @@ export const Table = ( PROPS ) => {
                                     { row[field] || 'N/A'}
                                 </td>
                             ))}
-                        { isManage && <ActionsCell item={row} modalKeys={modalKeys} /> }
+                        { isManage && <ActionsCell item={row} tableActions={tableActions} /> }
                         </tr>
                     ))}
                 </tbody>
@@ -54,14 +57,14 @@ export const Table = ( PROPS ) => {
 
 
 
-const ActionsHeader = ({ modalKeys }) => {
+const ActionsHeader = ({ tableActions }) => {
     const { setModal } = useModalZussy();
     return (
         <td>
             <div className='flex items-center justify-end gap-1 pr-3.5'>
                 <Button
                     color={'green'}
-                    onClick={() => setModal({ modalKey: modalKeys.create })}
+                    onClick={() => setModal({ modalKey: tableActions.create })}
                     text='Create'
                 ><DiamondPlus />
                 </Button>
@@ -74,26 +77,26 @@ const ActionsHeader = ({ modalKeys }) => {
 
 
 
-const ActionsCell = ({ item, modalKeys }) => {
+const ActionsCell = ({ item, tableActions }) => {
     const navigate = useNavigate();
     const { setModal } = useModalZussy();
-    const [ICON] = useState(modalKeys.detail ? BookUser : Pencil)
+    const [ICON] = useState(tableActions.detail ? BookUser : Pencil)
 
     // const onDelete = (e) => {
     //     e.stopPropagation();
     //     setModal({
-    //         modalKey: modalKeys.delete,
+    //         modalKey: tableActions.delete,
     //         item,
     //     });
     // };
 
     const onUpdate = (e) => {
         e.stopPropagation();
-        if(modalKeys.detail){
+        if(tableActions.detail){
             navigate(item.id)
         } else {
             setModal({
-                modalKey: modalKeys.update,
+                modalKey: tableActions.update,
                 item,
             });
         }

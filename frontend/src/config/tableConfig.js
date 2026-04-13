@@ -1,75 +1,87 @@
 export const TABLE_CONFIG = {
     customers: {
-        pageTitle: 'Customers',
-        listKey: 'readAllCustomers',
-        stateKey: 'allCustomers',
-        headers: {
-            name: 'Name',
-            phone: 'Phone',
-            email: 'Email',
-        },
-        modalKeys: {
+        headers: [
+            {
+                display: 'Name',
+                key: 'name'
+            },
+            {
+                display: 'Phone',
+                key: 'phone'
+            },
+            {
+                display: 'Email',
+                key: 'email'
+            },
+        ],
+        tableActions: {
             update: 'updateCustomer',
             create: 'createCustomer',
             delete: 'confirmDelete',
         },
     },
     invoices: {
-        pageTitle: 'Invoices',
-        listKey: 'readAllCustomers',
-        stateKey: 'allCustomers',
-        headers: {
-            customer: 'Customer',
-            price: 'Amount',
-            status: 'Status',
-            dateSent: 'Date Sent'
-        },
-        modalKeys: {
-            detail: '',
-            create: '',
-            delete: '',
+                headers: [
+            {
+                display: 'Customer',
+                key: 'name'
+            },
+            {
+                display: 'Amount',
+                key: 'price'
+            },
+            {
+                display: 'Status',
+                key: 'status'
+            },
+            {
+                display: 'Date Sent',
+                key: 'created_at'
+            }
+        ],
+        tableActions: {
+            // update: 'updateInvoice',
+            create: 'createInvoice',
+            delete: 'deleteInvoice',
+            detail: '/invoices/'
         },
     },
     lineItems: {
         headers: [
             {
-                display: 'Item',
-                key: 'item'
+                display: 'Name',
+                key: 'name'
             },
             {
-                display: 'Amount',
-                key: 'amount'
+                display: 'Price',
+                key: 'price'
             },
             {
                 display: 'Quantity',
                 key: 'quantity'
             }
         ],
-        actions: {
+        tableActions: {
             create: 'createLineItem',
             update: 'updateLineItem',
             delete: 'deleteLineItem',
         }
     },
-    lineItems: {
+    payments: {
         headers: [
             {
-                display: 'Item',
-                key: 'item'
+                display: 'Price',
+                key: 'price'
             },
             {
-                display: 'Amount',
-                key: 'amount'
-            },
-            {
-                display: 'Quantity',
-                key: 'quantity'
+                display: 'Method',
+                key: 'method'
             }
         ],
-        actions: {
-            create: 'createLineItem',
-            update: 'updateLineItem',
-            delete: 'deleteLineItem',
+        tableActions: {
+            create: 'createPayment',
+            update: 'updatePayment',
+            delete: 'deletePayment',
         }
     }
 }
