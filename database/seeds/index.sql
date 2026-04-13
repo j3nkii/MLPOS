@@ -12,8 +12,8 @@ INSERT INTO customers (id, user_id, name, email, phone) VALUES
 INSERT INTO invoices (id, user_id, customer_id, status) VALUES
     ('22222222-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '11111111-0000-0000-0000-000000000001', 'pending');
 
--- Seed data for invoices_details
-INSERT INTO invoices_details (id, invoices_id, name, price, quantitt) VALUES
+-- Seed data for invoice_items
+INSERT INTO invoice_items (id, invoice_id, name, price, quantitt) VALUES
     ('22222222-1111-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'Socks', 2999, 7),
     ('22222222-1111-0000-0000-000000000002', '22222222-0000-0000-0000-000000000001', 'Underwear', 2999, 7),
     ('22222222-1111-0000-0000-000000000003', '22222222-0000-0000-0000-000000000001', 'Jean Pants', 7999, 2),

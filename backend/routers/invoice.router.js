@@ -11,18 +11,18 @@ router.get('/', async (req, res) => {
             SELECT
                 invoices.*,
                 customers.name,
-                SUM(invoices_details.price * invoices_details.quantity) as price,
-                COALESCE(JSON_AGG(invoices_details) FILTER (WHERE invoices_details.invoices_id IS NOT NULL), '[]') as details,
+                SUM(invoice_items.price * invoice_items.quantity) as price,
+                COALESCE(JSON_AGG(invoice_items) FILTER (WHERE invoice_items.invoice_id IS NOT NULL), '[]') as details,
                 COALESCE((
                     WITH payments_clone AS (
-                        SELECT * FROM payments WHERE invoices_id = invoices.id AND is_deleted = false
+                        SELECT * FROM payments WHERE invoice_id = invoices.id AND is_deleted = false
                     )
                     SELECT JSON_AGG(payments_clone.*) AS reults FROM payments_clone
                 ), '[]') AS payments
             FROM invoices
-            LEFT JOIN invoices_details
-                ON invoices_details.invoices_id = invoices.id
-                AND invoices_details.is_deleted = false
+            LEFT JOIN invoice_items
+                ON invoice_items.invoice_id = invoices.id
+                AND invoice_items.is_deleted = false
             JOIN customers
                 ON customers.id = invoices.customer_id
                 AND customers.is_deleted = false
@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
 //                 JSON_AGG(invoice_details)
 //             FROM invoices
 //             JOIN invoice_details
-//                 ON invoice_details.invoices_id = invoices.id
+//                 ON invoice_details.invoice_id = invoices.id
 //                 AND invoice_details.is_deleted = false
 //             WHERE id = $1
 //                 AND is_deleted = false;
@@ -90,7 +90,7 @@ router.post('/', async(req, res) => {
         //     detailsSQLArray.push(`($1, $${idx++}, $${idx++}, $${idx++})`);
         // });
         // const detailsSQL = (`
-        //     INSERT INTO invoices_details (invoices_id, name, price, quantity)
+        //     INSERT INTO invoice_items (invoice_id, name, price, quantity)
         //     VALUES ${detailsSQLArray.join(', ')}
         // `);
         // await client.query(detailsSQL, detailsParams);
@@ -128,7 +128,7 @@ router.put('/:id', async(req, res) => {
             INSERT_SQL.push(`status = $${idx++}`);
             INSERT_PARAMS.push(status);
         } if (details) {
-            await client.query('UPDATE invoices_details SET is_deleted = true WHERE invoices_id = $1', [invoiceID]);
+            await client.query('UPDATE invoice_items SET is_deleted = true WHERE invoice_id = $1', [invoiceID]);
             if (details.length > 0) {
                 let paramIndex = 2;
                 let detailsSQLArray = [];
@@ -138,7 +138,7 @@ router.put('/:id', async(req, res) => {
                     detailsSQLArray.push(`($1, $${paramIndex++}, $${paramIndex++}, $${paramIndex++})`);
                 });
                 const detailsSQL = (`
-                    INSERT INTO invoices_details (invoices_id, name, price, quantity)
+                    INSERT INTO invoice_items (invoice_id, name, price, quantity)
                     VALUES ${detailsSQLArray.join(', ')}
                 `);
                 await client.query(detailsSQL, detailsParams);
@@ -190,7 +190,7 @@ router.post('/line-item/:id', async(req, res) => {
         const { name, price, quantity } = req.body;
         const { id: invoiceID } = req.params;
         if(!invoiceID || !name || !price || !quantity) throw new Error('Missing Essential Fields');
-        const END_SQL = `INSERT INTO invoices_details (invoices_id, name, price, quantity) VALUES ($1, $2, $3, $4)`;
+        const END_SQL = `INSERT INTO invoice_items (invoice_id, name, price, quantity) VALUES ($1, $2, $3, $4)`;
         const END_PARAMS = [invoiceID, name, price, quantity];
         await client.query(END_SQL, END_PARAMS);
         await client.query('COMMIT');
@@ -229,10 +229,10 @@ router.put('/line-item/:id', async(req, res) => {
             END_PARAMS.push(quantity);
         }
         const END_SQL = `
-            UPDATE invoices_details
+            UPDATE invoice_items
             SET ${INSERT_SQL.join(', ')}
             WHERE
-                invoices_details.id = $1;
+                invoice_items.id = $1;
         `
         await client.query(END_SQL, END_PARAMS);
         await client.query('COMMIT');
@@ -251,7 +251,7 @@ router.delete('/line-item/:id', async(req, res) => {
     try {
         const { id: lineItemID } = req.params;
         await pool.query(`
-            UPDATE invoices_details
+            UPDATE invoice_items
             SET is_deleted = true
             WHERE
                 id = $1

@@ -11,7 +11,7 @@ const router = express.Router();
 //         const { rows } = await pool.query(`
 //             SELECT * FROM payments
 //             JOIN invoices ON 
-//                 invoices.id = payments.invoices_id
+//                 invoices.id = payments.invoice_id
 //             AND user_id = $1
 //         `, [mplos_id])
 //         res.status(200).json({ success: true, data: rows});
@@ -29,12 +29,12 @@ router.post('/', async (req, res) => {
         const { invoiceID, price, method } = req.body;
         await client.query('BEGIN');
         await client.query(
-            'INSERT INTO payments (invoices_id, price, method) VALUES ($1, $2, $3)',
+            'INSERT INTO payments (invoice_id, price, method) VALUES ($1, $2, $3)',
             [invoiceID, price, method]
         );
         let totalPaid = 0;
         const { rows:  [ invoice ] } = await client.query('SELECT * FROM invoices WHERE id = $1', [invoiceID]);
-        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND is_deleted = 'false'`, [invoiceID]);
+        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoice_id = $1 AND is_deleted = 'false'`, [invoiceID]);
         for(let row of paymentsRows){
             totalPaid += row.price;
         }
@@ -75,27 +75,27 @@ router.put('/', async (req, res) => {
         }
         console.log(updateParams)
         console.log(updateSQL)
-        const {rows: [{ invoices_id: invoiceID }]} = await client.query(`
+        const {rows: [{ invoice_id: invoiceID }]} = await client.query(`
             UPDATE payments
             SET ${updateSQL.join(', ')}
             WHERE id = $1
-            RETURNING invoices_id;
+            RETURNING invoice_id;
             `, updateParams
         );
         let totalPaid = 0;
         const { rows:  [ invoice ] } = await client.query(`
             SELECT
                 invoices.*,
-                SUM(invoices_details.price * invoices_details.quantity) as price
+                SUM(invoice_items.price * invoice_items.quantity) as price
             FROM invoices
-            LEFT JOIN invoices_details
-                ON invoices_details.invoices_id = invoices.id
-                AND invoices_details.is_deleted = false
+            LEFT JOIN invoice_items
+                ON invoice_items.invoice_id = invoices.id
+                AND invoice_items.is_deleted = false
             WHERE invoices.id = $1
             GROUP BY invoices.id;`
             , [invoiceID]);
             console.log(invoice)
-        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND is_deleted = 'false'`, [invoiceID]);
+        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoice_id = $1 AND is_deleted = 'false'`, [invoiceID]);
         for(let row of paymentsRows){
             totalPaid += row.price;
         }
@@ -120,17 +120,17 @@ router.delete('/:paymentID', async (req, res) => {
     try {
         const { paymentID } = req.params;
         await client.query('BEGIN');
-        const {rows: [{ invoices_id: invoiceID }]} = await client.query(`
+        const {rows: [{ invoice_id: invoiceID }]} = await client.query(`
             UPDATE payments
             SET is_deleted = true
             WHERE id = $1
-            RETURNING invoices_id;
+            RETURNING invoice_id;
             `, [paymentID]
         );
         console.log(invoiceID)
         let totalPaid = 0;
         const { rows:  [ invoice ] } = await client.query('SELECT * FROM invoices WHERE id = $1', [invoiceID]);
-        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoices_id = $1 AND is_deleted = 'false'`, [invoiceID]);
+        const { rows: paymentsRows } = await client.query(`SELECT * FROM payments WHERE invoice_id = $1 AND is_deleted = 'false'`, [invoiceID]);
         for(let row of paymentsRows){
             totalPaid += row.price;
         }

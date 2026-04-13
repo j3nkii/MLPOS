@@ -1,4 +1,8 @@
+
+
+
 -- accounts / tennants , used to umbrella users .
+DELETE * FROM accounts IF EXISTS accounts;
 DROP TABLE IF EXISTS accounts CASCADE;
 CREATE TABLE accounts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -14,7 +18,7 @@ CREATE TABLE auth_confirmation (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id),
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 
 
@@ -48,13 +52,21 @@ CREATE TABLE customers (
 
 
 
--- invoices, to contain: details(line items), payments.
+
+DROP TYPE IF EXISTS invoice_status_type;
+CREATE TYPE invoice_status_type AS ENUM (
+    'quote',
+    'pending',
+    'overdue',
+    'cancelled'
+);
+
 DROP TABLE IF EXISTS invoices CASCADE;
 CREATE TABLE invoices (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id),
-    customer_id UUID NOT NULL REFERENCES customers(id),
-    status VARCHAR(50) DEFAULT 'quote', -- quote/draft?, pending/sent?, paid, cancelled, overdue
+    customer_id UUID REFERENCES customers(id),
+    status invoice_status_type DEFAULT 'quote',
     date_sent TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
@@ -63,10 +75,10 @@ CREATE TABLE invoices (
 
 
 
-DROP TABLE IF EXISTS invoice_line_items CASCADE;
-CREATE TABLE invoice_line_items (
+DROP TABLE IF EXISTS invoice_items CASCADE;
+CREATE TABLE invoice_items (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    invoices_id UUID NOT NULL REFERENCES invoices(id),
+    invoice_id UUID NOT NULL REFERENCES invoices(id),
     name VARCHAR(257),
     quantity INTEGER,
     price INTEGER,
@@ -76,13 +88,24 @@ CREATE TABLE invoice_line_items (
 );
 
 
-
+DROP TYPE IF EXISTS payments_method_type;
+CREATE TYPE payments_method_type AS ENUM (
+    'cash',
+    'check',
+    'venmo',
+    'cash app',
+    'square',
+    'paypall',
+    'zelle',
+    'bitcoin',
+    'stripe'
+);
 DROP TABLE IF EXISTS payments CASCADE;
 CREATE TABLE payments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    invoices_id UUID NOT NULL REFERENCES invoices(id),
+    invoice_id UUID NOT NULL REFERENCES invoices(id),
     price INTEGER NOT NULL,
-    method VARCHAR(50) NOT NULL, -- cash, check, venmo, stripe, paypal, cashapp, zelle .... ect.
+    method payments_method_type NOT NULL, -- cash, check, venmo, stripe, paypal, cashapp, zelle .... ect.
     alt_id VARCHAR(50), -- id's or payment no's from alternate payment methods. (stripe will be default) ... maybe stripe ID goes here too? 
     is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
@@ -97,7 +120,7 @@ CREATE TABLE products (
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     price INTEGER NOT NULL,
-    unit VARCHAR(50) NOT NULL -- single, gram, oz, pound, ..ect,
+    unit VARCHAR(50) NOT NULL,
     wholesale_price INTEGER,
     internal_sku VARCHAR(50) NOT NULL, -- maybe define default sku system for mlpos inventory.
     external_sku VARCHAR(50) NOT NULL,
@@ -109,12 +132,13 @@ CREATE TABLE products (
 
 
 -- Add this for mechanics (or post-MVP) via claude
+DROP TABLE IF EXISTS inventory_transactions CASCADE;
 CREATE TABLE inventory_transactions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     product_id UUID NOT NULL REFERENCES products(id),
     quantity_delta INTEGER NOT NULL, -- +/- amount
     type VARCHAR(50) NOT NULL, -- 'sale', 'restock', 'adjustment'
-    invoice_line_item_id UUID REFERENCES invoice_line_items(id),
+    invoice_line_item_id UUID REFERENCES invoice_items(id),
     notes TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
