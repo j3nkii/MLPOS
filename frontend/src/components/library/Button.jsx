@@ -3,15 +3,17 @@ import 'react';
 
 
 const COLOR = {
-    black: 'hover:bg-black hover:text-white',
-    red: 'hover:bg-red-500 hover:text-white',
-    green: 'hover:bg-green-500 hover:text-white',
+    white: 'hover:bg-black hover:text-white text-black bg-white',
+    black: 'hover:bg-white hover:text-black text-white bg-black',
+    red: 'hover:bg-red-500 hover:text-white text-white bg-black',
+    green: 'hover:bg-green-500 hover:text-white text-white text-black',
     orange: 'gb-orange text-white',
 }
 
 
 
-const DETAULT_STYLE = 'p-2 mx-1 font-semibold transition-colors rounded-md cursor-pointer bg-[#cdcdcd]';
+// const DETAULT_STYLE = 'p-2 mx-1 font-semibold transition-colors rounded-md cursor-pointer bg-[#cdcdcd]';
+const DETAULT_STYLE = 'p-2 mx-1 font-semibold transition-colors rounded-md cursor-pointer';
 
 
 

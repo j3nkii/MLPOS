@@ -10,19 +10,20 @@ import { TABLE_CONFIG } from '@config/tableConfig';
 
 
 export const Table = ( PROPS ) => {
-    const { data = [], isManage = true, config = '' } = PROPS;
+    const { data = [], isManage = true, config = '', theme = 'default', footer = {} } = PROPS;
     const displayColumns = TABLE_CONFIG[config].headers.map(x => x.display);
     const columnKeys = TABLE_CONFIG[config].headers.map(x => x.key);
-    const tableActions = TABLE_CONFIG[config].tableActions
+    const tableActions = TABLE_CONFIG[config].tableActions;
+    const tableStyles = TABLE_THEMES[theme];
     return (
-        <div className='rounded-2xl overflow-hidden border-2'>
-            <table className='min-w-full border-collapse table-fixed w-full bg-white shadow-sm'>
+        <div className={tableStyles.container}>
+            <table className={tableStyles.table}>
                 <thead>
-                    <tr className='bg-gray-200'>
+                    <tr className={tableStyles.tableHTR}>
                         {displayColumns.map((header, index) => (
                             <th 
                                 key={index} 
-                                className='px-4 py-3 text-left　font-medium text-gray-900'
+                                className={tableStyles.tableTH}
                             >
                                 {header}
                             </th>
@@ -34,12 +35,12 @@ export const Table = ( PROPS ) => {
                     {data.map((row, rowIndex) => (
                         <tr 
                             key={rowIndex} 
-                            className='hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200  border-b border-gray-200'
+                            className={tableStyles.tableBTR}
                         >
                             {columnKeys.map((field, colIndex) => (
                                 <td 
                                     key={colIndex} 
-                                    className='px-4 py-3 text-gray-900'
+                                    className={tableStyles.tableTD}
                                 >
                                     { row[field] || 'N/A'}
                                 </td>
@@ -48,6 +49,15 @@ export const Table = ( PROPS ) => {
                         </tr>
                     ))}
                 </tbody>
+                {config === 'lineItems' && <tfoot>
+                    <tr className={tableStyles.tableHTR}>
+                        <td className={tableStyles.tableTH}>Total</td>
+                        <td className={tableStyles.tableTH}>{footer.total}</td>
+                        <td className={tableStyles.tableTH}></td>
+                        <td className={tableStyles.tableTH}></td>
+                    </tr>
+                    
+                </tfoot>}
             </table>
         </div>
     );
@@ -121,4 +131,31 @@ const ActionsCell = ({ item, tableActions }) => {
             </div>
         </td>
     );
+}
+
+const TABLE_THEMES = {
+    default: {
+        container: 'rounded-2xl overflow-hidden border-10',
+        table: 'min-w-full border-collapse table-fixed w-full bg-white',
+        tableHTR: 'bg-black',
+        tableTH: 'px-4 py-3 text-right text-white',
+        tableBTR: 'hover:bg-gray-50 active:bg-gray-100 duration-200  border-b border-gray-200',
+        tableTD: 'px-4 py-3 text-gray-900 text-right'
+    },
+    // payments: {
+    //     container: 'rounded-2xl overflow-hidden border-2',
+    //     table: 'min-w-full border-collapse table-fixed w-full bg-white shadow-sm',
+    //     tableHTR: 'bg-gray-200',
+    //     tableTH: 'px-4 py-3 text-left　font-medium text-gray-900',
+    //     tableBTR: 'hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200  border-b border-gray-200',
+    //     tableTD: 'px-4 py-3 text-gray-900'
+    // },
+    // invoiceItems: {
+    //     container: 'rounded-2xl overflow-hidden border-2',
+    //     table: 'min-w-full border-collapse table-fixed w-full bg-white shadow-sm',
+    //     tableHTR: 'bg-gray-200',
+    //     tableTH: 'px-4 py-3 text-left　font-medium text-gray-900',
+    //     tableBTR: 'hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200  border-b border-gray-200',
+    //     tableTD: 'px-4 py-3 text-gray-900'
+    // },
 }
