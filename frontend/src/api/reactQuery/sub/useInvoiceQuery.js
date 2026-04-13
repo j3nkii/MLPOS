@@ -2,10 +2,12 @@ import 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { invoiceService } from '@services';
 import { useModalZussy} from '@zussy';
+import { useNavigate } from 'react-router-dom';
 
 
 
 export const useInvoiceQuery = () => {
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const { closeModal } = useModalZussy();
 
@@ -19,7 +21,9 @@ export const useInvoiceQuery = () => {
 
     const createInvoice = useMutation({
         mutationFn: invoiceService.createInvoice,
-        onSuccess: () => {
+        onSuccess: async (result) => {
+            navigate(`/invoices/${result.data.data.invoiceID}`)
+            await _refreshInvoices()
             queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             closeModal();
         },
@@ -42,7 +46,8 @@ export const useInvoiceQuery = () => {
 
     const updateInvoice = useMutation({
         mutationFn: invoiceService.updateInvoice,
-        onSuccess: () => {
+        onSuccess: async () => {
+            await _refreshInvoices()
             queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             closeModal();
         },
@@ -62,7 +67,8 @@ export const useInvoiceQuery = () => {
     // ITEMS
     const updateInvoiceItem = useMutation({
         mutationFn: invoiceService.updateInvoiceItem,
-        onSuccess: () => {
+        onSuccess: async () => {
+            await _refreshInvoices()
             queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             closeModal();
         },
@@ -73,8 +79,8 @@ export const useInvoiceQuery = () => {
         mutationFn: invoiceService.createInvoiceItem,
         onSuccess: async () => {
             // not super sure why this had to be done this way in order to work. invalidate was not refreshing data. 
-            // queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             await _refreshInvoices()
+            queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             closeModal();
         },
         onError: (error) => console.error(error),

@@ -69,11 +69,11 @@ router.post('/', async(req, res) => {
     try {
         const userID = req.user.attributes.mlpos_id;
         const { details, customerID } = req.body;
-        if (!details || !customerID) throw new Error('Missing Fields');
-        let invoiceTotal = 0;
-        details.forEach(detail => {
-            invoiceTotal += Number(detail.price);
-        });
+        // if (!details || !customerID) throw new Error('Missing Fields');
+        // let invoiceTotal = 0;
+        // details.forEach(detail => {
+        //     invoiceTotal += Number(detail.price);
+        // });
         await client.query('BEGIN');
         const {rows: [result]} = await client.query(`
             INSERT INTO invoices (customer_id, user_id)
@@ -81,20 +81,21 @@ router.post('/', async(req, res) => {
             RETURNING id;
         `, [ customerID, userID]
         );
-        let idx = 2;
-        const detailsParams = [result.id];
-        const detailsSQLArray = [];
-        details.forEach(detail => {
-            detailsParams.push(detail.name, detail.price, detail.quantity)
-            detailsSQLArray.push(`($1, $${idx++}, $${idx++}, $${idx++})`);
-        });
-        const detailsSQL = (`
-            INSERT INTO invoices_details (invoices_id, name, price, quantity)
-            VALUES ${detailsSQLArray.join(', ')}
-        `);
-        await client.query(detailsSQL, detailsParams);
+        // REMOVING MASS INPUTS FOR NOW.
+        // let idx = 2;
+        // const detailsParams = [result.id];
+        // const detailsSQLArray = [];
+        // details.forEach(detail => {
+        //     detailsParams.push(detail.name, detail.price, detail.quantity)
+        //     detailsSQLArray.push(`($1, $${idx++}, $${idx++}, $${idx++})`);
+        // });
+        // const detailsSQL = (`
+        //     INSERT INTO invoices_details (invoices_id, name, price, quantity)
+        //     VALUES ${detailsSQLArray.join(', ')}
+        // `);
+        // await client.query(detailsSQL, detailsParams);
         await client.query('COMMIT');
-        res.status(201).json({ message: 'User created successfully' });
+        res.status(201).json({ message: 'User created successfully', data: { invoiceID: result.id } });
     } catch (error) {
         await client.query('ROLLBACK');
         console.error(error);
