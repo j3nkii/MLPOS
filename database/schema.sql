@@ -53,7 +53,7 @@ CREATE TABLE invoices (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id),
     customer_id UUID NOT NULL REFERENCES customers(id),
-    status VARCHAR(50) DEFAULT 'pending', -- pending, paid, cancelled, overdue
+    status VARCHAR(50) DEFAULT 'quote', -- quote/draft?, pending/sent?, paid, cancelled, overdue
     date_sent TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,

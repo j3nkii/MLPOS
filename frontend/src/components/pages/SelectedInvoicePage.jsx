@@ -37,7 +37,7 @@ export const SelectedInvoicePage = ({ isUpdate }) => {
                     // isMutated: false,
                     index
                 })),
-                payments: selectedInvoice.payments
+                payments: selectedInvoice.payments,
             });
             setSelectedInvoice(selectedInvoice)
         }
@@ -67,21 +67,20 @@ export const SelectedInvoicePage = ({ isUpdate }) => {
 
     return (
         <div className='max-w-170 bg-white'>
-            <h1 className='p-10 pt-10 text-4xl font-extrabold'>Selected Invoice</h1>
-            <form onSubmit={handleConfirm} className='p-6'>
-                <Input
+            <h1 className='p-10 pt-5 pb-2 text-4xl font-extrabold'>Selected Invoice for { selectedInvoice.name}</h1>
+            <h2 className='pl-10 pb-5 text-2xl font-bold'>Status {selectedInvoice.status}</h2>
+                {/* <Input
                     onChange={handleChange}
                     value={invoiceForm.customerID}
                     label={'Customer'}
                     name={'customerID'}
                     type={'select'}
                     options={readAllCustomers?.data?.data.map(cust => ({ name: cust.name, value: cust.id }))}
-                />
+                /> */}
+                {/* <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> */}
                 <Table config={'lineItems'} data={invoiceForm.details} />
-                <div>total: {total}</div>
-                { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
+                <h2 className='pl-15 pb-5 text-xl font-bold'>total: {total}</h2>
                 <Table config={'payments'} data={invoiceForm.payments} />
-            </form>
         </div>
     );
 }

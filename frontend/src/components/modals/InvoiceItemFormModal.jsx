@@ -10,11 +10,11 @@ import { useParams } from 'react-router-dom';
 
 const INITIAL_FORM = {
     name: '',
-    price: '',
-    quantity: '',
+    price: 0,
+    quantity: 1,
 };
 
-export const InvoiceDetailFormModal = ({ isUpdate }) => {
+export const InvoiceItemFormModal = ({ isUpdate }) => {
     const params = useParams();
     const [modalTitle] = useState(isUpdate ? 'Update Invoice Item' : 'Create Invoice Item');
     const [invoiceItemForm, setInvoiceItemForm] = useState(INITIAL_FORM);
@@ -48,8 +48,8 @@ export const InvoiceDetailFormModal = ({ isUpdate }) => {
             <ModalBody>
                 <form className='p-6'>
                     <Input onChange={handleChange} value={invoiceItemForm.name || ''} label={'Name'} name={'name'} />
-                    <Input onChange={handleChange} value={invoiceItemForm.price || ''} label={'Price'} name={'price'} />
-                    <Input onChange={handleChange} value={invoiceItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
+                    <Input type={'number'} onChange={handleChange} value={invoiceItemForm.price || ''} label={'Price'} name={'price'} />
+                    <Input type={'number'} onChange={handleChange} value={invoiceItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
                 </form>
             </ModalBody>
 

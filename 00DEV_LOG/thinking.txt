@@ -8,6 +8,8 @@ should be able to view sent invoice history
 could have a light deployment to just spin up a cog pool.
 I need to start thinking about mobile developement. right now it looks ... okay on the macbook, but this might ultimately be a mobile web app. on mobile the tables get all scrunched, so well need to horizontal stack em or something.. maybe a scroll ??
 enable some type of quoting system... could create invoice, save as quote kinda shit. could be a status identifier.
+make a doucments folder for offline use case. (tailwind dicionary, cognito methods, w/e.)
+make internal documents showing the overall design system.
 
 
 
