@@ -1,5 +1,5 @@
 import 'react';
-import { Loggin, Layout, CustomersPage, InvoicesPage } from '@components';
+import { Loggin, Layout, CustomersPage, InvoicesPage, SelectedInvoicePage } from '@components';
 
 
 export const routerConfig = [
@@ -21,6 +21,11 @@ export const routerConfig = [
                 path: "/invoices",
                 exact: true,
                 Component: InvoicesPage
+            },
+            {
+                path: "/invoices/:invoiceID",
+                exact: true,
+                Component: SelectedInvoicePage
             },
         ]
     },

@@ -25,9 +25,51 @@ export const TABLE_CONFIG = {
             dateSent: 'Date Sent'
         },
         modalKeys: {
-            update: '',
+            detail: '',
             create: '',
             delete: '',
         },
+    },
+    lineItems: {
+        headers: [
+            {
+                display: 'Item',
+                key: 'item'
+            },
+            {
+                display: 'Amount',
+                key: 'amount'
+            },
+            {
+                display: 'Quantity',
+                key: 'quantity'
+            }
+        ],
+        actions: {
+            create: 'createLineItem',
+            update: 'updateLineItem',
+            delete: 'deleteLineItem',
+        }
+    },
+    lineItems: {
+        headers: [
+            {
+                display: 'Item',
+                key: 'item'
+            },
+            {
+                display: 'Amount',
+                key: 'amount'
+            },
+            {
+                display: 'Quantity',
+                key: 'quantity'
+            }
+        ],
+        actions: {
+            create: 'createLineItem',
+            update: 'updateLineItem',
+            delete: 'deleteLineItem',
+        }
     }
 }

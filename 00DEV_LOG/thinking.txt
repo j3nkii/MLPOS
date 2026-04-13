@@ -11,7 +11,6 @@ enable some type of quoting system... could create invoice, save as quote kinda 
 
 
 
-
 UI :: 
 select should be prettier.
 inputs should have a clear disabled / edit state. 
@@ -39,15 +38,31 @@ logout does not work, need to destroy react query store to remove user.
 
 
 
-NEXT STEPS :: 
-whip up payments UI.
+NEXT STEPS ::
+
+*** so im thinking next, I work out UI before it gets too bad. then I can implement stripe connect.
+so MVP for UI ..? fix the fucking pricing. make sure phone numbers are phone numbers, data validation... propper loading UI, ... toast noti's? 
+mainly, proper loaidng, solid CRUD flow. invoice details is in depth enough to get its own page. modals will be used for forms. but details will show data, then you click to edit, opens modal.
+TableForm will probably be scrapped. deletes should be a little more hidden. you have to click edit, then delete. since its only 2 main entities, customers shoudl also get a selected page. im just not sure how to make this... the data is all there, so im thinking they hold an index ...? rather than making a selectedThis state? then its in there twice?? NBD at this scale, but also want to be... nice wit it.
+invoice might not have customer
+
+need to fix UI for invoices. currently not going to work with modal system.
+also table should be fixed to not have a delete button and just a opend details action. so thinking modalKeys gets renamed /remapped to an actions object. {details,create,delete,update} w/e
 implement stripe connect.
 whip up stripe onboarding.
 figure out how to actually send invoices (i think stripe has some type of built in shit for this that'll work for now)
 hammer out auth flow. (login, signup, forgot pass, code confirmations cache + code confirmation)
 REMOVE DELETE FROM MAIN VIEW, PUSH TO EDIT/DETAILS VIEW
+hammer down loading / err state UI. implement toast
+look into running invoicing ... refunds and invoices kinda stuff. aka, when & where & how to redirect or suggest refunds vs deletions. 
 
+INVOICE DEETS ::
+status will go at top and will be inferred, will need a seprate EDIT form / state. 
+customer will show more detial or show a ... something to indicate its just a regular ass sale.
+tables will be lighter since they demote a "details" or "sub-entity"
+there will no inherit update and details page. details will have edit button which will pop open modals. all updateable info will be row locked, not mass updates. optimistic loading.
+actions row -> edit -> then will show edit buttons -> then will open modal for form... idea: without edit, no cell, then on edit, add cell, keep it sticky, make sure it can all scroll.
+item: select -> freehand -> turns into input with freehand label (needs an exit, maybe an X ? maybe click the label? idk.) freehand can open a modal form since youll need an ammount??
+AGAIN? pass actions instead of modal keys?? both??
+littmore more research on how to layout total , payments total, balance.
 
-NEXT NEXT STEPS...
-add linking, extract selected views from modals. 
-hook up payments to a table. 

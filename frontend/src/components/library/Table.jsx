@@ -1,13 +1,16 @@
-import 'react'
-import { Trash2, DiamondPlus, BookUser } from 'lucide-react'
+import { useState } from 'react'
+import { Trash2, DiamondPlus, BookUser, Pencil } from 'lucide-react'
 import { useModalZussy} from '@zussy'
 import { Button } from '@components'
+import { useNavigate } from 'react-router-dom'
+
+import { TABLE_CONFIG } from '@config/tableConfig';
 
 
 
 
 export const Table = ( PROPS ) => {
-    const { data = [], onClick, isManage = true, displayColumns = [], columnKeys = [], modalKeys = {} } = PROPS;
+    const { data = [], isManage = true, displayColumns = [], columnKeys = [], modalKeys = {} } = PROPS;
     return (
         <div className='rounded-2xl overflow-hidden border-2'>
             <table className='min-w-full border-collapse table-fixed w-full bg-white shadow-sm'>
@@ -29,7 +32,6 @@ export const Table = ( PROPS ) => {
                         <tr 
                             key={rowIndex} 
                             className='hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200  border-b border-gray-200'
-                            // onClick={(e) => handleRowClick(e, row)}
                         >
                             {columnKeys.map((field, colIndex) => (
                                 <td 
@@ -73,22 +75,30 @@ const ActionsHeader = ({ modalKeys }) => {
 
 
 const ActionsCell = ({ item, modalKeys }) => {
+    const navigate = useNavigate();
     const { setModal } = useModalZussy();
+    const [ICON] = useState(modalKeys.detail ? BookUser : Pencil)
 
-    const onDelete = (e) => {
-        e.stopPropagation();
-        setModal({
-            modalKey: modalKeys.delete,
-            item,
-        });
-    };
+    // const onDelete = (e) => {
+    //     e.stopPropagation();
+    //     setModal({
+    //         modalKey: modalKeys.delete,
+    //         item,
+    //     });
+    // };
 
     const onUpdate = (e) => {
         e.stopPropagation();
-        setModal({
-            modalKey: modalKeys.update,
-            item,
-        });
+        if(modalKeys.detail){
+            navigate(item.id)
+        } else {
+            setModal({
+                modalKey: modalKeys.update,
+                item,
+            });
+        }
+        
+
     };
 
     return (
@@ -97,14 +107,14 @@ const ActionsCell = ({ item, modalKeys }) => {
                 <Button 
                     onClick={onUpdate} 
                     text='Settings'
-                ><BookUser />
+                ><ICON />
                 </Button>
-                <Button
+                {/* <Button
                     color={'red'}
                     onClick={onDelete} 
                     text='Delete'
                 ><Trash2 />
-                </Button>
+                </Button> */}
             </div>
         </td>
     );

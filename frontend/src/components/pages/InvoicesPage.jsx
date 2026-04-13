@@ -23,9 +23,10 @@ const headers = [
 ];
 
 const modalKeys = {
-    update: 'updateInvoice',
+    // update: 'updateInvoice',
     create: 'createInvoice',
     delete: 'deleteInvoice',
+    detail: '/invoices/'
 }
 
 
