@@ -82,13 +82,13 @@ const ActionsCell = ({ item, tableActions }) => {
     const { setModal } = useModalZussy();
     const [ICON] = useState(tableActions.detail ? BookUser : Pencil)
 
-    // const onDelete = (e) => {
-    //     e.stopPropagation();
-    //     setModal({
-    //         modalKey: tableActions.delete,
-    //         item,
-    //     });
-    // };
+    const onDelete = (e) => {
+        e.stopPropagation();
+        setModal({
+            modalKey: tableActions.delete,
+            item,
+        });
+    };
 
     const onUpdate = (e) => {
         e.stopPropagation();
@@ -112,12 +112,12 @@ const ActionsCell = ({ item, tableActions }) => {
                     text='Settings'
                 ><ICON />
                 </Button>
-                {/* <Button
+                {!tableActions.detail && <Button
                     color={'red'}
                     onClick={onDelete} 
                     text='Delete'
                 ><Trash2 />
-                </Button> */}
+                </Button>}
             </div>
         </td>
     );

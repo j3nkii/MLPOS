@@ -9,12 +9,11 @@ import { Button } from '@components';
 export const PaymentDeleteModal = () => {
     const { deletePayment } = usePaymentQuery();
     const {closeModal} = useModalZussy();
-    const { item: {selectedPayment: item}, item: shitter } = useModalZussy();
+    const { item } = useModalZussy();
 
     const handleConfirm = async () => {
         deletePayment.mutate(item.id);
     };
-        console.log(shitter)
 
     return (
         <Modal onClose={closeModal}>

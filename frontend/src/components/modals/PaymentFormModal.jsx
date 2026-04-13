@@ -6,16 +6,19 @@ import { Button, Input } from '@components';
 
 import { usePaymentQuery } from '@query';
 
+import { useParams } from 'react-router-dom';
+
 const INITIAL_FORM = {
     price: '',
     method: '',
 };
 
 export const PaymentFormModal = ({ isUpdate }) => {
-    const [modalTitle] = useState(isUpdate ? 'Update Payment' : 'Create Payment')
+    const params = useParams();
+    const [modalTitle] = useState(isUpdate ? 'Update Payment' : 'Create Payment');
     const [paymentForm, setPaymentForm] = useState(INITIAL_FORM);
     const { createPayment, updatePayment } = usePaymentQuery();
-    const { setModal, item: { selectedPayment: item }, item: invoiceItem } = useModalZussy();
+    const { setModal, item, closeModal  } = useModalZussy();
 
     useEffect(() => {
         if(isUpdate){
@@ -26,14 +29,8 @@ export const PaymentFormModal = ({ isUpdate }) => {
         }
     }, []);
 
-    const closeModal = () => {
-        const result = { ...invoiceItem }
-        delete result.selectedPayment
-        setModal({ modalKey: 'updateInvoice', item: result });
-    }
-
     const handleConfirm = async () => {
-        const payload = { invoiceID: invoiceItem?.id, ...paymentForm, paymentID: item.id }
+        const payload = { invoiceID: params.invoiceID, paymentID: item?.id, ...paymentForm }
         const handleFn = isUpdate ? updatePayment : createPayment;
         handleFn.mutate(payload);
     };
