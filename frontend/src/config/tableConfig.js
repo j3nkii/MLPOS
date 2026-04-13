@@ -62,8 +62,8 @@ export const TABLE_CONFIG = {
             }
         ],
         tableActions: {
-            create: 'createLineItem',
-            update: 'updateLineItem',
+            create: 'createInvoiceLine',
+            update: 'updateInvoiceLine',
             delete: 'deleteLineItem',
         }
     },

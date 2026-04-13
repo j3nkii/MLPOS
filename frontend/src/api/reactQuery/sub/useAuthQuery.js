@@ -19,7 +19,7 @@ export const useAuthQuery = () => {
             sessionStorage.setItem('idToken', res.data.tokens.idToken);
             await queryClient.fetchQuery({
                 queryKey: ['user'],
-                queryFn: () => userService.readUser(),
+                queryFn: userService.readUser,
                 onSuccess: () => {
                     console.log('success');
                     navigate('/customers');

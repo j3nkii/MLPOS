@@ -110,7 +110,8 @@ router.put('/:id', async(req, res) => {
     const client = await pool.connect();
     try {
 
-        const { price, customerID, status, details } = req.body;
+        const { price, customerID, status, details: DO_NOT_USE } = req.body;
+        const details = null;
         console.log(req.body)
         console.log(req.params)
         const { id: invoiceID } = req.params;
@@ -180,5 +181,85 @@ router.delete('/:id', async(req, res) => {
 });
 
 
+
+router.post('/line-item/:id', async(req, res) => {
+    const client = await pool.connect();
+    try {
+        console.log(req.body)
+        const { name, price, quantity } = req.body;
+        const { id: invoiceID } = req.params;
+        if(!invoiceID || !name || !price || !quantity) throw new Error('Missing Essential Fields');
+        const END_SQL = `INSERT INTO invoices_details (invoices_id, name, price, quantity) VALUES ($1, $2, $3, $4)`;
+        const END_PARAMS = [invoiceID, name, price, quantity];
+        await client.query(END_SQL, END_PARAMS);
+        await client.query('COMMIT');
+        res.status(200).json({ message: 'User updated successfully' });
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong' });
+    } finally {
+        client.release();
+    }
+});
+
+
+
+router.put('/line-item/:id', async(req, res) => {
+    const client = await pool.connect();
+    try {
+
+        const { name, price, quantity } = req.body;
+        const { id: lineItemID } = req.params;
+        if(!price && !quantity) throw new Error('No Fields Detected');
+        if(!lineItemID) throw new Error('Missing Essential Fields');
+        const INSERT_SQL = [];
+        const END_PARAMS = [lineItemID];
+        let idx = 2;
+        if (name) {
+            INSERT_SQL.push(`name = $${idx++}`);
+            END_PARAMS.push(name);
+        } 
+        if (price) {
+            INSERT_SQL.push(`price = $${idx++}`);
+            END_PARAMS.push(price);
+        } if (quantity) {
+            INSERT_SQL.push(`quantity = $${idx++}`);
+            END_PARAMS.push(quantity);
+        }
+        const END_SQL = `
+            UPDATE invoices_details
+            SET ${INSERT_SQL.join(', ')}
+            WHERE
+                invoices_details.id = $1;
+        `
+        await client.query(END_SQL, END_PARAMS);
+        await client.query('COMMIT');
+        res.status(200).json({ message: 'User updated successfully' });
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong' });
+    } finally {
+        client.release();
+    }
+});
+
+
+router.delete('/line-item/:id', async(req, res) => {
+    try {
+        const { id: lineItemID } = req.params;
+        await pool.query(`
+            UPDATE invoices_details
+            SET is_deleted = true
+            WHERE
+                id = $1
+        `, [ lineItemID ]);
+        res.status(201).json({ message: 'User Deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+});
 
 module.exports = router;

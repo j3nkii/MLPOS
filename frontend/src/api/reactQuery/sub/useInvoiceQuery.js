@@ -9,6 +9,14 @@ export const useInvoiceQuery = () => {
     const queryClient = useQueryClient();
     const { closeModal } = useModalZussy();
 
+    const _refreshInvoices = async() => {
+        await queryClient.fetchQuery({
+            queryKey: ['allInvoices'],
+            queryFn: invoiceService.readAllInvoices,
+            onError: (error) => console.error(error)
+        });
+    }
+
     const createInvoice = useMutation({
         mutationFn: invoiceService.createInvoice,
         onSuccess: () => {
@@ -50,11 +58,35 @@ export const useInvoiceQuery = () => {
         onError: (error) => console.error(error),
     });
 
+
+    // ITEMS
+    const updateInvoiceItem = useMutation({
+        mutationFn: invoiceService.updateInvoiceItem,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
+            closeModal();
+        },
+        onError: (error) => console.error(error),
+    });
+
+    const createInvoiceItem = useMutation({
+        mutationFn: invoiceService.createInvoiceItem,
+        onSuccess: async () => {
+            // not super sure why this had to be done this way in order to work. invalidate was not refreshing data. 
+            // queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
+            await _refreshInvoices()
+            closeModal();
+        },
+        onError: (error) => console.error(error),
+    });
+
     return {
         createInvoice,
         // readInvoice,
         readAllInvoices,
         updateInvoice,
         deleteInvoice,
+        createInvoiceItem,
+        updateInvoiceItem,
     }
 }
