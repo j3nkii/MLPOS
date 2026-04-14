@@ -35,29 +35,27 @@ export const SelectedInvoicePage = () => {
         }
     }, [readAllInvoices?.data?.data]);
 
-    const onDelete = (e, item) => {
+    const onDelete = (e) => {
         e.stopPropagation();
         setModal({
             modalKey: 'deleteInvoice',
-            item,
+            item: selectedInvoice,
         });
     };
 
-    const onUpdate = (e, item) => {
+    const onUpdate = (e) => {
         e.stopPropagation();
         setModal({
             modalKey: 'updateInvoice',
-            item,
+            item: selectedInvoice,
         });
     };
 
-    const onSend = (e, item) => {
-        console.log('sending invoice');
-        return
+    const onSend = (e) => {
         e.stopPropagation();
         setModal({
-            modalKey: 'sendPayment',
-            item,
+            modalKey: 'sendInvoice',
+            item: selectedInvoice,
         });
     };
 
@@ -68,19 +66,19 @@ export const SelectedInvoicePage = () => {
                 <div className='flex items-center'>
                     <Button
                         color='yellow'
-                        onClick={(e) => onUpdate(e, selectedInvoice)} 
+                        onClick={onUpdate} 
                         text='Update'
                     ><Pencil />
                     </Button>
                     <Button
                         color={'red'}
-                        onClick={(e) => onDelete(e, selectedInvoice)} 
+                        onClick={onDelete} 
                         text='Delete'
                     ><Trash2 />
                     </Button>
                     <Button
                         color={'green'}
-                        onClick={(e) => onSend(e, selectedInvoice)} 
+                        onClick={onSend} 
                         text='Send'
                     ><Send />
                     </Button>
