@@ -52,7 +52,7 @@ CREATE TABLE customers (
 
 
 
-DROP TYPE IF EXISTS invoice_status_type;
+DROP TYPE IF EXISTS invoice_status_type CASCADE;
 CREATE TYPE invoice_status_type AS ENUM (
     'quote',
     'pending',
@@ -89,7 +89,7 @@ CREATE TABLE invoice_items (
 );
 
 
-DROP TYPE IF EXISTS payments_method_type;
+DROP TYPE IF EXISTS payments_method_type CASCADE;
 CREATE TYPE payments_method_type AS ENUM (
     'cash',
     'check',
