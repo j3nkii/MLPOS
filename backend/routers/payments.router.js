@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
             totalPaid += row.price;
         }
         if(invoice.price <= totalPaid){
-            await client.query(`UPDATE invoice SET status = 'paid' WHERE id = $1`);
+            await client.query(`UPDATE invoices SET status = 'paid' WHERE id = $1`);
         } else {
             // not sure how were going to handle refunds. refund will probably be a sperate payment with negative price. will need to configure rules for automated status setting (pending, paid overdue ect.)
             // await client.query(`UPDATE invoice SET status = 'pending' WHERE id = $1`);
@@ -100,7 +100,7 @@ router.put('/', async (req, res) => {
             totalPaid += row.price;
         }
         if(invoice.price <= totalPaid){
-            await client.query(`UPDATE invoice SET status = 'pending' WHERE id = $1`, [invoiceID]);
+            await client.query(`UPDATE invoices SET status = 'pending' WHERE id = $1`, [invoiceID]);
         }
         await client.query('COMMIT');
         res.status(200).json({ success: true});
@@ -135,7 +135,7 @@ router.delete('/:paymentID', async (req, res) => {
             totalPaid += row.price;
         }
         if(invoice.price <= totalPaid){
-            await client.query(`UPDATE invoice SET status = 'pending' WHERE id = $1`);
+            await client.query(`UPDATE invoices SET status = 'pending' WHERE id = $1`);
         }
         await client.query('COMMIT');
         res.status(200).json({ success: true});

@@ -112,8 +112,6 @@ const ActionsCell = ({ item, tableActions }) => {
                 item,
             });
         }
-        
-
     };
 
     return (
