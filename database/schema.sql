@@ -53,6 +53,10 @@ CREATE TABLE customers (
 
 
 DROP TYPE IF EXISTS invoice_status_type CASCADE;
+-- so tihking about the flow. right? so in general we can break this down into diff entities... invoice, ticket, order, receipt... am i missing any??
+-- anyways, so thiking this status can reflect that? draft, quote, pending fufillment, ....(paid and partially paid can be derrived) ... overdue, cancelled ... reopened?
+-- fuck this is getting complicated.
+-- ECommmerce basically skips the "invoice building" i mean customers will do it on their own... but they pay before fufillment.. vs service based who are typically fufilled before payment.
 CREATE TYPE invoice_status_type AS ENUM (
     'quote',
     'pending',

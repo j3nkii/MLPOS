@@ -97,6 +97,17 @@ export const useInvoiceQuery = () => {
         onError: (error) => console.error(error),
     });
 
+    const createInvoiceSend = useMutation({
+        mutationFn: invoiceService.createInvoiceSend,
+        onSuccess: async () => {
+            // not super sure why this had to be done this way in order to work. invalidate was not refreshing data. 
+            await _refreshInvoices()
+            queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
+            closeModal();
+        },
+        onError: (error) => console.error(error),
+    });
+
     return {
         createInvoice,
         // readInvoice,
@@ -106,5 +117,6 @@ export const useInvoiceQuery = () => {
         createInvoiceItem,
         updateInvoiceItem,
         deleteInvoiceItem,
+        createInvoiceSend,
     }
 }

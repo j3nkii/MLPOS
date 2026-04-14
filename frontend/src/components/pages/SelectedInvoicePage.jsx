@@ -154,13 +154,13 @@ const Payments = ({ payments = [], total = 0 }) => {
                                 color='yellow'
                                 onClick={(e) => onUpdate(e, payment)} 
                                 text='Update'
-                            ><Pencil />
+                            ><Pencil size={20} />
                             </Button>
                             <Button
                                 color={'red'}
                                 onClick={(e) => onDelete(e, payment)} 
                                 text='Delete'
-                            ><Trash2 />
+                            ><Trash2 size={20} />
                             </Button>
                         </div>
                     </div>

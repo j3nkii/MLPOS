@@ -6,6 +6,7 @@ export const invoiceService = {
     readInvoice: ({ invoiceID }) => axios.get(`/api/invoice/${invoiceID}`),
     updateInvoice: ({ invoiceID, body }) => axios.put(`/api/invoice/${invoiceID}`, body),
     deleteInvoice: ({ invoiceID }) =>  axios.delete(`/api/invoice/${invoiceID}`),
+    createInvoiceSend: ({ invoiceID }) =>  axios.post(`/api/invoice/send/${invoiceID}`),
     createInvoiceItem: ({ invoiceID, body }) => axios.post(`/api/invoice/line-item/${invoiceID}`, body),
     updateInvoiceItem: ({ invoiceItemID, body }) => axios.put(`/api/invoice/line-item/${invoiceItemID}`, body),
     deleteInvoiceItem: ({ invoiceItemID }) =>  axios.delete(`/api/invoice/line-item/${invoiceItemID}`),

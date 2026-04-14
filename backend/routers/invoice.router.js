@@ -247,15 +247,12 @@ router.put('/line-item/:id', async(req, res) => {
 });
 
 
-router.delete('/line-item/:id', async(req, res) => {
+router.post('/send/:id', async(req, res) => {
     try {
-        const { id: lineItemID } = req.params;
+        const { id: invoiceID } = req.params;
         await pool.query(`
-            UPDATE invoice_items
-            SET is_deleted = true
-            WHERE
-                id = $1
-        `, [ lineItemID ]);
+            INSERT INTO sent_payments (invoice_id) VALUES ($1);
+        `, [ invoiceID ]);
         res.status(201).json({ message: 'User Deleted successfully' });
     } catch (error) {
         console.error(error);
