@@ -36,7 +36,7 @@ export const StripePage = () => {
         <div className='max-w-170 bg-white'>
             <h1 className='p-10 pt-10 text-4xl font-extrabold no-wrap'>Invoices:</h1>
             <Button onClick={handleOnboard} >On BOARD SOMEONE</Button>
-            <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
+            {/* <ConnectComponentsProvider connectInstance={{}}>
             <ConnectAccountOnboarding
                 onExit={() => {
                     console.log("The account has exited onboarding");
@@ -56,7 +56,7 @@ export const StripePage = () => {
                 //   console.log(`User entered: ${stepChange.step}`);
                 // }}
                 />
-            </ConnectComponentsProvider>
+            </ConnectComponentsProvider> */}
 
         </div>
     );
