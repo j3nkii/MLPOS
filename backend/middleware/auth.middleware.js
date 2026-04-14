@@ -13,8 +13,21 @@ const authMiddleware = async (req, res, next) => {
 const handleLocalAuth = async (req, res, next) =>{
     const token = req.headers.authorization?.replace('Bearer ', '');
     try {
-        const dbRes = await pool.query('SELECT id FROM users WHERE email = $1', [token]);
-        req.user = { attributes: { mlpos_id: dbRes.rows[0].id }}
+        const dbRes = await pool.query(`
+            SELECT
+                *,
+                users.id AS mlpos_id,
+                users.account_id AS mplos_account_id
+            FROM
+                users
+            LEFT JOIN stripe_accounts
+            ON
+                stripe_accounts.account_id = users.account_id
+            WHERE email = $1`
+            , [token]);
+        req.user = {
+            attributes: dbRes.rows[0]
+        }
         next();
     } catch (err) {
         console.error(err);
