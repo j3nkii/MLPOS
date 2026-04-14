@@ -73,7 +73,7 @@ const ActionsHeader = ({ tableActions }) => {
     const { setModal } = useModalZussy();
     return (
         <td>
-            <div className='flex items-center justify-end gap-1 pr-3.5'>
+            <div className='flex items-center justify-end gap-1 pr-3.5 py-2'>
                 <Button
                     color={'green'}
                     onClick={() => setModal({ modalKey: tableActions.create })}
@@ -140,7 +140,7 @@ const TABLE_THEMES = {
         container: 'rounded-2xl overflow-hidden border-10 border-t-0',
         table: 'min-w-full border-collapse table-fixed w-full bg-white',
         tableHTR: 'bg-black',
-        tableTH: 'px-4 py-3 pt-0 text-right text-white',
+        tableTH: 'px-4 pt-1 text-right text-white',
         tableTF: 'px-4 py-3 pb-0 text-right text-white',
         tableBTR: 'hover:bg-black hover:text-white hover:border-black duration-200  border-b border-gray-100',
         tableTD: 'px-4 py-3 text-right'

@@ -38,15 +38,15 @@ export const Modal = ({ children, onClose, className }) => {
 
 export const ModalHeader = ({ onClose, title }) => {
     return (
-        <div className='flex items-center justify-between pt-8 px-4 text-white bg-black'>
+        <div className='flex items-center justify-between bg-black p-2 text-white'>
             <div className='flex items-center gap-2'>
                 {/* <AlertTriangle className='text-orange-500' size={25} /> */}
-                <h2 className='text-2xl tex-white font-semibold'>
+                <h1 className='text-5xl tex-white font-semibold pt-3'>
                     {title || 'Modal Title'}
-                </h2>
+                </h1>
             </div>
             <Button onClick={onClose} >
-                <X size={20} />
+                <X size={35} />
             </Button>
         </div>
     );

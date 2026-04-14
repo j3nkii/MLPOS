@@ -149,7 +149,7 @@ const Payments = ({ payments = [], total = 0 }) => {
                             {payment.price < 0 ? '-' : '+'}${Math.abs(payment.price / 100).toFixed(2)}
                         </span>
                         {/* <button className='text-gray-300 hover:text-gray-500 text-xs'>...</button> */}
-                        <div className='flex items-center justify-end pr-3.5'>
+                        <div className='flex items-center justify-end'>
                             <Button
                                 color='yellow'
                                 onClick={(e) => onUpdate(e, payment)} 
