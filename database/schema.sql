@@ -96,7 +96,7 @@ CREATE TYPE payments_method_type AS ENUM (
     'venmo',
     'cash app',
     'square',
-    'paypall',
+    'paypal',
     'zelle',
     'bitcoin',
     'stripe'
