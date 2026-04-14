@@ -21,6 +21,8 @@ const INVOICE_ROUTER = require('./routers/invoice.router');
 app.use('/api/invoice', authMiddleware, INVOICE_ROUTER);
 const PAYMENTS_ROUTER = require('./routers/payments.router');
 app.use('/api/payments', authMiddleware, PAYMENTS_ROUTER);
+const STRIPE_ROUTER = require('./routers/stripe.router');
+app.use('/api/stripe', authMiddleware, STRIPE_ROUTER);
 
 
 module.exports = app;

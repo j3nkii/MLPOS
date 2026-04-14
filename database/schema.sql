@@ -12,6 +12,20 @@ CREATE TABLE accounts (
 
 
 
+CREATE TABLE stripe_accounts (
+    id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    account_id          UUID NOT NULL REFERENCES accounts(id),
+    stripe_account_id   VARCHAR(255) UNIQUE NOT NULL,
+    merchant_enabled    BOOLEAN DEFAULT FALSE,
+    charges_enabled     BOOLEAN DEFAULT FALSE,
+    payouts_enabled     BOOLEAN DEFAULT FALSE,
+    details_submitted   BOOLEAN DEFAULT FALSE,
+    created_at          TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at          TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
 -- account users
 DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
