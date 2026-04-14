@@ -26,6 +26,11 @@ export const PaymentFormModal = ({ isUpdate }) => {
                 price: item.price,
                 method: item.method,
             })
+        } else if(item.total){
+            setPaymentForm({
+                ...INITIAL_FORM,
+                price: item.balance
+            })
         }
     }, []);
 
@@ -45,6 +50,8 @@ export const PaymentFormModal = ({ isUpdate }) => {
             <ModalHeader title={modalTitle} onClose={closeModal} />
             <ModalBody>
                 <form className='p-6'>
+                    <p>total is {item.total}</p>
+                    <p>balance is {item.balance}</p>
                     <Input onChange={handleChange} value={paymentForm.price || ''} label={'Price'} name={'price'} />
                     <Input onChange={handleChange} value={paymentForm.method || ''} label={'Method'} name={'method'} />
                 </form>

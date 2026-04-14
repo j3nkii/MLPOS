@@ -92,7 +92,9 @@ const ActionsHeader = ({ tableActions }) => {
 const ActionsCell = ({ item, tableActions }) => {
     const navigate = useNavigate();
     const { setModal } = useModalZussy();
-    const [ICON] = useState(tableActions.detail ? BookUser : Pencil)
+    const ICON = tableActions.detail ? BookUser : Pencil;
+    console.log(tableActions)
+    const BUTTON_COLOR = tableActions.detail ? 'black' : 'yellow';
 
     const onDelete = (e) => {
         e.stopPropagation();
@@ -117,9 +119,10 @@ const ActionsCell = ({ item, tableActions }) => {
     return (
         <td>
             <div className='flex items-center justify-end pr-3.5'>
-                <Button 
+                <Button
+                    color={BUTTON_COLOR}
                     onClick={onUpdate} 
-                    text='Settings'
+                    text='Update'
                 ><ICON />
                 </Button>
                 {!tableActions.detail && <Button

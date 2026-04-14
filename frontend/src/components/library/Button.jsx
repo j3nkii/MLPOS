@@ -5,8 +5,9 @@ import 'react';
 const COLOR = {
     white: 'hover:bg-black hover:text-white text-black bg-white',
     black: 'hover:bg-white hover:text-black text-white bg-black',
+    yellow: 'hover:bg-yellow-400 hover:text-black text-white bg-black',
     red: 'hover:bg-red-500 hover:text-white text-white bg-black',
-    green: 'hover:bg-green-500 hover:text-white text-white text-black',
+    green: 'hover:bg-green-500 hover:text-white bg-black text-white',
     orange: 'gb-orange text-white',
 }
 

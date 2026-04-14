@@ -6,7 +6,7 @@ import { useInvoiceQuery, useCustomerQuery } from '@query';
 import { useParams } from 'react-router-dom';
 
 
-import { Trash2, DiamondPlus, BookUser, Pencil } from 'lucide-react'
+import { Trash2, DiamondPlus, BookUser, Pencil, Send } from 'lucide-react'
 
 
 
@@ -51,14 +51,25 @@ export const SelectedInvoicePage = () => {
         });
     };
 
+    const onSend = (e, item) => {
+        console.log('sending invoice');
+        return
+        e.stopPropagation();
+        setModal({
+            modalKey: 'sendPayment',
+            item,
+        });
+    };
+
     return (
         <div className='max-w-170 bg-white'>
             <div className='flex'>
                 <h1 className='p-10 pt-10 text-4xl font-extrabold'>#INV001: {selectedInvoice.name}; {selectedInvoice.status}</h1>
                 <div className='flex items-center'>
                     <Button
+                        color='yellow'
                         onClick={(e) => onUpdate(e, selectedInvoice)} 
-                        text='Settings'
+                        text='Update'
                     ><Pencil />
                     </Button>
                     <Button
@@ -66,6 +77,12 @@ export const SelectedInvoicePage = () => {
                         onClick={(e) => onDelete(e, selectedInvoice)} 
                         text='Delete'
                     ><Trash2 />
+                    </Button>
+                    <Button
+                        color={'green'}
+                        onClick={(e) => onSend(e, selectedInvoice)} 
+                        text='Send'
+                    ><Send />
                     </Button>
                 </div>
             </div>
@@ -99,11 +116,11 @@ const Payments = ({ payments = [], total = 0 }) => {
         });
     };
 
-    const onCreate = (e, item) => {
+    const onCreate = (e) => {
         e.stopPropagation();
         setModal({
             modalKey: 'createPayment',
-            item,
+            item: { total, balance },
         });
     };
 
@@ -130,9 +147,10 @@ const Payments = ({ payments = [], total = 0 }) => {
                         </span>
                         {/* <button className='text-gray-300 hover:text-gray-500 text-xs'>...</button> */}
                         <div className='flex items-center justify-end pr-3.5'>
-                            <Button 
+                            <Button
+                                color='yellow'
                                 onClick={(e) => onUpdate(e, payment)} 
-                                text='Settings'
+                                text='Update'
                             ><Pencil />
                             </Button>
                             <Button
