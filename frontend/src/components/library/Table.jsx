@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Trash2, DiamondPlus, BookUser, Pencil } from 'lucide-react'
+import { Trash2, DiamondPlus, BookUser, Pencil, ReceiptText } from 'lucide-react'
 import { useModalZussy} from '@zussy'
 import { Button } from '@components'
 import { useNavigate } from 'react-router-dom'
@@ -92,8 +92,7 @@ const ActionsHeader = ({ tableActions }) => {
 const ActionsCell = ({ item, tableActions }) => {
     const navigate = useNavigate();
     const { setModal } = useModalZussy();
-    const ICON = tableActions.detail ? BookUser : Pencil;
-    console.log(tableActions)
+    const ICON = tableActions.detail ? ReceiptText : Pencil;
     const BUTTON_COLOR = tableActions.detail ? 'black' : 'yellow';
 
     const onDelete = (e) => {

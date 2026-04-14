@@ -6,7 +6,7 @@ import { useInvoiceQuery, useCustomerQuery } from '@query';
 import { useParams } from 'react-router-dom';
 
 
-import { Trash2, DiamondPlus, BookUser, Pencil, Send } from 'lucide-react'
+import { Trash2, DiamondPlus, BookUser, Pencil, Send, BadgeJapaneseYen } from 'lucide-react'
 
 
 
@@ -128,7 +128,12 @@ const Payments = ({ payments = [], total = 0 }) => {
         <div className='p-5 pt-2 pb-15 overflow-hidden'>
             <div className='flex items-center justify-between px-4 py-2.5 border-b border-gray-200'>
                 <span className='text-sm font-medium'>Payments</span>
-                <Button text='Add' color='green' onClick={onCreate}>ADD PAYMENT</Button>
+                <Button
+                    text='Add'
+                    color='green'
+                    onClick={onCreate}
+                ><BadgeJapaneseYen/>
+                </Button>
             </div>
 
             {payments.map((payment, i) => (
