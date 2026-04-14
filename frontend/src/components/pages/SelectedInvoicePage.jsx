@@ -24,6 +24,7 @@ export const SelectedInvoicePage = () => {
     const params = useParams();
     const { readAllInvoices } = useInvoiceQuery();
     const [selectedInvoice, setSelectedInvoice] = useState(INITIAL);
+    const { setModal } = useModalZussy();
 
     useEffect(() => {
         const { invoiceID } = params;
@@ -34,9 +35,40 @@ export const SelectedInvoicePage = () => {
         }
     }, [readAllInvoices?.data?.data]);
 
+    const onDelete = (e, item) => {
+        e.stopPropagation();
+        setModal({
+            modalKey: 'deleteInvoice',
+            item,
+        });
+    };
+
+    const onUpdate = (e, item) => {
+        e.stopPropagation();
+        setModal({
+            modalKey: 'updateInvoice',
+            item,
+        });
+    };
+
     return (
         <div className='max-w-170 bg-white'>
-            <h1 className='p-10 pt-5 pb-2 text-4xl font-extrabold'>Invoice:</h1>
+            <div className='flex'>
+                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#INV001::{selectedInvoice.name}::{selectedInvoice.status}</h1>
+                <div className='flex items-center'>
+                    <Button
+                        onClick={(e) => onUpdate(e, selectedInvoice)} 
+                        text='Settings'
+                    ><Pencil />
+                    </Button>
+                    <Button
+                        color={'red'}
+                        onClick={(e) => onDelete(e, selectedInvoice)} 
+                        text='Delete'
+                    ><Trash2 />
+                    </Button>
+                </div>
+            </div>
             <Table footer={{ total: selectedInvoice.price }} config={'lineItems'} data={selectedInvoice.details} />
             <Payments payments={selectedInvoice.payments} total={selectedInvoice.price} />
         </div>

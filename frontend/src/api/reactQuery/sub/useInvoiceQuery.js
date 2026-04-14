@@ -59,6 +59,7 @@ export const useInvoiceQuery = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allInvoices'] });
             closeModal();
+            navigate(`/invoices`)
         },
         onError: (error) => console.error(error),
     });
