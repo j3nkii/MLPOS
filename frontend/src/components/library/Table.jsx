@@ -139,8 +139,8 @@ const TABLE_THEMES = {
         table: 'min-w-full border-collapse table-fixed w-full bg-white',
         tableHTR: 'bg-black',
         tableTH: 'px-4 py-3 text-right text-white',
-        tableBTR: 'hover:bg-gray-50 active:bg-gray-100 duration-200  border-b border-gray-200',
-        tableTD: 'px-4 py-3 text-gray-900 text-right'
+        tableBTR: 'hover:bg-black hover:text-white hover:border-black duration-200  border-b border-gray-100',
+        tableTD: 'px-4 py-3 text-right'
     },
     // payments: {
     //     container: 'rounded-2xl overflow-hidden border-2',
