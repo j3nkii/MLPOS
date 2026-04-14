@@ -8,13 +8,12 @@ import { useParams } from 'react-router-dom';
 
 export const InvoiceSendModal = ({ isUpdate }) => {
     const params = useParams();
-    // const [modalTitle] = useState();
     // const { createInvoiceItem, updateInvoiceItem } = useInvoiceQuery();
-    const { setModal, item, closeModal  } = useModalZussy();
+    const { item, closeModal  } = useModalZussy();
 
     const handleConfirm = async () => {
         const payload = { invoiceID: params.invoiceID }
-        handleFn.mutate(payload);
+        // handleFn.mutate(payload);
         closeModal();
     };
 

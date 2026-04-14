@@ -137,7 +137,7 @@ const ActionsCell = ({ item, tableActions }) => {
 
 const TABLE_THEMES = {
     default: {
-        container: 'rounded-2xl overflow-hidden border-10',
+        container: 'rounded-2xl overflow-hidden border-10 border-t-0',
         table: 'min-w-full border-collapse table-fixed w-full bg-white',
         tableHTR: 'bg-black',
         tableTH: 'px-4 py-3 pt-0 text-right text-white',
