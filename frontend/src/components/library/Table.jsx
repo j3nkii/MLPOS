@@ -49,15 +49,17 @@ export const Table = ( PROPS ) => {
                         </tr>
                     ))}
                 </tbody>
-                {config === 'lineItems' && <tfoot>
-                    <tr className={tableStyles.tableHTR}>
-                        <td className={tableStyles.tableTH}>Total</td>
-                        <td className={tableStyles.tableTH}>{footer.total}</td>
-                        <td className={tableStyles.tableTH}></td>
-                        <td className={tableStyles.tableTH}></td>
-                    </tr>
-                    
-                </tfoot>}
+                {config === 'lineItems' && (
+                    <tfoot>
+                        <tr className={tableStyles.tableHTR}>
+                            <td className={tableStyles.tableTF}>Total</td>
+                            <td className={tableStyles.tableTF}>{footer.total}</td>
+                            <td className={tableStyles.tableTF}></td>
+                            <td className={tableStyles.tableTF}></td>
+                        </tr>
+                        
+                    </tfoot>
+                )}
             </table>
         </div>
     );
@@ -138,7 +140,8 @@ const TABLE_THEMES = {
         container: 'rounded-2xl overflow-hidden border-10',
         table: 'min-w-full border-collapse table-fixed w-full bg-white',
         tableHTR: 'bg-black',
-        tableTH: 'px-4 py-3 text-right text-white',
+        tableTH: 'px-4 py-3 pt-0 text-right text-white',
+        tableTF: 'px-4 py-3 pb-0 text-right text-white',
         tableBTR: 'hover:bg-black hover:text-white hover:border-black duration-200  border-b border-gray-100',
         tableTD: 'px-4 py-3 text-right'
     },
