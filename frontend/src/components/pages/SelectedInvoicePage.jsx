@@ -53,7 +53,6 @@ export const SelectedInvoicePage = ({ isUpdate }) => {
         <div className='max-w-170 bg-white'>
             <h1 className='p-10 pt-5 pb-2 text-4xl font-extrabold'>Invoice:</h1>
             <Table footer={{ total }} config={'lineItems'} data={invoiceForm.details} />
-            <h1 className='p-10 pt-5 pb-2 text-4xl font-extrabold'>Payments:</h1>
             <Payments payments={invoiceForm.payments} total={selectedInvoice.price} />
 
         </div>
@@ -65,7 +64,7 @@ const Payments = ({ payments = [], total = 0 }) => {
     const balance = total - payments.reduce((sum, p) => sum + p.price, 0);
 
     return (
-        <div className='border border-gray-200 rounded-xl overflow-hidden'>
+        <div className='p-5 pt-2 pb-15 overflow-hidden'>
             <div className='flex items-center justify-between px-4 py-2.5 border-b border-gray-200'>
                 <span className='text-sm font-medium'>Payments</span>
                 <Button text='Add' color='green'>ADD PAYMENT</Button>
@@ -74,7 +73,7 @@ const Payments = ({ payments = [], total = 0 }) => {
             {payments.map((payment, i) => (
                 <div key={payment.id ?? i} className='flex items-center justify-between px-4 py-2.5 border-b border-gray-200'>
                     <div className='flex items-center gap-2.5'>
-                        <span className='text-xs px-2 py-0.5 rounded-md border border-gray-200 bg-gray-50 text-gray-500 capitalize'>
+                        <span className='text-xs px-2 py-0.5 rounded-md border border-black bg-black text-white capitalize'>
                             {payment.method}
                         </span>
                         <span className='text-sm text-gray-400'>
@@ -85,18 +84,18 @@ const Payments = ({ payments = [], total = 0 }) => {
                         <span className={`text-sm font-medium ${payment.price < 0 ? 'text-red-500' : 'text-green-600'}`}>
                             {payment.price < 0 ? '-' : '+'}${Math.abs(payment.price / 100).toFixed(2)}
                         </span>
-                        <button className='text-gray-300 hover:text-gray-500 text-xs'>✕</button>
+                        <button className='text-gray-300 hover:text-gray-500 text-xs'>...</button>
                     </div>
                 </div>
             ))}
 
             {payments.length === 0 && (
-                <div className='px-4 py-3 text-sm text-gray-400'>No payments yet</div>
+                <div className='px-4 py-3 text-sm text-gray-300'>No payments yet</div>
             )}
 
-            <div className='flex items-center justify-between px-4 py-2.5 bg-gray-50'>
-                <span className='text-sm text-gray-500'>Balance</span>
-                <span className={`text-sm font-medium ${balance <= 0 ? 'text-green-600' : 'text-gray-900'}`}>
+            <div className='flex items-center justify-between px-4 py-2.5 bg-black rounded-2xl'>
+                <span className='text-sm text-white'>Balance</span>
+                <span className={`text-sm font-medium ${balance <= 0 ? 'text-green-600' : 'text-white'}`}>
                     ${(balance / 100).toFixed(2)}
                 </span>
             </div>
