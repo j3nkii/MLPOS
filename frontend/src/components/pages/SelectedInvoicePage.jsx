@@ -137,7 +137,7 @@ const Payments = ({ payments = [], total = 0 }) => {
             {payments.map((payment, i) => (
                 <div key={payment.id ?? i} className='flex items-center justify-between px-4 py-2.5 border-b border-gray-200'>
                     <div className='flex items-center gap-2.5'>
-                        <span className='text-xs px-2 py-0.5 rounded-md border border-black bg-black text-white capitalize'>
+                        <span className='text-xs font-bold px-2 py-0.5 rounded-md border-2 border-black bg-white text-black capitalize'>
                             {payment.method}
                         </span>
                         <span className='text-sm text-gray-400'>

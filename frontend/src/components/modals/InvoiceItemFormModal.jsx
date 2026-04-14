@@ -67,8 +67,8 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
             </ModalBody>
 
             <ModalFooter>
-                <Button color={'green'} onClick={handleConfirm}>Create</Button>
-                <Button color={'black'} onClick={saveAndNext}>Create + Next</Button>
+                <Button color={'green'} onClick={saveAndNext}>Create&Next</Button>
+                <Button color={'black'} onClick={handleConfirm}>Create&Close</Button>
             </ModalFooter>
         </Modal>
     );

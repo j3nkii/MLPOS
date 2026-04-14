@@ -4,6 +4,30 @@ const router = express.Router();
 
 
 
+// CURRENTLY GET / FETCHES ALL DATA, SO FRONT END DOES NOT NEED A "DETAILED" VIEW
+// router.get('/:id', async (req, res) => {
+//     try {
+//         const { rows: [ invoice ] } = await pool.query(`
+//             SELECT
+//                 *,
+//                 JSON_AGG(invoice_details)
+//             FROM invoices
+//             JOIN invoice_details
+//                 ON invoice_details.invoice_id = invoices.id
+//                 AND invoice_details.is_deleted = false
+//             WHERE id = $1
+//                 AND is_deleted = false;
+//         `, [ req.params.id ]);
+//         console.log(invoice)
+//         res.status(200).json(invoice);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Something went wrong' });
+//     }
+// });
+
+
+
 router.get('/', async (req, res) => {
     try {
         const userID = req.user.attributes.mlpos_id;
@@ -37,30 +61,6 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
-
-
-
-// CURRENTLY GET / FETCHES ALL DATA, SO FRONT END DOES NOT NEED A "DETAILED" VIEW
-// router.get('/:id', async (req, res) => {
-//     try {
-//         const { rows: [ invoice ] } = await pool.query(`
-//             SELECT
-//                 *,
-//                 JSON_AGG(invoice_details)
-//             FROM invoices
-//             JOIN invoice_details
-//                 ON invoice_details.invoice_id = invoices.id
-//                 AND invoice_details.is_deleted = false
-//             WHERE id = $1
-//                 AND is_deleted = false;
-//         `, [ req.params.id ]);
-//         console.log(invoice)
-//         res.status(200).json(invoice);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'Something went wrong' });
-//     }
-// });
 
 
 
@@ -113,8 +113,6 @@ router.put('/:id', async(req, res) => {
 
         const { price, customerID, status, details: DO_NOT_USE } = req.body;
         const details = null;
-        console.log(req.body)
-        console.log(req.params)
         const { id: invoiceID } = req.params;
         if(!price && !customerID && !status && !details) throw new Error('No Fields Detected');
         if(!customerID || !invoiceID) throw new Error('Missing Essential Fields');
@@ -144,12 +142,12 @@ router.put('/:id', async(req, res) => {
                 await client.query(detailsSQL, detailsParams);
             }
         }
-        const END_SQL = `
+        const END_SQL = (`
             UPDATE invoices
             SET ${INSERT_SQL.join(', ')}
             WHERE
                 invoices.id = $1;
-        `
+        `);
         const END_PARAMS = [ invoiceID, ...INSERT_PARAMS ];
         await client.query(END_SQL, END_PARAMS);
         await client.query('COMMIT');
@@ -247,17 +245,29 @@ router.put('/line-item/:id', async(req, res) => {
 });
 
 
+
 router.post('/send/:id', async(req, res) => {
+    const client = await pool.connect();
     try {
+        await client.query('BEGIN');
         const { id: invoiceID } = req.params;
         await pool.query(`
             INSERT INTO sent_payments (invoice_id) VALUES ($1);
         `, [ invoiceID ]);
+        await pool.query(`
+            UPDATE invoices SET status = 'sent' WHERE id = $1;
+        `, [ invoiceID ]);
+        await client.query('COMMIT');
         res.status(201).json({ message: 'User Deleted successfully' });
     } catch (error) {
+        await client.query('ROLLBACK');
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
+    } finally {
+        client.release();
     }
 });
+
+
 
 module.exports = router;

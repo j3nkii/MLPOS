@@ -52,19 +52,38 @@ CREATE TABLE customers (
 
 
 
-DROP TYPE IF EXISTS invoice_status_type CASCADE;
+
 -- so tihking about the flow. right? so in general we can break this down into diff entities... invoice, ticket, order, receipt... am i missing any??
 -- anyways, so thiking this status can reflect that? draft, quote, pending fufillment, ....(paid and partially paid can be derrived) ... overdue, cancelled ... reopened?
 -- fuck this is getting complicated.
 -- ECommmerce basically skips the "invoice building" i mean customers will do it on their own... but they pay before fufillment.. vs service based who are typically fufilled before payment.
+DROP TYPE IF EXISTS invoice_status_type CASCADE;
 CREATE TYPE invoice_status_type AS ENUM (
-    'quote',
+    'draft',
     'pending',
-    'paid',
+    'closed',
+    'completed'
+);
+
+-- TO fight the above problem... im thinking we split into two seprate status's ??? then we can see if invoices have been paid seprately from fufillment. 
+DROP TYPE IF EXISTS invoice_payment_status CASCADE;
+CREATE TYPE invoice_payment_status AS ENUM (
+    'quote',
+    'sent',
     'partially_paid',
     'overdue',
+    'paid',
     'cancelled'
 );
+
+DROP TYPE IF EXISTS invoice_fufillment_status CASCADE;
+CREATE TYPE invoice_fufillment_status AS ENUM (
+    'waiting',
+    'in_progress',
+    'fufilled',
+    'cancelled'
+);
+
 
 DROP TABLE IF EXISTS invoices CASCADE;
 CREATE TABLE invoices (
@@ -72,7 +91,8 @@ CREATE TABLE invoices (
     user_id UUID NOT NULL REFERENCES users(id),
     customer_id UUID REFERENCES customers(id),
     status invoice_status_type DEFAULT 'quote',
-    date_sent TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    status invoice_payment_status DEFAULT 'quote',
+    status invoice_fufillment_status DEFAULT 'waiting',
     is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
