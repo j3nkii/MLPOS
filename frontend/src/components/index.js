@@ -14,6 +14,7 @@ export { AuthPage } from './pages/AuthPage'
 export { CustomersPage } from './pages/CustomersPage'
 export { InvoicesPage } from './pages/InvoicesPage'
 export { SelectedInvoicePage } from './pages/SelectedInvoicePage'
+export { StripePage } from './pages/StripePage'
 
 
 export { Layout } from './template/Layout'

@@ -1,5 +1,5 @@
 import 'react';
-import { Loggin, Layout, CustomersPage, InvoicesPage, SelectedInvoicePage } from '@components';
+import { Loggin, Layout, CustomersPage, InvoicesPage, SelectedInvoicePage, StripePage } from '@components';
 
 
 export const routerConfig = [
@@ -12,6 +12,11 @@ export const routerConfig = [
         path: "/",
         Component: Layout,
         children: [
+            {
+                path: "/",
+                exact: true,
+                Component: StripePage
+            },
             {
                 path: "/customers",
                 exact: true,
