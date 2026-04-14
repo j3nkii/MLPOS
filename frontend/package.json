@@ -11,6 +11,8 @@
     "deploy": "vite build && aws s3 sync ./dist s3://mlpos-frontend --delete"
   },
   "dependencies": {
+    "@stripe/connect-js": "^3.3.35",
+    "@stripe/react-connect-js": "^3.3.34",
     "@tailwindcss/vite": "^4.1.13",
     "@tanstack/react-query": "^5.95.2",
     "axios": "^1.12.2",
