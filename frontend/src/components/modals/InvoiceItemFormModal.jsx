@@ -15,7 +15,7 @@ const INITIAL_FORM = {
 };
 
 export const InvoiceItemFormModal = ({ isUpdate }) => {
-    const indexRef = useRef()
+    const nameRef = useRef()
     const params = useParams();
     const [modalTitle] = useState(isUpdate ? 'Update Invoice Item' : 'Create Invoice Item');
     const [invoiceItemForm, setInvoiceItemForm] = useState(INITIAL_FORM);
@@ -23,6 +23,7 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
     const { setModal, item, closeModal  } = useModalZussy();
 
     useEffect(() => {
+        nameRef?.current.focus()
         if(isUpdate){
             setInvoiceItemForm({
                 name: item.name,
@@ -30,7 +31,7 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
                 quantity: item.quantity,
             });
         }
-    }, []);
+    }, [nameRef]);
 
     const handleConfirm = async (evt, isNext) => {
         evt.preventDefault();
@@ -45,7 +46,7 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
         evt.preventDefault();
         handleConfirm(evt, true);
         setInvoiceItemForm(INITIAL_FORM);
-        indexRef?.current.focus()
+        nameRef?.current.focus()
     }
 
     const handleChange = (evt) => {
@@ -58,7 +59,7 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
             <ModalHeader title={modalTitle} onClose={closeModal} />
             <ModalBody>
                 <form className='p-6'>
-                    <Input onSubmit={saveAndNext} ref={indexRef} onChange={handleChange} value={invoiceItemForm.name || ''} label={'Name'} name={'name'} />
+                    <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={invoiceItemForm.name || ''} label={'Name'} name={'name'} />
                     <Input type={'number'} onChange={handleChange} value={invoiceItemForm.price || ''} label={'Price'} name={'price'} />
                     <Input type={'number'} onChange={handleChange} value={invoiceItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
                     <button onClick={saveAndNext} type='submit' style={{ display: 'none' }}></button>
