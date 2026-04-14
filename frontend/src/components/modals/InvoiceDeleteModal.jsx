@@ -20,8 +20,8 @@ export const InvoiceDeleteModal = () => {
             <ModalHeader title={'Delete Invoice'} onClose={closeModal} />
             <ModalBody>
                 <div className='p-6'>
-                    <p>Are you sure you want to delete this Invoice?</p>
-                    <p className='text-red-500'>{item.name}</p>
+                    <h2 className='text-red-600 text-4xl font-extrabold'>Are you sure you want to delete this Invoice?</h2>
+                    <h1 className='p-10 pt-10 text-4xl font-extrabold'>#INV001: {item.name}; {item.status}</h1>
                 </div>
             </ModalBody>
 

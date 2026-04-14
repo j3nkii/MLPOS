@@ -20,9 +20,10 @@ export const Input = (props) => {
 
 
 const Standard = (props) => {
-    const {  type = 'text', name = '', placeholder = '', onChange = onChangeWarning, value = '', disabled = false } = props;
+    const {  type = 'text', name = '', placeholder = '', onChange = onChangeWarning, value = '', disabled = false, ref = null } = props;
     return (
         <input
+            ref={ref}
             disabled={disabled}
             id={name}
             name={name}

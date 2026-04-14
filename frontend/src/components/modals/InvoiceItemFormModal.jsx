@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,  useRef } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModalZussy} from '@zussy';
 import { Button, Input } from '@components';
@@ -15,6 +15,7 @@ const INITIAL_FORM = {
 };
 
 export const InvoiceItemFormModal = ({ isUpdate }) => {
+    const indexRef = useRef()
     const params = useParams();
     const [modalTitle] = useState(isUpdate ? 'Update Invoice Item' : 'Create Invoice Item');
     const [invoiceItemForm, setInvoiceItemForm] = useState(INITIAL_FORM);
@@ -32,6 +33,7 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
     }, []);
 
     const handleConfirm = async (evt, isNext) => {
+        evt.preventDefault();
         const payload = { invoiceID: params.invoiceID, invoiceItemID: item?.id, body: invoiceItemForm }
         const handleFn = isUpdate ? updateInvoiceItem : createInvoiceItem;
         handleFn.mutate(payload);
@@ -40,8 +42,10 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
     };
 
     const saveAndNext = (evt) => {
+        evt.preventDefault();
         handleConfirm(evt, true);
         setInvoiceItemForm(INITIAL_FORM);
+        indexRef?.current.focus()
     }
 
     const handleChange = (evt) => {
@@ -54,9 +58,10 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
             <ModalHeader title={modalTitle} onClose={closeModal} />
             <ModalBody>
                 <form className='p-6'>
-                    <Input onChange={handleChange} value={invoiceItemForm.name || ''} label={'Name'} name={'name'} />
+                    <Input onSubmit={saveAndNext} ref={indexRef} onChange={handleChange} value={invoiceItemForm.name || ''} label={'Name'} name={'name'} />
                     <Input type={'number'} onChange={handleChange} value={invoiceItemForm.price || ''} label={'Price'} name={'price'} />
                     <Input type={'number'} onChange={handleChange} value={invoiceItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
+                    <button onClick={saveAndNext} type='submit' style={{ display: 'none' }}></button>
                 </form>
             </ModalBody>
 

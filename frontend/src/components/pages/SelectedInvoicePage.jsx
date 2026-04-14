@@ -54,7 +54,7 @@ export const SelectedInvoicePage = () => {
     return (
         <div className='max-w-170 bg-white'>
             <div className='flex'>
-                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#INV001::{selectedInvoice.name}::{selectedInvoice.status}</h1>
+                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#INV001: {selectedInvoice.name}; {selectedInvoice.status}</h1>
                 <div className='flex items-center'>
                     <Button
                         onClick={(e) => onUpdate(e, selectedInvoice)} 
