@@ -2,22 +2,12 @@
 
 
 -- accounts / tennants , used to umbrella users .
-DELETE * FROM accounts IF EXISTS accounts;
 DROP TABLE IF EXISTS accounts CASCADE;
 CREATE TABLE accounts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(256) NOT NULL,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
-);
-
-
-
-DROP TABLE IF EXISTS auth_confirmation;
-CREATE TABLE auth_confirmation (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES users(id),
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -33,6 +23,15 @@ CREATE TABLE users (
     is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+DROP TABLE IF EXISTS auth_confirmation;
+CREATE TABLE auth_confirmation (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id),
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -57,6 +56,8 @@ DROP TYPE IF EXISTS invoice_status_type;
 CREATE TYPE invoice_status_type AS ENUM (
     'quote',
     'pending',
+    'paid',
+    'partially_paid',
     'overdue',
     'cancelled'
 );

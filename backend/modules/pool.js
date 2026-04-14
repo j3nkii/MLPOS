@@ -4,6 +4,8 @@ const configProd = {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   database: process.env.DB_NAME,
+  idleTimeoutMillis: 30000,
+  max: 2,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   ssl: {
@@ -14,8 +16,8 @@ const configDev = {
     host: 'localhost',
     port: 5432,
     database: process.env.DB_NAME,
-    max: 10,
     idleTimeoutMillis: 30000,
+    max: 2,
 };
 const config = process.env.NODE_ENV === "production" ? configProd : configDev;
 const pool = new pg.Pool(config);
