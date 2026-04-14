@@ -27,12 +27,12 @@ CREATE TABLE users (
 
 
 
-DROP TABLE IF EXISTS auth_confirmation;
-CREATE TABLE auth_confirmation (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES users(id),
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
-);
+-- DROP TABLE IF EXISTS auth_confirmation;
+-- CREATE TABLE auth_confirmation (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     user_id UUID NOT NULL REFERENCES users(id),
+--     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+-- );
 
 
 
@@ -115,31 +115,42 @@ CREATE TABLE payments (
 
 
 
-DROP TABLE IF EXISTS products CASCADE;
-CREATE TABLE products (
+DROP TABLE IF EXISTS sent_payments CASCADE;
+CREATE TABLE sent_payments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255),
-    price INTEGER NOT NULL,
-    unit VARCHAR(50) NOT NULL,
-    wholesale_price INTEGER,
-    internal_sku VARCHAR(50) NOT NULL, -- maybe define default sku system for mlpos inventory.
-    external_sku VARCHAR(50) NOT NULL,
-    api_available BOOLEAN DEFAULT false NOT NULL, -- weather or not this can be booked or sold online
+    invoice_id UUID NOT NULL REFERENCES invoices(id),
     is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 
--- Add this for mechanics (or post-MVP) via claude
-DROP TABLE IF EXISTS inventory_transactions CASCADE;
-CREATE TABLE inventory_transactions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    product_id UUID NOT NULL REFERENCES products(id),
-    quantity_delta INTEGER NOT NULL, -- +/- amount
-    type VARCHAR(50) NOT NULL, -- 'sale', 'restock', 'adjustment'
-    invoice_line_item_id UUID REFERENCES invoice_items(id),
-    notes TEXT,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
-);
+
+-- DROP TABLE IF EXISTS products CASCADE;
+-- CREATE TABLE products (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     name VARCHAR(255) NOT NULL,
+--     description VARCHAR(255),
+--     price INTEGER NOT NULL,
+--     unit VARCHAR(50) NOT NULL,
+--     wholesale_price INTEGER,
+--     internal_sku VARCHAR(50) NOT NULL, -- maybe define default sku system for mlpos inventory.
+--     external_sku VARCHAR(50) NOT NULL,
+--     api_available BOOLEAN DEFAULT false NOT NULL, -- weather or not this can be booked or sold online
+--     is_deleted BOOLEAN DEFAULT FALSE,
+--     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+-- );
+
+
+-- -- Add this for mechanics (or post-MVP) via claude
+-- DROP TABLE IF EXISTS inventory_transactions CASCADE;
+-- CREATE TABLE inventory_transactions (
+--     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     product_id UUID NOT NULL REFERENCES products(id),
+--     quantity_delta INTEGER NOT NULL, -- +/- amount
+--     type VARCHAR(50) NOT NULL, -- 'sale', 'restock', 'adjustment'
+--     invoice_line_item_id UUID REFERENCES invoice_items(id),
+--     notes TEXT,
+--     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+-- );

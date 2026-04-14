@@ -1,7 +1,7 @@
 
 import 'react';
-import { CustomerDeleteModal, CustomerFormModal, InvoiceFormModal, InvoiceDeleteModal, PaymentFormModal, PaymentDeleteModal, InvoiceItemFormModal, InvoiceItemDeleteModal } from '@components';
 import { useModalZussy} from '@zussy';
+import { CustomerDeleteModal, CustomerFormModal, InvoiceFormModal, InvoiceDeleteModal, PaymentFormModal, PaymentDeleteModal, InvoiceItemFormModal, InvoiceItemDeleteModal } from '@components';
 
 
 export const ModalManager = () => {
