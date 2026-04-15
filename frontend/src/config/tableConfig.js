@@ -22,7 +22,7 @@ export const TABLE_CONFIG = {
         },
     },
     invoices: {
-                headers: [
+        headers: [
             {
                 display: 'Customer',
                 key: 'name'
