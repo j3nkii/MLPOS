@@ -17,11 +17,11 @@ const createAccount = ({ email }) => stripe.v2.core.accounts.create({
         entity_type: 'individual',
     },
     configuration: {
-    merchant: {
-            capabilities: {
-            card_payments: { requested: true },
+        merchant: {
+                capabilities: {
+                card_payments: { requested: true },
+            },
         },
-    },
     },
 });
 

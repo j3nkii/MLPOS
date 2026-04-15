@@ -52,6 +52,30 @@ router.post('/', async (req, res) => {
   }
 });
 
+
+
+// Create a Connected Account
+router.post('/account-session', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const { stripe_account_id } = req.user.attributes;
+    await client.query('BEGIN');
+    const accountSession = await stripeModule.createAccountSession({ accountID: stripe_account_id });
+    console.log(accountSession)
+    res.json({ client_secret: accountSession.client_secret });
+  } catch (err) {
+    console.error(err.message);
+    await client.query('ROLLBACK');
+    res.status(500).json({ error: err.message });
+  } finally {
+    client.release();
+  }
+});
+
+
+
+
+
 // Create Account Link for onboarding
 router.post('/create-account-link', async (req, res) => {
   const accountId = req.body.accountId;
@@ -61,8 +85,7 @@ router.post('/create-account-link', async (req, res) => {
       use_case: {
         type: 'account_onboarding',
         account_onboarding: {
-          configurations: ['merchant'
-],
+          configurations: ['merchant'],
           refresh_url: 'https://example.com',
           return_url: `https://example.com?accountId=${accountId}`,
         },

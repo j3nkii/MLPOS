@@ -22,16 +22,16 @@ export const StripePage = () => {
             }
         }
         return loadConnectAndInitialize({
-                // This is your test publishable API key.
-                publishableKey: "pk_test_51TMEAFDbglfMtuu11wAs5SCkfrG1dLPJXmynHXNaybPvTCwfVCPX2x8RCpRg9Eo5jy5U8bHbOM6C55o42C4BOh9200qEzCbyae",
-                fetchClientSecret: fetchClientSecret,
-            })
-        });
-    // const handleOnboard = async () => {
-    //     const response = await stripeService.createAccount(null);
-    //     console.log(response.data);
-    //     setSessionSecret(response.data.client_secret)
-    // }
+            publishableKey: "pk_test_51TMGseDkUN1GMhs5svH7QRibL9ktvwDJsUa94IhotGEyAxNEjZ2H2ee3OzHt18yPZmaz1LYjd5mv6OQYM09KS86M00P0yZNg2Z",
+            fetchClientSecret: fetchClientSecret,
+        })
+    });
+
+    const handleOnboard = async () => {
+        const response = await stripeService.createAccount(null);
+        console.log(response.data);
+        setSessionSecret(response.data.client_secret)
+    }
 
     //   const handleStartOnboarding = async () => {
     //     try {
