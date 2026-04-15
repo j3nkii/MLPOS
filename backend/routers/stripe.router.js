@@ -50,13 +50,13 @@ router.post('/', async (req, res) => {
     // const { rows: [{ check }]} = await client.query(`
     //   SELECT EXISTS (
     //     SELECT 1
-    //     FROM stripe_accounts
+    //     FROM accounts_stripe
     //     WHERE account_id = $1
     //   ) AS "check";`, [mplos_account_id]);
     // console.log(check);
     if(!false){
       const account = await stripeModule.createAccount({ email });
-      // await client.query('INSERT INTO stripe_accounts (account_id, stripe_account_id) VALUES ($1, $2)', [ mplos_account_id, account.id ]);
+      // await client.query('INSERT INTO accounts_stripe (account_id, stripe_account_id) VALUES ($1, $2)', [ mplos_account_id, account.id ]);
       await client.query('COMMIT');
       const accountSession = await stripeModule.createAccountSession({ accountID: account.id });
       return res.json({ client_secret: accountSession.client_secret });

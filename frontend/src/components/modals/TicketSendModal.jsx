@@ -22,7 +22,7 @@ export const TicketSendModal = ({ isUpdate }) => {
             <ModalHeader title={'Send Ticket'} onClose={closeModal} />
             <ModalBody>
                 <div className=' p-3 bg-white'>
-                    <h1 className='p-3 text-4xl bg-white font-extrabold'>#INV001</h1>
+                    <h1 className='p-3 text-4xl bg-white font-extrabold'>#MLP001</h1>
                     <h1 className='p-3 text-4xl bg-white font-extrabold'>{item.name}</h1>
                     <h1 className='p-3 text-4xl bg-white font-extrabold'>{item.status}</h1>
                 </div>

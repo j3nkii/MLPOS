@@ -62,7 +62,7 @@ export const SelectedTicketPage = () => {
     return (
         <div className='max-w-170 bg-white'>
             <div className='flex'>
-                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#INV001: {selectedTicket.name}; {selectedTicket.status}</h1>
+                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#MLP001: {selectedTicket.name}; {selectedTicket.status}</h1>
                 <div className='flex items-center'>
                     <Button
                         color='yellow'
@@ -86,6 +86,8 @@ export const SelectedTicketPage = () => {
             </div>
             <Table footer={{ total: selectedTicket.price }} config={'lineItems'} data={selectedTicket.details} />
             <Payments payments={selectedTicket.payments} total={selectedTicket.price} />
+                <h1 className='p-10 pt-10 text-4xl font-extrabold'>list other invoices, by date</h1>
+                <h1 className='p-10 pt-10 text-4xl font-extrabold'>list sent history. receipt, quote, w/e</h1>
         </div>
     );
 }

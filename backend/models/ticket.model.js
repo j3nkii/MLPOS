@@ -57,18 +57,18 @@ const getTicket = async ({ ticketID, client }) => {
 }
 
 const handleTicketStatus = async({ client, ticketID }) => {
-    const ticket = await getTicket({ client, ticketID });
-    let totalPaid = 0;
-    for(let row of ticket.payments){
-        totalPaid += Number(row.price);
-    }
-    if(Number(ticket.price) <= Number(totalPaid)){
-        await client.query(`UPDATE tickets SET status = 'paid' WHERE id = $1`, [ticketID]);
-    } else if(Number(ticket.price) > Number(totalPaid)){
-        await client.query(`UPDATE tickets SET status = 'pending' WHERE id = $1`, [ticketID]);
-    } else if(ticket.status === 'quote'){
-        await client.query(`UPDATE tickets SET status = 'pending' WHERE id = $1`, [ticketID]);
-    }
+    // const ticket = await getTicket({ client, ticketID });
+    // let totalPaid = 0;
+    // for(let row of ticket.payments){
+    //     totalPaid += Number(row.price);
+    // }
+    // if(Number(ticket.price) >= Number(totalPaid)){
+    //     await client.query(`UPDATE tickets SET invoice_status = 'paid' WHERE id = $1`, [ticketID]);
+    // } else if(Number(ticket.price) > Number(totalPaid)){
+    //     await client.query(`UPDATE tickets SET invoice_status = 'pending' WHERE id = $1`, [ticketID]);
+    // } else if(Number(ticket.price) === 0){
+    //     await client.query(`UPDATE tickets SET invoice_status = 'pending' WHERE id = $1`, [ticketID]);
+    // }
 }
 
 module.exports = {

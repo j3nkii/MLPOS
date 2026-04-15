@@ -21,9 +21,9 @@ const handleLocalAuth = async (req, res, next) =>{
                 users.account_id AS mplos_account_id
             FROM
                 users
-            LEFT JOIN stripe_accounts
+            LEFT JOIN accounts_stripe
             ON
-                stripe_accounts.account_id = users.account_id
+                accounts_stripe.account_id = users.account_id
             WHERE email = $1`
             , [token]);
         if(!dbRes.rows[0]) throw new Error('sheeiiitttt');

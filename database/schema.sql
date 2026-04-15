@@ -12,8 +12,8 @@ CREATE TABLE accounts (
 
 
 
-DROP TABLE IF EXISTS stripe_accounts CASCADE;
-CREATE TABLE stripe_accounts (
+DROP TABLE IF EXISTS accounts_stripe CASCADE;
+CREATE TABLE accounts_stripe (
     id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     account_id          UUID NOT NULL REFERENCES accounts(id),
     stripe_account_id   VARCHAR(255) UNIQUE NOT NULL,
@@ -95,6 +95,7 @@ DROP TYPE IF EXISTS ticket_order_status CASCADE;
 CREATE TYPE ticket_order_status AS ENUM (
     'waiting',
     'in_progress',
+    'rework',
     'fufilled',
     'cancelled'
 );

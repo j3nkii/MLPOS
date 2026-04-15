@@ -21,7 +21,7 @@ export const TicketDeleteModal = () => {
             <ModalBody>
                 <div className='p-6'>
                     <h2 className='text-red-600 text-4xl font-extrabold'>Are you sure you want to delete this Ticket?</h2>
-                    <h1 className='p-10 pt-10 text-4xl font-extrabold'>#INV001: {item.name}; {item.status}</h1>
+                    <h1 className='p-10 pt-10 text-4xl font-extrabold'>#MLP001: {item.name}; {item.status}</h1>
                 </div>
             </ModalBody>
 
