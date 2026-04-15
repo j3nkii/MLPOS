@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Table, Button } from '@components';
-import { useInvoiceQuery } from '@query';
+import { useTicketQuery } from '@query';
 import { stripeService } from '@services';
 import { ConnectAccountOnboarding, ConnectComponentsProvider } from "@stripe/react-connect-js";
 import { loadConnectAndInitialize } from '@stripe/connect-js';

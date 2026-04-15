@@ -21,7 +21,7 @@ export const TABLE_CONFIG = {
             detail: '/customers/'
         },
     },
-    invoices: {
+    tickets: {
         headers: [
             {
                 display: 'Customer',
@@ -41,10 +41,10 @@ export const TABLE_CONFIG = {
             }
         ],
         tableActions: {
-            // update: 'updateInvoice',
-            create: 'createInvoice',
-            delete: 'deleteInvoice',
-            detail: '/invoices/'
+            // update: 'updateTicket',
+            create: 'createTicket',
+            delete: 'deleteTicket',
+            detail: '/tickets/'
         },
     },
     lineItems: {
@@ -63,9 +63,9 @@ export const TABLE_CONFIG = {
             }
         ],
         tableActions: {
-            create: 'createInvoiceLine',
-            update: 'updateInvoiceLine',
-            delete: 'deleteInvoiceLine',
+            create: 'createTicketLine',
+            update: 'updateTicketLine',
+            delete: 'deleteTicketLine',
         }
     },
     payments: {

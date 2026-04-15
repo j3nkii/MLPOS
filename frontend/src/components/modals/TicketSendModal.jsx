@@ -1,25 +1,25 @@
 
 import React, { useEffect, useState,  useRef } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
-import { useInvoiceQuery } from '@query';
+import { useTicketQuery } from '@query';
 import { useModalZussy} from '@zussy';
 import { Button, Input } from '@components';
 import { useParams } from 'react-router-dom';
 
 
-export const InvoiceSendModal = ({ isUpdate }) => {
+export const TicketSendModal = ({ isUpdate }) => {
     const params = useParams();
-    const { createInvoiceItem, updateInvoiceItem, createInvoiceSend } = useInvoiceQuery();
+    const { createTicketItem, updateTicketItem, createTicketSend } = useTicketQuery();
     const { item, closeModal  } = useModalZussy();
 
     const handleConfirm = async () => {
-        const payload = { invoiceID: params.invoiceID }
-        createInvoiceSend.mutate(payload);
+        const payload = { ticketID: params.ticketID }
+        createTicketSend.mutate(payload);
     };
 
     return (
         <Modal onClose={closeModal}>
-            <ModalHeader title={'Send Invoice'} onClose={closeModal} />
+            <ModalHeader title={'Send Ticket'} onClose={closeModal} />
             <ModalBody>
                 <div className=' p-3 bg-white'>
                     <h1 className='p-3 text-4xl bg-white font-extrabold'>#INV001</h1>

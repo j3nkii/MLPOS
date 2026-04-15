@@ -35,7 +35,7 @@ export const PaymentFormModal = ({ isUpdate }) => {
     }, []);
 
     const handleConfirm = async () => {
-        const payload = { invoiceID: params.invoiceID, paymentID: item?.id, ...paymentForm }
+        const payload = { ticketID: params.ticketID, paymentID: item?.id, ...paymentForm }
         const handleFn = isUpdate ? updatePayment : createPayment;
         handleFn.mutate(payload);
     };

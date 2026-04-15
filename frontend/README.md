@@ -34,4 +34,4 @@ training plans
 
 
 
-whenb dleeteing cascadables... like shoot a hey this customer has invoices? also delte invoices? are you super sure you wanna delete? ??
+whenb dleeteing cascadables... like shoot a hey this customer has tickets? also delte tickets? are you super sure you wanna delete? ??

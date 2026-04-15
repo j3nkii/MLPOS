@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Input, TableForm } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from '@components';
 import { useModalZussy } from '@zussy';
-import { useCustomerQuery, useInvoiceQuery } from '@query';
+import { useCustomerQuery, useTicketQuery } from '@query';
 import { useParams } from 'react-router-dom';
 
 
@@ -23,9 +23,9 @@ const INITIAL = {
 export const SelectedCustomerPage = () => {
     const params = useParams();
     const { readAllCustomers } = useCustomerQuery();
-    const { readAllInvoices } = useInvoiceQuery();
+    const { readAllTickets } = useTicketQuery();
     const [selectedCustomer, setSelectedCustomer] = useState(INITIAL);
-    const [customerInvoices, setCustomerInvoices] = useState([]);
+    const [customerTickets, setCustomerTickets] = useState([]);
     const { setModal } = useModalZussy();
 
     useEffect(() => {
@@ -39,13 +39,13 @@ export const SelectedCustomerPage = () => {
 
     useEffect(() => {
         const { customerID } = params;
-        console.log(readAllInvoices?.data?.data)
-        console.log(readAllInvoices?.data)
-        const customerInvoices = readAllInvoices?.data?.data.filter(x => x.customer_id === customerID);
-        if(customerInvoices){
-            setCustomerInvoices(customerInvoices);
+        console.log(readAllTickets?.data?.data)
+        console.log(readAllTickets?.data)
+        const customerTickets = readAllTickets?.data?.data.filter(x => x.customer_id === customerID);
+        if(customerTickets){
+            setCustomerTickets(customerTickets);
         }
-    }, [readAllInvoices?.data?.data])
+    }, [readAllTickets?.data?.data])
 
     const onDelete = (e) => {
         e.stopPropagation();
@@ -98,7 +98,7 @@ export const SelectedCustomerPage = () => {
                     </Button> */}
                 </div>
             </div>
-            <Table config={'invoices'} data={customerInvoices} />
+            <Table config={'tickets'} data={customerTickets} />
             {/* <Payments payments={selectedCustomer.payments} total={selectedCustomer.price} /> */}
         </div>
     );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Input, TableForm } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from '@components';
 import { useModalZussy } from '@zussy';
-import { useInvoiceQuery, useCustomerQuery } from '@query';
+import { useTicketQuery, useCustomerQuery } from '@query';
 
 
 const INITIAL = {
@@ -10,16 +10,16 @@ const INITIAL = {
     status: '',
 };
 
-export const InvoiceFormModal = ({ isUpdate }) => {
-    const [modalTitle] = useState(isUpdate ? 'Update Invoice' : 'Create Invoice')
-    const [invoiceForm, setInvoiceForm] = useState(INITIAL);
-    const { createInvoice, updateInvoice } = useInvoiceQuery();
+export const TicketFormModal = ({ isUpdate }) => {
+    const [modalTitle] = useState(isUpdate ? 'Update Ticket' : 'Create Ticket')
+    const [ticketForm, setTicketForm] = useState(INITIAL);
+    const { createTicket, updateTicket } = useTicketQuery();
     const { readAllCustomers } = useCustomerQuery();
     const { closeModal, item } = useModalZussy();
 
     useEffect(() => {
         if(isUpdate){
-            setInvoiceForm({
+            setTicketForm({
                 customerID: item.customer_id,
                 status: item.status,
             });
@@ -28,14 +28,14 @@ export const InvoiceFormModal = ({ isUpdate }) => {
 
     const handleConfirm = async (evt) => {
         evt.preventDefault()
-        const handler = isUpdate ? updateInvoice : createInvoice;
-        const body = { invoiceID: item?.id, body: invoiceForm }
+        const handler = isUpdate ? updateTicket : createTicket;
+        const body = { ticketID: item?.id, body: ticketForm }
         handler.mutate(body);
     };
 
     const handleChange = (evt) => {
         const { target: { name, value }} = evt;
-        setInvoiceForm({ ...invoiceForm, [name]: value });
+        setTicketForm({ ...ticketForm, [name]: value });
     }
 
     return (
@@ -45,13 +45,13 @@ export const InvoiceFormModal = ({ isUpdate }) => {
                 <form onSubmit={handleConfirm} className='p-6'>
                     <Input
                         onChange={handleChange}
-                        value={invoiceForm.customerID}
+                        value={ticketForm.customerID}
                         label={'Customer'}
                         name={'customerID'}
                         type={'select'}
                         options={readAllCustomers?.data?.data.map(cust => ({ name: cust.name, value: cust.id }))}
                     />
-                    { isUpdate && <Input onChange={handleChange} value={invoiceForm.status} label={'Status'} name={'status'} /> }
+                    { isUpdate && <Input onChange={handleChange} value={ticketForm.status} label={'Status'} name={'status'} /> }
                 </form>
             </ModalBody>
 

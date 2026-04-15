@@ -10,14 +10,14 @@ INSERT INTO customers (id, user_id, name, email, phone)
 VALUES
     ('11111111-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', 'Sean Daley', 'cust1@acme_corp.com', '+1-555-001-10');
 
--- Seed data for invoices
-INSERT INTO invoices (id, user_id, customer_id, status)
+-- Seed data for tickets
+INSERT INTO tickets (id, user_id, customer_id, status)
 VALUES
     ('22222222-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '11111111-0000-0000-0000-000000000001', 'pending'),
     ('22222222-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000001', '11111111-0000-0000-0000-000000000001', 'pending');
 
--- Seed data for invoice_items
-INSERT INTO invoice_items (id, invoice_id, name, price, quantity)
+-- Seed data for ticket_items
+INSERT INTO ticket_items (id, ticket_id, name, price, quantity)
 VALUES
     ('22222222-1111-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'Socks', 2999, 7),
     ('22222222-1111-0000-0000-000000000002', '22222222-0000-0000-0000-000000000001', 'Underwear', 2999, 7),
@@ -36,7 +36,7 @@ VALUES
     ('22222222-1111-0000-0000-000000000015', '22222222-0000-0000-0000-000000000002', 'Green Hat', 2999, 1);
 
 
-INSERT INTO payments (id, invoice_id, price, method)
+INSERT INTO payments (id, ticket_id, price, method)
 VALUES
     -- ('33333333-0000-0000-0000-000000000001', 30, 'cash'),
     ('33333333-0000-0000-0000-000000000001','22222222-0000-0000-0000-000000000001', 199, 'check'),

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Input, TableForm } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from '@components';
 import { useModalZussy } from '@zussy';
-import { useInvoiceQuery, useCustomerQuery } from '@query';
+import { useTicketQuery, useCustomerQuery } from '@query';
 import { useParams } from 'react-router-dom';
 
 
@@ -20,49 +20,49 @@ const INITIAL = {
 
 
 
-export const SelectedInvoicePage = () => {
+export const SelectedTicketPage = () => {
     const params = useParams();
-    const { readAllInvoices } = useInvoiceQuery();
-    const [selectedInvoice, setSelectedInvoice] = useState(INITIAL);
+    const { readAllTickets } = useTicketQuery();
+    const [selectedTicket, setSelectedTicket] = useState(INITIAL);
     const { setModal } = useModalZussy();
 
     useEffect(() => {
-        const { invoiceID } = params;
-        const invoiceIndex = readAllInvoices?.data?.data.findIndex(x => x.id === invoiceID);
-        const selectedInvoice = readAllInvoices?.data?.data[invoiceIndex];
-        if(selectedInvoice){
-            setSelectedInvoice(selectedInvoice)
+        const { ticketID } = params;
+        const ticketIndex = readAllTickets?.data?.data.findIndex(x => x.id === ticketID);
+        const selectedTicket = readAllTickets?.data?.data[ticketIndex];
+        if(selectedTicket){
+            setSelectedTicket(selectedTicket)
         }
-    }, [readAllInvoices?.data?.data]);
+    }, [readAllTickets?.data?.data]);
 
     const onDelete = (e) => {
         e.stopPropagation();
         setModal({
-            modalKey: 'deleteInvoice',
-            item: selectedInvoice,
+            modalKey: 'deleteTicket',
+            item: selectedTicket,
         });
     };
 
     const onUpdate = (e) => {
         e.stopPropagation();
         setModal({
-            modalKey: 'updateInvoice',
-            item: selectedInvoice,
+            modalKey: 'updateTicket',
+            item: selectedTicket,
         });
     };
 
     const onSend = (e) => {
         e.stopPropagation();
         setModal({
-            modalKey: 'sendInvoice',
-            item: selectedInvoice,
+            modalKey: 'sendTicket',
+            item: selectedTicket,
         });
     };
 
     return (
         <div className='max-w-170 bg-white'>
             <div className='flex'>
-                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#INV001: {selectedInvoice.name}; {selectedInvoice.status}</h1>
+                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#INV001: {selectedTicket.name}; {selectedTicket.status}</h1>
                 <div className='flex items-center'>
                     <Button
                         color='yellow'
@@ -84,8 +84,8 @@ export const SelectedInvoicePage = () => {
                     </Button>
                 </div>
             </div>
-            <Table footer={{ total: selectedInvoice.price }} config={'lineItems'} data={selectedInvoice.details} />
-            <Payments payments={selectedInvoice.payments} total={selectedInvoice.price} />
+            <Table footer={{ total: selectedTicket.price }} config={'lineItems'} data={selectedTicket.details} />
+            <Payments payments={selectedTicket.payments} total={selectedTicket.price} />
         </div>
     );
 }

@@ -7,19 +7,19 @@ const router = express.Router();
 // CURRENTLY GET / FETCHES ALL DATA, SO FRONT END DOES NOT NEED A "DETAILED" VIEW
 // router.get('/:id', async (req, res) => {
 //     try {
-//         const { rows: [ invoice ] } = await pool.query(`
+//         const { rows: [ ticket ] } = await pool.query(`
 //             SELECT
 //                 *,
-//                 JSON_AGG(invoice_details)
-//             FROM invoices
-//             JOIN invoice_details
-//                 ON invoice_details.invoice_id = invoices.id
-//                 AND invoice_details.is_deleted = false
+//                 JSON_AGG(ticket_details)
+//             FROM tickets
+//             JOIN ticket_details
+//                 ON ticket_details.ticket_id = tickets.id
+//                 AND ticket_details.is_deleted = false
 //             WHERE id = $1
 //                 AND is_deleted = false;
 //         `, [ req.params.id ]);
-//         console.log(invoice)
-//         res.status(200).json(invoice);
+//         console.log(ticket)
+//         res.status(200).json(ticket);
 //     } catch (error) {
 //         console.error(error);
 //         res.status(500).json({ error: 'Something went wrong' });
@@ -33,31 +33,31 @@ router.get('/', async (req, res) => {
         const userID = req.user.attributes.mlpos_id;
         const { rows } = await pool.query(`
             SELECT
-                invoices.*,
+                tickets.*,
                 customers.name,
-                SUM(invoice_items.price * invoice_items.quantity) as price,
-                COALESCE(JSON_AGG(invoice_items) FILTER (WHERE invoice_items.invoice_id IS NOT NULL), '[]') as details,
+                SUM(ticket_items.price * ticket_items.quantity) as price,
+                COALESCE(JSON_AGG(ticket_items) FILTER (WHERE ticket_items.ticket_id IS NOT NULL), '[]') as details,
                 COALESCE((
                     WITH payments_clone AS (
                         SELECT * FROM payments
-                        WHERE invoice_id = invoices.id
+                        WHERE ticket_id = tickets.id
                             AND is_deleted = false
                         ORDER BY created_at DESC
                     )
                     SELECT JSON_AGG(payments_clone.*) AS reults
                     FROM payments_clone
                 ), '[]') AS payments
-            FROM invoices
-            LEFT JOIN invoice_items
-                ON invoice_items.invoice_id = invoices.id
-                AND invoice_items.is_deleted = false
+            FROM tickets
+            LEFT JOIN ticket_items
+                ON ticket_items.ticket_id = tickets.id
+                AND ticket_items.is_deleted = false
             JOIN customers
-                ON customers.id = invoices.customer_id
+                ON customers.id = tickets.customer_id
                 AND customers.is_deleted = false
-            WHERE invoices.user_id = $1
-                AND invoices.is_deleted = false
-            GROUP BY invoices.id, customers.name
-            ORDER BY invoices.created_at DESC;
+            WHERE tickets.user_id = $1
+                AND tickets.is_deleted = false
+            GROUP BY tickets.id, customers.name
+            ORDER BY tickets.created_at DESC;
         `, [ userID ]);
         res.status(200).json(rows);
     } catch (error) {
@@ -74,13 +74,13 @@ router.post('/', async(req, res) => {
         const userID = req.user.attributes.mlpos_id;
         const { details, customerID } = req.body;
         // if (!details || !customerID) throw new Error('Missing Fields');
-        // let invoiceTotal = 0;
+        // let ticketTotal = 0;
         // details.forEach(detail => {
-        //     invoiceTotal += Number(detail.price);
+        //     ticketTotal += Number(detail.price);
         // });
         await client.query('BEGIN');
         const {rows: [result]} = await client.query(`
-            INSERT INTO invoices (customer_id, user_id)
+            INSERT INTO tickets (customer_id, user_id)
             VALUES ($1, $2)
             RETURNING id;
         `, [ customerID, userID]
@@ -94,12 +94,12 @@ router.post('/', async(req, res) => {
         //     detailsSQLArray.push(`($1, $${idx++}, $${idx++}, $${idx++})`);
         // });
         // const detailsSQL = (`
-        //     INSERT INTO invoice_items (invoice_id, name, price, quantity)
+        //     INSERT INTO ticket_items (ticket_id, name, price, quantity)
         //     VALUES ${detailsSQLArray.join(', ')}
         // `);
         // await client.query(detailsSQL, detailsParams);
         await client.query('COMMIT');
-        res.status(201).json({ message: 'User created successfully', data: { invoiceID: result.id } });
+        res.status(201).json({ message: 'User created successfully', data: { ticketID: result.id } });
     } catch (error) {
         await client.query('ROLLBACK');
         console.error(error);
@@ -117,9 +117,9 @@ router.put('/:id', async(req, res) => {
 
         const { price, customerID, status, details: DO_NOT_USE } = req.body;
         const details = null;
-        const { id: invoiceID } = req.params;
+        const { id: ticketID } = req.params;
         if(!price && !customerID && !status && !details) throw new Error('No Fields Detected');
-        if(!customerID || !invoiceID) throw new Error('Missing Essential Fields');
+        if(!customerID || !ticketID) throw new Error('Missing Essential Fields');
         const INSERT_SQL = [];
         const INSERT_PARAMS = [];
         let idx = 2;
@@ -130,29 +130,29 @@ router.put('/:id', async(req, res) => {
             INSERT_SQL.push(`status = $${idx++}`);
             INSERT_PARAMS.push(status);
         } if (details) {
-            await client.query('UPDATE invoice_items SET is_deleted = true WHERE invoice_id = $1', [invoiceID]);
+            await client.query('UPDATE ticket_items SET is_deleted = true WHERE ticket_id = $1', [ticketID]);
             if (details.length > 0) {
                 let paramIndex = 2;
                 let detailsSQLArray = [];
-                let detailsParams = [invoiceID];
+                let detailsParams = [ticketID];
                 details.forEach(detail => {
                     detailsParams.push(detail.name, detail.price, detail.quantity)
                     detailsSQLArray.push(`($1, $${paramIndex++}, $${paramIndex++}, $${paramIndex++})`);
                 });
                 const detailsSQL = (`
-                    INSERT INTO invoice_items (invoice_id, name, price, quantity)
+                    INSERT INTO ticket_items (ticket_id, name, price, quantity)
                     VALUES ${detailsSQLArray.join(', ')}
                 `);
                 await client.query(detailsSQL, detailsParams);
             }
         }
         const END_SQL = (`
-            UPDATE invoices
+            UPDATE tickets
             SET ${INSERT_SQL.join(', ')}
             WHERE
-                invoices.id = $1;
+                tickets.id = $1;
         `);
-        const END_PARAMS = [ invoiceID, ...INSERT_PARAMS ];
+        const END_PARAMS = [ ticketID, ...INSERT_PARAMS ];
         await client.query(END_SQL, END_PARAMS);
         await client.query('COMMIT');
         res.status(200).json({ message: 'User updated successfully' });
@@ -171,10 +171,10 @@ router.delete('/:id', async(req, res) => {
     try {
         const { id: customerID } = req.params;
         await pool.query(`
-            UPDATE invoices
+            UPDATE tickets
             SET is_deleted = true
             WHERE
-                invoices.id = $1
+                tickets.id = $1
         `, [ customerID ]);
         res.status(201).json({ message: 'User Deleted successfully' });
     } catch (error) {
@@ -185,15 +185,15 @@ router.delete('/:id', async(req, res) => {
 
 
 
-router.post('/line-item/:id', async(req, res) => {
+router.post('/ticket-item/:id', async(req, res) => {
     const client = await pool.connect();
     try {
         console.log(req.body)
         const { name, price, quantity } = req.body;
-        const { id: invoiceID } = req.params;
-        if(!invoiceID || !name || !price || !quantity) throw new Error('Missing Essential Fields');
-        const END_SQL = `INSERT INTO invoice_items (invoice_id, name, price, quantity) VALUES ($1, $2, $3, $4)`;
-        const END_PARAMS = [invoiceID, name, price, quantity];
+        const { id: ticketID } = req.params;
+        if(!ticketID || !name || !price || !quantity) throw new Error('Missing Essential Fields');
+        const END_SQL = `INSERT INTO ticket_items (ticket_id, name, price, quantity) VALUES ($1, $2, $3, $4)`;
+        const END_PARAMS = [ticketID, name, price, quantity];
         await client.query(END_SQL, END_PARAMS);
         await client.query('COMMIT');
         res.status(200).json({ message: 'User updated successfully' });
@@ -208,7 +208,7 @@ router.post('/line-item/:id', async(req, res) => {
 
 
 
-router.put('/line-item/:id', async(req, res) => {
+router.put('/ticket-item/:id', async(req, res) => {
     const client = await pool.connect();
     try {
 
@@ -231,10 +231,10 @@ router.put('/line-item/:id', async(req, res) => {
             END_PARAMS.push(quantity);
         }
         const END_SQL = `
-            UPDATE invoice_items
+            UPDATE ticket_items
             SET ${INSERT_SQL.join(', ')}
             WHERE
-                invoice_items.id = $1;
+                ticket_items.id = $1;
         `
         await client.query(END_SQL, END_PARAMS);
         await client.query('COMMIT');
@@ -254,13 +254,13 @@ router.post('/send/:id', async(req, res) => {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const { id: invoiceID } = req.params;
+        const { id: ticketID } = req.params;
         await pool.query(`
-            INSERT INTO sent_payments (invoice_id) VALUES ($1);
-        `, [ invoiceID ]);
+            INSERT INTO sent_payments (ticket_id) VALUES ($1);
+        `, [ ticketID ]);
         await pool.query(`
-            UPDATE invoices SET status = 'sent' WHERE id = $1;
-        `, [ invoiceID ]);
+            UPDATE tickets SET status = 'sent' WHERE id = $1;
+        `, [ ticketID ]);
         await client.query('COMMIT');
         res.status(201).json({ message: 'User Deleted successfully' });
     } catch (error) {
@@ -269,6 +269,24 @@ router.post('/send/:id', async(req, res) => {
         res.status(500).json({ message: 'Something went wrong' });
     } finally {
         client.release();
+    }
+});
+
+
+
+router.delete('/ticket-item/:id', async(req, res) => {
+    try {
+        const { id: lineItemID } = req.params;
+        await pool.query(`
+            UPDATE ticket_items
+            SET is_deleted = true
+            WHERE
+                id = $1
+        `, [ lineItemID ]);
+        res.status(201).json({ message: 'User Deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong' });
     }
 });
 

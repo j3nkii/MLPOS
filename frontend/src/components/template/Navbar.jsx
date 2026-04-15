@@ -23,9 +23,9 @@ export const Navbar = () => {
                             Customers
                         </Button>
                     </Link>
-                    <Link className='hover:cursor-pointer' to='/invoices'>
+                    <Link className='hover:cursor-pointer' to='/tickets'>
                         <Button className='bg-red-500 text-white px-3 py-1 rounded'>
-                            Invoices
+                            Tickets
                         </Button>
                     </Link>
                     <Button onClick={logout} className='bg-red-500 text-white px-3 py-1 rounded'>

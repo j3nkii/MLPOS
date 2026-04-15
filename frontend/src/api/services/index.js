@@ -1,6 +1,6 @@
 export { customerService } from './sub/customer'
 export { authService } from './sub/auth'
-export { invoiceService } from './sub/invoice'
+export { ticketService } from './sub/ticket'
 export { userService } from './sub/user'
 export { paymentService } from './sub/payments'
 export { stripeService } from './sub/stripe'

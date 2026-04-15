@@ -1,7 +1,7 @@
 
 import 'react';
 import { useModalZussy} from '@zussy';
-import { CustomerDeleteModal, CustomerFormModal, InvoiceFormModal, InvoiceDeleteModal, PaymentFormModal, PaymentDeleteModal, InvoiceItemFormModal, InvoiceItemDeleteModal, InvoiceSendModal } from '@components';
+import { CustomerDeleteModal, CustomerFormModal, TicketFormModal, TicketDeleteModal, PaymentFormModal, PaymentDeleteModal, TicketItemFormModal, TicketItemDeleteModal, TicketSendModal } from '@components';
 
 
 export const ModalManager = () => {
@@ -13,26 +13,26 @@ export const ModalManager = () => {
             return <CustomerFormModal />
         case 'updateCustomer':
             return <CustomerFormModal isUpdate={true} />
-        case 'createInvoice':
-            return <InvoiceFormModal />
-        case 'updateInvoice':
-            return <InvoiceFormModal isUpdate={true} />
-        case 'deleteInvoice':
-            return <InvoiceDeleteModal />
+        case 'createTicket':
+            return <TicketFormModal />
+        case 'updateTicket':
+            return <TicketFormModal isUpdate={true} />
+        case 'deleteTicket':
+            return <TicketDeleteModal />
         case 'deletePayment':
             return <PaymentDeleteModal />
         case 'createPayment':
             return <PaymentFormModal />
         case 'updatePayment':
             return <PaymentFormModal isUpdate={true}  />
-        case 'createInvoiceLine':
-            return <InvoiceItemFormModal />
-        case 'updateInvoiceLine':
-            return <InvoiceItemFormModal isUpdate={true}  />
-        case 'deleteInvoiceLine':
-            return <InvoiceItemDeleteModal />
-        case 'sendInvoice':
-            return <InvoiceSendModal />
+        case 'createTicketLine':
+            return <TicketItemFormModal />
+        case 'updateTicketLine':
+            return <TicketItemFormModal isUpdate={true}  />
+        case 'deleteTicketLine':
+            return <TicketItemDeleteModal />
+        case 'sendTicket':
+            return <TicketSendModal />
         case null:
             return null;
         default:

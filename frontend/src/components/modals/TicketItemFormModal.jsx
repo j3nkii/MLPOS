@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModalZussy} from '@zussy';
 import { Button, Input } from '@components';
 
-import { useInvoiceQuery } from '@query';
+import { useTicketQuery } from '@query';
 
 import { useParams } from 'react-router-dom';
 
@@ -14,18 +14,18 @@ const INITIAL_FORM = {
     quantity: 1,
 };
 
-export const InvoiceItemFormModal = ({ isUpdate }) => {
+export const TicketItemFormModal = ({ isUpdate }) => {
     const nameRef = useRef()
     const params = useParams();
-    const [modalTitle] = useState(isUpdate ? 'Update Invoice Item' : 'Create Invoice Item');
-    const [invoiceItemForm, setInvoiceItemForm] = useState(INITIAL_FORM);
-    const { createInvoiceItem, updateInvoiceItem } = useInvoiceQuery();
+    const [modalTitle] = useState(isUpdate ? 'Update Ticket Item' : 'Create Ticket Item');
+    const [ticketItemForm, setTicketItemForm] = useState(INITIAL_FORM);
+    const { createTicketItem, updateTicketItem } = useTicketQuery();
     const { setModal, item, closeModal  } = useModalZussy();
 
     useEffect(() => {
         nameRef?.current.focus()
         if(isUpdate){
-            setInvoiceItemForm({
+            setTicketItemForm({
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
@@ -35,8 +35,8 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
 
     const handleConfirm = async (evt, isNext) => {
         evt.preventDefault();
-        const payload = { invoiceID: params.invoiceID, invoiceItemID: item?.id, body: invoiceItemForm }
-        const handleFn = isUpdate ? updateInvoiceItem : createInvoiceItem;
+        const payload = { ticketID: params.ticketID, ticketItemID: item?.id, body: ticketItemForm }
+        const handleFn = isUpdate ? updateTicketItem : createTicketItem;
         handleFn.mutate(payload);
         if(isNext)return;
         closeModal();
@@ -45,13 +45,13 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
     const saveAndNext = (evt) => {
         evt.preventDefault();
         handleConfirm(evt, true);
-        setInvoiceItemForm(INITIAL_FORM);
+        setTicketItemForm(INITIAL_FORM);
         nameRef?.current.focus()
     }
 
     const handleChange = (evt) => {
         const { target: { name, value }} = evt;
-        setInvoiceItemForm({ ...invoiceItemForm, [name]: value });
+        setTicketItemForm({ ...ticketItemForm, [name]: value });
     }
 
     return (
@@ -59,9 +59,9 @@ export const InvoiceItemFormModal = ({ isUpdate }) => {
             <ModalHeader title={modalTitle} onClose={closeModal} />
             <ModalBody>
                 <form className='p-6'>
-                    <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={invoiceItemForm.name || ''} label={'Name'} name={'name'} />
-                    <Input type={'number'} onChange={handleChange} value={invoiceItemForm.price || ''} label={'Price'} name={'price'} />
-                    <Input type={'number'} onChange={handleChange} value={invoiceItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
+                    <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
+                    <Input type={'number'} onChange={handleChange} value={ticketItemForm.price || ''} label={'Price'} name={'price'} />
+                    <Input type={'number'} onChange={handleChange} value={ticketItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
                     <button onClick={saveAndNext} type='submit' style={{ display: 'none' }}></button>
                 </form>
             </ModalBody>

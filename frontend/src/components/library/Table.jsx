@@ -152,7 +152,7 @@ const TABLE_THEMES = {
     //     tableBTR: 'hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200  border-b border-gray-200',
     //     tableTD: 'px-4 py-3 text-gray-900'
     // },
-    // invoiceItems: {
+    // ticketItems: {
     //     container: 'rounded-2xl overflow-hidden border-2',
     //     table: 'min-w-full border-collapse table-fixed w-full bg-white shadow-sm',
     //     tableHTR: 'bg-gray-200',

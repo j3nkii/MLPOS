@@ -2,26 +2,26 @@
 import 'react';
 import { Modal, ModalHeader, ModalFooter, ModalBody } from '@components';
 import { useModalZussy} from '@zussy';
-import { useInvoiceQuery } from '@query';
+import { useTicketQuery } from '@query';
 import { Button } from '@components';
 
 
-export const InvoiceItemDeleteModal = () => {
-    const { deleteInvoiceItem } = useInvoiceQuery();
+export const TicketDeleteModal = () => {
+    const { deleteTicket } = useTicketQuery();
     const { item } = useModalZussy();
     const {closeModal} = useModalZussy();
 
     const handleConfirm = async () => {
-        deleteInvoiceItem.mutate({ invoiceItemID: item.id });
+        deleteTicket.mutate({ ticketID: item.id });
     };
 
     return (
         <Modal onClose={closeModal}>
-            <ModalHeader title={'Delete Item Invoice'} onClose={closeModal} />
+            <ModalHeader title={'Delete Ticket'} onClose={closeModal} />
             <ModalBody>
                 <div className='p-6'>
-                    <p>Are you sure you want to delete this Invoice Item?</p>
-                    <p className='text-red-500'>{item.name}</p>
+                    <h2 className='text-red-600 text-4xl font-extrabold'>Are you sure you want to delete this Ticket?</h2>
+                    <h1 className='p-10 pt-10 text-4xl font-extrabold'>#INV001: {item.name}; {item.status}</h1>
                 </div>
             </ModalBody>
 

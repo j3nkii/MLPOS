@@ -45,13 +45,13 @@ Row-level isolation via `tenant_id` is only safe if it is enforced at *every* qu
 ### 🟡 Medium
 
 **5. Notifications are missing from your feature list**
-This is not optional for an MVP with scheduling. You need at minimum: appointment confirmation (customer), appointment reminder (customer, 24hr before), invoice "pay now" (customer), and new booking alert (tenant). This is a full sub-system: transactional email (SES or Postmark), optional SMS (Twilio), and a notification preferences model. Plan for it in Phase 2.
+This is not optional for an MVP with scheduling. You need at minimum: appointment confirmation (customer), appointment reminder (customer, 24hr before), ticket "pay now" (customer), and new booking alert (tenant). This is a full sub-system: transactional email (SES or Postmark), optional SMS (Twilio), and a notification preferences model. Plan for it in Phase 2.
 
 **6. Tenant onboarding wizard**
 A non-technical side hustler cannot be dropped into a blank dashboard. You need a linear setup wizard: business info → Stripe Connect → first service/product → subdomain confirmation → "you're live" screen. This is arguably the most important UX in the entire product. Scope it explicitly — do not treat it as a nice-to-have.
 
 **7. File/asset storage strategy**
-Invoice PDFs, signed documents, product images, and logo uploads all need a home. S3 + pre-signed URLs is the right call on your stack. Define a bucket key structure per tenant (`/tenants/{tenant_id}/...`) early so you don't refactor storage paths mid-build.
+Ticket PDFs, signed documents, product images, and logo uploads all need a home. S3 + pre-signed URLs is the right call on your stack. Define a bucket key structure per tenant (`/tenants/{tenant_id}/...`) early so you don't refactor storage paths mid-build.
 
 **8. Freemium tier limits need a gating layer**
 Even though pricing is out of scope for this document, your code needs a `plan` field on the tenant model and a central feature-gate utility from day one. Retrofitting usage limits into 10 features later is painful. Build the hook; leave the thresholds as config.
@@ -73,9 +73,9 @@ Customer            — end users tied to a tenant
 Product             — inventory item (type: PHYSICAL | SERVICE | BUNDLE)
 ServiceSlot         — bookable time block, linked to a SERVICE product
 Appointment         — a customer booking of a ServiceSlot
-Invoice             — line items, status, payment link
-Payment             — Stripe PaymentIntent record, linked to Invoice
-Document            — signable doc, linked to Appointment or Invoice
+Ticket             — line items, status, payment link
+Payment             — Stripe PaymentIntent record, linked to Ticket
+Document            — signable doc, linked to Appointment or Ticket
 Notification        — outbound notification log (email/SMS)
 StorefrontConfig    — tenant's public-facing site settings
 ```
@@ -110,7 +110,7 @@ StorefrontConfig    — tenant's public-facing site settings
 - [ ] Product/Inventory CRUD (with `type` discriminator: PHYSICAL | SERVICE | BUNDLE)
 - [ ] Services management (linked to SERVICE products, define duration/price)
 - [ ] Scheduling: tenant calendar view, availability configuration, block/unblock slots
-- [ ] Invoice creation, line items, status tracking (draft → sent → paid → void)
+- [ ] Ticket creation, line items, status tracking (draft → sent → paid → void)
 - [ ] Basic customer record management (CRM lite)
 - [ ] Tenant settings: branding (logo, colors), business info, subdomain config
 - [ ] StorefrontConfig: toggle which features are public-facing
@@ -128,11 +128,11 @@ StorefrontConfig    — tenant's public-facing site settings
 - [ ] eCommerce product listing + cart + checkout (PHYSICAL products)
 - [ ] Customer account creation + login on subdomain
 - [ ] Customer booking/order history view
-- [ ] Invoice pay-now flow (customer receives link, pays via Stripe)
+- [ ] Ticket pay-now flow (customer receives link, pays via Stripe)
 - [ ] Notifications sub-system: transactional email via SES/Postmark
   - Booking confirmation
   - Appointment reminder (24hr)
-  - Invoice payment link
+  - Ticket payment link
   - New booking alert (to tenant)
 
 **Exit criteria:** A customer can discover services, book an appointment, and pay — entirely on the subdomain.
@@ -145,7 +145,7 @@ StorefrontConfig    — tenant's public-facing site settings
 - [ ] Doc signing integration (HelloSign/Dropbox Sign API)
   - Template upload by tenant
   - Send-for-signature triggered on appointment confirmation or manually
-  - Signed doc stored to S3, linked to appointment/invoice
+  - Signed doc stored to S3, linked to appointment/ticket
   - `provider` field on Document model (prep for future DIY migration)
 - [ ] Product variants (size, color — for PHYSICAL products)
 - [ ] Inventory quantity tracking + low-stock alerts

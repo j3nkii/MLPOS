@@ -11,11 +11,11 @@ router.get('/', async (req, res) => {
         const { rows } = await pool.query(`
             SELECT
                 customers.*,
-                JSON_AGG( invoices.* ) as invoices
+                JSON_AGG( tickets.* ) as tickets
             FROM customers
-            LEFT JOIN invoices
-                ON invoices.customer_id = customers.id
-                AND invoices.is_deleted = false
+            LEFT JOIN tickets
+                ON tickets.customer_id = customers.id
+                AND tickets.is_deleted = false
             WHERE customers.user_id = $1
                 AND customers.is_deleted = false
             GROUP BY customers.id
