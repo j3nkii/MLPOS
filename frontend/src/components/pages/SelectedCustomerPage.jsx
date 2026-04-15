@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Input, TableForm } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from '@components';
 import { useModalZussy } from '@zussy';
-import { useCustomerQuery } from '@query';
+import { useCustomerQuery, useInvoiceQuery } from '@query';
 import { useParams } from 'react-router-dom';
 
 
@@ -23,7 +23,9 @@ const INITIAL = {
 export const SelectedCustomerPage = () => {
     const params = useParams();
     const { readAllCustomers } = useCustomerQuery();
+    const { readAllInvoices } = useInvoiceQuery();
     const [selectedCustomer, setSelectedCustomer] = useState(INITIAL);
+    const [customerInvoices, setCustomerInvoices] = useState([]);
     const { setModal } = useModalZussy();
 
     useEffect(() => {
@@ -34,6 +36,16 @@ export const SelectedCustomerPage = () => {
             setSelectedCustomer(selectedCustomer);
         }
     }, [readAllCustomers?.data?.data]);
+
+    useEffect(() => {
+        const { customerID } = params;
+        console.log(readAllInvoices?.data?.data)
+        console.log(readAllInvoices?.data)
+        const customerInvoices = readAllInvoices?.data?.data.filter(x => x.customer_id === customerID);
+        if(customerInvoices){
+            setCustomerInvoices(customerInvoices);
+        }
+    }, [readAllInvoices?.data?.data])
 
     const onDelete = (e) => {
         e.stopPropagation();
@@ -86,8 +98,8 @@ export const SelectedCustomerPage = () => {
                     </Button> */}
                 </div>
             </div>
-            {/* <Table footer={{ total: selectedCustomer.price }} config={'lineItems'} data={selectedCustomer.details} />
-            <Payments payments={selectedCustomer.payments} total={selectedCustomer.price} /> */}
+            <Table config={'invoices'} data={customerInvoices} />
+            {/* <Payments payments={selectedCustomer.payments} total={selectedCustomer.price} /> */}
         </div>
     );
 }

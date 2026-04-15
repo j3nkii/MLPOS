@@ -18,7 +18,8 @@ router.get('/', async (req, res) => {
                 AND invoices.is_deleted = false
             WHERE customers.user_id = $1
                 AND customers.is_deleted = false
-            GROUP BY customers.id;
+            GROUP BY customers.id
+            ORDER BY created_at;
         `, [ userID ]);
         res.status(200).json(rows);
     } catch (error) {

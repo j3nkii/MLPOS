@@ -106,7 +106,7 @@ const ActionsCell = ({ item, tableActions }) => {
     const onUpdate = (e) => {
         e.stopPropagation();
         if(tableActions.detail){
-            navigate(item.id)
+            navigate(tableActions.detail + item.id)
         } else {
             setModal({
                 modalKey: tableActions.update,

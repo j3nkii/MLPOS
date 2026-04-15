@@ -39,9 +39,13 @@ router.get('/', async (req, res) => {
                 COALESCE(JSON_AGG(invoice_items) FILTER (WHERE invoice_items.invoice_id IS NOT NULL), '[]') as details,
                 COALESCE((
                     WITH payments_clone AS (
-                        SELECT * FROM payments WHERE invoice_id = invoices.id AND is_deleted = false
+                        SELECT * FROM payments
+                        WHERE invoice_id = invoices.id
+                            AND is_deleted = false
+                        ORDER BY created_at DESC
                     )
-                    SELECT JSON_AGG(payments_clone.*) AS reults FROM payments_clone
+                    SELECT JSON_AGG(payments_clone.*) AS reults
+                    FROM payments_clone
                 ), '[]') AS payments
             FROM invoices
             LEFT JOIN invoice_items
@@ -53,7 +57,7 @@ router.get('/', async (req, res) => {
             WHERE invoices.user_id = $1
                 AND invoices.is_deleted = false
             GROUP BY invoices.id, customers.name
-            ORDER BY created_at DESC;
+            ORDER BY invoices.created_at DESC;
         `, [ userID ]);
         res.status(200).json(rows);
     } catch (error) {
