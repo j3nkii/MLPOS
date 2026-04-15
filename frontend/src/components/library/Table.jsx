@@ -3,7 +3,6 @@ import { Trash2, DiamondPlus, BookUser, Pencil, ReceiptText } from 'lucide-react
 import { useModalZussy} from '@zussy'
 import { Button } from '@components'
 import { useNavigate } from 'react-router-dom'
-
 import { TABLE_CONFIG } from '@config/tableConfig';
 
 
