@@ -13,6 +13,7 @@ const authMiddleware = async (req, res, next) => {
 const handleLocalAuth = async (req, res, next) =>{
     const token = req.headers.authorization?.replace('Bearer ', '');
     try {
+        if(!token) throw new Error('sheeiiitttt');
         const dbRes = await pool.query(`
             SELECT
                 *,
@@ -25,6 +26,7 @@ const handleLocalAuth = async (req, res, next) =>{
                 stripe_accounts.account_id = users.account_id
             WHERE email = $1`
             , [token]);
+        if(!dbRes.rows[0]) throw new Error('sheeiiitttt');
         req.user = {
             attributes: dbRes.rows[0]
         }

@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
 
 
     const account = await stripe.v2.core.accounts.create({
-      display_name: displayName,
+      display_name: 'displayName',
       contact_email: email,
       identity: { country: 'us' },
       dashboard: 'full',              // Stripe handles auth/SMS, not your problem
