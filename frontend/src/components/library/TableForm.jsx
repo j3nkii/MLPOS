@@ -2,7 +2,7 @@ import 'react'
 import { Trash2, DiamondPlus } from 'lucide-react'
 import { Button, Input } from '@components'
 
-// right now this is basically hard coded to invoice details. 
+// right now this is not used. 
 const reIndex = (x, index) => ({ ...x, index });
 
 export const TableForm = ( PROPS ) => {
