@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 
 export const MODAL_TYPES = {
-    CONFIRM_DELETE: 'confirmDelete',
+    CONFIRM_DELETE: 'deleteCustomer',
     UPDATE_CUSTOMER: 'updateCustomer',
     CREATE_CUSTOMER: 'createCustomer',
 }

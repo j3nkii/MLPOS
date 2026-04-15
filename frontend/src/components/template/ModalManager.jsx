@@ -7,7 +7,7 @@ import { CustomerDeleteModal, CustomerFormModal, InvoiceFormModal, InvoiceDelete
 export const ModalManager = () => {
     const { modalKey } = useModalZussy();
     switch (modalKey) {
-        case 'confirmDelete':
+        case 'deleteCustomer':
             return <CustomerDeleteModal />
         case 'createCustomer':
             return <CustomerFormModal />

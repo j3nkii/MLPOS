@@ -15,9 +15,10 @@ export const TABLE_CONFIG = {
             },
         ],
         tableActions: {
-            update: 'updateCustomer',
+            // update: 'updateCustomer',
             create: 'createCustomer',
-            delete: 'confirmDelete',
+            delete: 'deleteCustomer',
+            detail: '/customers/'
         },
     },
     invoices: {
