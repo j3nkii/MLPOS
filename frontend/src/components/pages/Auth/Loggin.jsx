@@ -54,7 +54,7 @@ export const Loggin = () => {
     if (readUser.data)
         return <Navigate to='/customers' replace />
     return (
-        <div className='min-h-screen flex items-center justify-center bg-[#5d5d5d]'>
+        <div className='min-h-screen flex items-center justify-center bg-black'>
             <div className='bg-white p-8 rounded-lg shadow-md w-full max-w-sm'>
                 <div>
                     <h1 className='text-2xl font-bold mb-6 text-center text-gray-800'>Welcome Back</h1>
@@ -73,7 +73,7 @@ export const Loggin = () => {
                                 value={logginForm.password}
                                 onChange={handleForm}
                             />
-                        <Button type='submit' children='Login' />
+                        <Button color={'green'} type='submit' children='Login' />
                     </form>
                 </div>
             </div>
