@@ -1,0 +1,40 @@
+#!/bin/bash
+# scripts/db.sh
+# Usage: ./scripts/db.sh
+
+# Load from your .env file
+export $(grep -v '^#' .env | xargs)
+
+# Fall back to individual env vars if DATABASE_URL isn't set
+DB_URL=${DATABASE_URL:-"postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT:-5432}/${DB_NAME}"}
+
+if [ -z "$DB_URL" ]; then
+  echo "❌ No database URL found. Set DATABASE_URL in your .env"
+  exit 1
+fi
+
+echo "🐘 Connected to: $DB_URL"
+echo "----------------------------------------"
+
+psql "$DB_URL" "$@"
+
+
+
+chmod +x scripts/db.sh
+
+
+
+# Interactive prompt
+./scripts/db.sh
+
+# Run a specific command
+./scripts/db.sh -c "SELECT * FROM users;"
+
+# Run a SQL file
+./scripts/db.sh -f scripts/migrations/001_add_stripe.sql
+
+
+
+./scripts/db.sh -f scripts/migrations/001_add_stripe.sql
+
+Just needs psql installed locally. If you're on Mac: brew install libpq.

@@ -60,7 +60,7 @@ export const StripePage = () => {
     // };
     return (
         <div className='max-w-170 bg-white'>
-            <h1 className='p-10 pt-10 text-4xl font-extrabold no-wrap'>Invoices:</h1>
+            <h1 className='p-10 pt-10 text-4xl font-extrabold no-wrap'>Stripe:</h1>
             <Button onClick={handleOnboard} >TEST CREATE ACCOUNT</Button>
             <Button onClick={createPaymentLink} >TEST CREATE PAYMENT LINK</Button>
             {/* <ConnectComponentsProvider connectInstance={stripeConnectInstance}>

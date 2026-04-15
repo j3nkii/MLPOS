@@ -8,15 +8,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 
-// const accountSession = await stripe.accountSessions.create({
-//   account: '{{CONNECTED_ACCOUNT_ID}}',
-//   components: {
-//     account_onboarding: {
-//       enabled: true,
-//     },
-//   },
-// });
-
 
 
 // Create a Connected Account
@@ -25,6 +16,36 @@ router.post('/', async (req, res) => {
   try {
     const { email } = req.body;
     const { mplos_account_id, stripe_account_id } = req.user.attributes;
+
+
+
+
+    const account = await stripe.v2.core.accounts.create({
+      display_name: displayName,
+      contact_email: email,
+      identity: { country: 'us' },
+      dashboard: 'full',              // Stripe handles auth/SMS, not your problem
+      defaults: {
+        responsibilities: {
+          fees_collector: 'stripe',   // ← Stripe takes fees
+          losses_collector: 'stripe', // ← Stripe eats losses, not you
+        },
+      },
+      configuration: {
+        merchant: {
+          capabilities: {
+            card_payments: { requested: true },
+          },
+        },
+      },
+    });
+
+
+
+
+
+
+
     await client.query('BEGIN');
     // const { rows: [{ check }]} = await client.query(`
     //   SELECT EXISTS (
@@ -51,6 +72,9 @@ router.post('/', async (req, res) => {
     client.release();
   }
 });
+
+
+
 
 
 
@@ -97,6 +121,10 @@ router.post('/create-account-link', async (req, res) => {
   }
 });
 
+
+
+
+
 // Get Connected Account Status
 router.get('/account-status/:accountId', async (req, res) => {
   try {
@@ -133,12 +161,9 @@ router.post('/create-payment-link', async (req, res) => {
   const client = await pool.connect();
   try {
     const { stripe_account_id } = req.user.attributes;
-
-
     const paymentLink = await stripe.paymentLinks.create({
       application_fee_amount: 99,
       transfer_data: { destination: 'acct_1TMGt3DkUNzhE4SJ' },
-      // on_behalf_of: 'acct_1TMGt3DkUNzhE4SJ',
       line_items: [
         {
           price_data: {
@@ -152,10 +177,6 @@ router.post('/create-payment-link', async (req, res) => {
         },
       ],
     });
-
-
-
-    console.log(paymentLink)
     res.json({ paymentLink: paymentLink.url });
   } catch (err) {
     console.error(err.message);
