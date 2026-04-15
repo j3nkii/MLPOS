@@ -3,8 +3,8 @@ const cognito = require('../modules/cognito');
 const pool = require('../modules/pool');
 const router = express.Router();
 const stripeModule = require('../modules/stripe')
-// const { Stripe } = require('stripe');
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const { Stripe } = require('stripe');
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 
@@ -26,16 +26,16 @@ router.post('/', async (req, res) => {
     const { email } = req.body;
     const { mplos_account_id, stripe_account_id } = req.user.attributes;
     await client.query('BEGIN');
-    const { rows: [{ check }]} = await client.query(`
-      SELECT EXISTS (
-        SELECT 1
-        FROM stripe_accounts
-        WHERE account_id = $1
-      ) AS "check";`, [mplos_account_id]);
-    console.log(check);
-    if(!check){
+    // const { rows: [{ check }]} = await client.query(`
+    //   SELECT EXISTS (
+    //     SELECT 1
+    //     FROM stripe_accounts
+    //     WHERE account_id = $1
+    //   ) AS "check";`, [mplos_account_id]);
+    // console.log(check);
+    if(!false){
       const account = await stripeModule.createAccount({ email });
-      await client.query('INSERT INTO stripe_accounts (account_id, stripe_account_id) VALUES ($1, $2)', [ mplos_account_id, account.id ]);
+      // await client.query('INSERT INTO stripe_accounts (account_id, stripe_account_id) VALUES ($1, $2)', [ mplos_account_id, account.id ]);
       await client.query('COMMIT');
       const accountSession = await stripeModule.createAccountSession({ accountID: account.id });
       return res.json({ client_secret: accountSession.client_secret });
@@ -60,7 +60,7 @@ router.post('/account-session', async (req, res) => {
   try {
     const { stripe_account_id } = req.user.attributes;
     await client.query('BEGIN');
-    const accountSession = await stripeModule.createAccountSession({ accountID: stripe_account_id });
+    const accountSession = await stripeModule.createAccountSession({ accountID: 'acct_1TMXFJDkUNj2wF2G' });
     console.log(accountSession)
     res.json({ client_secret: accountSession.client_secret });
   } catch (err) {
@@ -122,6 +122,47 @@ router.get('/account-status/:accountId', async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+
+
+
+// Create a Connected Account
+router.post('/create-payment-link', async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const { stripe_account_id } = req.user.attributes;
+
+
+    const paymentLink = await stripe.paymentLinks.create({
+      application_fee_amount: 99,
+      transfer_data: { destination: 'acct_1TMGt3DkUNzhE4SJ' },
+      // on_behalf_of: 'acct_1TMGt3DkUNzhE4SJ',
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'test',
+            },
+            unit_amount: 999
+          },
+          quantity: 1,
+        },
+      ],
+    });
+
+
+
+    console.log(paymentLink)
+    res.json({ paymentLink: paymentLink.url });
+  } catch (err) {
+    console.error(err.message);
+    await client.query('ROLLBACK');
+    res.status(500).json({ error: err.message });
+  } finally {
+    client.release();
   }
 });
 

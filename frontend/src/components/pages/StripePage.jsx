@@ -33,6 +33,11 @@ export const StripePage = () => {
         setSessionSecret(response.data.client_secret)
     }
 
+    const createPaymentLink = async () => {
+        const response = await stripeService.createPaymentLink();
+        console.log(response.data);
+    }
+
     //   const handleStartOnboarding = async () => {
     //     try {
     //     const response = await fetch("/api/create-account-link", {
@@ -56,28 +61,29 @@ export const StripePage = () => {
     return (
         <div className='max-w-170 bg-white'>
             <h1 className='p-10 pt-10 text-4xl font-extrabold no-wrap'>Invoices:</h1>
-            <Button onClick={handleOnboard} >On BOARD SOMEONE</Button>
-            <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
+            <Button onClick={handleOnboard} >TEST CREATE ACCOUNT</Button>
+            <Button onClick={createPaymentLink} >TEST CREATE PAYMENT LINK</Button>
+            {/* <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
             <ConnectAccountOnboarding
                 onExit={() => {
                     console.log("The account has exited onboarding");
                 }}
                 // Optional: make sure to follow our policy instructions above
-                // fullTermsOfServiceUrl="{{URL}}"
-                // recipientTermsOfServiceUrl="{{URL}}"
-                // privacyPolicyUrl="{{URL}}"
-                // collectionOptions={{
-                //   fields: 'eventually_due',
-                //   futureRequirements: 'include',
-                //   requirements: {
-                //     exclude: ['business_profile.product_description']
-                //   }
-                // }}
-                // onStepChange={(stepChange) => {
-                //   console.log(`User entered: ${stepChange.step}`);
-                // }}
+                fullTermsOfServiceUrl="{{URL}}"
+                recipientTermsOfServiceUrl="{{URL}}"
+                privacyPolicyUrl="{{URL}}"
+                collectionOptions={{
+                  fields: 'eventually_due',
+                  futureRequirements: 'include',
+                  requirements: {
+                    exclude: ['business_profile.product_description']
+                  }
+                }}
+                onStepChange={(stepChange) => {
+                  console.log(`User entered: ${stepChange.step}`);
+                }}
                 />
-            </ConnectComponentsProvider>
+            </ConnectComponentsProvider> */}
 
         </div>
     );

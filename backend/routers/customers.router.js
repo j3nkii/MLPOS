@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
+        console.log(req.user)
         const userID = req.user.attributes.mlpos_id;
         const { rows } = await pool.query(`
             SELECT

@@ -13,6 +13,11 @@ export const Navbar = () => {
             <div className='max-w-[2400px] w-170 flex flex-row items-center justify-between'>
                 <span className='text-lg font-bold'>MLPOS</span>
                 <div className='flex'>
+                    <Link className='hover:cursor-pointer' to='/'>
+                        <Button className='bg-red-500 text-white px-3 py-1 rounded'>
+                            Stripe
+                        </Button>
+                    </Link>
                     <Link className='hover:cursor-pointer' to='/customers'>
                         <Button className='bg-red-500 text-white px-3 py-1 rounded'>
                             Customers
