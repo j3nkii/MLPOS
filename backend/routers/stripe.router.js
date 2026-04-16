@@ -11,28 +11,20 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 // Create a Connected Account
+// MAINLY FOR TESTING <<<333
 router.post('/', async (req, res) => {
   const client = await pool.connect();
   try {
     const { email } = req.body;
     const { mplos_account_id, stripe_account_id } = req.user.attributes;
     await client.query('BEGIN');
-    // const { rows: [{ check }]} = await client.query(`
-    //   SELECT EXISTS (
-    //     SELECT 1
-    //     FROM accounts_stripe
-    //     WHERE account_id = $1
-    //   ) AS "check";`, [mplos_account_id]);
-    // console.log(check);
-    if(!false){
-      const account = await stripeModule.createAccount({ email });
-      // await client.query('INSERT INTO accounts_stripe (account_id, stripe_account_id) VALUES ($1, $2)', [ mplos_account_id, account.id ]);
-      await client.query('COMMIT');
-      const accountSession = await stripeModule.createAccountSession({ accountID: account.id });
-      return res.json({ client_secret: accountSession.client_secret });
+    if(stripe_account_id){
+      res.json({ message: 'ur a bitch' });
     }
-    const accountSession = await stripeModule.createAccountSession({ accountID: stripe_account_id });
-    console.log(accountSession)
+    const account = await stripeModule.createAccount({ email });
+    await client.query('INSERT INTO accounts_stripe (account_id, stripe_account_id) VALUES ($1, $2)', [ mplos_account_id, account.id ]);
+    await client.query('COMMIT');
+    const accountSession = await stripeModule.createAccountSession({ accountID: account.id });
     res.json({ client_secret: accountSession.client_secret });
   } catch (err) {
     console.error(err.message);
@@ -48,7 +40,7 @@ router.post('/', async (req, res) => {
 
 
 
-router.post('/account-session', async (req, res) => {
+router.get('/create-account-session', async (req, res) => {
   try {
     const { stripe_account_id } = req.user.attributes;
     const accountSession = await stripeModule.createAccountSession({ accountID: stripe_account_id });
@@ -68,7 +60,8 @@ router.post('/account-session', async (req, res) => {
 router.post('/create-account-link', async (req, res) => {
   const accountID = req.body.accountID;
   try {
-    const accountLink = await stripeModule.createAccountLink({ accountID });
+    console.log('.... ### CREATE ACCOUNT LINK')
+    const accountLink = await stripeModule.createAccountLink({ accountID: 'acct_1TMw0sDkUNf5hXq5' });
     res.json({ url: accountLink.url });
   } catch (err) {
     res.status(500).json({ error: err.message });

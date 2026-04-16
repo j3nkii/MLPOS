@@ -30,19 +30,18 @@ const getAccountStatus = async ({ accountID }) => {
 
 
 const createAccount = ({ email }) => stripe.v2.core.accounts.create({
-  contact_email: 'furever_contact@example.com',
-  display_name: 'Furever',
-  dashboard: 'full',
+  contact_email: email,
+  display_name: email,
+  dashboard: 'none',
   identity: {
-    business_details: {
-      registered_name: 'Furever',
-    },
-    country: 'us',
+    country: 'US',
     entity_type: 'company',
   },
   configuration: {
     customer: {
-
+      capabilities: {
+        automatic_indirect_tax: { requested: false }, // required to not be empty
+      },
     },
     merchant: {
       capabilities: {
@@ -59,13 +58,7 @@ const createAccount = ({ email }) => stripe.v2.core.accounts.create({
       losses_collector: 'stripe',
     },
     locales: ['en-US'],
-  },
-  include: [
-    'configuration.customer',
-    'configuration.merchant',
-    'identity',
-    'requirements',
-  ],
+  }
 });
 
 
@@ -86,7 +79,7 @@ const createAccountLink = ({ accountID }) => stripe.v2.core.accountLinks.create(
     use_case: {
         type: 'account_onboarding',
         account_onboarding: {
-            configurations: ['merchant'],
+            configurations: ['merchant', 'customer'],
             refresh_url: 'http://localhost:4200/',
             return_url: `http://localhost:4200/`,
         },

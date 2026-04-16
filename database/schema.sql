@@ -93,10 +93,10 @@ CREATE TYPE ticket_invoice_status AS ENUM (
 
 DROP TYPE IF EXISTS ticket_order_status CASCADE;
 CREATE TYPE ticket_order_status AS ENUM (
-    'waiting',
-    'in_progress',
-    'rework',
+    'waiting', -- que?
+    'in_progress', -- is this where shipped happens? 
     'fufilled',
+    'rework',
     'cancelled'
 );
 
@@ -128,8 +128,8 @@ CREATE TABLE ticket_items (
 );
 
 
-DROP TYPE IF EXISTS payments_method_type CASCADE;
-CREATE TYPE payments_method_type AS ENUM (
+DROP TYPE IF EXISTS payment_method_type CASCADE;
+CREATE TYPE payment_method_type AS ENUM (
     'cash',
     'check',
     'venmo',
@@ -145,7 +145,7 @@ CREATE TABLE payments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     ticket_id UUID NOT NULL REFERENCES tickets(id),
     price INTEGER NOT NULL,
-    method payments_method_type NOT NULL, -- cash, check, venmo, stripe, paypal, cashapp, zelle .... ect.
+    method payment_method_type NOT NULL, -- cash, check, venmo, stripe, paypal, cashapp, zelle .... ect.
     alt_id VARCHAR(50), -- id's or payment no's from alternate payment methods. (stripe will be default) ... maybe stripe ID goes here too? 
     is_deleted BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
@@ -165,21 +165,29 @@ CREATE TABLE sent_payments (
 
 
 
--- DROP TABLE IF EXISTS products CASCADE;
--- CREATE TABLE products (
---     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---     name VARCHAR(255) NOT NULL,
---     description VARCHAR(255),
---     price INTEGER NOT NULL,
---     unit VARCHAR(50) NOT NULL,
---     wholesale_price INTEGER,
---     internal_sku VARCHAR(50) NOT NULL, -- maybe define default sku system for mlpos inventory.
---     external_sku VARCHAR(50) NOT NULL,
---     api_available BOOLEAN DEFAULT false NOT NULL, -- weather or not this can be booked or sold online
---     is_deleted BOOLEAN DEFAULT FALSE,
---     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
---     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
--- );
+DROP TYPE IF EXISTS product_type CASCADE;
+CREATE TYPE product_type AS ENUM (
+    'service',
+    'physical'
+);
+DROP TABLE IF EXISTS products CASCADE;
+CREATE TABLE products (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
+    product_type VARCHAR(255),
+    price INTEGER NOT NULL,
+    wholesale_price INTEGER,
+    internal_sku VARCHAR(50) NOT NULL, -- maybe define default sku system for mlpos inventory.
+    external_sku VARCHAR(50) NOT NULL,
+
+    api_available BOOLEAN DEFAULT false NOT NULL, -- weather or not this can be booked or sold online
+    is_shippable BOOLEAN DEFAULT false NOT NULL, -- will this need to be shipped at some point?
+    
+    is_deleted BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
 
 
 -- -- Add this for mechanics (or post-MVP) via claude
