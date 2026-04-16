@@ -74,7 +74,7 @@ export const SelectedTicketPage = () => {
                         color='linkBlack'
                         onClick={onCustomer} 
                         text='Navigate to Customer'
-                    ><UserCircleIcon />
+                    ><BookUser />
                     </Button>
                     <Button
                         color='yellow'
