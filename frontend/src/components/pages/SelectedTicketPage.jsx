@@ -60,14 +60,19 @@ export const SelectedTicketPage = () => {
         });
     };
 
+    const onCustomer = (e) => {
+        e.stopPropagation();
+        navigate(`/customers/${selectedTicket.customer_id}`)
+    }
+
     return (
         <div className='max-w-170 bg-white'>
             <div className='flex'>
                 <h1 className='p-10 pt-10 text-4xl font-extrabold'>#MLP001: {selectedTicket.name}: {selectedTicket.status}</h1>
                 <div className='flex items-center'>
                     <Button
-                        color='black'
-                        onClick={() => navigate(`/customers/${selectedTicket.customer_id}`)} 
+                        color='linkBlack'
+                        onClick={onCustomer} 
                         text='Navigate to Customer'
                     ><UserCircleIcon />
                     </Button>

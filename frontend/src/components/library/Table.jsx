@@ -27,7 +27,7 @@ export const Table = ( PROPS ) => {
                                 {header}
                             </th>
                         ))}
-                        { isManage && <ActionsHeader tableActions={tableActions} /> }
+                        { isManage && <ActionsHeader config={config} tableActions={tableActions} /> }
                     </tr>
                 </thead>
                 <tbody>
@@ -44,7 +44,7 @@ export const Table = ( PROPS ) => {
                                     { row[field] || 'N/A'}
                                 </td>
                             ))}
-                        { isManage && <ActionsCell item={row} tableActions={tableActions} /> }
+                        { isManage && <ActionsCell config={config} item={row} tableActions={tableActions} /> }
                         </tr>
                     ))}
                 </tbody>
@@ -88,11 +88,14 @@ const ActionsHeader = ({ tableActions }) => {
 
 
 
-const ActionsCell = ({ item, tableActions }) => {
+const ActionsCell = ({ item, config, tableActions }) => {
+    console.log(config)
     const navigate = useNavigate();
     const { setModal } = useModalZussy();
-    const ICON = tableActions.detail ? ReceiptText : Pencil;
-    const BUTTON_COLOR = tableActions.detail ? 'black' : 'yellow';
+    const CONFIG_ICON = config === 'tickets' ? ReceiptText : BookUser;
+    const ICON = tableActions.detail ? CONFIG_ICON : Pencil;
+    const BUTTON_COLOR = tableActions.detail ? 'linkBlack' : 'yellow';
+
 
     const onDelete = (e) => {
         e.stopPropagation();

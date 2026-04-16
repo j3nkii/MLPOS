@@ -9,6 +9,8 @@ const COLOR = {
     red: 'hover:bg-red-500 hover:text-white text-white bg-black',
     green: 'hover:bg-green-500 hover:text-white bg-black text-white',
     orange: 'gb-orange text-white',
+    linkWhite: 'hover:bg-purple-500 hover:text-blue-300 text-black bg-white',
+    linkBlack: 'hover:bg-purple-500 hover:text-blue-300 text-white bg-black',
 }
 
 

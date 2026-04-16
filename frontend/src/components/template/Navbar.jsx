@@ -14,21 +14,21 @@ export const Navbar = () => {
                 <span className='text-lg font-bold'>MLPOS</span>
                 <div className='flex'>
                     <Link className='hover:cursor-pointer' to='/'>
-                        <Button className='bg-red-500 text-white px-3 py-1 rounded'>
+                        <Button color={'linkBlack'} className='bg-red-500 text-white px-3 py-1 rounded'>
                             Stripe
                         </Button>
                     </Link>
                     <Link className='hover:cursor-pointer' to='/customers'>
-                        <Button className='bg-red-500 text-white px-3 py-1 rounded'>
+                        <Button color={'linkBlack'} className='bg-red-500 text-white px-3 py-1 rounded'>
                             Customers
                         </Button>
                     </Link>
                     <Link className='hover:cursor-pointer' to='/tickets'>
-                        <Button className='bg-red-500 text-white px-3 py-1 rounded'>
+                        <Button color={'linkBlack'} className='bg-red-500 text-white px-3 py-1 rounded'>
                             Tickets
                         </Button>
                     </Link>
-                    <Button onClick={logout} className='bg-red-500 text-white px-3 py-1 rounded'>
+                    <Button color={'linkBlack'} onClick={logout} className='bg-red-500 text-white px-3 py-1 rounded'>
                         <LogOut />
                     </Button>
                 </div>
