@@ -69,6 +69,7 @@ export const Loggin = () => {
                             <Input
                                 label='Password'
                                 name='password'
+                                type='password'
                                 placeholder='Enter your password'
                                 value={logginForm.password}
                                 onChange={handleForm}

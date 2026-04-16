@@ -16,36 +16,6 @@ router.post('/', async (req, res) => {
   try {
     const { email } = req.body;
     const { mplos_account_id, stripe_account_id } = req.user.attributes;
-
-
-
-
-    const account = await stripe.v2.core.accounts.create({
-      display_name: 'displayName',
-      contact_email: email,
-      identity: { country: 'us' },
-      dashboard: 'full',              // Stripe handles auth/SMS, not your problem
-      defaults: {
-        responsibilities: {
-          fees_collector: 'stripe',   // ← Stripe takes fees
-          losses_collector: 'stripe', // ← Stripe eats losses, not you
-        },
-      },
-      configuration: {
-        merchant: {
-          capabilities: {
-            card_payments: { requested: true },
-          },
-        },
-      },
-    });
-
-
-
-
-
-
-
     await client.query('BEGIN');
     // const { rows: [{ check }]} = await client.query(`
     //   SELECT EXISTS (
@@ -78,21 +48,15 @@ router.post('/', async (req, res) => {
 
 
 
-// Create a Connected Account
 router.post('/account-session', async (req, res) => {
-  const client = await pool.connect();
   try {
     const { stripe_account_id } = req.user.attributes;
-    await client.query('BEGIN');
-    const accountSession = await stripeModule.createAccountSession({ accountID: 'acct_1TMXFJDkUNj2wF2G' });
+    const accountSession = await stripeModule.createAccountSession({ accountID: stripe_account_id });
     console.log(accountSession)
     res.json({ client_secret: accountSession.client_secret });
   } catch (err) {
     console.error(err.message);
-    await client.query('ROLLBACK');
     res.status(500).json({ error: err.message });
-  } finally {
-    client.release();
   }
 });
 
@@ -102,19 +66,9 @@ router.post('/account-session', async (req, res) => {
 
 // Create Account Link for onboarding
 router.post('/create-account-link', async (req, res) => {
-  const accountId = req.body.accountId;
+  const accountID = req.body.accountID;
   try {
-    const accountLink = await stripe.v2.core.accountLinks.create({
-      account: accountId,
-      use_case: {
-        type: 'account_onboarding',
-        account_onboarding: {
-          configurations: ['merchant'],
-          refresh_url: 'https://example.com',
-          return_url: `https://example.com?accountId=${accountId}`,
-        },
-      },
-    });
+    const accountLink = await stripeModule.createAccountLink({ accountID });
     res.json({ url: accountLink.url });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -128,26 +82,9 @@ router.post('/create-account-link', async (req, res) => {
 // Get Connected Account Status
 router.get('/account-status/:accountId', async (req, res) => {
   try {
-    const account = await stripe.v2.core.accounts.retrieve(
-      req.params.accountId,
-      {
-        include: ['requirements', 'configuration.merchant'],
-      }
-    );
-    const payoutsEnabled = account.configuration?.merchant?.capabilities?.stripe_balance?.payouts?.status === 'active'
-    const chargesEnabled = account.configuration?.merchant?.capabilities?.card_payments?.status === 'active'
-
-    // No pending requirments
-    const summaryStatus = account.requirements?.summary?.minimum_deadline?.status
-    const detailsSubmitted = !summaryStatus || summaryStatus === 'eventually_due'
-
-    res.json({
-      id: account.id,
-      payoutsEnabled,
-      chargesEnabled,
-      detailsSubmitted,
-      requirements: account.requirements?.entries,
-    });
+    const { accountID } = req.params;
+    const stripeAccountStatus = await stripeModule.getAccountStatus({ accountID });
+    res.json(stripeAccountStatus);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -161,22 +98,7 @@ router.post('/create-payment-link', async (req, res) => {
   const client = await pool.connect();
   try {
     const { stripe_account_id } = req.user.attributes;
-    const paymentLink = await stripe.paymentLinks.create({
-      application_fee_amount: 99,
-      transfer_data: { destination: 'acct_1TMGt3DkUNzhE4SJ' },
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'test',
-            },
-            unit_amount: 999
-          },
-          quantity: 1,
-        },
-      ],
-    });
+    const paymentLink = await stripeModule.createPaymentLink({ accountID: 'acct_1TMGt3DkUNzhE4SJ' })
     res.json({ paymentLink: paymentLink.url });
   } catch (err) {
     console.error(err.message);
