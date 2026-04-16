@@ -76,6 +76,57 @@ export default function (plop) {
     });
 
 
+    // MODAL — conditionally creates a form modal, delete modal, or both
+    plop.setGenerator('modal', {
+        description: 'Create a modal component (form, delete, or both)',
+        prompts: [
+            {
+                type: 'input',
+                name: 'name',
+                message: 'What is this modal for? (e.g. "Product")',
+            },
+            {
+                type: 'list',
+                name: 'type',
+                message: 'Which type of modal?',
+                choices: ['form', 'delete', 'both'],
+            },
+        ],
+        // actions can be a function that receives answers — return different actions based on them
+        actions: (answers) => {
+            const actions = [];
+
+            if (answers.type === 'form' || answers.type === 'both') {
+                actions.push({
+                    type: 'add',
+                    path: 'frontend/src/components/modals/{{pascalCase name}}FormModal.jsx',
+                    templateFile: 'plop-templates/modal-form.hbs',
+                });
+                actions.push({
+                    type: 'append',
+                    path: 'frontend/src/components/index.js',
+                    template: "export { {{pascalCase name}}FormModal } from './modals/{{pascalCase name}}FormModal'",
+                });
+            }
+
+            if (answers.type === 'delete' || answers.type === 'both') {
+                actions.push({
+                    type: 'add',
+                    path: 'frontend/src/components/modals/{{pascalCase name}}DeleteModal.jsx',
+                    templateFile: 'plop-templates/modal-delete.hbs',
+                });
+                actions.push({
+                    type: 'append',
+                    path: 'frontend/src/components/index.js',
+                    template: "export { {{pascalCase name}}DeleteModal } from './modals/{{pascalCase name}}DeleteModal'",
+                });
+            }
+
+            return actions;
+        },
+    });
+
+
     // ROUTER — backend/routers
     plop.setGenerator('router', {
         description: 'Create a new Express router in the backend',

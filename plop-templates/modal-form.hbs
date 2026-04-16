@@ -1,0 +1,41 @@
+import React, { useState } from 'react';
+import { Button, Input } from '@components';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
+import { useModalZussy } from '@zussy';
+import { use{{pascalCase name}}Query } from '@query';
+
+
+
+const INITIAL = {};
+
+export const {{pascalCase name}}FormModal = ({ isUpdate }) => {
+    const [form, setForm] = useState(INITIAL);
+    const { create, update } = use{{pascalCase name}}Query();
+    const { closeModal, item } = useModalZussy();
+
+    const handleConfirm = async (evt) => {
+        evt.preventDefault();
+        const handler = isUpdate ? update : create;
+        handler.mutate({ id: item?.id, body: form });
+    };
+
+    const handleChange = (evt) => {
+        const { target: { name, value } } = evt;
+        setForm({ ...form, [name]: value });
+    };
+
+    return (
+        <Modal onClose={closeModal}>
+            <ModalHeader title={isUpdate ? 'Update {{pascalCase name}}' : 'Create {{pascalCase name}}'} onClose={closeModal} />
+            <ModalBody>
+                <form onSubmit={handleConfirm} className='p-6'>
+                    {/* TODO: add inputs */}
+                </form>
+            </ModalBody>
+            <ModalFooter>
+                <Button color={'green'} onClick={handleConfirm}>{isUpdate ? 'Update' : 'Create'}</Button>
+                <Button onClick={closeModal}>Cancel</Button>
+            </ModalFooter>
+        </Modal>
+    );
+};
