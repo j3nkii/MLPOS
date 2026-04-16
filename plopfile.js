@@ -127,6 +127,72 @@ export default function (plop) {
     });
 
 
+    // SCAFFOLD — full stack in one shot
+    plop.setGenerator('scaffold', {
+        description: 'Generate the full stack for a new resource (service, query, modals, router)',
+        prompts: [
+            {
+                type: 'input',
+                name: 'name',
+                message: 'Resource name? (e.g. "product")',
+            },
+        ],
+        actions: [
+            // service
+            {
+                type: 'add',
+                path: 'frontend/src/api/services/sub/{{camelCase name}}.js',
+                templateFile: 'plop-templates/service.hbs',
+            },
+            {
+                type: 'append',
+                path: 'frontend/src/api/services/index.js',
+                template: "export { {{camelCase name}}Service } from './sub/{{camelCase name}}'",
+            },
+            // query
+            {
+                type: 'add',
+                path: 'frontend/src/api/reactQuery/sub/use{{pascalCase name}}Query.js',
+                templateFile: 'plop-templates/query.hbs',
+            },
+            {
+                type: 'append',
+                path: 'frontend/src/api/reactQuery/index.js',
+                template: "export { use{{pascalCase name}}Query } from './sub/use{{pascalCase name}}Query';",
+            },
+            // modals
+            {
+                type: 'add',
+                path: 'frontend/src/components/modals/{{pascalCase name}}FormModal.jsx',
+                templateFile: 'plop-templates/modal-form.hbs',
+            },
+            {
+                type: 'add',
+                path: 'frontend/src/components/modals/{{pascalCase name}}DeleteModal.jsx',
+                templateFile: 'plop-templates/modal-delete.hbs',
+            },
+            {
+                type: 'append',
+                path: 'frontend/src/components/index.js',
+                template: "export { {{pascalCase name}}FormModal } from './modals/{{pascalCase name}}FormModal'\nexport { {{pascalCase name}}DeleteModal } from './modals/{{pascalCase name}}DeleteModal'",
+            },
+            // router
+            {
+                type: 'add',
+                path: 'backend/routers/{{camelCase name}}.router.js',
+                templateFile: 'plop-templates/router.hbs',
+            },
+            {
+                // slot it in right before module.exports
+                type: 'modify',
+                path: 'backend/app.js',
+                pattern: /(module\.exports = app;)/,
+                template: "const {{upperCase (camelCase name)}}_ROUTER = require('./routers/{{camelCase name}}.router');\napp.use('/api/{{camelCase name}}', authMiddleware, {{upperCase (camelCase name)}}_ROUTER);\n\n\n$1",
+            },
+        ],
+    });
+
+
     // ROUTER — backend/routers
     plop.setGenerator('router', {
         description: 'Create a new Express router in the backend',
