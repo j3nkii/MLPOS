@@ -3,10 +3,10 @@ import { Button, Input, TableForm } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from '@components';
 import { useModalZussy } from '@zussy';
 import { useTicketQuery, useCustomerQuery } from '@query';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 
-import { Trash2, DiamondPlus, BookUser, Pencil, Send, BadgeJapaneseYen } from 'lucide-react'
+import { Trash2, DiamondPlus, BookUser, Pencil, Send, BadgeJapaneseYen, UserCircleIcon } from 'lucide-react'
 
 
 
@@ -22,6 +22,7 @@ const INITIAL = {
 
 export const SelectedTicketPage = () => {
     const params = useParams();
+    const navigate = useNavigate();
     const { readAllTickets } = useTicketQuery();
     const [selectedTicket, setSelectedTicket] = useState(INITIAL);
     const { setModal } = useModalZussy();
@@ -62,8 +63,14 @@ export const SelectedTicketPage = () => {
     return (
         <div className='max-w-170 bg-white'>
             <div className='flex'>
-                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#MLP001: {selectedTicket.name}; {selectedTicket.status}</h1>
+                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#MLP001: {selectedTicket.name}: {selectedTicket.status}</h1>
                 <div className='flex items-center'>
+                    <Button
+                        color='black'
+                        onClick={() => navigate(`/customers/${selectedTicket.customer_id}`)} 
+                        text='Navigate to Customer'
+                    ><UserCircleIcon />
+                    </Button>
                     <Button
                         color='yellow'
                         onClick={onUpdate} 
