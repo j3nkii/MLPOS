@@ -48,7 +48,7 @@ export const Table = ( PROPS ) => {
                         </tr>
                     ))}
                 </tbody>
-                {config === 'lineItems' && (
+                {config === 'ticketItems' && (
                     <tfoot>
                         <tr className={tableStyles.tableHTR}>
                             <td className={tableStyles.tableTF}>Total</td>

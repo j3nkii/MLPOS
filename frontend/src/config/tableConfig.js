@@ -47,7 +47,7 @@ export const TABLE_CONFIG = {
             detail: '/tickets/'
         },
     },
-    lineItems: {
+    ticketItems: {
         headers: [
             {
                 display: 'Name',

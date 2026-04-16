@@ -96,7 +96,7 @@ export const SelectedTicketPage = () => {
                     </Button>
                 </div>
             </div>
-            <Table footer={{ total: selectedTicket.price }} config={'lineItems'} data={selectedTicket.details} />
+            <Table footer={{ total: selectedTicket.price }} config={'ticketItems'} data={selectedTicket.details} />
             <Payments payments={selectedTicket.payments} total={selectedTicket.price} />
                 <h1 className='p-10 pt-10 text-4xl font-extrabold'>list other invoices, by date</h1>
                 <h1 className='p-10 pt-10 text-4xl font-extrabold'>list sent history. receipt, quote, w/e</h1>
