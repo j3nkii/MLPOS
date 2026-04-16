@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const stripeModule = require('../modules/stripe');
 
 
 
@@ -250,30 +251,6 @@ router.put('/ticket-item/:id', async(req, res) => {
 
 
 
-router.post('/send/:id', async(req, res) => {
-    const client = await pool.connect();
-    try {
-        await client.query('BEGIN');
-        const { id: ticketID } = req.params;
-        await pool.query(`
-            INSERT INTO sent_payments (ticket_id) VALUES ($1);
-        `, [ ticketID ]);
-        await pool.query(`
-            UPDATE tickets SET status = 'sent' WHERE id = $1;
-        `, [ ticketID ]);
-        await client.query('COMMIT');
-        res.status(201).json({ message: 'User Deleted successfully' });
-    } catch (error) {
-        await client.query('ROLLBACK');
-        console.error(error);
-        res.status(500).json({ message: 'Something went wrong' });
-    } finally {
-        client.release();
-    }
-});
-
-
-
 router.delete('/ticket-item/:id', async(req, res) => {
     try {
         const { id: lineItemID } = req.params;
@@ -287,6 +264,81 @@ router.delete('/ticket-item/:id', async(req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
+    }
+});
+
+
+
+router.post('/send/:id', async(req, res) => {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        const { id: ticketID } = req.params;
+        const { stripe_account_id } = req.user.attributes;
+        const { rows: [ ticketFull ]} = await client.query(`
+            SELECT
+                tickets.*,
+                customers.name,
+                customers.email,
+                SUM(ticket_items.price * ticket_items.quantity) as price,
+                COALESCE(JSON_AGG(ticket_items) FILTER (WHERE ticket_items.ticket_id IS NOT NULL), '[]') as details,
+                COALESCE((
+                    WITH payments_clone AS (
+                        SELECT * FROM payments
+                        WHERE ticket_id = tickets.id
+                            AND is_deleted = false
+                        ORDER BY created_at DESC
+                    )
+                    SELECT JSON_AGG(payments_clone.*) AS reults
+                    FROM payments_clone
+                ), '[]') AS payments
+            FROM tickets
+            LEFT JOIN ticket_items
+                ON ticket_items.ticket_id = tickets.id
+                AND ticket_items.is_deleted = false
+            JOIN customers
+                ON customers.id = tickets.customer_id
+                AND customers.is_deleted = false
+            WHERE tickets.id = $1
+                AND tickets.is_deleted = false
+            GROUP BY tickets.id, customers.name, customers.email
+            ORDER BY tickets.created_at DESC
+            LIMIT 1;
+        `, [ticketID]);
+
+    //     {
+    //   id: '22222222-1111-0000-0000-000000000009',
+    //   ticket_id: '22222222-0000-0000-0000-000000000002',
+    //   name: 'Underwear',
+    //   quantity: 7,
+    //   price: 2999,
+    //   is_deleted: false,
+    //   created_at: '2026-04-15T18:01:21.326343-05:00',
+    //   updated_at: '2026-04-15T18:01:21.326343-05:00'
+    // }
+        console.log(ticketFull)
+        console.log(ticketFull)
+        const line_items = ticketFull.details.map(item => ({
+            quantity: item.quantity,
+            price_data: {
+                currency: 'usd',
+                unit_amount: item.price,
+                product_data: {
+                    name: item.name
+                }
+            }
+        }));
+        await pool.query(`INSERT INTO sent_payments (ticket_id) VALUES ($1);`, [ ticketID ]);
+        await pool.query(`UPDATE tickets SET invoice_status = 'sent' WHERE id = $1;`, [ ticketID ]);
+        const paymentLink = await stripeModule.createPaymentLink({ destination: stripe_account_id, line_items });
+        await client.query('COMMIT');
+        res.status(201).json(paymentLink);
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong' });
+    } finally {
+        client.release();
     }
 });
 

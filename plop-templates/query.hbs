@@ -1,0 +1,56 @@
+import 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { {{camelCase name}}Service } from '@services';
+import { useModalZussy } from '@zussy';
+
+
+
+export const use{{pascalCase name}}Query = () => {
+    const queryClient = useQueryClient();
+    const { closeModal } = useModalZussy();
+
+    const _refresh = async () => {
+        await queryClient.fetchQuery({
+            queryKey: ['{{camelCase name}}'],
+            queryFn: {{camelCase name}}Service.readAll,
+            onError: (error) => console.error(error),
+        });
+    };
+
+    const create = useMutation({
+        mutationFn: {{camelCase name}}Service.create,
+        onSuccess: async () => {
+            await _refresh();
+            queryClient.invalidateQueries({ queryKey: ['{{camelCase name}}'] });
+            closeModal();
+        },
+        onError: (error) => console.error(error),
+    });
+
+    const readAll = useQuery({
+        queryKey: ['{{camelCase name}}'],
+        queryFn: {{camelCase name}}Service.readAll,
+        onError: (error) => console.error(error),
+    });
+
+    const update = useMutation({
+        mutationFn: {{camelCase name}}Service.update,
+        onSuccess: async () => {
+            await _refresh();
+            queryClient.invalidateQueries({ queryKey: ['{{camelCase name}}'] });
+            closeModal();
+        },
+        onError: (error) => console.error(error),
+    });
+
+    const remove = useMutation({
+        mutationFn: {{camelCase name}}Service.remove,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['{{camelCase name}}'] });
+            closeModal();
+        },
+        onError: (error) => console.error(error),
+    });
+
+    return { create, readAll, update, remove };
+};

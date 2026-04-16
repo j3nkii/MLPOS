@@ -40,13 +40,24 @@ const createAccount = ({ email }) => stripe.v2.core.accounts.create({
   configuration: {
     customer: {
       capabilities: {
-        automatic_indirect_tax: { requested: false }, // required to not be empty
+        automatic_indirect_tax: {
+          requested: false
+        },
       },
     },
     merchant: {
       capabilities: {
         card_payments: {
           requested: true,
+        },
+      },
+    },
+    recipient: {
+      capabilities: {
+        stripe_balance: {
+          stripe_transfers: {
+            requested: true,
+          },
         },
       },
     },
@@ -88,22 +99,11 @@ const createAccountLink = ({ accountID }) => stripe.v2.core.accountLinks.create(
 
 
 
-const createPaymentLink = ({ accountID, destination, line_items }) => {
+const createPaymentLink = ({ destination, line_items }) => {
     return stripe.paymentLinks.create({
       application_fee_amount: 99,
       transfer_data: { destination },
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'test',
-            },
-            unit_amount: 999
-          },
-          quantity: 1,
-        },
-      ],
+      line_items
     });
 }
 
