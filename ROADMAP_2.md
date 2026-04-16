@@ -75,7 +75,6 @@ ServiceSlot         — bookable time block, linked to a SERVICE product
 Appointment         — a customer booking of a ServiceSlot
 Ticket             — line items, status, payment link
 Payment             — Stripe PaymentIntent record, linked to Ticket
-Document            — signable doc, linked to Appointment or Ticket
 Notification        — outbound notification log (email/SMS)
 StorefrontConfig    — tenant's public-facing site settings
 ```
@@ -95,7 +94,7 @@ StorefrontConfig    — tenant's public-facing site settings
 - [ ] Services management (linked to SERVICE products, define duration/price)
 - [ ] Scheduling: tenant calendar view, availability configuration, block/unblock slots
 - [ ] Ticket creation, line items, status tracking (draft → sent → paid → void)
-- [ ] Basic customer record management (CRM lite)
+- [x] Basic customer record management (CRM lite)
 - [ ] Tenant settings: branding (logo, colors), business info, subdomain config
 - [ ] StorefrontConfig: toggle which features are public-facing
 
@@ -103,18 +102,7 @@ StorefrontConfig    — tenant's public-facing site settings
 
 ---
 
-### Phase 1 — eCommerce Polish *(~3–4 weeks)*
-> Goal: Legally complete flows + full eCommerce feature parity.
-- [ ] Product variants (size, color — for PHYSICAL products)
-- [ ] Inventory quantity tracking + low-stock alerts
-- [ ] SMS notifications (Twilio, opt-in, tenant-configurable)
-- [ ] Tenant dashboard analytics v0: revenue, bookings, top products (date-range filters)
-
-**Exit criteria:** A tattoo shop can book a client, collect payment, and have a record of the complete transaction.
-
----
-
-### Phase 2 — Customer-Facing Subdomain *(~4–5 weeks)*
+### Phase 1 — Customer-Facing Subdomain *(~4–5 weeks)*
 > Goal: `{tenant}.mplos.com` is a functional, live-facing product.
 
 - [ ] Public storefront shell (tenant branding applied, responsive)
@@ -132,7 +120,19 @@ StorefrontConfig    — tenant's public-facing site settings
 
 ---
 
-### Phase 3 — Foundation *(~3–4 weeks)*
+### Phase 2 — eCommerce Polish *(~3–4 weeks)*
+> Goal: Legally complete flows + full eCommerce feature parity.
+
+- [ ] Product variants (size, color — for PHYSICAL products)
+- [ ] Inventory quantity tracking + low-stock alerts
+- [ ] SMS notifications (Twilio, opt-in, tenant-configurable)
+- [ ] Tenant dashboard analytics v0: revenue, bookings, top products (date-range filters)
+
+**Exit criteria:** A tattoo shop can book a client, collect payment, and have a record of the complete transaction.
+
+---
+
+### Phase 3 — Infrastructure *(~3–4 weeks)*
 > Goal: Infrastructure is live. A tenant can be created and their subdomain resolves.
 
 - [ ] AWS environment setup (RDS Postgres, Lambda, S3, CloudFront, ACM wildcard cert)
