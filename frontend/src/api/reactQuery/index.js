@@ -3,7 +3,7 @@ export { useAuthQuery } from './sub/useAuthQuery';
 export { useTicketQuery } from './sub/useTicketQuery';
 export { useUserQuery } from './sub/useUserQuery';
 export { usePaymentQuery } from './sub/usePaymentQuery';
-// ::PLOPPIN_MODAL::
+// ::PLOPPIN::
 
 
 import { QueryClient } from '@tanstack/react-query';

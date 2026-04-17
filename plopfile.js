@@ -15,19 +15,19 @@ export default function (plop) {
             // PAGE
             {
                 type: 'add',
-                path: 'frontend/src/components/pages/{{camelCase name}}sPage.js',
+                path: 'frontend/src/components/pages/{{pascalCase name}}sPage.jsx',
                 templateFile: 'plop-templates/page-component.hbs',
             },
             {
                 type: 'add',
-                path: 'frontend/src/components/pages/Selected{{camelCase name}}Page.js',
-                templateFile: 'plop-templates/service.hbs',
+                path: 'frontend/src/components/pages/Selected{{pascalCase name}}Page.jsx',
+                templateFile: 'plop-templates/page-selected-component.hbs',
             },
             {
                 type: 'modify',
                 path: 'frontend/src/components/index.js',
                 pattern: /(\/\/ ::PLOPPIN_PAGE::)/,
-                template: "export { Selected{{pascalCase name}}sPage } from './sub/Selected{{pascalCase name}}sPage'\nexport { {{pascalCase name}}sPage } from './sub/{{pascalCase name}}sPage'\n$1",
+                template: "export { Selected{{pascalCase name}}Page } from './pages/Selected{{pascalCase name}}Page'\nexport { {{pascalCase name}}sPage } from './pages/{{pascalCase name}}sPage'\n$1",
             },
             {
                 type: 'modify',
@@ -80,7 +80,7 @@ export default function (plop) {
                 templateFile: 'plop-templates/query.hbs',
             },{
                 type: 'modify',
-                path: 'frontend/src/api/services/index.js',
+                path: 'frontend/src/api/reactQuery/index.js',
                 pattern: /(\/\/ ::PLOPPIN::)/,
                 template: "export { use{{pascalCase name}}Query } from './sub/use{{pascalCase name}}Query';\n$1",
             },
@@ -93,8 +93,8 @@ export default function (plop) {
             {
                 type: 'modify',
                 path: 'backend/app.js',
-                pattern: /(module\.exports = app;)/,
-                template: "const {{upperCase (camelCase name)}}_ROUTER = require('./routers/{{camelCase name}}.router');\napp.use('/api/{{camelCase name}}', authMiddleware, {{upperCase (camelCase name)}}_ROUTER);\n\n\n$1",
+                pattern: /(\/\/ ::PLOPPIN::)/,
+                template: "const {{upperCase (camelCase name)}}_ROUTER = require('./routers/{{camelCase name}}.router');\napp.use('/api/{{camelCase name}}', authMiddleware, {{upperCase (camelCase name)}}_ROUTER);\n$1",
             },
         ],
     });
