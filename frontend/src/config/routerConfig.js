@@ -1,5 +1,14 @@
 import 'react';
-import { Loggin, Layout, CustomersPage, TicketsPage, SelectedTicketPage, SelectedCustomerPage, StripePage } from '@components';
+import {
+    Loggin,
+    Layout,
+    CustomersPage,
+    TicketsPage,
+    SelectedTicketPage,
+    SelectedCustomerPage,
+    StripePage,
+    // ::PLOPPIN_IMPORT::
+} from '@components';
 
 
 export const routerConfig = [

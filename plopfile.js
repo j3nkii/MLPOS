@@ -32,12 +32,18 @@ export default function (plop) {
             {
                 type: 'modify',
                 path: 'frontend/src/config/routerConfig.js',
-                pattern: /(\/\/ ::PLOPPIN_PAGE::)/,
+                pattern: /(\/\/ ::PLOPPIN_IMPORT::)/,
+                template: "{{pascalCase name}}sPage,  \nSelected{{pascalCase name}}Page\n$1",
+            },
+            {
+                type: 'modify',
+                path: 'frontend/src/config/routerConfig.js',
+                pattern: /(\/\/ ::PLOPPIN::)/,
                 template: `
                             {
                                 path: "/{{camelCase name}}s",
                                 exact: true,
-                                Component: {{pascalCase name}}Page
+                                Component: {{pascalCase name}}sPage
                             },
                             {
                                 path: "/{{camelCase name}}s/:{{camelCase name}}ID",
@@ -50,12 +56,18 @@ export default function (plop) {
                 path: 'frontend/src/components/template/NavBar.jsx',
                 pattern: /({\/\*::PLOPPIN_MODAL::\*\/})/,
                 template: `
-                    <Link className='hover:cursor-pointer' to='/tickets'>
+                    <Link className='hover:cursor-pointer' to='/{{camelCase name}}s'>
                         <Button color={'linkBlack'} className='bg-red-500 text-white px-3 py-1 rounded'>
                             {{pascalCase name}}s
                         </Button>
                     </Link>`,
             },
+            // {
+            //     type: 'modify',
+            //     path: 'frontend/src/config/routerConfig.js',
+            //     pattern: /({\/\*::PLOPPIN_MODAL::\*\/})/,
+            //     template: ``,
+            // },
             // modals
             {
                 type: 'add',
