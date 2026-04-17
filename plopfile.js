@@ -12,6 +12,25 @@ export default function (plop) {
             },
         ],
         actions: [
+            // TABLE CONFIG
+            {
+                type: 'modify',
+                path: 'frontend/src/config/tableConfig.js',
+                pattern: /(\/\/ ::PLOPPIN::)/,
+                template: `{{camelCase name}}s: {
+        headers: [
+            {
+                display: 'ID',
+                key: 'id'
+            },
+        ],
+        tableActions: {
+            detail: '/{{pascalCase name}}s/'
+            create: 'create{{pascalCase name}}',
+            delete: 'delete{{pascalCase name}}',
+        }
+    },`,
+            },
             // PAGE
             {
                 type: 'add',
@@ -62,12 +81,6 @@ export default function (plop) {
                         </Button>
                     </Link>`,
             },
-            // {
-            //     type: 'modify',
-            //     path: 'frontend/src/config/routerConfig.js',
-            //     pattern: /({\/\*::PLOPPIN_MODAL::\*\/})/,
-            //     template: ``,
-            // },
             // modals
             {
                 type: 'add',
