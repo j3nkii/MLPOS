@@ -1,0 +1,84 @@
+import { useEffect, useState } from 'react';
+import { Button } from '@components';
+import { useModalZussy } from '@zussy';
+import { use{{pascalCase name}}Query, useTicketQuery } from '@query';
+import { useParams } from 'react-router-dom';
+
+
+import { Trash2, Pencil } from 'lucide-react'
+
+
+
+const INITIAL = {
+    price: '',
+    {{pascalCase name}}ID: '',
+    status: '',
+    details: [],
+    payments: [],
+};
+
+
+
+export const Selected{{pascalCase name}}Page = () => {
+    const params = useParams();
+    const { readAll{{pascalCase name}}s } = use{{pascalCase name}}Query();
+    const { readAllTickets } = useTicketQuery();
+    const [selected{{pascalCase name}}, setSelected{{pascalCase name}}] = useState(INITIAL);
+    const [{{pascalCase name}}Tickets, set{{pascalCase name}}Tickets] = useState([]);
+    const { setModal } = useModalZussy();
+
+    useEffect(() => {
+        const { {{pascalCase name}}ID } = params;
+        const {{pascalCase name}}Index = readAll{{pascalCase name}}s?.data?.data.findIndex(x => x.id === {{pascalCase name}}ID);
+        const selected{{pascalCase name}} = readAll{{pascalCase name}}s?.data?.data[{{pascalCase name}}Index];
+        if(selected{{pascalCase name}}){
+            setSelected{{pascalCase name}}(selected{{pascalCase name}});
+        }
+    }, [readAll{{pascalCase name}}s?.data?.data]);
+
+    useEffect(() => {
+        const { {{pascalCase name}}ID } = params;
+        const {{pascalCase name}}Tickets = readAllTickets?.data?.data.filter(x => x.{{pascalCase name}}_id === {{pascalCase name}}ID);
+        if({{pascalCase name}}Tickets){
+            set{{pascalCase name}}Tickets({{pascalCase name}}Tickets);
+        }
+    }, [readAllTickets?.data?.data])
+
+    const onDelete = (e) => {
+        e.stopPropagation();
+        setModal({
+            modalKey: 'delete{{pascalCase name}}',
+            item: selected{{pascalCase name}},
+        });
+    };
+
+    const onUpdate = (e) => {
+        e.stopPropagation();
+        setModal({
+            modalKey: 'update{{pascalCase name}}',
+            item: selected{{pascalCase name}},
+        });
+    };
+
+    return (
+        <div className='max-w-170 bg-white'>
+            <h1 className=' text-4xl font-extrabold'>{selected{{pascalCase name}}.id}</h1>
+            <div className='flex'>
+                <div className='flex items-center'>
+                    <Button
+                        color='yellow'
+                        onClick={onUpdate} 
+                        text='Update'
+                    ><Pencil />
+                    </Button>
+                    <Button
+                        color={'red'}
+                        onClick={onDelete} 
+                        text='Delete'
+                    ><Trash2 />
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
+}

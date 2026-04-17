@@ -37,6 +37,7 @@ export const routerConfig = [
                 exact: true,
                 Component: SelectedCustomerPage
             },
+            // ::PLOPPIN::
         ]
     },
 ];

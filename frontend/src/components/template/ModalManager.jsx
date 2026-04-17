@@ -1,7 +1,18 @@
 
 import 'react';
 import { useModalZussy} from '@zussy';
-import { CustomerDeleteModal, CustomerFormModal, TicketFormModal, TicketDeleteModal, PaymentFormModal, PaymentDeleteModal, TicketItemFormModal, TicketItemDeleteModal, TicketSendModal } from '@components';
+import {
+    CustomerDeleteModal,
+    CustomerFormModal,
+    TicketFormModal,
+    TicketDeleteModal,
+    PaymentFormModal,
+    PaymentDeleteModal,
+    TicketItemFormModal,
+    TicketItemDeleteModal,
+    TicketSendModal,
+    // ::PLOPPIN_COMPONENT_NAME::
+} from '@components';
 
 
 export const ModalManager = () => {
@@ -33,6 +44,7 @@ export const ModalManager = () => {
             return <TicketItemDeleteModal />
         case 'sendTicket':
             return <TicketSendModal />
+        // ::PLOPPIN_COMPONENT_SWITCH::
         case null:
             return null;
         default:

@@ -1,29 +1,128 @@
 export default function (plop) {
 
-    // COMPONENT — frontend/src/components/library
-    plop.setGenerator('component', {
-        description: 'Create a new React component in the library',
+
+    // SCAFFOLD — full stack in one shot
+    plop.setGenerator('scaffold', {
+        description: 'Generate the full stack for a new resource (service, query, modals, router)',
         prompts: [
             {
                 type: 'input',
                 name: 'name',
-                message: 'Component name?',
+                message: 'Resource name? (e.g. "product")',
             },
         ],
         actions: [
+            // PAGE
             {
                 type: 'add',
-                path: 'frontend/src/components/library/{{pascalCase name}}.jsx',
-                templateFile: 'plop-templates/component.hbs',
+                path: 'frontend/src/components/pages/{{camelCase name}}sPage.js',
+                templateFile: 'plop-templates/page-component.hbs',
             },
             {
-                // append the export to frontend/src/components/index.js
+                type: 'add',
+                path: 'frontend/src/components/pages/Selected{{camelCase name}}Page.js',
+                templateFile: 'plop-templates/service.hbs',
+            },
+            {
+                type: 'modify',
+                path: 'frontend/src/components/index.js',
+                pattern: /(\/\/ ::PLOPPIN_PAGE::)/,
+                template: "export { Selected{{pascalCase name}}sPage } from './sub/Selected{{pascalCase name}}sPage'\nexport { {{pascalCase name}}sPage } from './sub/{{pascalCase name}}sPage'\n$1",
+            },
+            {
+                type: 'modify',
+                path: 'frontend/src/config/routerConfig.js',
+                pattern: /(\/\/ ::PLOPPIN_PAGE::)/,
+                template: `
+                            {
+                                path: "/{{camelCase name}}s",
+                                exact: true,
+                                Component: {{pascalCase name}}Page
+                            },
+                            {
+                                path: "/{{camelCase name}}s/:{{camelCase name}}ID",
+                                exact: true,
+                                Component: Selected{{pascalCase name}}Page
+                            },`,
+            },
+            // modals
+            {
+                type: 'add',
+                path: 'frontend/src/components/modals/{{pascalCase name}}FormModal.jsx',
+                templateFile: 'plop-templates/modal-form.hbs',
+            },
+            {
+                type: 'add',
+                path: 'frontend/src/components/modals/{{pascalCase name}}DeleteModal.jsx',
+                templateFile: 'plop-templates/modal-delete.hbs',
+            },
+            {
                 type: 'append',
                 path: 'frontend/src/components/index.js',
-                template: "export { {{pascalCase name}} } from './library/{{pascalCase name}}'",
+                pattern: /(\/\/ ::PLOPPIN::)/,
+                template: "export { {{pascalCase name}}FormModal } from './modals/{{pascalCase name}}FormModal'\nexport { {{pascalCase name}}DeleteModal } from './modals/{{pascalCase name}}DeleteModal'\n$1",
+            },
+            // service
+            {
+                type: 'add',
+                path: 'frontend/src/api/services/sub/{{camelCase name}}.js',
+                templateFile: 'plop-templates/service.hbs',
+            },{
+                type: 'modify',
+                path: 'frontend/src/api/services/index.js',
+                pattern: /(\/\/ ::PLOPPIN::)/,
+                template: "export { {{camelCase name}}Service } from './sub/{{camelCase name}}'\n$1",
+            },
+            // query
+            {
+                type: 'add',
+                path: 'frontend/src/api/reactQuery/sub/use{{pascalCase name}}Query.js',
+                templateFile: 'plop-templates/query.hbs',
+            },{
+                type: 'modify',
+                path: 'frontend/src/api/services/index.js',
+                pattern: /(\/\/ ::PLOPPIN::)/,
+                template: "export { use{{pascalCase name}}Query } from './sub/use{{pascalCase name}}Query';\n$1",
+            },
+            // router
+            {
+                type: 'add',
+                path: 'backend/routers/{{camelCase name}}.router.js',
+                templateFile: 'plop-templates/router.hbs',
+            },
+            {
+                type: 'modify',
+                path: 'backend/app.js',
+                pattern: /(module\.exports = app;)/,
+                template: "const {{upperCase (camelCase name)}}_ROUTER = require('./routers/{{camelCase name}}.router');\napp.use('/api/{{camelCase name}}', authMiddleware, {{upperCase (camelCase name)}}_ROUTER);\n\n\n$1",
             },
         ],
     });
+
+    // COMPONENT — frontend/src/components/library
+    // plop.setGenerator('component', {
+    //     description: 'Create a new React component in the library',
+    //     prompts: [
+    //         {
+    //             type: 'input',
+    //             name: 'name',
+    //             message: 'Component name?',
+    //         },
+    //     ],
+    //     actions: [
+    //         {
+    //             type: 'add',
+    //             path: 'frontend/src/components/library/{{pascalCase name}}.jsx',
+    //             templateFile: 'plop-templates/component.hbs',
+    //         },
+    //         {
+    //             // append the export to frontend/src/components/index.js
+    //             type: 'append',
+    //             path: 'frontend/src/components/index.js',
+    //             template: "export { {{pascalCase name}} } from './library/{{pascalCase name}}'",
+    //         },
+    //     ],
+    // });
 
 
     // QUERY — frontend/src/api/reactQuery/sub
@@ -124,72 +223,6 @@ export default function (plop) {
 
             return actions;
         },
-    });
-
-
-    // SCAFFOLD — full stack in one shot
-    plop.setGenerator('scaffold', {
-        description: 'Generate the full stack for a new resource (service, query, modals, router)',
-        prompts: [
-            {
-                type: 'input',
-                name: 'name',
-                message: 'Resource name? (e.g. "product")',
-            },
-        ],
-        actions: [
-            // service
-            {
-                type: 'add',
-                path: 'frontend/src/api/services/sub/{{camelCase name}}.js',
-                templateFile: 'plop-templates/service.hbs',
-            },
-            {
-                type: 'append',
-                path: 'frontend/src/api/services/index.js',
-                template: "export { {{camelCase name}}Service } from './sub/{{camelCase name}}'",
-            },
-            // query
-            {
-                type: 'add',
-                path: 'frontend/src/api/reactQuery/sub/use{{pascalCase name}}Query.js',
-                templateFile: 'plop-templates/query.hbs',
-            },
-            {
-                type: 'append',
-                path: 'frontend/src/api/reactQuery/index.js',
-                template: "export { use{{pascalCase name}}Query } from './sub/use{{pascalCase name}}Query';",
-            },
-            // modals
-            {
-                type: 'add',
-                path: 'frontend/src/components/modals/{{pascalCase name}}FormModal.jsx',
-                templateFile: 'plop-templates/modal-form.hbs',
-            },
-            {
-                type: 'add',
-                path: 'frontend/src/components/modals/{{pascalCase name}}DeleteModal.jsx',
-                templateFile: 'plop-templates/modal-delete.hbs',
-            },
-            {
-                type: 'append',
-                path: 'frontend/src/components/index.js',
-                template: "export { {{pascalCase name}}FormModal } from './modals/{{pascalCase name}}FormModal'\nexport { {{pascalCase name}}DeleteModal } from './modals/{{pascalCase name}}DeleteModal'",
-            },
-            // router
-            {
-                type: 'add',
-                path: 'backend/routers/{{camelCase name}}.router.js',
-                templateFile: 'plop-templates/router.hbs',
-            },
-            {
-                // slot it in right before module.exports
-                type: 'modify',
-                path: 'backend/app.js',
-                pattern: /(module\.exports = app;)/,
-                template: "const {{upperCase (camelCase name)}}_ROUTER = require('./routers/{{camelCase name}}.router');\napp.use('/api/{{camelCase name}}', authMiddleware, {{upperCase (camelCase name)}}_ROUTER);\n\n\n$1",
-            },
-        ],
     });
 
 

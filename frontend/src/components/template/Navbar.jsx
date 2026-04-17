@@ -28,6 +28,7 @@ export const Navbar = () => {
                             Tickets
                         </Button>
                     </Link>
+                    {/*::PLOPPIN_MODAL::*/}
                     <Button color={'red'} onClick={logout} className='bg-red-500 text-white px-3 py-1 rounded'>
                         <LogOut />
                     </Button>

@@ -1,0 +1,15 @@
+import 'react';
+import { Table } from '@components';
+import { use{{pascalCase name}}Query } from '@query';
+
+
+
+export const {{pascalCase name}}sPage = () => {
+    const { readAll{{pascalCase name}}s } = use{{pascalCase name}}Query();
+    return (
+        <div className='max-w-170 bg-white'>
+            <h1 className='p-10 pt-10 text-4xl font-extrabold'>{{pascalCase name}}s:</h1>
+            <Table config={'{{camelCase name}}'} data={readAll{{pascalCase name}}s?.data?.data} />
+        </div>
+    );
+};

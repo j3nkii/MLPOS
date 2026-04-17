@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Input, TableForm } from '@components';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from '@components';
+import { useEffect, useState } from 'react';
+import { Button } from '@components';
 import { useModalZussy } from '@zussy';
 import { useCustomerQuery, useTicketQuery } from '@query';
 import { useParams } from 'react-router-dom';
 
 
-import { Trash2, DiamondPlus, BookUser, Pencil, Send, BadgeJapaneseYen } from 'lucide-react'
+import { Trash2, Pencil } from 'lucide-react'
 
 
 
@@ -39,8 +38,6 @@ export const SelectedCustomerPage = () => {
 
     useEffect(() => {
         const { customerID } = params;
-        console.log(readAllTickets?.data?.data)
-        console.log(readAllTickets?.data)
         const customerTickets = readAllTickets?.data?.data.filter(x => x.customer_id === customerID);
         if(customerTickets){
             setCustomerTickets(customerTickets);
@@ -63,19 +60,9 @@ export const SelectedCustomerPage = () => {
         });
     };
 
-    const onSend = (e) => {
-        e.stopPropagation();
-        setModal({
-            modalKey: 'sendCustomer',
-            item: selectedCustomer,
-        });
-    };
-
     return (
         <div className='max-w-170 bg-white'>
-            <h1 className=' text-4xl font-extrabold'>{selectedCustomer.name}</h1>
-            <h1 className=' text-4xl font-extrabold'>{selectedCustomer.email}</h1>
-            <h1 className=' text-4xl font-extrabold'>{selectedCustomer.phone}</h1>
+            <h1 className=' text-4xl font-extrabold'>{selectedCustomer.id}</h1>
             <div className='flex'>
                 <div className='flex items-center'>
                     <Button
@@ -90,16 +77,8 @@ export const SelectedCustomerPage = () => {
                         text='Delete'
                     ><Trash2 />
                     </Button>
-                    {/* <Button
-                        color={'green'}
-                        onClick={onSend} 
-                        text='Send'
-                    ><Send />
-                    </Button> */}
                 </div>
             </div>
-            <Table config={'tickets'} data={customerTickets} />
-            {/* <Payments payments={selectedCustomer.payments} total={selectedCustomer.price} /> */}
         </div>
     );
 }

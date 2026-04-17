@@ -16,6 +16,7 @@ export { TicketsPage } from './pages/TicketsPage'
 export { SelectedTicketPage } from './pages/SelectedTicketPage'
 export { SelectedCustomerPage } from './pages/SelectedCustomerPage'
 export { StripePage } from './pages/StripePage'
+// ::PLOPPIN_PAGE::
 
 
 export { Layout } from './template/Layout'
@@ -32,3 +33,4 @@ export { PaymentDeleteModal } from './modals/PaymentDeleteModal'
 export { TicketItemFormModal } from './modals/TicketItemFormModal'
 export { TicketItemDeleteModal } from './modals/TicketItemDeleteModal'
 export { TicketSendModal } from './modals/TicketSendModal'
+// ::PLOPPIN_MODAL::

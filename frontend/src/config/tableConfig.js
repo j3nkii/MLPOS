@@ -84,5 +84,6 @@ export const TABLE_CONFIG = {
             update: 'updatePayment',
             delete: 'deletePayment',
         }
-    }
+    },
+    // ::PLOPPIN::
 }
