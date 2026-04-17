@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 export const {{camelCase name}}Service = {
-    readAll: () => axios.get(`/api/{{camelCase name}}`),
-    read: ({ id }) => axios.get(`/api/{{camelCase name}}/${id}`),
-    create: ({ body }) => axios.post(`/api/{{camelCase name}}`, body),
-    update: ({ id, body }) => axios.put(`/api/{{camelCase name}}/${id}`, body),
-    remove: ({ id }) => axios.delete(`/api/{{camelCase name}}/${id}`),
+    readAll{{pascalCase name}}s: () => axios.get(`/api/{{camelCase name}}`),
+    read{{pascalCase name}}: ({ id }) => axios.get(`/api/{{camelCase name}}/${id}`),
+    create{{pascalCase name}}: ({ body }) => axios.post(`/api/{{camelCase name}}`, body),
+    update{{pascalCase name}}: ({ id, body }) => axios.put(`/api/{{camelCase name}}/${id}`, body),
+    delete{{pascalCase name}}: ({ id }) => axios.delete(`/api/{{camelCase name}}/${id}`),
 };

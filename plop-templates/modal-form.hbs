@@ -10,12 +10,12 @@ const INITIAL = {};
 
 export const {{pascalCase name}}FormModal = ({ isUpdate }) => {
     const [form, setForm] = useState(INITIAL);
-    const { create, update } = use{{pascalCase name}}Query();
+    const { create{{pascalCase name}}, update{{pascalCase name}} } = use{{pascalCase name}}Query();
     const { closeModal, item } = useModalZussy();
 
     const handleConfirm = async (evt) => {
         evt.preventDefault();
-        const handler = isUpdate ? update : create;
+        const handler = isUpdate ? update{{pascalCase name}} : create{{pascalCase name}};
         handler.mutate({ id: item?.id, body: form });
     };
 

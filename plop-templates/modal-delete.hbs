@@ -7,10 +7,10 @@ import { use{{pascalCase name}}Query } from '@query';
 
 
 export const {{pascalCase name}}DeleteModal = () => {
-    const { remove } = use{{pascalCase name}}Query();
+    const { delete{{pascalCase name}} } = use{{pascalCase name}}Query();
     const { closeModal, item } = useModalZussy();
 
-    const handleDelete = () => remove.mutate({ id: item?.id });
+    const handleDelete = () => delete{{pascalCase name}}.mutate({ id: item?.id });
 
     return (
         <Modal onClose={closeModal}>
