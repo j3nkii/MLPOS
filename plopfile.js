@@ -143,17 +143,17 @@ export default function (plop) {
                 pattern: /(\/\/ ::PLOPPIN::)/,
                 template: "export { use{{pascalCase name}}Query } from './sub/use{{pascalCase name}}Query';\n$1",
             },
-            // router
+            // BACK END :: router
             {
                 type: 'add',
-                path: 'backend/routers/{{camelCase name}}.router.js',
+                path: 'backend/routers/{{camelCase name}}s.router.js',
                 templateFile: 'plop-templates/router.hbs',
             },
             {
                 type: 'modify',
                 path: 'backend/app.js',
                 pattern: /(\/\/ ::PLOPPIN::)/,
-                template: "const {{upperCase (camelCase name)}}_ROUTER = require('./routers/{{camelCase name}}.router');\napp.use('/api/{{camelCase name}}', authMiddleware, {{upperCase (camelCase name)}}_ROUTER);\n$1",
+                template: "const {{upperCase name}}S_ROUTER = require('./routers/{{camelCase name}}s.router');\napp.use('/api/{{camelCase name}}', authMiddleware, {{upperCase name}}S_ROUTER);\n$1",
             },
         ],
     });

@@ -12,29 +12,25 @@ export const use{{pascalCase name}}Query = () => {
     const _refresh = async () => {
         await queryClient.fetchQuery({
             queryKey: ['{{camelCase name}}'],
-            queryFn: {{camelCase name}}Service.readAll,
+            queryFn: {{camelCase name}}Service.readAll{{pascalCase name}}s,
             onError: (error) => console.error(error),
         });
     };
 
-    const create = useMutation({
-        mutationFn: {{camelCase name}}Service.create,
-        onSuccess: async () => {
-            await _refresh();
-            queryClient.invalidateQueries({ queryKey: ['{{camelCase name}}'] });
-            closeModal();
-        },
-        onError: (error) => console.error(error),
-    });
-
-    const readAll = useQuery({
+    const readAll{{pascalCase name}}s = useQuery({
         queryKey: ['{{camelCase name}}'],
-        queryFn: {{camelCase name}}Service.readAll,
+        queryFn: {{camelCase name}}Service.readAll{{pascalCase name}}s,
         onError: (error) => console.error(error),
     });
 
-    const update = useMutation({
-        mutationFn: {{camelCase name}}Service.update,
+    const read{{pascalCase name}} = useQuery({
+        queryKey: ['{{camelCase name}}'],
+        queryFn: {{camelCase name}}Service.read{{pascalCase name}},
+        onError: (error) => console.error(error),
+    });
+
+    const create{{pascalCase name}} = useMutation({
+        mutationFn: {{camelCase name}}Service.create{{pascalCase name}},
         onSuccess: async () => {
             await _refresh();
             queryClient.invalidateQueries({ queryKey: ['{{camelCase name}}'] });
@@ -43,8 +39,18 @@ export const use{{pascalCase name}}Query = () => {
         onError: (error) => console.error(error),
     });
 
-    const remove = useMutation({
-        mutationFn: {{camelCase name}}Service.remove,
+    const update{{pascalCase name}} = useMutation({
+        mutationFn: {{camelCase name}}Service.update{{pascalCase name}},
+        onSuccess: async () => {
+            await _refresh();
+            queryClient.invalidateQueries({ queryKey: ['{{camelCase name}}'] });
+            closeModal();
+        },
+        onError: (error) => console.error(error),
+    });
+
+    const delete{{pascalCase name}} = useMutation({
+        mutationFn: {{camelCase name}}Service.delete{{pascalCase name}},
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['{{camelCase name}}'] });
             closeModal();
@@ -52,5 +58,11 @@ export const use{{pascalCase name}}Query = () => {
         onError: (error) => console.error(error),
     });
 
-    return { create, readAll, update, remove };
+    return {
+        readAll{{pascalCase name}}s,
+        read{{pascalCase name}},
+        create{{pascalCase name}},
+        update{{pascalCase name}},
+        delete{{pascalCase name}}
+    };
 };
