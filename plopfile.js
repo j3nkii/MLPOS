@@ -25,7 +25,7 @@ export default function (plop) {
             },
         ],
         tableActions: {
-            detail: '/{{pascalCase name}}s/'
+            detail: '/{{pascalCase name}}s/',
             create: 'create{{pascalCase name}}',
             delete: 'delete{{pascalCase name}}',
         }
@@ -93,10 +93,33 @@ export default function (plop) {
                 templateFile: 'plop-templates/modal-delete.hbs',
             },
             {
-                type: 'append',
+                type: 'modify',
                 path: 'frontend/src/components/index.js',
                 pattern: /(\/\/ ::PLOPPIN::)/,
                 template: "export { {{pascalCase name}}FormModal } from './modals/{{pascalCase name}}FormModal'\nexport { {{pascalCase name}}DeleteModal } from './modals/{{pascalCase name}}DeleteModal'\n$1",
+            },
+            {
+                type: 'modify',
+                path: 'frontend/src/components/index.js',
+                pattern: /(\/\/ ::PLOPPIN_MODAL::)/,
+                template: "export { {{pascalCase name}}FormModal } from './modals/{{pascalCase name}}FormModal'\nexport { {{pascalCase name}}DeleteModal } from './modals/{{pascalCase name}}DeleteModal'\n$1",
+            },
+            {
+                type: 'modify',
+                path: 'frontend/src/components/template/ModalManager.jsx',
+                pattern: /(\/\/ ::PLOPPIN_IMPORT::)/,
+                template: "{{pascalCase name}}FormModal,\n    {{pascalCase name}}DeleteModal    \n$1",
+            },
+            {
+                type: 'modify',
+                path: 'frontend/src/components/template/ModalManager.jsx',
+                pattern: /(\/\/ ::PLOPPIN_SWITCH::)/,
+                template: `case 'delete{{pascalCase name}}':
+                            return <{{pascalCase name}}DeleteModal />
+                        case 'create{{pascalCase name}}':
+                            return <{{pascalCase name}}FormModal />
+                        case 'update{{pascalCase name}}':
+                            return <{{pascalCase name}}FormModal isUpdate={true} />`,
             },
             // service
             {

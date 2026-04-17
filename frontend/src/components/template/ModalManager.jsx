@@ -11,7 +11,7 @@ import {
     TicketItemFormModal,
     TicketItemDeleteModal,
     TicketSendModal,
-    // ::PLOPPIN_COMPONENT_NAME::
+    // ::PLOPPIN_IMPORT::
 } from '@components';
 
 
@@ -44,7 +44,7 @@ export const ModalManager = () => {
             return <TicketItemDeleteModal />
         case 'sendTicket':
             return <TicketSendModal />
-        // ::PLOPPIN_COMPONENT_SWITCH::
+        // ::PLOPPIN_SWITCH::
         case null:
             return null;
         default:
