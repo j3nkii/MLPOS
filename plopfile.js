@@ -45,6 +45,17 @@ export default function (plop) {
                                 Component: Selected{{pascalCase name}}Page
                             },`,
             },
+            {
+                type: 'modify',
+                path: 'frontend/src/components/template/NavBar.jsx',
+                pattern: /({\/\*::PLOPPIN_MODAL::\*\/})/,
+                template: `
+                    <Link className='hover:cursor-pointer' to='/tickets'>
+                        <Button color={'linkBlack'} className='bg-red-500 text-white px-3 py-1 rounded'>
+                            {{pascalCase name}}s
+                        </Button>
+                    </Link>`,
+            },
             // modals
             {
                 type: 'add',
