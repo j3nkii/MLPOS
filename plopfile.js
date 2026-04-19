@@ -25,9 +25,9 @@ export default function (plop) {
             },
         ],
         tableActions: {
-            detail: '/{{pascalCase name}}s/',
             create: 'create{{pascalCase name}}',
             delete: 'delete{{pascalCase name}}',
+            detail: '/{{camelCase name}}s/',
         }
     },`,
             },
@@ -74,12 +74,12 @@ export default function (plop) {
                 type: 'modify',
                 path: 'frontend/src/components/template/NavBar.jsx',
                 pattern: /({\/\*::PLOPPIN_MODAL::\*\/})/,
-                template: `
-                    <Link className='hover:cursor-pointer' to='/{{camelCase name}}s'>
+                template: `<Link className='hover:cursor-pointer' to='/{{camelCase name}}s'>
                         <Button color={'linkBlack'} className='bg-red-500 text-white px-3 py-1 rounded'>
                             {{pascalCase name}}s
                         </Button>
-                    </Link>`,
+                    </Link>
+                    $1`,
             },
             // modals
             {
