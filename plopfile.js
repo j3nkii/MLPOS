@@ -52,7 +52,7 @@ export default function (plop) {
                 type: 'modify',
                 path: 'frontend/src/config/routerConfig.js',
                 pattern: /(\/\/ ::PLOPPIN_IMPORT::)/,
-                template: "{{pascalCase name}}sPage,  \nSelected{{pascalCase name}}Page\n$1",
+                template: "{{pascalCase name}}sPage,\n   Selected{{pascalCase name}}Page\n   $1",
             },
             {
                 type: 'modify',
@@ -108,7 +108,7 @@ export default function (plop) {
                 type: 'modify',
                 path: 'frontend/src/components/template/ModalManager.jsx',
                 pattern: /(\/\/ ::PLOPPIN_IMPORT::)/,
-                template: "{{pascalCase name}}FormModal,\n    {{pascalCase name}}DeleteModal    \n$1",
+                template: "{{pascalCase name}}FormModal,\n    {{pascalCase name}}DeleteModal,    \n$1",
             },
             {
                 type: 'modify',
