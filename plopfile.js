@@ -29,7 +29,7 @@ export default function (plop) {
             delete: 'delete{{pascalCase name}}',
             detail: '/{{camelCase name}}s/',
         }
-    },`,
+    },\n    $1`,
             },
             // PAGE
             {
@@ -52,7 +52,7 @@ export default function (plop) {
                 type: 'modify',
                 path: 'frontend/src/config/routerConfig.js',
                 pattern: /(\/\/ ::PLOPPIN_IMPORT::)/,
-                template: "{{pascalCase name}}sPage,\n   Selected{{pascalCase name}}Page\n   $1",
+                template: "{{pascalCase name}}sPage,\n    Selected{{pascalCase name}}Page\n   $1",
             },
             {
                 type: 'modify',
