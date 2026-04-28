@@ -142,25 +142,25 @@ CREATE TYPE payment_method_type AS ENUM (
 );
 DROP TABLE IF EXISTS payments CASCADE;
 CREATE TABLE payments (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    ticket_id UUID NOT NULL REFERENCES tickets(id),
-    price INTEGER NOT NULL,
-    method payment_method_type NOT NULL, -- cash, check, venmo, stripe, paypal, cashapp, zelle .... ect.
-    alt_id VARCHAR(50), -- id's or payment no's from alternate payment methods. (stripe will be default) ... maybe stripe ID goes here too? 
-    is_deleted BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    ticket_id   UUID NOT NULL REFERENCES tickets(id),
+    price       INTEGER NOT NULL,
+    method      payment_method_type NOT NULL, -- cash, check, venmo, stripe, paypal, cashapp, zelle .... ect.
+    alt_id      VARCHAR(50), -- id's or payment no's from alternate payment methods. (stripe will be default) ... maybe stripe ID goes here too? 
+    is_deleted  BOOLEAN DEFAULT FALSE,
+    created_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 
 
 DROP TABLE IF EXISTS sent_payments CASCADE;
 CREATE TABLE sent_payments (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    ticket_id UUID NOT NULL REFERENCES tickets(id),
-    is_deleted BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    id                      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    ticket_id               UUID NOT NULL REFERENCES tickets(id),
+    is_deleted BOOLEAN      DEFAULT FALSE,
+    created_at TIMESTAMPTZ  DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ  DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -172,21 +172,22 @@ CREATE TYPE product_type AS ENUM (
 );
 DROP TABLE IF EXISTS products CASCADE;
 CREATE TABLE products (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255),
-    product_type VARCHAR(255),
-    price INTEGER NOT NULL,
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name            VARCHAR(255) NOT NULL,
+    description     VARCHAR(255),
+    product_type    VARCHAR(255),
+    price INTEGER   NOT NULL,
     wholesale_price INTEGER,
-    internal_sku VARCHAR(50) NOT NULL, -- maybe define default sku system for mlpos inventory.
-    external_sku VARCHAR(50) NOT NULL,
+    internal_sku    VARCHAR(50) NOT NULL, -- maybe define default sku system for mlpos inventory.
+    external_sku    VARCHAR(50) NOT NULL,
 
-    api_available BOOLEAN DEFAULT false NOT NULL, -- weather or not this can be booked or sold online
-    is_shippable BOOLEAN DEFAULT false NOT NULL, -- will this need to be shipped at some point?
+    api_available   BOOLEAN DEFAULT false NOT NULL, -- weather or not this can be booked or sold online
+    is_bookable     BOOLEAN DEFAULT false NOT NULL, -- may be redundant. 
+    is_shippable    BOOLEAN DEFAULT false NOT NULL, -- will this need to be shipped at some point?
     
-    is_deleted BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    is_deleted  BOOLEAN DEFAULT FALSE,
+    created_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 
