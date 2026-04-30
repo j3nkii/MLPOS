@@ -32,6 +32,7 @@ const Standard = (props) => {
             className={disabled ? DISABLED_STYLE : DETAULT_STYLE}
             value={value}
             onChange={onChange}
+            checked={value}
         />
     )
 }

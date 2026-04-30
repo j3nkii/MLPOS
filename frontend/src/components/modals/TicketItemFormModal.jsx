@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModalZussy} from '@zussy';
 import { Button, Input } from '@components';
 
-import { useTicketQuery } from '@query';
+import { useTicketQuery, useProductQuery } from '@query';
 
 import { useParams } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ const INITIAL_FORM = {
     name: '',
     price: 0,
     quantity: 1,
+    useExisting: true,
 };
 
 export const TicketItemFormModal = ({ isUpdate }) => {
@@ -20,6 +21,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
     const [modalTitle] = useState(isUpdate ? 'Update Ticket Item' : 'Create Ticket Item');
     const [ticketItemForm, setTicketItemForm] = useState(INITIAL_FORM);
     const { createTicketItem, updateTicketItem } = useTicketQuery();
+    const { readAllProducts } = useProductQuery();
     const { setModal, item, closeModal  } = useModalZussy();
 
     useEffect(() => {
@@ -29,9 +31,14 @@ export const TicketItemFormModal = ({ isUpdate }) => {
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
+                useExisting: true,
             });
         }
     }, [nameRef]);
+
+    useEffect(() => {
+        console.log(ticketItemForm)
+    }, [ticketItemForm]);
 
     const handleConfirm = async (evt, isNext) => {
         evt.preventDefault();
@@ -50,8 +57,9 @@ export const TicketItemFormModal = ({ isUpdate }) => {
     }
 
     const handleChange = (evt) => {
-        const { target: { name, value }} = evt;
-        setTicketItemForm({ ...ticketItemForm, [name]: value });
+        const { target: { name, value, type, checked }} = evt;
+        const isCheckbox = type === 'checkbox';
+        setTicketItemForm({ ...ticketItemForm, [name]: isCheckbox ? checked : value });
     }
 
     return (
@@ -59,6 +67,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
             <ModalHeader title={modalTitle} onClose={closeModal} />
             <ModalBody>
                 <form className='p-6'>
+                    <Input type={'checkbox'} onChange={handleChange} value={ticketItemForm.useExisting} label={'Use Existing Item'} name={'useExisting'} />
                     <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
                     <Input type={'number'} onChange={handleChange} value={ticketItemForm.price || ''} label={'Price'} name={'price'} />
                     <Input type={'number'} onChange={handleChange} value={ticketItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
