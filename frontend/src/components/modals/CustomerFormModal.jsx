@@ -26,7 +26,7 @@ export const CustomerFormModal = ({ isUpdate }) => {
                 email: item.email,
             })
         }
-    }, [])
+    }, []);
 
     const handleConfirm = async () => {
         const payload = { customerID: item?.id, body: customerForm }

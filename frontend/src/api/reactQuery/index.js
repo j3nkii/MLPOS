@@ -3,6 +3,7 @@ export { useAuthQuery } from './sub/useAuthQuery';
 export { useTicketQuery } from './sub/useTicketQuery';
 export { useUserQuery } from './sub/useUserQuery';
 export { usePaymentQuery } from './sub/usePaymentQuery';
+export { useProductQuery } from './sub/useProductQuery';
 // ::PLOPPIN::
 
 

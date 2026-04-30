@@ -4,4 +4,5 @@ export { ticketService } from './sub/ticket'
 export { userService } from './sub/user'
 export { paymentService } from './sub/payments'
 export { stripeService } from './sub/stripe'
+export { productService } from './sub/product'
 // ::PLOPPIN::

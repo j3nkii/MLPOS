@@ -85,5 +85,23 @@ export const TABLE_CONFIG = {
             delete: 'deletePayment',
         }
     },
+    products: {
+        headers: [
+            {
+                display: 'Name',
+                key: 'name'
+            },
+            {
+                display: 'Price',
+                key: 'price'
+            },
+        ],
+        tableActions: {
+            create: 'createProduct',
+            delete: 'deleteProduct',
+            update: 'updateProduct',
+            // detail: '/products/',
+        }
+    },
     // ::PLOPPIN::
 }

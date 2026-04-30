@@ -7,7 +7,9 @@ import {
     SelectedTicketPage,
     SelectedCustomerPage,
     StripePage,
-    // ::PLOPPIN_IMPORT::
+    ProductsPage,
+    SelectedProductPage
+   // ::PLOPPIN_IMPORT::
 } from '@components';
 
 
@@ -46,7 +48,17 @@ export const routerConfig = [
                 exact: true,
                 Component: SelectedCustomerPage
             },
-            // ::PLOPPIN::
+            
+                            {
+                                path: "/products",
+                                exact: true,
+                                Component: ProductsPage
+                            },
+                            {
+                                path: "/products/:productID",
+                                exact: true,
+                                Component: SelectedProductPage
+                            },
         ]
     },
 ];

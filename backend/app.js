@@ -23,6 +23,8 @@ const PAYMENTS_ROUTER = require('./routers/payments.router');
 app.use('/api/payments', authMiddleware, PAYMENTS_ROUTER);
 const STRIPE_ROUTER = require('./routers/stripe.router');
 app.use('/api/stripe', authMiddleware, STRIPE_ROUTER);
+const PRODUCTS_ROUTER = require('./routers/products.router');
+app.use('/api/product', authMiddleware, PRODUCTS_ROUTER);
 // ::PLOPPIN::
 
 
