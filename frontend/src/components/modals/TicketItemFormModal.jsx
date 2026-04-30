@@ -62,6 +62,14 @@ export const TicketItemFormModal = ({ isUpdate }) => {
         setTicketItemForm({ ...ticketItemForm, [name]: isCheckbox ? checked : value });
     }
 
+    const handleSelectChange = (evt) => {
+        const { target: { value }} = evt;
+        const selectedOption = evt.target.options[evt.target.selectedIndex];
+        console.log(selectedOption.dataset)
+        const data = JSON.parse(selectedOption.dataset.meta);
+        setTicketItemForm({ ...ticketItemForm, name: value, price: data.price });
+    }
+
     return (
         <Modal onClose={closeModal}>
             <ModalHeader title={modalTitle} onClose={closeModal} />
@@ -69,7 +77,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
                 <form className='p-6'>
                     <Input type={'checkbox'} onChange={handleChange} value={ticketItemForm.useExisting} label={'Use Existing Item'} name={'useExisting'} />
                     { ticketItemForm.useExisting ?
-                        <Input type='select' options={readAllProducts?.data?.data?.map(prod => ({ name: prod.name }))} onSubmit={saveAndNext} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
+                        <Input type='select' options={readAllProducts?.data?.data} onSubmit={saveAndNext} onChange={handleSelectChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
                     :
                         <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
                     }
