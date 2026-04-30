@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Input } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModalZussy } from '@zussy';
@@ -12,6 +12,14 @@ export const {{pascalCase name}}FormModal = ({ isUpdate }) => {
     const [form, setForm] = useState(INITIAL);
     const { create{{pascalCase name}}, update{{pascalCase name}} } = use{{pascalCase name}}Query();
     const { closeModal, item } = useModalZussy();
+
+    useEffect(() => {
+        if(isUpdate){
+            setForm({
+                id: item.id,
+            });
+        }
+    }, []);
 
     const handleConfirm = async (evt) => {
         evt.preventDefault();
@@ -29,6 +37,7 @@ export const {{pascalCase name}}FormModal = ({ isUpdate }) => {
             <ModalHeader title={isUpdate ? 'Update {{pascalCase name}}' : 'Create {{pascalCase name}}'} onClose={closeModal} />
             <ModalBody>
                 <form onSubmit={handleConfirm} className='p-6'>
+                    <Input onChange={handleChange} value={form.id} label={'ID'} name={'id'} />
                     {/* TODO: add inputs */}
                 </form>
             </ModalBody>
