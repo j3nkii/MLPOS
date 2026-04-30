@@ -25,7 +25,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
     const { setModal, item, closeModal  } = useModalZussy();
 
     useEffect(() => {
-        nameRef?.current.focus()
+        nameRef?.current?.focus()
         if(isUpdate){
             setTicketItemForm({
                 name: item.name,
@@ -37,7 +37,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
     }, [nameRef]);
 
     useEffect(() => {
-        console.log(ticketItemForm)
+        
     }, [ticketItemForm]);
 
     const handleConfirm = async (evt, isNext) => {
@@ -68,7 +68,11 @@ export const TicketItemFormModal = ({ isUpdate }) => {
             <ModalBody>
                 <form className='p-6'>
                     <Input type={'checkbox'} onChange={handleChange} value={ticketItemForm.useExisting} label={'Use Existing Item'} name={'useExisting'} />
-                    <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
+                    { ticketItemForm.useExisting ?
+                        <Input type='select' options={readAllProducts?.data?.data?.map(prod => ({ name: prod.name }))} onSubmit={saveAndNext} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
+                    :
+                        <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
+                    }
                     <Input type={'number'} onChange={handleChange} value={ticketItemForm.price || ''} label={'Price'} name={'price'} />
                     <Input type={'number'} onChange={handleChange} value={ticketItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
                     <button onClick={saveAndNext} type='submit' style={{ display: 'none' }}></button>
