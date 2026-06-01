@@ -49,7 +49,7 @@ Internal dashboard on existing CloudFront/S3/Lambda/RDS stack. Features: custome
 | B1.2 | User endpoint | `GET /api/user` works develop + prod (Bearer, not body) | `backend/routers/user.router.js` | BLOCKED B1.1 |
 | B1.3 | Resource ownership | All `:id` routes verify user/account owns row | `backend/routers/*.js` | BLOCKED B1.1 |
 | B1.4 | Transactions | Ticket/payment mutators: BEGIN/COMMIT/ROLLBACK on one client | `backend/routers/ticket.router.js`, `payments.router.js` | READY |
-| B1.5 | Invoice status | Payment mutations update `tickets.invoice_status` correctly | `backend/models/ticket.model.js`, payments router | BLOCKED B1.4 |
+| B1.5 | Invoice status | Payment mutations update `tickets.invoice_status` correctly | `backend/models/ticket.model.js`, payments router | DONE |
 | B1.6 | Products PUT | Update name/price works; schema allows insert | `products.router.js`, `schema.sql` | DONE |
 | B1.7 | Frontend async UX | Loading/error on queries; modals close on mutation success | `frontend/src/` | READY |
 | B1.8 | Ticket by ID (optional) | `GET /api/ticket/:id` scoped; detail page uses it | ticket router, `SelectedTicketPage` | READY |
@@ -87,7 +87,7 @@ Internal dashboard on existing CloudFront/S3/Lambda/RDS stack. Features: custome
 ## Current pointer
 
 ```text
-NEXT: B1.1
+NEXT: B1.7
 ```
 
 *Agent: update this line at end of every session.*

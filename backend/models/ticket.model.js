@@ -1,3 +1,4 @@
+const { resolveInvoiceStatus } = require('../modules/invoiceStatus');
 
 const getAllTickets = async ({ accountId, client }) => {
     const { rows } = await client.query(`
@@ -28,7 +29,41 @@ const getAllTickets = async ({ accountId, client }) => {
 };
 
 const handleTicketStatus = async ({ client, ticketID }) => {
-    // B1.5 — invoice status from payments vs line total
+    const { rows: [ticket] } = await client.query(`
+        SELECT
+            t.id,
+            t.invoice_status,
+            COALESCE(SUM(ti.price * ti.quantity), 0) AS ticket_total_cents,
+            COALESCE((
+                SELECT SUM(p.price)
+                FROM payments p
+                WHERE p.ticket_id = t.id
+                  AND p.is_deleted = false
+            ), 0) AS paid_total_cents
+        FROM tickets t
+        LEFT JOIN ticket_items ti
+            ON ti.ticket_id = t.id
+            AND ti.is_deleted = false
+        WHERE t.id = $1
+          AND t.is_deleted = false
+        GROUP BY t.id, t.invoice_status
+    `, [ticketID]);
+
+    if (!ticket) return;
+
+    const nextStatus = resolveInvoiceStatus({
+        currentStatus: ticket.invoice_status,
+        ticketTotalCents: ticket.ticket_total_cents,
+        paidTotalCents: ticket.paid_total_cents,
+    });
+
+    if (nextStatus === ticket.invoice_status) return;
+
+    await client.query(`
+        UPDATE tickets
+        SET invoice_status = $2
+        WHERE id = $1
+    `, [ticketID, nextStatus]);
 };
 
 module.exports = {
