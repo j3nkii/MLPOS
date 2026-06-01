@@ -36,9 +36,10 @@ Internal dashboard on existing CloudFront/S3/Lambda/RDS stack. Features: custome
 
 | ID | Task | Exit criteria | Touch | Status |
 |----|------|---------------|-------|--------|
-| B0.1 | Audit schema vs API | `schema.sql` includes `ticket_items.product_id`; seeds apply; ticket columns match API (`invoice_status` not `status`) | `database/` | READY |
-| B0.2 | Env inventory | List vars for local + Lambda; note gaps (e.g. `STRIPE_SECRET_KEY` in Terraform) | `infra/main.tf`, `backend/example.env` | READY |
-| B0.3 | Deploy checklist doc | Short steps: migrate DB, build fe, zip lambda, apply | `readme.md` or `00DOCS/` | READY |
+| B0.0 | Tenant lock (RLS + middleware) | `app.account_id` per request; `account_id` on business tables; RLS policies + FORCE | `database/`, `tenant.middleware.js`, routers | DONE |
+| B0.1 | Audit schema vs API | `schema.sql` includes `ticket_items.product_id`; seeds apply; ticket columns match API (`invoice_status` not `status`) | `database/` | DONE |
+| B0.2 | Env inventory | List vars for local + Lambda; note gaps (e.g. `STRIPE_SECRET_KEY` in Terraform) | `00DOCS/ENV.md` | DONE |
+| B0.3 | Deploy checklist doc | Short steps: migrate DB, build fe, zip lambda, apply | `00DOCS/DEPLOY.md` | DONE |
 
 ### Block 1 — Trust the core
 
@@ -49,7 +50,7 @@ Internal dashboard on existing CloudFront/S3/Lambda/RDS stack. Features: custome
 | B1.3 | Resource ownership | All `:id` routes verify user/account owns row | `backend/routers/*.js` | BLOCKED B1.1 |
 | B1.4 | Transactions | Ticket/payment mutators: BEGIN/COMMIT/ROLLBACK on one client | `backend/routers/ticket.router.js`, `payments.router.js` | READY |
 | B1.5 | Invoice status | Payment mutations update `tickets.invoice_status` correctly | `backend/models/ticket.model.js`, payments router | BLOCKED B1.4 |
-| B1.6 | Products PUT | Update name/price works; schema allows insert | `products.router.js`, `schema.sql` | BLOCKED B0.1 |
+| B1.6 | Products PUT | Update name/price works; schema allows insert | `products.router.js`, `schema.sql` | DONE |
 | B1.7 | Frontend async UX | Loading/error on queries; modals close on mutation success | `frontend/src/` | READY |
 | B1.8 | Ticket by ID (optional) | `GET /api/ticket/:id` scoped; detail page uses it | ticket router, `SelectedTicketPage` | READY |
 
@@ -70,7 +71,7 @@ Internal dashboard on existing CloudFront/S3/Lambda/RDS stack. Features: custome
 
 | ID | Task | Exit criteria | Touch | Status |
 |----|------|---------------|-------|--------|
-| B3.1 | Account scoping | Lists/mutations filter by `account_id` consistently | schema, routers | BLOCKED B1.3 |
+| B3.1 | Account scoping | Lists/mutations filter by `account_id` consistently | schema, routers | DONE (B0.0; verify under B1.3) |
 | B3.2 | Add second user | Second login same account (invite or admin insert) | auth, users | BLOCKED B3.1 |
 
 ### Block 4 — Dogfood & infra hygiene
@@ -86,7 +87,7 @@ Internal dashboard on existing CloudFront/S3/Lambda/RDS stack. Features: custome
 ## Current pointer
 
 ```text
-NEXT: B0.1
+NEXT: B1.1
 ```
 
 *Agent: update this line at end of every session.*
@@ -133,4 +134,4 @@ Missing for later: custom domain ACM, tenant routing, Stripe in TF, CI deploy.
 
 ---
 
-*Last updated: June 2026 — set NEXT: B0.1*
+*Last updated: June 2026 — Block 0 complete on branch `agent/b0-tenant-align`*
