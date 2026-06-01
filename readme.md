@@ -12,8 +12,8 @@ Product vision: **[MPLOS.md](./MPLOS.md)**.
 ## Local dev
 
 - PostgreSQL installed and running  
-- `database/schema.sql` + `database/seeds/index.sql` applied to your local DB  
-- `backend/example.env` — configure env vars (see backend modules for full list)  
+- Copy `backend/example.env` → `backend/.env` (`DB_NAME=mplos`)  
+- Reset DB anytime: **`npm run db:reset`** (wipe + schema + seeds)  
 - From repo root: `npm run backend` and `npm run frontend` (or run each package’s `npm run local`)
 
 Frontend dev server proxies `/api` to port 8000.

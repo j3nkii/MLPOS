@@ -1,113 +1,103 @@
 const express = require('express');
-const pool = require('../modules/pool');
 const router = express.Router();
 const { handleTicketStatus } = require('../models/ticket.model');
 
-
-// right now tickets will be in charge of fetching most of this data.
-// this will be used for reporting in the future.... should there be a reporting route...? no, probbs not.
-// router.get('/', async (req, res) => {
-//     try {
-//         const { mplos_id } = req.user;
-//         const { rows } = await pool.query(`
-//             SELECT * FROM payments
-//             JOIN tickets ON 
-//                 tickets.id = payments.ticket_id
-//             AND user_id = $1
-//         `, [mplos_id])
-//         res.status(200).json({ success: true, data: rows});
-//     } catch (err) {
-//         console.error(err);
-//         res.status(401).json({ success: false });
-//     }
-// });
-
-
+async function ticketInAccount(db, ticketID, accountId) {
+    const { rowCount } = await db.query(
+        'SELECT 1 FROM tickets WHERE id = $1 AND account_id = $2 AND is_deleted = false',
+        [ticketID, accountId]
+    );
+    return rowCount > 0;
+}
 
 router.post('/', async (req, res) => {
-    const client = await pool.connect();
     try {
         const { ticketID, price, method } = req.body;
-        await client.query('BEGIN');
-        await client.query(
+        if (!(await ticketInAccount(req.db, ticketID, req.accountId))) {
+            return res.status(404).json({ success: false });
+        }
+        await req.db.query('BEGIN');
+        await req.db.query(
             'INSERT INTO payments (ticket_id, price, method) VALUES ($1, $2, $3)',
             [ticketID, price, method]
         );
-        await handleTicketStatus({ client, ticketID });
-        await client.query('COMMIT');
-        res.status(200).json({ success: true});
+        await handleTicketStatus({ client: req.db, ticketID });
+        await req.db.query('COMMIT');
+        res.status(200).json({ success: true });
     } catch (err) {
-        await client.query('ROLLBACK');
+        await req.db.query('ROLLBACK');
         console.error(err);
         res.status(500).json({ success: false });
-    } finally {
-        client.release();
     }
 });
-
-
 
 router.put('/', async (req, res) => {
-    const client = await pool.connect();
     try {
-        console.log(req.body)
         const { price, method, paymentID } = req.body;
-        await client.query('BEGIN');
-        let updateSQL = [];
-        const updateParams = [paymentID];
-        if(price){
-            updateParams.push(price);
-            updateSQL.push(`price = $${updateParams.length}`);
+        const params = [paymentID, req.accountId];
+        let idx = 3;
+        const sets = [];
+        if (price !== undefined && price !== null) {
+            sets.push(`price = $${idx++}`);
+            params.push(price);
         }
-        if(method){
-            updateParams.push(method);
-            updateSQL.push(`method = $${updateParams.length}`);
+        if (method) {
+            sets.push(`method = $${idx++}`);
+            params.push(method);
         }
-        const {rows: [{ ticket_id: ticketID }]} = await client.query(`
-            UPDATE payments
-            SET ${updateSQL.join(', ')}
-            WHERE id = $1
-            RETURNING ticket_id;
-            `, updateParams
-        );
-        await handleTicketStatus({ client, ticketID });
-        await client.query('COMMIT');
-        res.status(200).json({ success: true});
+        if (!sets.length) throw new Error('No fields to update');
+
+        await req.db.query('BEGIN');
+        const { rows, rowCount } = await req.db.query(`
+            UPDATE payments p
+            SET ${sets.join(', ')}
+            FROM tickets t
+            WHERE p.id = $1 AND p.ticket_id = t.id AND t.account_id = $2
+            RETURNING p.ticket_id AS ticket_id
+        `, params);
+
+        if (!rowCount) {
+            await req.db.query('ROLLBACK');
+            return res.status(404).json({ success: false });
+        }
+        await handleTicketStatus({ client: req.db, ticketID: rows[0].ticket_id });
+        await req.db.query('COMMIT');
+        res.status(200).json({ success: true });
     } catch (err) {
-        await client.query('ROLLBACK');
+        await req.db.query('ROLLBACK');
         console.error(err);
-        res.status(401).json({ success: false });
-    } finally {
-        client.release();
+        res.status(500).json({ success: false });
     }
 });
 
-
-
 router.delete('/:paymentID', async (req, res) => {
-    const client = await pool.connect();
     try {
         const { paymentID } = req.params;
-        await client.query('BEGIN');
-        const {rows: [{ ticket_id: ticketID }]} = await client.query(`
+        await req.db.query('BEGIN');
+        const { rows, rowCount } = await req.db.query(`
             UPDATE payments
             SET is_deleted = true
             WHERE id = $1
-            RETURNING ticket_id;
-            `, [paymentID]
-        );
-        await handleTicketStatus({ client, ticketID });
-        await client.query('COMMIT');
-        res.status(200).json({ success: true});
+              AND EXISTS (
+                SELECT 1 FROM tickets t
+                WHERE t.id = payments.ticket_id
+                  AND t.account_id = $2
+              )
+            RETURNING ticket_id
+        `, [paymentID, req.accountId]);
+
+        if (!rowCount) {
+            await req.db.query('ROLLBACK');
+            return res.status(404).json({ success: false });
+        }
+        await handleTicketStatus({ client: req.db, ticketID: rows[0].ticket_id });
+        await req.db.query('COMMIT');
+        res.status(200).json({ success: true });
     } catch (err) {
-        await client.query('ROLLBACK');
+        await req.db.query('ROLLBACK');
         console.error(err);
-        res.status(401).json({ success: false });
-    } finally {
-        client.release();
+        res.status(500).json({ success: false });
     }
 });
-
-
 
 module.exports = router;

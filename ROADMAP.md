@@ -107,6 +107,7 @@ Check boxes when *you* feel done. Agent may also mark its queue—if they disagr
 - [x] Product vision doc — `MPLOS.md`
 - [x] AWS skeleton — `infra/` (CloudFront + S3 + Lambda + RDS + Cognito)
 - [x] Dashboard prototype — customers, tickets, payments, products (rough)
+- [x] Block 0 (Otto branch `agent/b0-tenant-align`) — tenant RLS, schema/seeds, docs
 
 ---
 

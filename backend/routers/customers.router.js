@@ -1,26 +1,21 @@
 const express = require('express');
-const pool = require('../modules/pool');
 const router = express.Router();
-
-
 
 router.get('/', async (req, res) => {
     try {
-        console.log(req.user)
-        const userID = req.user.attributes.mlpos_id;
-        const { rows } = await pool.query(`
+        const { rows } = await req.db.query(`
             SELECT
                 customers.*,
-                JSON_AGG( tickets.* ) as tickets
+                JSON_AGG(tickets.*) AS tickets
             FROM customers
             LEFT JOIN tickets
                 ON tickets.customer_id = customers.id
                 AND tickets.is_deleted = false
-            WHERE customers.user_id = $1
+            WHERE customers.account_id = $1
                 AND customers.is_deleted = false
             GROUP BY customers.id
-            ORDER BY created_at;
-        `, [ userID ]);
+            ORDER BY customers.created_at;
+        `, [req.accountId]);
         res.status(200).json(rows);
     } catch (error) {
         console.error(error);
@@ -28,94 +23,81 @@ router.get('/', async (req, res) => {
     }
 });
 
-
-
 router.get('/:id', async (req, res) => {
     try {
-        const { rows: [ user ] } = await pool.query(`
+        const { rows: [customer] } = await req.db.query(`
             SELECT * FROM customers
-            WHERE id = $1 AND is_deleted = false
-        `, [ req.params.id ]);
-        res.status(200).json(user);
+            WHERE id = $1 AND account_id = $2 AND is_deleted = false
+        `, [req.params.id, req.accountId]);
+        if (!customer) return res.status(404).json({ error: 'Not found' });
+        res.status(200).json(customer);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
 
-
-
-router.post('/', async(req, res) => {
+router.post('/', async (req, res) => {
     try {
-        const userID = req.user.attributes.mlpos_id;
         const { name, email, phone } = req.body;
-        if(!name || !email || !phone) throw new Error('Missing Fields')
-        await pool.query(`
-            INSERT INTO customers (name, email, phone, user_id)
-            VALUES ($1, $2, $3, $4)
-        `, [ name, email, phone, userID ]
-        );
-        res.status(201).json({ message: 'User created successfully' });
+        if (!name || !email || !phone) throw new Error('Missing Fields');
+        await req.db.query(`
+            INSERT INTO customers (name, email, phone, account_id, user_id)
+            VALUES ($1, $2, $3, $4, $5)
+        `, [name, email, phone, req.accountId, req.userId]);
+        res.status(201).json({ message: 'Customer created successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
     }
 });
 
-
-
-router.put('/:id', async(req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const { name, email, phone } = req.body;
         const { id: customerID } = req.params;
-        if(!name && !email && !phone) throw new Error('Missing Fields');
+        if (!name && !email && !phone) throw new Error('Missing Fields');
         const INSERT_SQL = [];
         const INSERT_PARAMS = [];
-        let idx = 2;
-        if(name) {
+        let idx = 3;
+        if (name) {
             INSERT_SQL.push(`name = $${idx++}`);
             INSERT_PARAMS.push(name);
-        } if(email) {
+        }
+        if (email) {
             INSERT_SQL.push(`email = $${idx++}`);
             INSERT_PARAMS.push(email);
-        } if(phone) {
+        }
+        if (phone) {
             INSERT_SQL.push(`phone = $${idx++}`);
             INSERT_PARAMS.push(phone);
         }
-        const END_SQL = `
-            UPDATE CUSTOMERS
+        const { rowCount } = await req.db.query(`
+            UPDATE customers
             SET ${INSERT_SQL.join(', ')}
-            WHERE
-                customers.id = $1
-        `
-        const END_PARAMS = [ customerID, ...INSERT_PARAMS ]
-        await pool.query(END_SQL, END_PARAMS);
-        res.status(200).json({ message: 'User updated successfully' });
+            WHERE id = $1 AND account_id = $2
+        `, [customerID, req.accountId, ...INSERT_PARAMS]);
+        if (!rowCount) return res.status(404).json({ message: 'Not found' });
+        res.status(200).json({ message: 'Customer updated successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
     }
 });
 
-
-
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
-        const { id: customerID } = req.params;
-        await pool.query(`
-            UPDATE CUSTOMERS
+        const { rowCount } = await req.db.query(`
+            UPDATE customers
             SET is_deleted = true
-            WHERE
-                customers.id = $1
-        `, [ customerID ]
-        );
-        res.status(201).json({ message: 'User Deleted successfully' });
+            WHERE id = $1 AND account_id = $2
+        `, [req.params.id, req.accountId]);
+        if (!rowCount) return res.status(404).json({ message: 'Not found' });
+        res.status(200).json({ message: 'Customer deleted successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
     }
 });
-
-
 
 module.exports = router;
