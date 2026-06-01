@@ -47,11 +47,11 @@ export const ModalManager = () => {
         case 'sendTicket':
             return <TicketSendModal />
         case 'deleteProduct':
-                            return <ProductDeleteModal />
-                        case 'createProduct':
-                            return <ProductFormModal />
-                        case 'updateProduct':
-                            return <ProductFormModal isUpdate={true} />
+            return <ProductDeleteModal />
+        case 'createProduct':
+            return <ProductFormModal />
+        case 'updateProduct':
+            return <ProductFormModal isUpdate={true} />
         case null:
             return null;
         default:

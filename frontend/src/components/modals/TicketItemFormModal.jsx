@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 
 const INITIAL_FORM = {
     name: '',
+    productID: '',
     price: 0,
     quantity: 1,
     useExisting: true,
@@ -31,7 +32,8 @@ export const TicketItemFormModal = ({ isUpdate }) => {
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
-                useExisting: true,
+                productID: item.product_id,
+                useExisting: item.product_id ? true : false,
             });
         }
     }, [nameRef]);
@@ -65,9 +67,8 @@ export const TicketItemFormModal = ({ isUpdate }) => {
     const handleSelectChange = (evt) => {
         const { target: { value }} = evt;
         const selectedOption = evt.target.options[evt.target.selectedIndex];
-        console.log(selectedOption.dataset)
         const data = JSON.parse(selectedOption.dataset.meta);
-        setTicketItemForm({ ...ticketItemForm, name: value, price: data.price });
+        setTicketItemForm({ ...ticketItemForm, productID: value, price: data.price, name: data.name });
     }
 
     return (
@@ -76,11 +77,11 @@ export const TicketItemFormModal = ({ isUpdate }) => {
             <ModalBody>
                 <form className='p-6'>
                     <Input type={'checkbox'} onChange={handleChange} value={ticketItemForm.useExisting} label={'Use Existing Item'} name={'useExisting'} />
-                    { ticketItemForm.useExisting ?
-                        <Input type='select' options={readAllProducts?.data?.data} onSubmit={saveAndNext} onChange={handleSelectChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
-                    :
+                    { ticketItemForm.useExisting ? (
+                        <Input type='select' options={readAllProducts?.data?.data} onSubmit={saveAndNext} onChange={handleSelectChange} value={ticketItemForm.productID || ''} label={'Name'} name={'productID'} />
+                    ) : (
                         <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
-                    }
+                    )}
                     <Input type={'number'} onChange={handleChange} value={ticketItemForm.price || ''} label={'Price'} name={'price'} />
                     <Input type={'number'} onChange={handleChange} value={ticketItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
                     <button onClick={saveAndNext} type='submit' style={{ display: 'none' }}></button>

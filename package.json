@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "frontend": "cd frontend && npm run local",
-    "backend": "cd frontend && npm run local",
+    "backend": "cd backend && npm run local",
     "test": "echo \"Error: no test specified\" && exit 1",
     "plop": "plop"
   },

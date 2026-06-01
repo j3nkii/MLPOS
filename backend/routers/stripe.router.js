@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
     const { mplos_account_id, stripe_account_id } = req.user.attributes;
     await client.query('BEGIN');
     if(stripe_account_id){
-      res.json({ message: 'ur a bitch' });
+      res.json({ message: 'ur a nice guy' });
     }
     const account = await stripeModule.createAccount({ email });
     await client.query('INSERT INTO accounts_stripe (account_id, stripe_account_id) VALUES ($1, $2)', [ mplos_account_id, account.id ]);

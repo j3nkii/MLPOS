@@ -52,6 +52,8 @@ router.get('/', async (req, res) => {
             LEFT JOIN ticket_items
                 ON ticket_items.ticket_id = tickets.id
                 AND ticket_items.is_deleted = false
+            LEFT JOIN products
+                ON ticket_items.product_id = products.id
             JOIN customers
                 ON customers.id = tickets.customer_id
                 AND customers.is_deleted = false
@@ -190,11 +192,11 @@ router.post('/ticket-item/:id', async(req, res) => {
     const client = await pool.connect();
     try {
         console.log(req.body)
-        const { name, price, quantity } = req.body;
+        const { name, price, quantity, productID } = req.body;
         const { id: ticketID } = req.params;
-        if(!ticketID || !name || !price || !quantity) throw new Error('Missing Essential Fields');
-        const END_SQL = `INSERT INTO ticket_items (ticket_id, name, price, quantity) VALUES ($1, $2, $3, $4)`;
-        const END_PARAMS = [ticketID, name, price, quantity];
+        if(!ticketID || (!productID && !name) || !price || !quantity) throw new Error('Missing Essential Fields');
+        const END_SQL = `INSERT INTO ticket_items (ticket_id, name, price, quantity, product_id) VALUES ($1, $2, $3, $4, $5)`;
+        const END_PARAMS = [ticketID, name, price, quantity, productID];
         await client.query(END_SQL, END_PARAMS);
         await client.query('COMMIT');
         res.status(200).json({ message: 'User updated successfully' });
@@ -212,8 +214,7 @@ router.post('/ticket-item/:id', async(req, res) => {
 router.put('/ticket-item/:id', async(req, res) => {
     const client = await pool.connect();
     try {
-
-        const { name, price, quantity } = req.body;
+        const { name, price, quantity, productID } = req.body;
         const { id: lineItemID } = req.params;
         if(!price && !quantity) throw new Error('No Fields Detected');
         if(!lineItemID) throw new Error('Missing Essential Fields');
@@ -230,7 +231,10 @@ router.put('/ticket-item/:id', async(req, res) => {
         } if (quantity) {
             INSERT_SQL.push(`quantity = $${idx++}`);
             END_PARAMS.push(quantity);
-        }
+        } if (productID) {
+            INSERT_SQL.push(`product_id = $${idx++}`);
+            END_PARAMS.push(productID);
+        } 
         const END_SQL = `
             UPDATE ticket_items
             SET ${INSERT_SQL.join(', ')}
