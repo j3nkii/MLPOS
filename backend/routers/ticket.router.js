@@ -102,6 +102,7 @@ router.delete('/:id', async (req, res) => {
 router.post('/ticket-item/:id', async (req, res) => {
     try {
         const { name, price, quantity, productID } = req.body;
+        console.log(req.body)
         const ticketID = req.params.id;
         if (!ticketID || (!productID && !name) || price == null || !quantity) {
             throw new Error('Missing essential fields');

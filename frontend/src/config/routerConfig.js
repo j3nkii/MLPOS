@@ -48,17 +48,16 @@ export const routerConfig = [
                 exact: true,
                 Component: SelectedCustomerPage
             },
-            
-                            {
-                                path: "/products",
-                                exact: true,
-                                Component: ProductsPage
-                            },
-                            {
-                                path: "/products/:productID",
-                                exact: true,
-                                Component: SelectedProductPage
-                            },
+            {
+                path: "/products",
+                exact: true,
+                Component: ProductsPage
+            },
+            {
+                path: "/products/:productID",
+                exact: true,
+                Component: SelectedProductPage
+            },
         ]
     },
 ];

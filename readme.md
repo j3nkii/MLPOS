@@ -7,7 +7,8 @@ Node 22 · React (Vite) · Express / Lambda · PostgreSQL · Stripe Connect · A
 Read **[MPLOS.md](./MPLOS.md)** for what we’re building and why—side hustlers & small business owners, multi-tenant, `{business}.mplos.com` customer sites, simple crucial tools only.
 
 Product vision: **[MPLOS.md](./MPLOS.md)**.  
-**Your roadmap (flexible):** [ROADMAP.md](./ROADMAP.md) · **Agent queue (ordered):** [AGENT_QUEUE.md](./AGENT_QUEUE.md)
+**Solo v1 checklist (start here):** **[V1_CHECKLIST.md](./V1_CHECKLIST.md)**  
+**Flexible notes:** [ROADMAP.md](./ROADMAP.md) · **Agent queue (if using Otto):** [AGENT_QUEUE.md](./AGENT_QUEUE.md)
 
 ## Local dev
 

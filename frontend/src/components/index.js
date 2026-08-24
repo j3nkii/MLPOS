@@ -7,6 +7,8 @@ export { Form } from './library/Form'
 export { ModalHeader } from './library/Modal'
 export { ModalBody } from './library/Modal'
 export { ModalFooter } from './library/Modal'
+export { ToastTab, ToastStack, TOAST_VARIANT } from './library/Toast'
+export { PageLoader } from './library/PageLoader'
 
 export { Loggin } from './pages/Auth/Loggin'
 
@@ -24,6 +26,7 @@ export { ProductsPage } from './pages/ProductsPage'
 export { Layout } from './template/Layout'
 export { Navbar } from './template/Navbar'
 export { ModalManager } from './template/ModalManager'
+export { ToastManager } from './template/ToastManager'
 
 
 export { CustomerDeleteModal } from './modals/CustomerDeleteModal'
