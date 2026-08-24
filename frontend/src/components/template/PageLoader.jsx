@@ -1,3 +1,5 @@
+import { useAnyLoading } from "../../api/reactQuery";
+
 /**
  * Full-page overlay spinner — use while queries/mutations block the UI.
  * Pair with toasts: show PageLoader during work, pushToast on settle.
@@ -6,8 +8,9 @@
  * @param {boolean} props.show
  * @param {string} [props.label]
  */
-export const PageLoader = ({ show = false, label = 'Loading' }) => {
-    if (!show) return null;
+export const PageLoader = ({ show = true, label = 'Loading' }) => {
+    const isLoading = useAnyLoading();
+    if (!isLoading) return null;
 
     return (
         <div
@@ -17,7 +20,7 @@ export const PageLoader = ({ show = false, label = 'Loading' }) => {
             aria-busy="true"
         >
             <div className="h-14 w-14 animate-spin rounded-full border-4 border-white border-t-transparent" />
-            <p className="mt-4 text-lg font-semibold text-white">{label}</p>
+            <p className="mt-4 text-lg text-white">{label}</p>
         </div>
     );
 };

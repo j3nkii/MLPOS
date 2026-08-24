@@ -1,3 +1,5 @@
+import { useIsFetching, useIsMutating } from '@tanstack/react-query';
+
 export { useCustomerQuery } from './sub/useCustomerQuery';
 export { useAuthQuery } from './sub/useAuthQuery';
 export { useTicketQuery } from './sub/useTicketQuery';
@@ -15,3 +17,10 @@ export const queryClient = new QueryClient({
         }
     }
 });
+
+
+export function useAnyLoading() {
+  const fetching = useIsFetching();
+  const mutating = useIsMutating();
+  return fetching > 0 || mutating > 0;
+}

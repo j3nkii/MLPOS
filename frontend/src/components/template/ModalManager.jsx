@@ -1,6 +1,6 @@
 
 import 'react';
-import { useModalZussy} from '@zussy';
+import { useModalZussy } from '@zussy';
 import {
     CustomerDeleteModal,
     CustomerFormModal,
