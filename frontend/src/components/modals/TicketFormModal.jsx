@@ -49,7 +49,7 @@ export const TicketFormModal = ({ isUpdate }) => {
                         label={'Customer'}
                         name={'customerID'}
                         type={'select'}
-                        options={readAllCustomers?.data?.data.map(cust => ({ name: cust.name, value: cust.id }))}
+                        options={readAllCustomers.data.data}
                     />
                     { isUpdate && <Input onChange={handleChange} value={ticketForm.status} label={'Status'} name={'status'} /> }
                 </form>

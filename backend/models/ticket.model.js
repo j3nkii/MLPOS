@@ -48,17 +48,13 @@ const handleTicketStatus = async ({ client, ticketID }) => {
           AND t.is_deleted = false
         GROUP BY t.id, t.invoice_status
     `, [ticketID]);
-
     if (!ticket) return;
-
     const nextStatus = resolveInvoiceStatus({
         currentStatus: ticket.invoice_status,
         ticketTotalCents: ticket.ticket_total_cents,
         paidTotalCents: ticket.paid_total_cents,
     });
-
     if (nextStatus === ticket.invoice_status) return;
-
     await client.query(`
         UPDATE tickets
         SET invoice_status = $2
