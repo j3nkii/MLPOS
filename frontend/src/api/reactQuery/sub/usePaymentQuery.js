@@ -1,21 +1,26 @@
 import 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { paymentService } from '@services';
-import { useModalZussy} from '@zussy';
+import { useModalZussy, useToastZussy } from '@zussy';
 
 
 
 export const usePaymentQuery = () => {
     const queryClient = useQueryClient();
     const { closeModal } = useModalZussy();
+    const { addToast } = useToastZussy();
 
     const createPayment = useMutation({
         mutationFn: paymentService.createPayment,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allTickets'] });
             closeModal();
+            addToast({ title: 'SUCCESS', message: 'Payment created', variant: 'success' });
         },
-        onError: (error) => console.error(error),
+        onError: (error) => {
+
+            console.error(error);
+        },
     });
 
     // const readPayment = useQuery({
@@ -46,6 +51,7 @@ export const usePaymentQuery = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allTickets'] });
             closeModal();
+            addToast({ title: 'SUCCESS', message: 'Payment deleted', variant: 'success' });
         },
         onError: (error) => console.error(error),
     });

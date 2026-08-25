@@ -26,7 +26,7 @@ const TOASTS_TEST = [
 const reIndex = (x, i) => ({ ...x, index: i});
 
 export const useToastZussy = create((set, get) => ({
-    toasts: TOASTS_TEST,
+    toasts: [],
     addToast: (toast) => {
         const copy = [ ...get().toasts ]
         copy.push(toast);

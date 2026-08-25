@@ -1,4 +1,5 @@
 import { ToastStack, ToastTab } from '@components';
+import { useToastZussy } from '@zussy';
 import { useState } from 'react';
 
 /**
@@ -41,25 +42,25 @@ const TOASTS_TEST = [
     },
 ]
 
-const reIndex = (x, i) => ({ ...x, index: i});
+// const reIndex = (x, i) => ({ ...x, index: i, key: i });
 
 export const ToastManager = ({
-    // toasts = TOASTS_TEST,
-    // onDismiss = () => {},
     position = 'top-right',
 }) => {
-    const [toasts, setToasts] = useState(TOASTS_TEST.map(reIndex));
+    // const [toasts, setToasts] = useState(TOASTS_TEST.map(reIndex));
+    const { toasts, dismissToast } = useToastZussy();
     if (!toasts.length) return null;
     const onDismiss = (index) => {
-        const copy = [ ...toasts ]
-        copy.splice(index, 1);
-        setToasts(copy.map(reIndex));
+        dismissToast({ index })
+        // const copy = [ ...toasts ]
+        // copy.splice(index, 1);
+        // setToasts(copy.map(reIndex));
     }
     return (
         <ToastStack position={position}>
             {toasts.map((toast) => (
                 <ToastTab
-                    key={toast.id}
+                    key={toast.key}
                     id={toast.id}
                     title={toast.title}
                     message={toast.message}
