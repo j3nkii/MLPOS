@@ -1,13 +1,14 @@
 import 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { productService } from '@services';
-import { useModalZussy } from '@zussy';
+import { useModalZussy, useToastZussy } from '@zussy';
 
 
 
 export const useProductQuery = () => {
     const queryClient = useQueryClient();
     const { closeModal } = useModalZussy();
+    const { addError, addSuccess } = useToastZussy();
 
     const _refresh = async () => {
         await queryClient.fetchQuery({
@@ -34,9 +35,13 @@ export const useProductQuery = () => {
         onSuccess: async () => {
             await _refresh();
             queryClient.invalidateQueries({ queryKey: ['product'] });
+            addSuccess('Product created.');
             closeModal();
         },
-        onError: (error) => console.error(error),
+        onError: (error) => {
+            addError('Product creation failed.');
+            console.error(error);
+        },
     });
 
     const updateProduct = useMutation({
@@ -44,18 +49,26 @@ export const useProductQuery = () => {
         onSuccess: async () => {
             await _refresh();
             queryClient.invalidateQueries({ queryKey: ['product'] });
+            addSuccess('Product updated.');
             closeModal();
         },
-        onError: (error) => console.error(error),
+        onError: (error) => {
+            addError('Product update failed.');
+            console.error(error);
+        },
     });
 
     const deleteProduct = useMutation({
         mutationFn: productService.deleteProduct,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['product'] });
+            addSuccess('Product deleted.');
             closeModal();
         },
-        onError: (error) => console.error(error),
+        onError: (error) => {
+            addError('Product deletion failed.');
+            console.error(error);
+        },
     });
 
     return {
