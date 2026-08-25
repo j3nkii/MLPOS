@@ -89,7 +89,6 @@ const ActionsHeader = ({ tableActions }) => {
 
 
 const ActionsCell = ({ item, config, tableActions }) => {
-    console.log(config)
     const navigate = useNavigate();
     const { setModal } = useModalZussy();
     const CONFIG_ICON = config === 'tickets' ? ReceiptText : BookUser;
