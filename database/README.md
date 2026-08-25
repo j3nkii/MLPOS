@@ -26,4 +26,4 @@ psql -d mplos -f database/seeds/index.sql
 - **Tenant** = `accounts` row; business data uses `account_id`.
 - RLS needs `app.account_id` per request (`backend/middleware/tenant.middleware.js`).
 
-Develop login Bearer token = seed email **`j3nkii`**.
+Develop login Bearer token = seed email **`test`**.

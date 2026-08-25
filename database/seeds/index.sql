@@ -2,7 +2,7 @@ INSERT INTO accounts (id, name, slug) VALUES ('00000000-0000-0000-0000-000000000
 
 INSERT INTO users (id, account_id, username, email)
 VALUES
-    ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', 'test1', 'j3nkii');
+    ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', 'test1', 'test');
 
 INSERT INTO customers (id, account_id, user_id, name, email, phone)
 VALUES

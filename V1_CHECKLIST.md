@@ -141,7 +141,7 @@ npm run frontend   # terminal 2 — port 4200
 ```
 
 1. Open http://localhost:4200  
-2. Login: **`develop`** mode uses email as token → seed user **`j3nkii`**  
+2. Login: **`develop`** mode uses email as token → seed user **`test`**  
 3. Click through customers → tickets → one ticket → add item → add payment  
 4. Note breaks in [Papercuts](#papercuts)
 

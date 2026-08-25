@@ -22,4 +22,4 @@ Set today: `NODE_ENV`, `DB_*`, `COGNITO_CLIENT_ID`.
 
 ## Develop auth
 
-`NODE_ENV=develop` — Bearer token is the user's **email** (see seeds: `j3nkii`).
+`NODE_ENV=develop` — Bearer token is the user's **email** (see seeds: `test`).
