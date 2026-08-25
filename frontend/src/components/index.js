@@ -27,6 +27,7 @@ export { Navbar } from './template/Navbar'
 export { ModalManager } from './template/ModalManager'
 export { ToastManager } from './template/ToastManager'
 export { PageLoader } from './template/PageLoader'
+export { AuthWrapper } from './template/AuthWrapper'
 
 
 export { CustomerDeleteModal } from './modals/CustomerDeleteModal'

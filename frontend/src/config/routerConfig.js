@@ -1,5 +1,6 @@
 import 'react';
 import {
+    AuthWrapper,
     Loggin,
     Layout,
     CustomersPage,
@@ -15,49 +16,51 @@ import {
 
 export const routerConfig = [
     {
-        path: "/login",
-        exact: true,
-        Component: Loggin
-    },
-    {
         path: "/",
-        Component: Layout,
+        exact: true,
+        Component: AuthWrapper,
         children: [
             {
                 path: "/",
-                exact: true,
-                Component: StripePage
-            },
-            {
-                path: "/customers",
-                exact: true,
-                Component: CustomersPage
-            },
-            {
-                path: "/tickets",
-                exact: true,
-                Component: TicketsPage
-            },
-            {
-                path: "/tickets/:ticketID",
-                exact: true,
-                Component: SelectedTicketPage
-            },
-            {
-                path: "/customers/:customerID",
-                exact: true,
-                Component: SelectedCustomerPage
-            },
-            {
-                path: "/products",
-                exact: true,
-                Component: ProductsPage
-            },
-            {
-                path: "/products/:productID",
-                exact: true,
-                Component: SelectedProductPage
+                Component: Layout,
+                children: [
+                    {
+                        path: "/",
+                        exact: true,
+                        Component: StripePage
+                    },
+                    {
+                        path: "/customers",
+                        exact: true,
+                        Component: CustomersPage
+                    },
+                    {
+                        path: "/tickets",
+                        exact: true,
+                        Component: TicketsPage
+                    },
+                    {
+                        path: "/tickets/:ticketID",
+                        exact: true,
+                        Component: SelectedTicketPage
+                    },
+                    {
+                        path: "/customers/:customerID",
+                        exact: true,
+                        Component: SelectedCustomerPage
+                    },
+                    {
+                        path: "/products",
+                        exact: true,
+                        Component: ProductsPage
+                    },
+                    {
+                        path: "/products/:productID",
+                        exact: true,
+                        Component: SelectedProductPage
+                    },
+                ]
             },
         ]
-    },
+    }
 ];
