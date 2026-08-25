@@ -1,6 +1,6 @@
 import 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { ModalManager, Navbar, PageLoader,  } from '@components';
+import { ModalManager, Navbar, PageLoader, ToastManager } from '@components';
 import { useUserQuery } from '@query';
 
 
@@ -16,6 +16,7 @@ export const Layout = () => {
                 <Outlet />
             </div>
             <ModalManager />
+            <ToastManager />
             <PageLoader />
         </div>
     );

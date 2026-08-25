@@ -57,7 +57,8 @@ export const ToastTab = ({
     title,
     message,
     variant = TOAST_VARIANT.INFO,
-    duration = 5000,
+    duration = 3000,
+    index,
     onDismiss,
 }) => {
     const config = VARIANT_CONFIG[variant] ?? VARIANT_CONFIG.info;
@@ -65,7 +66,7 @@ export const ToastTab = ({
 
     useEffect(() => {
         if (duration == null || duration <= 0) return;
-        const timer = setTimeout(() => onDismiss(id), duration);
+        const timer = setTimeout(() => onDismiss(index), duration);
         return () => clearTimeout(timer);
     }, [id, duration, onDismiss]);
 
@@ -91,7 +92,7 @@ export const ToastTab = ({
                 </div>
                 <button
                     type="button"
-                    onClick={() => onDismiss(id)}
+                    onClick={() => onDismiss(index)}
                     className="shrink-0 rounded-md p-1 text-black hover:bg-black hover:text-white transition-colors"
                     aria-label="Dismiss notification"
                 >
