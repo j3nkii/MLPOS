@@ -8,17 +8,17 @@ import { useModalZussy, useToastZussy } from '@zussy';
 export const usePaymentQuery = () => {
     const queryClient = useQueryClient();
     const { closeModal } = useModalZussy();
-    const { addToast } = useToastZussy();
+    const { addError, addSuccess } = useToastZussy();
 
     const createPayment = useMutation({
         mutationFn: paymentService.createPayment,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allTickets'] });
+            addSuccess('Payment created.');
             closeModal();
-            addToast({ title: 'SUCCESS', message: 'Payment created', variant: 'success' });
         },
         onError: (error) => {
-
+            addError('Payment creation Error.');
             console.error(error);
         },
     });
@@ -41,19 +41,26 @@ export const usePaymentQuery = () => {
         mutationFn: paymentService.updatePayment,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allTickets'] });
+            addSuccess('Payment updated.');
             closeModal();
         },
-        onError: (error) => console.error(error),
+        onError: (error) => {
+            addError('Payment update Error.');
+            console.error(error);
+        },
     });
 
     const deletePayment = useMutation({
         mutationFn: paymentService.deletePayment,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allTickets'] });
+            addSuccess('Payment deleted.');
             closeModal();
-            addToast({ title: 'SUCCESS', message: 'Payment deleted', variant: 'success' });
         },
-        onError: (error) => console.error(error),
+        onError: (error) => {
+            addError('Payment deletion Error.');
+            console.error(error);
+        },
     });
 
     return {

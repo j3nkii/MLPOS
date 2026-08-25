@@ -19,54 +19,17 @@ import { useState } from 'react';
  *   clearToasts()
  */
 
-const TOASTS_TEST = [
-    {
-        title: 'ERROR',
-        message: 'This is an Error.',
-        variant: 'error',
-    },
-    {
-        title: 'SUCCESS',
-        message: 'This is a Success.',
-        variant: 'success'
-    },
-    {
-        title: 'INFO',
-        message: 'This is an Info.',
-        variant: 'info'
-    },
-    {
-        title: 'WARNING',
-        message: 'This is a Warning.',
-        variant: 'warning'
-    },
-]
-
-// const reIndex = (x, i) => ({ ...x, index: i, key: i });
-
-export const ToastManager = ({
-    position = 'top-right',
-}) => {
-    // const [toasts, setToasts] = useState(TOASTS_TEST.map(reIndex));
+export const ToastManager = () => {
     const { toasts, dismissToast } = useToastZussy();
     if (!toasts.length) return null;
     const onDismiss = (index) => {
-        dismissToast({ index })
-        // const copy = [ ...toasts ]
-        // copy.splice(index, 1);
-        // setToasts(copy.map(reIndex));
+        dismissToast({ index });
     }
     return (
-        <ToastStack position={position}>
+        <ToastStack position={'bottom-right'}>
             {toasts.map((toast) => (
                 <ToastTab
-                    key={toast.key}
-                    id={toast.id}
-                    title={toast.title}
-                    message={toast.message}
-                    variant={toast.variant}
-                    duration={toast.duration}
-                    index={toast.index}
+                    toast={toast}
                     onDismiss={onDismiss}
                 />
             ))}

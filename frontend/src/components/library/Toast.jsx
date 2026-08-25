@@ -52,21 +52,21 @@ const POSITION_CLASS = {
  * @param {number|null} [props.duration] ms until auto-dismiss; null = no auto dismiss
  * @param {() => void} props.onDismiss
  */
-export const ToastTab = ({
-    id,
-    title,
-    message,
-    variant = TOAST_VARIANT.INFO,
-    duration = 3000,
-    index,
-    onDismiss,
-}) => {
+export const ToastTab = ({ toast, onDismiss }) => {
+    const {
+        id,
+        title,
+        message,
+        variant = TOAST_VARIANT.INFO,
+        duration = 2600,
+        index,
+    } = toast;
     const config = VARIANT_CONFIG[variant] ?? VARIANT_CONFIG.info;
     const Icon = config.icon;
 
     useEffect(() => {
         if (duration == null || duration <= 0) return;
-        const timer = setTimeout(() => onDismiss(index), duration);
+        const timer = setTimeout(() => onDismiss(toast), duration);
         return () => clearTimeout(timer);
     }, [id, duration, onDismiss]);
 

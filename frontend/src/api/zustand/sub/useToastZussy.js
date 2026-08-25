@@ -25,11 +25,30 @@ const TOASTS_TEST = [
 
 const reIndex = (x, i) => ({ ...x, index: i});
 
+
 export const useToastZussy = create((set, get) => ({
     toasts: [],
     addToast: (toast) => {
         const copy = [ ...get().toasts ]
         copy.push(toast);
+        set({ toasts: copy.map(reIndex) });
+    },
+    addError: (message) => {
+        const copy = [ ...get().toasts ]
+        copy.push({
+            title: 'ERROR',
+            message,
+            variant: 'error',
+        });
+        set({ toasts: copy.map(reIndex) });
+    },
+    addSuccess: (message) => {
+        const copy = [ ...get().toasts ]
+        copy.push({
+            title: 'SUCCESS',
+            message,
+            variant: 'success',
+        });
         set({ toasts: copy.map(reIndex) });
     },
     dismissToast: (toast) => {
