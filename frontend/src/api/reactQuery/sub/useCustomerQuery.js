@@ -24,13 +24,13 @@ export const useCustomerQuery = () => {
         },
     })
 
-    // const readCustomer = useQuery({
-    //     queryKey: ['customer', customerID],
-    //     queryFn: () => customerService.readCustomer(customerID),
-    //     onSuccess: (res) => setSelectedCustomer(res.data),
-    //     onError: (error) => console.error(error),
-    //     enabled: !!customerID,
-    // })
+    const readCustomer = (customerID) =>{
+        return useQuery({
+            queryKey: ['customer', customerID],
+            queryFn: () => customerService.readCustomer(customerID),
+            enabled: !!customerID,
+        })
+    }
 
     const readAllCustomers = useQuery({
         queryKey: ['allCustomers'],
@@ -66,7 +66,7 @@ export const useCustomerQuery = () => {
 
     return {
         createCustomer,
-        // readCustomer,
+        readCustomer,
         readAllCustomers,
         updateCustomer,
         deleteCustomer,

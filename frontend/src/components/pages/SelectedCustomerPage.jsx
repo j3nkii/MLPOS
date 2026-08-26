@@ -21,20 +21,13 @@ const INITIAL = {
 
 export const SelectedCustomerPage = () => {
     const params = useParams();
-    const { readAllCustomers } = useCustomerQuery();
+    const { customerID } = params;
+    const { readCustomer } = useCustomerQuery();
+    const { data: customerData } = readCustomer(customerID);
     const { readAllTickets } = useTicketQuery();
     const [selectedCustomer, setSelectedCustomer] = useState(INITIAL);
     const [customerTickets, setCustomerTickets] = useState([]);
     const { setModal } = useModalZussy();
-
-    useEffect(() => {
-        const { customerID } = params;
-        const customerIndex = readAllCustomers?.data?.data.findIndex(x => x.id === customerID);
-        const selectedCustomer = readAllCustomers?.data?.data[customerIndex];
-        if(selectedCustomer){
-            setSelectedCustomer(selectedCustomer);
-        }
-    }, [readAllCustomers?.data?.data]);
 
     useEffect(() => {
         const { customerID } = params;

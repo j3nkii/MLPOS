@@ -15,9 +15,11 @@ export const queryClient = new QueryClient({
         queries: {
             staleTime: 1000 * 60 * 5, // 5 minutes
         }
-    }
+    },
+    // queryCache: new QueryCache({
+    //     onError: (error) => console.error(error),
+    // }),
 });
-
 
 export function useAnyLoading() {
   const fetching = useIsFetching();

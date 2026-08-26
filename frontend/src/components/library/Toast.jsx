@@ -22,7 +22,7 @@ const VARIANT_CONFIG = {
         label: 'Error',
     },
     info: {
-        bar: 'bg-black',
+        bar: 'bg-blue-500',
         icon: Info,
         label: 'Info',
     },
@@ -93,7 +93,7 @@ export const ToastTab = ({ toast, onDismiss }) => {
                 <button
                     type="button"
                     onClick={() => onDismiss(index)}
-                    className="shrink-0 rounded-md p-1 text-black hover:bg-black hover:text-white transition-colors"
+                    className="shrink-0 rounded-md p-1 text-black hover:bg-black hover:text-white hover:cursor-pointer transition-colors"
                     aria-label="Dismiss notification"
                 >
                     <X size={18} />
