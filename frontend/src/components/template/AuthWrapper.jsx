@@ -1,17 +1,22 @@
 import 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { Loggin, PageLoader } from '@components';
-import { useUserQuery } from '@query';
+import { useAuthQuery } from '@query';
+import { useEffect } from 'react';
 
 
 
 export const AuthWrapper = () => {
-    const { readUser } = useUserQuery();
-    if (!readUser.data && !sessionStorage.getItem('accessToken'))
-        return <Loggin />
-    else return (
+    const { readUser } = useAuthQuery();
+    useEffect(() => {
+        console.log(readUser.data)
+    }, [readUser])
+    // if (!readUser.data && !sessionStorage.getItem('accessToken'))
+    //     return <Loggin />
+    
+    return (
         <>
-            <Outlet />
+            { !readUser.data || !sessionStorage.getItem('accessToken') ? <Loggin /> : <Outlet /> }
             <PageLoader />
         </>
     )

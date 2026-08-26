@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Input } from '@components';
-import { useAuthQuery, useUserQuery } from '@query';
+import { useAuthQuery } from '@query';
 import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 
@@ -36,8 +36,8 @@ import { useNavigate } from 'react-router';
 
 
 export const Loggin = () => {
-    const { readUser } = useUserQuery();
-    const { loggin } = useAuthQuery();
+    const { readUser, loggin } = useAuthQuery();
+    // const { loggin } = useAuthQuery();
     const [logginForm, setLogginForm] = useState({
         email: '',
         password: '',

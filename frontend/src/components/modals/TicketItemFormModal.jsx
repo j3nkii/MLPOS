@@ -46,7 +46,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
         evt.preventDefault();
         const payload = { ticketID: params.ticketID, ticketItemID: item?.id, body: ticketItemForm }
         const handleFn = isUpdate ? updateTicketItem : createTicketItem;
-        handleFn.mutate(payload);
+        await handleFn.mutateAsync(payload);
         if(isNext)return;
         closeModal();
     };

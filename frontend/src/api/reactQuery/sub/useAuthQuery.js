@@ -1,8 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { authService, userService } from '@services';
+import { useAuthZussy } from '@zussy';
 
 export const useAuthQuery = () => {
+    const authZussy = useAuthZussy();
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
@@ -35,12 +37,19 @@ export const useAuthQuery = () => {
         onSuccess: () => navigate('/confirm-account'),
         onError: (error) => console.error(error),
     });
+
+    const readUser = useQuery({
+        queryKey: ['user'],
+        queryFn: () => userService.readUser(),
+        onError: (error) => console.error(error),
+    })
     
     const logout = () => {
+        console.log('LOGGOUT')
         queryClient.invalidateQueries({ queryKey: ['user'] });
         queryClient.removeQueries({ queryKey: ['user'] });
-        sessionStorage.clear();
-        navigate('/login');
+        authZussy.logout();
+        // navigate('/');
     }
 
     return {
@@ -48,5 +57,6 @@ export const useAuthQuery = () => {
         loggin,
         createUser,
         logout,
+        readUser,
     }
 }
