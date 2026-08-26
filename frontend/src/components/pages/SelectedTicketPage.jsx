@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Input, TableForm } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from '@components';
 import { useModalZussy } from '@zussy';
-import { useTicketQuery, useCustomerQuery } from '@query';
+import { useTicketQuery } from '@query';
 import { useParams, useNavigate } from 'react-router-dom';
 
 
