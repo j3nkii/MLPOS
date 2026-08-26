@@ -24,7 +24,7 @@ export const useCustomerQuery = () => {
         },
     })
 
-    const readCustomer = (customerID) =>{
+    const readCustomer = (customerID) => {
         return useQuery({
             queryKey: ['customer', customerID],
             queryFn: () => customerService.readCustomer(customerID),
@@ -41,7 +41,7 @@ export const useCustomerQuery = () => {
     const updateCustomer = useMutation({
         mutationFn: (body) => customerService.updateCustomer(body),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['allCustomers'] });
+            queryClient.invalidateQueries({ queryKey: ['customer'] });
             addSuccess('Customer updated.');
             closeModal();
         },

@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 export const AuthWrapper = () => {
     const { readUser } = useAuthQuery();
     useEffect(() => {
-        console.log(readUser.data)
+        // console.log(readUser.data)
     }, [readUser])
     // if (!readUser.data && !sessionStorage.getItem('accessToken'))
     //     return <Loggin />

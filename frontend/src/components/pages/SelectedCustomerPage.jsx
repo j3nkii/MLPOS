@@ -23,9 +23,10 @@ export const SelectedCustomerPage = () => {
     const params = useParams();
     const { customerID } = params;
     const { readCustomer } = useCustomerQuery();
-    const { data: customerData } = readCustomer(customerID);
+    const { data: selectedCustomer } = readCustomer(customerID);
+    console.log(selectedCustomer)
     const { readAllTickets } = useTicketQuery();
-    const [selectedCustomer, setSelectedCustomer] = useState(INITIAL);
+    // const [selectedCustomer, setSelectedCustomer] = useState(INITIAL);
     const [customerTickets, setCustomerTickets] = useState([]);
     const { setModal } = useModalZussy();
 
@@ -55,7 +56,9 @@ export const SelectedCustomerPage = () => {
 
     return (
         <div className='max-w-170 bg-white'>
-            <h1 className=' text-4xl font-extrabold'>{selectedCustomer.id}</h1>
+            <h1 className=' text-4xl font-extrabold'>{selectedCustomer?.name}</h1>
+            <h1 className=' text-4xl font-extrabold'>{selectedCustomer?.phone}</h1>
+            <h1 className=' text-4xl font-extrabold'>{selectedCustomer?.email}</h1>
             <div className='flex'>
                 <div className='flex items-center'>
                     <Button
