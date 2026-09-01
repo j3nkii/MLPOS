@@ -24,9 +24,7 @@ export const SelectedCustomerPage = () => {
     const { customerID } = params;
     const { readCustomer } = useCustomerQuery();
     const { data: selectedCustomer } = readCustomer(customerID);
-    console.log(selectedCustomer)
     const { readAllTickets } = useTicketQuery();
-    // const [selectedCustomer, setSelectedCustomer] = useState(INITIAL);
     const [customerTickets, setCustomerTickets] = useState([]);
     const { setModal } = useModalZussy();
 

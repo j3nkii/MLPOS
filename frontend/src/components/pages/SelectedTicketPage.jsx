@@ -21,20 +21,11 @@ const INITIAL = {
 
 
 export const SelectedTicketPage = () => {
-    const params = useParams();
+    const { ticketID } = useParams();
     const navigate = useNavigate();
-    const { readAllTickets } = useTicketQuery();
-    const [selectedTicket, setSelectedTicket] = useState(INITIAL);
+    const { readTicket } = useTicketQuery();
+    const { data: selectedTicket } = readTicket(ticketID);
     const { setModal } = useModalZussy();
-
-    useEffect(() => {
-        const { ticketID } = params;
-        const ticketIndex = readAllTickets?.data?.data.findIndex(x => x.id === ticketID);
-        const selectedTicket = readAllTickets?.data?.data[ticketIndex];
-        if(selectedTicket){
-            setSelectedTicket(selectedTicket)
-        }
-    }, [readAllTickets?.data?.data]);
 
     const onDelete = (e) => {
         e.stopPropagation();
@@ -68,7 +59,7 @@ export const SelectedTicketPage = () => {
     return (
         <div className='max-w-170 bg-white'>
             <div className='flex'>
-                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#MLP001: {selectedTicket.name}: {selectedTicket.status}</h1>
+                <h1 className='p-10 pt-10 text-4xl font-extrabold'>#MLP001: {selectedTicket?.name}: {selectedTicket?.status}</h1>
                 <div className='flex items-center'>
                     <Button
                         color='linkBlack'
@@ -96,8 +87,8 @@ export const SelectedTicketPage = () => {
                     </Button>
                 </div>
             </div>
-            <Table footer={{ total: selectedTicket.price }} config={'ticketItems'} data={selectedTicket.details} />
-            <Payments payments={selectedTicket.payments} total={selectedTicket.price} />
+            <Table footer={{ total: selectedTicket?.price }} config={'ticketItems'} data={selectedTicket?.details} />
+            <Payments payments={selectedTicket?.payments} total={selectedTicket?.price} />
                 <h1 className='p-10 pt-10 text-4xl font-extrabold'>list other invoices, by date</h1>
                 <h1 className='p-10 pt-10 text-4xl font-extrabold'>list sent history. receipt, quote, w/e</h1>
         </div>

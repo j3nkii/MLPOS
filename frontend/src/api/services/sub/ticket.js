@@ -3,7 +3,7 @@ import axios from 'axios'
 export const ticketService = {
     readAllTickets: () => axios.get(`/api/ticket`),
     createTicket: ({ body }) => axios.post('/api/ticket', body),
-    readTicket: ({ ticketID }) => axios.get(`/api/ticket/${ticketID}`),
+    readTicket: ({ ticketID }) => axios.get(`/api/ticket/${ticketID}`).then(res => res.data),
     updateTicket: ({ ticketID, body }) => axios.put(`/api/ticket/${ticketID}`, body),
     deleteTicket: ({ ticketID }) =>  axios.delete(`/api/ticket/${ticketID}`),
     createTicketSend: ({ ticketID }) =>  axios.post(`/api/ticket/send/${ticketID}`),

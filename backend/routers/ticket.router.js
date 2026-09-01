@@ -7,6 +7,30 @@ router.get('/', async (req, res) => {
         const { rows } = await req.db.query(`
             SELECT
                 tickets.*,
+                customers.name
+            FROM tickets
+            JOIN customers
+                ON customers.id = tickets.customer_id
+                AND customers.is_deleted = false
+            WHERE tickets.account_id = $1
+                AND tickets.is_deleted = false
+            GROUP BY tickets.id, customers.name
+            ORDER BY tickets.created_at DESC
+        `, [req.accountId]);
+        res.status(200).json(rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+        console.log(req.query)
+        const { id: ticketID } = req.params;
+        const { rows } = await req.db.query(`
+            SELECT
+                tickets.*,
                 customers.name,
                 SUM(ticket_items.price * ticket_items.quantity) as price,
                 COALESCE(JSON_AGG(ticket_items) FILTER (WHERE ticket_items.ticket_id IS NOT NULL), '[]') as details,
@@ -31,10 +55,12 @@ router.get('/', async (req, res) => {
                 AND customers.is_deleted = false
             WHERE tickets.account_id = $1
                 AND tickets.is_deleted = false
+                AND tickets.id = $2
             GROUP BY tickets.id, customers.name
             ORDER BY tickets.created_at DESC
-        `, [req.accountId]);
-        res.status(200).json(rows);
+            LIMIT 1;
+        `, [req.accountId, ticketID]);
+        res.status(200).json(rows[0]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Something went wrong' });

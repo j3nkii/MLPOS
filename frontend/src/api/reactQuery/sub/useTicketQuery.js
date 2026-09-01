@@ -37,6 +37,14 @@ export const useTicketQuery = () => {
         },
     });
 
+    const readTicket = (ticketID) => {
+        return useQuery({
+            queryKey: ['selectedTicket', ticketID],
+            queryFn: () => ticketService.readTicket({ ticketID }),
+            enabled: !!ticketID,
+        })
+    }
+
     // const readTicket = useQuery({
     //     queryKey: ['invocie', ticketID],
     //     queryFn: () => ticketService.readTicket(ticketID),
@@ -145,7 +153,7 @@ export const useTicketQuery = () => {
 
     return {
         createTicket,
-        // readTicket,
+        readTicket,
         readAllTickets,
         updateTicket,
         deleteTicket,
