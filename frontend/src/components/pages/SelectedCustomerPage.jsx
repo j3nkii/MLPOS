@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from '@components';
+import { Button, Table } from '@components';
 import { useModalZussy } from '@zussy';
 import { useCustomerQuery, useTicketQuery } from '@query';
 import { useParams } from 'react-router-dom';
@@ -24,17 +24,7 @@ export const SelectedCustomerPage = () => {
     const { customerID } = params;
     const { readCustomer } = useCustomerQuery();
     const { data: selectedCustomer } = readCustomer(customerID);
-    const { readAllTickets } = useTicketQuery();
-    const [customerTickets, setCustomerTickets] = useState([]);
     const { setModal } = useModalZussy();
-
-    useEffect(() => {
-        const { customerID } = params;
-        const customerTickets = readAllTickets?.data.filter(x => x.customer_id === customerID);
-        if(customerTickets){
-            setCustomerTickets(customerTickets);
-        }
-    }, [readAllTickets?.data])
 
     const onDelete = (e) => {
         e.stopPropagation();
@@ -73,6 +63,7 @@ export const SelectedCustomerPage = () => {
                     </Button>
                 </div>
             </div>
+            <Table config={'customerTickets'} data={selectedCustomer?.tickets} />
         </div>
     );
 }

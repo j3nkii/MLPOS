@@ -47,6 +47,26 @@ export const TABLE_CONFIG = {
             detail: '/tickets/'
         },
     },
+    customerTickets: {
+        headers: [
+            {
+                display: 'Amount',
+                key: 'price'
+            },
+            {
+                display: 'Status',
+                key: 'status'
+            },
+            {
+                display: 'Date Sent',
+                key: 'created_at'
+            }
+        ],
+        tableActions: {
+            create: 'createTicket',
+            detail: '/tickets/'
+        },
+    },
     ticketItems: {
         headers: [
             {

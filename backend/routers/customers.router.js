@@ -29,6 +29,12 @@ router.get('/:id', async (req, res) => {
             SELECT * FROM customers
             WHERE id = $1 AND account_id = $2 AND is_deleted = false
         `, [req.params.id, req.accountId]);
+
+        const { rows: tickets } = await req.db.query(`
+            SELECT * FROM tickets
+            WHERE customer_id = $1 AND account_id = $2 AND is_deleted = false
+        `, [customer.id, req.accountId]);
+        customer.tickets = tickets
         if (!customer) return res.status(404).json({ error: 'Not found' });
         res.status(200).json(customer);
     } catch (error) {
