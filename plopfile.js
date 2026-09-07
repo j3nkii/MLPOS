@@ -59,16 +59,17 @@ export default function (plop) {
                 path: 'frontend/src/config/routerConfig.js',
                 pattern: /(\/\/ ::PLOPPIN::)/,
                 template: `
-                            {
-                                path: "/{{camelCase name}}s",
-                                exact: true,
-                                Component: {{pascalCase name}}sPage
-                            },
-                            {
-                                path: "/{{camelCase name}}s/:{{camelCase name}}ID",
-                                exact: true,
-                                Component: Selected{{pascalCase name}}Page
-                            },`,
+                    {
+                        path: "/{{camelCase name}}s",
+                        exact: true,
+                        Component: {{pascalCase name}}sPage
+                    },
+                    {
+                        path: "/{{camelCase name}}s/:{{camelCase name}}ID",
+                        exact: true,
+                        Component: Selected{{pascalCase name}}Page
+                    },
+                    $1`,
             },
             {
                 type: 'modify',

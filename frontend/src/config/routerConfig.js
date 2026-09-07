@@ -59,6 +59,7 @@ export const routerConfig = [
                         exact: true,
                         Component: SelectedProductPage
                     },
+                    // ::PLOPPIN::
                 ]
             },
         ]

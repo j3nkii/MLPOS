@@ -167,6 +167,17 @@ CREATE TABLE sent_payments (
 
 
 
+DROP TABLE IF EXISTS bookings CASCADE;
+CREATE TABLE bookings (
+    id                      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    book_start TIMESTAMPTZ NOT NULL,
+    book_end TIMESTAMPTZ NOT NULL,
+    is_deleted BOOLEAN      DEFAULT FALSE,
+    created_at TIMESTAMPTZ  DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ  DEFAULT CURRENT_TIMESTAMP
+);
+
+
 CREATE INDEX idx_customers_account_id ON customers(account_id);
 CREATE INDEX idx_tickets_account_id ON tickets(account_id);
 CREATE INDEX idx_products_account_id ON products(account_id);
