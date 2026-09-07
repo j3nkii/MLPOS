@@ -54,6 +54,12 @@ export const ModalManager = () => {
             return <ProductFormModal />
         case 'updateProduct':
             return <ProductFormModal isUpdate={true} />
+        case 'deleteBooking':
+            return <BookingDeleteModal />
+        case 'createBooking':
+            return <BookingFormModal />
+        case 'updateBooking':
+            return <BookingFormModal isUpdate={true} />
         case null:
             return null;
         default:
