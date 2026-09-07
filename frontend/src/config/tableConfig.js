@@ -103,5 +103,18 @@ export const TABLE_CONFIG = {
             // detail: '/products/',
         }
     },
+    bookings: {
+        headers: [
+            {
+                display: 'ID',
+                key: 'id'
+            },
+        ],
+        tableActions: {
+            create: 'createBooking',
+            delete: 'deleteBooking',
+            detail: '/bookings/',
+        }
+    },
     // ::PLOPPIN::
 }

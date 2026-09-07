@@ -10,6 +10,8 @@ import {
     StripePage,
     ProductsPage,
     SelectedProductPage,
+    BookingsPage,
+    SelectedBookingPage,
     // ::PLOPPIN_IMPORT::
 } from '@components';
 
@@ -58,6 +60,17 @@ export const routerConfig = [
                         path: "/products/:productID",
                         exact: true,
                         Component: SelectedProductPage
+                    },
+                    
+                    {
+                        path: "/bookings",
+                        exact: true,
+                        Component: BookingsPage
+                    },
+                    {
+                        path: "/bookings/:bookingID",
+                        exact: true,
+                        Component: SelectedBookingPage
                     },
                     // ::PLOPPIN::
                 ]

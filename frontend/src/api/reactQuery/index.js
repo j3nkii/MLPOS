@@ -6,6 +6,7 @@ export { useTicketQuery } from './sub/useTicketQuery';
 export { useUserQuery } from './sub/useUserQuery';
 export { usePaymentQuery } from './sub/usePaymentQuery';
 export { useProductQuery } from './sub/useProductQuery';
+export { useBookingQuery } from './sub/useBookingQuery';
 // ::PLOPPIN::
 
 

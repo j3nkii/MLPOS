@@ -33,6 +33,11 @@ export const Navbar = () => {
                             Products
                         </Button>
                     </Link>
+                    <Link className='hover:cursor-pointer' to='/bookings'>
+                        <Button color={'linkBlack'} className='bg-red-500 text-white px-3 py-1 rounded'>
+                            Bookings
+                        </Button>
+                    </Link>
                     {/*::PLOPPIN_MODAL::*/}
                     <Button color={'red'} onClick={logout} className='bg-red-500 text-white px-3 py-1 rounded'>
                         <LogOut />

@@ -13,6 +13,8 @@ import {
     TicketSendModal,
     ProductFormModal,
     ProductDeleteModal,    
+     BookingFormModal,
+    BookingDeleteModal,    
 // ::PLOPPIN_IMPORT::
 } from '@components';
 

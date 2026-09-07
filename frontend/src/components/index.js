@@ -19,6 +19,8 @@ export { SelectedCustomerPage } from './pages/SelectedCustomerPage'
 export { StripePage } from './pages/StripePage'
 export { SelectedProductPage } from './pages/SelectedProductPage'
 export { ProductsPage } from './pages/ProductsPage'
+export { SelectedBookingPage } from './pages/SelectedBookingPage'
+export { BookingsPage } from './pages/BookingsPage'
 // ::PLOPPIN_PAGE::
 
 
@@ -41,4 +43,6 @@ export { TicketItemDeleteModal } from './modals/TicketItemDeleteModal'
 export { TicketSendModal } from './modals/TicketSendModal'
 export { ProductFormModal } from './modals/ProductFormModal'
 export { ProductDeleteModal } from './modals/ProductDeleteModal'
+export { BookingFormModal } from './modals/BookingFormModal'
+export { BookingDeleteModal } from './modals/BookingDeleteModal'
 // ::PLOPPIN_MODAL::
