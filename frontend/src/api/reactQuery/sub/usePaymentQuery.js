@@ -13,7 +13,7 @@ export const usePaymentQuery = () => {
     const createPayment = useMutation({
         mutationFn: paymentService.createPayment,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['allTickets'] });
+            queryClient.invalidateQueries({ queryKeys: ['allTickets', 'selectedTicket'] });
             addSuccess('Payment created.');
             closeModal();
         },
@@ -40,7 +40,7 @@ export const usePaymentQuery = () => {
     const updatePayment = useMutation({
         mutationFn: paymentService.updatePayment,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['allTickets'] });
+            queryClient.invalidateQueries({ queryKeys: ['allTickets', 'selectedTicket'] });
             addSuccess('Payment updated.');
             closeModal();
         },
@@ -53,7 +53,7 @@ export const usePaymentQuery = () => {
     const deletePayment = useMutation({
         mutationFn: paymentService.deletePayment,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['allTickets'] });
+            queryClient.invalidateQueries({ queryKeys: ['allTickets', 'selectedTicket'] });
             addSuccess('Payment deleted.');
             closeModal();
         },

@@ -41,7 +41,7 @@ export const useCustomerQuery = () => {
     const updateCustomer = useMutation({
         mutationFn: (body) => customerService.updateCustomer(body),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['customer'] });
+            queryClient.invalidateQueries({ queryKeys: ['customer', 'allTickets'] });
             addSuccess('Customer updated.');
             closeModal();
         },
