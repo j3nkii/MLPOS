@@ -10,14 +10,6 @@ export const useProductQuery = () => {
     const { closeModal } = useModalZussy();
     const { addError, addSuccess } = useToastZussy();
 
-    const _refresh = async () => {
-        await queryClient.fetchQuery({
-            queryKey: ['product'],
-            queryFn: productService.readAllProducts,
-            onError: (error) => console.error(error),
-        });
-    };
-
     const readAllProducts = useQuery({
         queryKey: ['product'],
         queryFn: productService.readAllProducts,
@@ -33,7 +25,6 @@ export const useProductQuery = () => {
     const createProduct = useMutation({
         mutationFn: productService.createProduct,
         onSuccess: async () => {
-            await _refresh();
             queryClient.invalidateQueries({ queryKey: ['product'] });
             addSuccess('Product created.');
             closeModal();
@@ -47,7 +38,6 @@ export const useProductQuery = () => {
     const updateProduct = useMutation({
         mutationFn: productService.updateProduct,
         onSuccess: async () => {
-            await _refresh();
             queryClient.invalidateQueries({ queryKey: ['product'] });
             addSuccess('Product updated.');
             closeModal();
