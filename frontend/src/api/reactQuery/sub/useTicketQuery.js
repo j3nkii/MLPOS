@@ -12,21 +12,11 @@ export const useTicketQuery = () => {
     const { addError, addSuccess } = useToastZussy();
     const { closeModal } = useModalZussy();
 
-    const _refreshTickets = async() => {
-        await queryClient.fetchQuery({
-            queryKey: ['allTickets'],
-            queryFn: ticketService.readAllTickets,
-            onError: (error) => {
-                console.error(error);
-            }
-        });
-    }
-
     const createTicket = useMutation({
         mutationFn: ticketService.createTicket,
         onSuccess: async (result) => {
             navigate(`/tickets/${result.data.data.ticketID}`)
-            await _refreshTickets()
+            // await _refreshTickets()
             queryClient.invalidateQueries({ queryKey: ['allTickets'] });
             addSuccess('Ticket created.');
             closeModal();
@@ -45,16 +35,6 @@ export const useTicketQuery = () => {
         })
     }
 
-    // const readTicket = useQuery({
-    //     queryKey: ['invocie', ticketID],
-    //     queryFn: () => ticketService.readTicket(ticketID),
-    //     onSuccess: (res) => setSelectedTicket(res.data),
-    //     onError: (error) => {
-    //         console.error(error);
-    //     },
-    //     enabled: !!ticketID,
-    // })
-
     const readAllTickets = useQuery({
         queryKey: ['allTickets'],
         queryFn: ticketService.readAllTickets,
@@ -66,8 +46,8 @@ export const useTicketQuery = () => {
     const updateTicket = useMutation({
         mutationFn: ticketService.updateTicket,
         onSuccess: async () => {
-            await _refreshTickets()
-            queryClient.invalidateQueries({ queryKey: ['allTickets'] });
+            // await _refreshTickets()
+            queryClient.invalidateQueries({ queryKeys: ['allTickets', 'selectedTicket'] });
             addSuccess('Ticket updated.');
             closeModal();
         },
