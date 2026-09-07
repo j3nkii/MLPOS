@@ -27,12 +27,12 @@ export const Selected{{pascalCase name}}Page = () => {
 
     useEffect(() => {
         const { {{camelCase name}}ID } = params;
-        const {{camelCase name}}Index = readAll{{pascalCase name}}s?.data?.data.findIndex(x => x.id === {{camelCase name}}ID);
-        const selected{{pascalCase name}} = readAll{{pascalCase name}}s?.data?.data[{{camelCase name}}Index];
+        const {{camelCase name}}Index = readAll{{pascalCase name}}s?.data.findIndex(x => x.id === {{camelCase name}}ID);
+        const selected{{pascalCase name}} = readAll{{pascalCase name}}s?.data[{{camelCase name}}Index];
         if(selected{{pascalCase name}}){
             setSelected{{pascalCase name}}(selected{{pascalCase name}});
         }
-    }, [readAll{{pascalCase name}}s?.data?.data]);
+    }, [readAll{{pascalCase name}}s?.data]);
 
     const onDelete = (e) => {
         e.stopPropagation();

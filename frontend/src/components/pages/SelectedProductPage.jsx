@@ -27,12 +27,12 @@ export const SelectedProductPage = () => {
 
     useEffect(() => {
         const { productID } = params;
-        const productIndex = readAllProducts?.data?.data.findIndex(x => x.id === productID);
-        const selectedProduct = readAllProducts?.data?.data[productIndex];
+        const productIndex = readAllProducts?.data.findIndex(x => x.id === productID);
+        const selectedProduct = readAllProducts?.data[productIndex];
         if(selectedProduct){
             setSelectedProduct(selectedProduct);
         }
-    }, [readAllProducts?.data?.data]);
+    }, [readAllProducts?.data]);
 
     const onDelete = (e) => {
         e.stopPropagation();

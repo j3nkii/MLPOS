@@ -78,7 +78,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
                 <form className='p-6'>
                     <Input type={'checkbox'} onChange={handleChange} value={ticketItemForm.useExisting} label={'Use Existing Item'} name={'useExisting'} />
                     { ticketItemForm.useExisting ? (
-                        <Input type='select' options={readAllProducts?.data?.data} onSubmit={saveAndNext} onChange={handleSelectChange} value={ticketItemForm.productID || ''} label={'Name'} name={'productID'} />
+                        <Input type='select' options={readAllProducts?.data} onSubmit={saveAndNext} onChange={handleSelectChange} value={ticketItemForm.productID || ''} label={'Name'} name={'productID'} />
                     ) : (
                         <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
                     )}

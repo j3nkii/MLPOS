@@ -30,11 +30,11 @@ export const SelectedCustomerPage = () => {
 
     useEffect(() => {
         const { customerID } = params;
-        const customerTickets = readAllTickets?.data?.data.filter(x => x.customer_id === customerID);
+        const customerTickets = readAllTickets?.data.filter(x => x.customer_id === customerID);
         if(customerTickets){
             setCustomerTickets(customerTickets);
         }
-    }, [readAllTickets?.data?.data])
+    }, [readAllTickets?.data])
 
     const onDelete = (e) => {
         e.stopPropagation();

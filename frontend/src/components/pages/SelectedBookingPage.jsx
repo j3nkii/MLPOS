@@ -27,12 +27,12 @@ export const SelectedBookingPage = () => {
 
     useEffect(() => {
         const { bookingID } = params;
-        const bookingIndex = readAllBookings?.data?.data.findIndex(x => x.id === bookingID);
-        const selectedBooking = readAllBookings?.data?.data[bookingIndex];
+        const bookingIndex = readAllBookings?.data.findIndex(x => x.id === bookingID);
+        const selectedBooking = readAllBookings?.data[bookingIndex];
         if(selectedBooking){
             setSelectedBooking(selectedBooking);
         }
-    }, [readAllBookings?.data?.data]);
+    }, [readAllBookings?.data]);
 
     const onDelete = (e) => {
         e.stopPropagation();
