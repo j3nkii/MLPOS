@@ -31,8 +31,14 @@ router.get('/:id', async (req, res) => {
         `, [req.params.id, req.accountId]);
 
         const { rows: tickets } = await req.db.query(`
-            SELECT * FROM tickets
-            WHERE customer_id = $1 AND account_id = $2 AND is_deleted = false
+            SELECT
+                tickets.*,
+                SUM(ticket_items.price * ticket_items.quantity) AS price
+            FROM tickets
+            JOIN ticket_items
+                ON tickets.id = ticket_items.ticket_id
+            WHERE customer_id = $1 AND account_id = $2 AND tickets.is_deleted = false
+            GROUP BY tickets.id;
         `, [customer.id, req.accountId]);
         customer.tickets = tickets
         if (!customer) return res.status(404).json({ error: 'Not found' });
