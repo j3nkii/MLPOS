@@ -16,7 +16,6 @@ export const useTicketQuery = () => {
         mutationFn: ticketService.createTicket,
         onSuccess: async (result) => {
             navigate(`/tickets/${result.data.data.ticketID}`)
-            // await _refreshTickets()
             queryClient.invalidateQueries({ queryKey: ['allTickets'] });
             addSuccess('Ticket created.');
             closeModal();
@@ -46,7 +45,6 @@ export const useTicketQuery = () => {
     const updateTicket = useMutation({
         mutationFn: ticketService.updateTicket,
         onSuccess: async () => {
-            // await _refreshTickets()
             queryClient.invalidateQueries({ queryKeys: ['allTickets', 'selectedTicket'] });
             addSuccess('Ticket updated.');
             closeModal();
@@ -76,8 +74,7 @@ export const useTicketQuery = () => {
     const updateTicketItem = useMutation({
         mutationFn: ticketService.updateTicketItem,
         onSuccess: async () => {
-            // await _refreshTickets()
-            queryClient.invalidateQueries({ queryKey: ['selectedTicket'] });
+            queryClient.invalidateQueries({ queryKeys: ['selectedTicket', 'selectedCustomer'] });
             addSuccess('Ticket Item updated.');
             closeModal();
         },
@@ -90,9 +87,7 @@ export const useTicketQuery = () => {
     const createTicketItem = useMutation({
         mutationFn: ticketService.createTicketItem,
         onSuccess: async () => {
-            // not super sure why this had to be done this way in order to work. invalidate was not refreshing data. 
-            // await _refreshTickets();
-            queryClient.invalidateQueries({ queryKey: ['selectedTicket'] });
+            queryClient.invalidateQueries({ queryKeys: ['selectedTicket', 'selectedCustomer'] });
             addSuccess('Ticket Item created.');
         },
         onError: (error) => {
@@ -104,9 +99,7 @@ export const useTicketQuery = () => {
     const deleteTicketItem = useMutation({
         mutationFn: ticketService.deleteTicketItem,
         onSuccess: async () => {
-            // not super sure why this had to be done this way in order to work. invalidate was not refreshing data. 
-            // await _refreshTickets()
-            queryClient.invalidateQueries({ queryKey: ['selectedTicket'] });
+            queryClient.invalidateQueries({ queryKeys: ['selectedTicket', 'selectedCustomer'] });
             addSuccess('Ticket Item deleted.');
             closeModal();
         },
@@ -119,8 +112,6 @@ export const useTicketQuery = () => {
     const createTicketSend = useMutation({
         mutationFn: ticketService.createTicketSend,
         onSuccess: async () => {
-            // not super sure why this had to be done this way in order to work. invalidate was not refreshing data. 
-            // await _refreshTickets()
             queryClient.invalidateQueries({ queryKey: ['selectedTicket'] });
             addSuccess('Ticket sent successfully.');
             closeModal();

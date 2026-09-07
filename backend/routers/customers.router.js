@@ -37,6 +37,7 @@ router.get('/:id', async (req, res) => {
             FROM tickets
             JOIN ticket_items
                 ON tickets.id = ticket_items.ticket_id
+                AND ticket_items.is_deleted = false
             WHERE customer_id = $1 AND account_id = $2 AND tickets.is_deleted = false
             GROUP BY tickets.id;
         `, [customer.id, req.accountId]);
