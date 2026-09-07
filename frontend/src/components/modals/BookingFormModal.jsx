@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Button, Input } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModalZussy } from '@zussy';
-import { useBookingQuery } from '@query';
+import { useBookingQuery, useCustomerQuery, useTicketQuery } from '@query';
 
 
 
-const INITIAL = {};
+const INITIAL = {
+    book_start: '',
+    book_end: '',
+};
 
 export const BookingFormModal = ({ isUpdate }) => {
     const [form, setForm] = useState(INITIAL);
     const { createBooking, updateBooking } = useBookingQuery();
+    const { readAllTickets } = useTicketQuery();
+    const { readAllCustomers } = useCustomerQuery();
     const { closeModal, item } = useModalZussy();
 
     useEffect(() => {
@@ -37,7 +42,8 @@ export const BookingFormModal = ({ isUpdate }) => {
             <ModalHeader title={isUpdate ? 'Update Booking' : 'Create Booking'} onClose={closeModal} />
             <ModalBody>
                 <form onSubmit={handleConfirm} className='p-6'>
-                    <Input onChange={handleChange} value={form.id} label={'ID'} name={'id'} />
+                    <Input onChange={handleChange} type={'date'} value={form.book_start} label={'Start'} name={'book_start'} />
+                    <Input onChange={handleChange} type={'date'} value={form.book_end} label={'End'} name={'book_end'} />
                     {/* TODO: add inputs */}
                 </form>
             </ModalBody>

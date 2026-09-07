@@ -170,6 +170,8 @@ CREATE TABLE sent_payments (
 DROP TABLE IF EXISTS bookings CASCADE;
 CREATE TABLE bookings (
     id                      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    ticket_id               UUID REFRENCES tickets(id),
+    customer_id               UUID REFRENCES customers(id),
     book_start              TIMESTAMPTZ NOT NULL,
     book_end                TIMESTAMPTZ NOT NULL,
     is_deleted BOOLEAN      DEFAULT FALSE,

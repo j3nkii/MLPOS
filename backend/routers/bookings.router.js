@@ -1,12 +1,11 @@
 const express = require('express');
-const pool = require('../modules/pool');
 const router = express.Router();
 
 
 
 router.get('/', async (req, res) => {
     try {
-        const { rows } = await pool.query(`
+        const { rows } = await req.db.query(`
             SELECT * FROM bookings
             WHERE is_deleted = false
             ORDER BY created_at DESC;
@@ -21,36 +20,34 @@ router.get('/', async (req, res) => {
 
 
 router.post('/', async (req, res) => {
-    const client = await pool.connect();
+    const { book_start, book_end } = req.body;
     try {
-        await client.query('BEGIN');
-        // TODO: destructure req.body
-        await client.query('COMMIT');
+        await req.db.query('BEGIN');
+        await req.db.query(`
+            INSERT INTO bookings (book_start, book_end)
+            VALUES ($1, $2)
+        `, [ book_start, book_end ]);
+        await req.db.query('COMMIT');
         res.status(201).json({ message: 'Booking created successfully' });
     } catch (error) {
-        await client.query('ROLLBACK');
+        await req.db.query('ROLLBACK');
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
-    } finally {
-        client.release();
     }
 });
 
 
 
 router.put('/:id', async (req, res) => {
-    const client = await pool.connect();
     try {
         const { id } = req.params;
         // TODO: destructure req.body and build dynamic update
-        await client.query('COMMIT');
+        await req.db.query('COMMIT');
         res.status(200).json({ message: 'Booking updated successfully' });
     } catch (error) {
         await client.query('ROLLBACK');
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
-    } finally {
-        client.release();
     }
 });
 
@@ -59,7 +56,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        await pool.query(`
+        await req.db.query(`
             UPDATE bookings
             SET is_deleted = true
             WHERE id = $1
