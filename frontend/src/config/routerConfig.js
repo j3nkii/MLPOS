@@ -9,8 +9,8 @@ import {
     SelectedCustomerPage,
     StripePage,
     ProductsPage,
-    SelectedProductPage
-   // ::PLOPPIN_IMPORT::
+    SelectedProductPage,
+    // ::PLOPPIN_IMPORT::
 } from '@components';
 
 
