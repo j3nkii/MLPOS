@@ -20,13 +20,13 @@ router.get('/', async (req, res) => {
 
 
 router.post('/', async (req, res) => {
-    const { book_start, book_end } = req.body;
+    const { book_start, book_end, ticket_id } = req.body;
     try {
         await req.db.query('BEGIN');
         await req.db.query(`
-            INSERT INTO bookings (book_start, book_end)
-            VALUES ($1, $2)
-        `, [ book_start, book_end ]);
+            INSERT INTO bookings (book_start, book_end, ticket_id)
+            VALUES ($1, $2, $3)
+        `, [ book_start, book_end, ticket_id ]);
         await req.db.query('COMMIT');
         res.status(201).json({ message: 'Booking created successfully' });
     } catch (error) {

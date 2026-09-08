@@ -6,7 +6,7 @@ import { useTicketQuery } from '@query';
 import { useParams, useNavigate } from 'react-router-dom';
 
 
-import { Trash2, DiamondPlus, BookUser, Pencil, Send, BadgeJapaneseYen, UserCircleIcon } from 'lucide-react'
+import { Trash2, DiamondPlus, BookUser, Pencil, Send, BadgeJapaneseYen, UserCircleIcon, Calendar } from 'lucide-react'
 
 
 
@@ -51,6 +51,14 @@ export const SelectedTicketPage = () => {
         });
     };
 
+    const onBook = (e) => {
+        e.stopPropagation();
+        setModal({
+            modalKey: 'createBooking',
+            item: selectedTicket,
+        });
+    };
+
     const onCustomer = (e) => {
         e.stopPropagation();
         navigate(`/customers/${selectedTicket.customer_id}`)
@@ -78,6 +86,12 @@ export const SelectedTicketPage = () => {
                         onClick={onDelete} 
                         text='Delete'
                     ><Trash2 />
+                    </Button>
+                    <Button
+                        color={'green'}
+                        onClick={onBook} 
+                        text='Create Appointment'
+                    ><Calendar />
                     </Button>
                     <Button
                         color={'green'}

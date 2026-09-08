@@ -43,7 +43,17 @@ router.get('/:id', async (req, res) => {
                     )
                     SELECT JSON_AGG(payments_clone.*) AS reults
                     FROM payments_clone
-                ), '[]') AS payments
+                ), '[]') AS payments,
+                COALESCE((
+                    WITH bookings_clone AS (
+                        SELECT * FROM bookings
+                        WHERE ticket_id = tickets.id
+                            AND is_deleted = false
+                        ORDER BY created_at DESC
+                    )
+                    SELECT JSON_AGG(bookings_clone.*) AS reults
+                    FROM bookings_clone
+                ), '[]') AS bookings
             FROM tickets
             LEFT JOIN ticket_items
                 ON ticket_items.ticket_id = tickets.id
@@ -66,6 +76,49 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
+
+// router.get('/:id', async (req, res) => {
+//     try {
+//         console.log(req.query)
+//         const { id: ticketID } = req.params;
+//         const { rows } = await req.db.query(`
+//             SELECT
+//                 tickets.*,
+//                 customers.name,
+//                 SUM(ticket_items.price * ticket_items.quantity) as price,
+//                 COALESCE(JSON_AGG(ticket_items) FILTER (WHERE ticket_items.ticket_id IS NOT NULL), '[]') as details,
+//                 COALESCE((
+//                     WITH payments_clone AS (
+//                         SELECT * FROM payments
+//                         WHERE ticket_id = tickets.id
+//                             AND is_deleted = false
+//                         ORDER BY created_at DESC
+//                     )
+//                     SELECT JSON_AGG(payments_clone.*) AS reults
+//                     FROM payments_clone
+//                 ), '[]') AS payments
+//             FROM tickets
+//             LEFT JOIN ticket_items
+//                 ON ticket_items.ticket_id = tickets.id
+//                 AND ticket_items.is_deleted = false
+//             LEFT JOIN products
+//                 ON ticket_items.product_id = products.id
+//             JOIN customers
+//                 ON customers.id = tickets.customer_id
+//                 AND customers.is_deleted = false
+//             WHERE tickets.account_id = $1
+//                 AND tickets.is_deleted = false
+//                 AND tickets.id = $2
+//             GROUP BY tickets.id, customers.name
+//             ORDER BY tickets.created_at DESC
+//             LIMIT 1;
+//         `, [req.accountId, ticketID]);
+//         res.status(200).json(rows[0]);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Something went wrong' });
+//     }
+// });
 
 router.post('/', async (req, res) => {
     try {

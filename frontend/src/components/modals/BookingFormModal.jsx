@@ -23,6 +23,10 @@ export const BookingFormModal = ({ isUpdate }) => {
             setForm({
                 id: item.id,
             });
+        } else {
+            setForm({
+                ticket_id: item.id
+            })
         }
     }, []);
 
