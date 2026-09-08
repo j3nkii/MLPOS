@@ -126,8 +126,12 @@ export const TABLE_CONFIG = {
     appointments: {
         headers: [
             {
-                display: 'ID',
-                key: 'id'
+                display: 'Start',
+                key: 'book_start'
+            },
+            {
+                display: 'End',
+                key: 'book_end'
             },
         ],
         tableActions: {

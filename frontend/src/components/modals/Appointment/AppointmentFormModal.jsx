@@ -46,8 +46,8 @@ export const AppointmentFormModal = ({ isUpdate }) => {
             <ModalHeader title={isUpdate ? 'Update Appointment' : 'Create Appointment'} onClose={closeModal} />
             <ModalBody>
                 <form onSubmit={handleConfirm} className='p-6'>
-                    <Input onChange={handleChange} type={'date'} value={form.book_start} label={'Start'} name={'book_start'} />
-                    <Input onChange={handleChange} type={'date'} value={form.book_end} label={'End'} name={'book_end'} />
+                    <Input onChange={handleChange} type={'datetime-local'} value={form.book_start} label={'Start'} name={'book_start'} />
+                    <Input onChange={handleChange} type={'datetime-local'} value={form.book_end} label={'End'} name={'book_end'} />
                     {/* TODO: add inputs */}
                 </form>
             </ModalBody>
