@@ -54,7 +54,7 @@ export const SelectedTicketPage = () => {
     const onBook = (e) => {
         e.stopPropagation();
         setModal({
-            modalKey: 'createBooking',
+            modalKey: 'createAppointment',
             item: selectedTicket,
         });
     };

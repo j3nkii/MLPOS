@@ -24,8 +24,8 @@ const STRIPE_ROUTER = require('./routers/stripe.router');
 app.use('/api/stripe', ...authed, STRIPE_ROUTER);
 const PRODUCTS_ROUTER = require('./routers/products.router');
 app.use('/api/product', ...authed, PRODUCTS_ROUTER);
-const BOOKINGS_ROUTER = require('./routers/bookings.router');
-app.use('/api/booking', ...authed, BOOKINGS_ROUTER);
+const BOOKINGS_ROUTER = require('./routers/appointments.router');
+app.use('/api/appointment', ...authed, BOOKINGS_ROUTER);
 // ::PLOPPIN::
 
 module.exports = app;

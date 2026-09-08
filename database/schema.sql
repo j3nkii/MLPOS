@@ -167,8 +167,8 @@ CREATE TABLE sent_payments (
 
 
 
-DROP TABLE IF EXISTS bookings CASCADE;
-CREATE TABLE bookings (
+DROP TABLE IF EXISTS appointments CASCADE;
+CREATE TABLE appointments (
     id                      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     ticket_id               UUID REFERENCES tickets(id),
     customer_id             UUID REFERENCES customers(id),

@@ -13,8 +13,8 @@ import {
     TicketSendModal,
     ProductFormModal,
     ProductDeleteModal,    
-     BookingFormModal,
-    BookingDeleteModal,    
+     AppointmentFormModal,
+    AppointmentDeleteModal,    
 // ::PLOPPIN_IMPORT::
 } from '@components';
 
@@ -54,12 +54,12 @@ export const ModalManager = () => {
             return <ProductFormModal />
         case 'updateProduct':
             return <ProductFormModal isUpdate={true} />
-        case 'deleteBooking':
-            return <BookingDeleteModal />
-        case 'createBooking':
-            return <BookingFormModal />
-        case 'updateBooking':
-            return <BookingFormModal isUpdate={true} />
+        case 'deleteAppointment':
+            return <AppointmentDeleteModal />
+        case 'createAppointment':
+            return <AppointmentFormModal />
+        case 'updateAppointment':
+            return <AppointmentFormModal isUpdate={true} />
         case null:
             return null;
         default:

@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const { rows } = await req.db.query(`
-            SELECT * FROM bookings
+            SELECT * FROM appointments
             WHERE is_deleted = false
             ORDER BY created_at DESC;
         `);
@@ -24,11 +24,11 @@ router.post('/', async (req, res) => {
     try {
         await req.db.query('BEGIN');
         await req.db.query(`
-            INSERT INTO bookings (book_start, book_end, ticket_id)
+            INSERT INTO appointments (book_start, book_end, ticket_id)
             VALUES ($1, $2, $3)
         `, [ book_start, book_end, ticket_id ]);
         await req.db.query('COMMIT');
-        res.status(201).json({ message: 'Booking created successfully' });
+        res.status(201).json({ message: 'Appointment created successfully' });
     } catch (error) {
         await req.db.query('ROLLBACK');
         console.error(error);
@@ -43,7 +43,7 @@ router.put('/:id', async (req, res) => {
         const { id } = req.params;
         // TODO: destructure req.body and build dynamic update
         await req.db.query('COMMIT');
-        res.status(200).json({ message: 'Booking updated successfully' });
+        res.status(200).json({ message: 'Appointment updated successfully' });
     } catch (error) {
         await client.query('ROLLBACK');
         console.error(error);
@@ -57,11 +57,11 @@ router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         await req.db.query(`
-            UPDATE bookings
+            UPDATE appointments
             SET is_deleted = true
             WHERE id = $1
         `, [id]);
-        res.status(200).json({ message: 'Booking deleted successfully' });
+        res.status(200).json({ message: 'Appointment deleted successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });

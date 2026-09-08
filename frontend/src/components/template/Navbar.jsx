@@ -33,9 +33,9 @@ export const Navbar = () => {
                             Products
                         </Button>
                     </Link>
-                    <Link className='hover:cursor-pointer' to='/bookings'>
+                    <Link className='hover:cursor-pointer' to='/appointments'>
                         <Button color={'linkBlack'} className='bg-red-500 text-white px-3 py-1 rounded'>
-                            Bookings
+                            Appointments
                         </Button>
                     </Link>
                     {/*::PLOPPIN_MODAL::*/}

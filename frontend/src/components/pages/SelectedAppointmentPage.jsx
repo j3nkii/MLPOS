@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@components';
 import { useModalZussy } from '@zussy';
-import { useBookingQuery, useTicketQuery } from '@query';
+import { useAppointmentQuery, useTicketQuery } from '@query';
 import { useParams } from 'react-router-dom';
 
 
@@ -11,7 +11,7 @@ import { Trash2, Pencil } from 'lucide-react'
 
 const INITIAL = {
     price: '',
-    bookingID: '',
+    appointmentID: '',
     status: '',
     details: [],
     payments: [],
@@ -19,40 +19,40 @@ const INITIAL = {
 
 
 
-export const SelectedBookingPage = () => {
+export const SelectedAppointmentPage = () => {
     const params = useParams();
-    const { readAllBookings } = useBookingQuery();
-    const [selectedBooking, setSelectedBooking] = useState(INITIAL);
+    const { readAllAppointments } = useAppointmentQuery();
+    const [selectedAppointment, setSelectedAppointment] = useState(INITIAL);
     const { setModal } = useModalZussy();
 
     useEffect(() => {
-        const { bookingID } = params;
-        const bookingIndex = readAllBookings?.data.findIndex(x => x.id === bookingID);
-        const selectedBooking = readAllBookings?.data[bookingIndex];
-        if(selectedBooking){
-            setSelectedBooking(selectedBooking);
+        const { appointmentID } = params;
+        const appointmentIndex = readAllAppointments?.data.findIndex(x => x.id === appointmentID);
+        const selectedAppointment = readAllAppointments?.data[appointmentIndex];
+        if(selectedAppointment){
+            setSelectedAppointment(selectedAppointment);
         }
-    }, [readAllBookings?.data]);
+    }, [readAllAppointments?.data]);
 
     const onDelete = (e) => {
         e.stopPropagation();
         setModal({
-            modalKey: 'deleteBooking',
-            item: selectedBooking,
+            modalKey: 'deleteAppointment',
+            item: selectedAppointment,
         });
     };
 
     const onUpdate = (e) => {
         e.stopPropagation();
         setModal({
-            modalKey: 'updateBooking',
-            item: selectedBooking,
+            modalKey: 'updateAppointment',
+            item: selectedAppointment,
         });
     };
 
     return (
         <div className='max-w-170 bg-white'>
-            <h1 className=' text-4xl font-extrabold'>{selectedBooking.id}</h1>
+            <h1 className=' text-4xl font-extrabold'>{selectedAppointment.id}</h1>
             <div className='flex'>
                 <div className='flex items-center'>
                     <Button

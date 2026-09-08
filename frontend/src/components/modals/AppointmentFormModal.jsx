@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Input } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModalZussy } from '@zussy';
-import { useBookingQuery, useCustomerQuery, useTicketQuery } from '@query';
+import { useAppointmentQuery, useCustomerQuery, useTicketQuery } from '@query';
 
 
 
@@ -11,9 +11,9 @@ const INITIAL = {
     book_end: '',
 };
 
-export const BookingFormModal = ({ isUpdate }) => {
+export const AppointmentFormModal = ({ isUpdate }) => {
     const [form, setForm] = useState(INITIAL);
-    const { createBooking, updateBooking } = useBookingQuery();
+    const { createAppointment, updateAppointment } = useAppointmentQuery();
     const { readAllTickets } = useTicketQuery();
     const { readAllCustomers } = useCustomerQuery();
     const { closeModal, item } = useModalZussy();
@@ -32,7 +32,7 @@ export const BookingFormModal = ({ isUpdate }) => {
 
     const handleConfirm = async (evt) => {
         evt.preventDefault();
-        const handler = isUpdate ? updateBooking : createBooking;
+        const handler = isUpdate ? updateAppointment : createAppointment;
         handler.mutate({ id: item?.id, body: form });
     };
 
@@ -43,7 +43,7 @@ export const BookingFormModal = ({ isUpdate }) => {
 
     return (
         <Modal onClose={closeModal}>
-            <ModalHeader title={isUpdate ? 'Update Booking' : 'Create Booking'} onClose={closeModal} />
+            <ModalHeader title={isUpdate ? 'Update Appointment' : 'Create Appointment'} onClose={closeModal} />
             <ModalBody>
                 <form onSubmit={handleConfirm} className='p-6'>
                     <Input onChange={handleChange} type={'date'} value={form.book_start} label={'Start'} name={'book_start'} />

@@ -45,15 +45,15 @@ router.get('/:id', async (req, res) => {
                     FROM payments_clone
                 ), '[]') AS payments,
                 COALESCE((
-                    WITH bookings_clone AS (
-                        SELECT * FROM bookings
+                    WITH appointments_clone AS (
+                        SELECT * FROM appointments
                         WHERE ticket_id = tickets.id
                             AND is_deleted = false
                         ORDER BY created_at DESC
                     )
-                    SELECT JSON_AGG(bookings_clone.*) AS reults
-                    FROM bookings_clone
-                ), '[]') AS bookings
+                    SELECT JSON_AGG(appointments_clone.*) AS reults
+                    FROM appointments_clone
+                ), '[]') AS appointments
             FROM tickets
             LEFT JOIN ticket_items
                 ON ticket_items.ticket_id = tickets.id

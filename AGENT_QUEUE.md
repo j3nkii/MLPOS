@@ -8,7 +8,7 @@
 1. **Single NEXT item** — Only one task should be `NEXT` at a time unless the human explicitly parallelizes.
 2. **Human goes rogue** — When they report off-queue work: (a) capture outcome in ROADMAP parking lot or wins, (b) mark affected items `DONE` / `BLOCKED` / add `DEBT`, (c) do not lecture—reconcile.
 3. **Session scope** — One queue ID per session when possible (e.g. `B1.3`). Ask if unclear.
-4. **v1 gate** — Reject or park work that ships customer subdomain, public booking, RBAC, or doc signing unless human says **promote**.
+4. **v1 gate** — Reject or park work that ships customer subdomain, public appointment, RBAC, or doc signing unless human says **promote**.
 5. **After each session** — Update statuses here; suggest one-line entry for human ROADMAP wins/oops.
 
 ## Status legend
@@ -100,7 +100,7 @@ NEXT: B1.7
 |----|------|
 | P2.1 | Wildcard DNS + `{tenant}.mplos.com` |
 | P2.2 | Customer auth on subdomain |
-| P2.3 | Public service booking |
+| P2.3 | Public service appointment |
 | P2.4 | Transactional email |
 | P2.5 | Doc signing integration |
 | P2.6 | RBAC roles |

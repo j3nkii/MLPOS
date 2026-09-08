@@ -123,7 +123,7 @@ export const TABLE_CONFIG = {
             // detail: '/products/',
         }
     },
-    bookings: {
+    appointments: {
         headers: [
             {
                 display: 'ID',
@@ -131,9 +131,9 @@ export const TABLE_CONFIG = {
             },
         ],
         tableActions: {
-            create: 'createBooking',
-            delete: 'deleteBooking',
-            detail: '/bookings/',
+            create: 'createAppointment',
+            delete: 'deleteAppointment',
+            detail: '/appointments/',
         }
     },
     // ::PLOPPIN::

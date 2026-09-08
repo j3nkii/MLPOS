@@ -28,7 +28,7 @@ The guardrails live in **[AGENT_QUEUE.md](./AGENT_QUEUE.md)** — precise order 
 
 **v1:** Internal tool only (no customer subdomain yet). A mobile bike tech (or you) can run customers → appointments → tickets → pay links / payments → job status. ~$10/mo product later; **dogfood first**.
 
-**Not v1:** `{business}.mplos.com`, public booking, doc signing, roles, custom domains, rewards/subscriptions.
+**Not v1:** `{business}.mplos.com`, public appointment, doc signing, roles, custom domains, rewards/subscriptions.
 
 ---
 

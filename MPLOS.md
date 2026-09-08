@@ -60,7 +60,7 @@ We do not need separate products for each niche; we need **language and defaults
 
 - **Cheap** — Accessible subscription; no “contact sales” energy.  
 - **Easy** — Obvious flows; minimal setup before “you’re live.”  
-- **Crucial only** — Invoicing, getting paid, customer record, catalog/booking/docs as needed—not everything.  
+- **Crucial only** — Invoicing, getting paid, customer record, catalog/appointment/docs as needed—not everything.  
 - **Simply done** — One good way to do common tasks, not fifty settings.  
 
 We are not trying to out-feature Square or out-account QuickBooks. We are trying to be the tool an SBO **actually uses every week** because it matches how they work.

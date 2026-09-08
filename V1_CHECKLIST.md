@@ -19,7 +19,7 @@ Target later: ~$10/mo SaaS. **Right now:** dogfood on real jobs, not public laun
 ### Not v1 (park these)
 
 - `{business}.mplos.com` customer site  
-- Public booking  
+- Public appointment  
 - Customer accounts / rewards / subscriptions  
 - Email/SMS notifications  
 - Doc signing  
@@ -92,7 +92,7 @@ Frontend polish and bug fixes so daily use doesn’t lie to you.
 
 ### Phase B — Internal scheduling (~2–3 weeks)
 
-Required for v1 per product plan. **Staff only** — no customer self-booking.
+Required for v1 per product plan. **Staff only** — no customer self-appointment.
 
 | Done | ID | Task | Where to look |
 |------|-----|------|----------------|
@@ -103,7 +103,7 @@ Required for v1 per product plan. **Staff only** — no customer self-booking.
 | [ ] | B5 | Simple business hours or blockouts (keep dumb) | API + minimal UI |
 | [ ] | B6 | Manual link: appointment → same customer → new ticket | UX only at first is fine |
 
-**Keep out of scope:** public booking, email reminders, Google Calendar sync.
+**Keep out of scope:** public appointment, email reminders, Google Calendar sync.
 
 ---
 
@@ -224,7 +224,7 @@ Handoff to Otto: saved on main. Branch agent/b1.7-toast. Do Phase A (A1–A5).
 
 - Wildcard DNS + `{tenant}.mplos.com`  
 - Customer auth on subdomain  
-- Public service booking  
+- Public service appointment  
 - Transactional email  
 - Doc signing  
 
