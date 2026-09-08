@@ -15,7 +15,7 @@ export const useTicketQuery = () => {
     const createTicket = useMutation({
         mutationFn: ticketService.createTicket,
         onSuccess: async (result) => {
-            navigate(`/tickets/${result.data.data.ticketID}`)
+            navigate(`/tickets/${result.data.ticketID}`);
             queryClient.invalidateQueries({ queryKey: ['allTickets'] });
             addSuccess('Ticket created.');
             closeModal();

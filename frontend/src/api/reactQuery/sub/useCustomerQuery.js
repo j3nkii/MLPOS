@@ -1,12 +1,14 @@
 import 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useModalZussy, useToastZussy } from '@zussy';
+import { useNavigate } from 'react-router-dom';
 
 
 import { customerService } from '@services';
 
 
 export const useCustomerQuery = () => {
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const { closeModal } = useModalZussy();
     const { addError, addSuccess } = useToastZussy();
@@ -55,6 +57,7 @@ export const useCustomerQuery = () => {
         mutationFn: (customerID) => customerService.deleteCustomer(customerID),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['allCustomers'] });
+            navigate(`/customers/`)
             addSuccess('Customer deleted.');
             closeModal();
         },

@@ -9,3 +9,5 @@ logout and user storage is spotty / clunky.
 some on delete functions dont refresh with new data, make the app fetch single pages instead of using the ... master list they come from. 
 
 PLOP -> needs modal manager hook up
+
+selected item pages should have a backfall if nothing is found.
