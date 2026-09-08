@@ -11,16 +11,16 @@ export { ToastTab, ToastStack, TOAST_VARIANT } from './library/Toast'
 
 export { Loggin } from './pages/Auth/Loggin'
 
-export { AuthPage } from './pages/AuthPage'
-export { CustomersPage } from './pages/CustomersPage'
-export { TicketsPage } from './pages/TicketsPage'
-export { SelectedTicketPage } from './pages/SelectedTicketPage'
-export { SelectedCustomerPage } from './pages/SelectedCustomerPage'
+export { AuthPage } from './pages/Auth/AuthPage'
+export { CustomersPage } from './pages/Customer/CustomersPage'
+export { TicketsPage } from './pages/Ticket/TicketsPage'
+export { SelectedTicketPage } from './pages/Ticket/SelectedTicketPage'
+export { SelectedCustomerPage } from './pages/Customer/SelectedCustomerPage'
 export { StripePage } from './pages/StripePage'
-export { SelectedProductPage } from './pages/SelectedProductPage'
-export { ProductsPage } from './pages/ProductsPage'
-export { SelectedAppointmentPage } from './pages/SelectedAppointmentPage'
-export { AppointmentsPage } from './pages/AppointmentsPage'
+export { SelectedProductPage } from './pages/Product/SelectedProductPage'
+export { ProductsPage } from './pages/Product/ProductsPage'
+export { SelectedAppointmentPage } from './pages/Appointment/SelectedAppointmentPage'
+export { AppointmentsPage } from './pages/Appointment/AppointmentsPage'
 // ::PLOPPIN_PAGE::
 
 
@@ -32,17 +32,22 @@ export { PageLoader } from './template/PageLoader'
 export { AuthWrapper } from './template/AuthWrapper'
 
 
-export { CustomerDeleteModal } from './modals/CustomerDeleteModal'
-export { CustomerFormModal } from './modals/CustomerFormModal'
-export { TicketFormModal } from './modals/TicketFormModal'
-export { TicketDeleteModal } from './modals/TicketDeleteModal'
-export { PaymentFormModal } from './modals/PaymentFormModal'
-export { PaymentDeleteModal } from './modals/PaymentDeleteModal'
-export { TicketItemFormModal } from './modals/TicketItemFormModal'
-export { TicketItemDeleteModal } from './modals/TicketItemDeleteModal'
-export { TicketSendModal } from './modals/TicketSendModal'
-export { ProductFormModal } from './modals/ProductFormModal'
-export { ProductDeleteModal } from './modals/ProductDeleteModal'
-export { AppointmentFormModal } from './modals/AppointmentFormModal'
-export { AppointmentDeleteModal } from './modals/AppointmentDeleteModal'
+export { CustomerDeleteModal } from './modals/Customer/CustomerDeleteModal'
+export { CustomerFormModal } from './modals/Customer/CustomerFormModal'
+
+export { TicketFormModal } from './modals/Ticket/TicketFormModal'
+export { TicketDeleteModal } from './modals/Ticket/TicketDeleteModal'
+export { TicketItemFormModal } from './modals/Ticket/TicketItemFormModal'
+export { TicketItemDeleteModal } from './modals/Ticket/TicketItemDeleteModal'
+export { TicketSendModal } from './modals/Ticket/TicketSendModal'
+
+export { PaymentFormModal } from './modals/Payment/PaymentFormModal'
+export { PaymentDeleteModal } from './modals/Payment/PaymentDeleteModal'
+
+export { ProductFormModal } from './modals/Product/ProductFormModal'
+export { ProductDeleteModal } from './modals/Product/ProductDeleteModal'
+
+export { AppointmentFormModal } from './modals/Appointment/AppointmentFormModal'
+export { AppointmentDeleteModal } from './modals/Appointment/AppointmentDeleteModal'
+
 // ::PLOPPIN_MODAL::
