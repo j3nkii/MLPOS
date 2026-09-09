@@ -42,7 +42,6 @@ const Select = (props) => {
     const { name = '', onChange = onChangeWarning, value = '', options = [], disabled = false } = props;
     return (
         <select disabled={disabled} onChange={onChange} name={name} value={value}>
-            <option value={''}>---</option>
             { options.map(opt => <option value={opt.id} data-meta={JSON.stringify(opt)}>{opt.name}</option>) }
         </select>
     )

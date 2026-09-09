@@ -53,9 +53,9 @@ export const TicketItemFormModal = ({ isUpdate }) => {
         closeModal();
     };
 
-    const saveAndNext = (evt) => {
+    const saveAndNext = async (evt) => {
         evt.preventDefault();
-        handleConfirm(evt, true);
+        await handleConfirm(evt, true);
         setTicketItemForm(INITIAL_FORM);
         nameRef?.current.focus()
     }
@@ -84,7 +84,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
                     ) : (
                         <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
                     )}
-                    <Input onChange={handleChange} value={ticketItemForm.product_type || ''} label={'Type'} name={'product_type'} />
+                    <Input onChange={handleChange} value={ticketItemForm.product_type || ''} label={'Type'} name={'product_type'} type={'select'} options={[{ id: 'service', name: 'Service' }, { id: 'inventory', name: 'Inventory' }]} />
                     <Input type={'number'} onChange={handleChange} value={ticketItemForm.price || ''} label={'Price'} name={'price'} />
                     <Input type={'number'} onChange={handleChange} value={ticketItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
                     <button onClick={saveAndNext} type='submit' style={{ display: 'none' }}></button>

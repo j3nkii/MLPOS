@@ -189,10 +189,10 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/ticket-item/:id', async (req, res) => {
     try {
-        const { name, price, quantity, productID, prodcut_type } = req.body;
+        const { name, price, quantity, productID, product_type } = req.body;
         console.log(req.body)
         const ticketID = req.params.id;
-        if (!ticketID || (!productID && !name) || price == null || !quantity || !prodcut_type) {
+        if (!ticketID || (!productID && !name) || price == null || !quantity || !product_type) {
             throw new Error('Missing essential fields');
         }
         const { rowCount } = await req.db.query(
@@ -202,9 +202,9 @@ router.post('/ticket-item/:id', async (req, res) => {
         if (!rowCount) return res.status(404).json({ message: 'Ticket not found' });
 
         await req.db.query(
-            `INSERT INTO ticket_items (ticket_id, name, price, quantity, product_id, prodcut_type)
+            `INSERT INTO ticket_items (ticket_id, name, price, quantity, product_id, product_type)
              VALUES ($1, $2, $3, $4, $5, $6)`,
-            [ticketID, name, price, quantity, productID || null, prodcut_type]
+            [ticketID, name, price, quantity, productID || null, product_type]
         );
         res.status(200).json({ message: 'Line item created' });
     } catch (error) {
