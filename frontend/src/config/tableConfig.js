@@ -80,6 +80,10 @@ export const TABLE_CONFIG = {
             {
                 display: 'Quantity',
                 key: 'quantity'
+            },
+            {
+                display: 'Type',
+                key: 'product_type'
             }
         ],
         tableActions: {

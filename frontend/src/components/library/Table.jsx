@@ -55,8 +55,8 @@ export const Table = ( PROPS ) => {
                             <td className={tableStyles.tableTF}>{footer.total}</td>
                             <td className={tableStyles.tableTF}></td>
                             <td className={tableStyles.tableTF}></td>
+                            <td className={tableStyles.tableTF}></td>
                         </tr>
-                        
                     </tfoot>
                 )}
             </table>
