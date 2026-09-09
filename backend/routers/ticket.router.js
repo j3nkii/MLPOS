@@ -1,23 +1,28 @@
 const express = require('express');
 const router = express.Router();
 const stripeModule = require('../modules/stripe');
+const { handleDerivedStatus } = require('../modules/invoiceStatus');
 
 router.get('/', async (req, res) => {
     try {
         const { rows } = await req.db.query(`
             SELECT
                 tickets.*,
+                SUM(ticket_items.quantity * ticket_items.price) as price,
                 customers.name
             FROM tickets
             JOIN customers
                 ON customers.id = tickets.customer_id
                 AND customers.is_deleted = false
+            JOIN ticket_items
+                ON ticket_items.ticket_id = tickets.id
+                AND ticket_items.is_deleted = false
             WHERE tickets.account_id = $1
                 AND tickets.is_deleted = false
             GROUP BY tickets.id, customers.name
             ORDER BY tickets.created_at DESC
         `, [req.accountId]);
-        res.status(200).json(rows);
+        res.status(200).json(rows.map(row => ({ ...row, status: handleDerivedStatus(row) })));
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Something went wrong' });
@@ -275,7 +280,6 @@ router.post('/send/:id', async (req, res) => {
         if (!stripe_account_id) {
             return res.status(400).json({ message: 'Stripe account not connected' });
         }
-
         await req.db.query('BEGIN');
         const { rows: [ticketFull] } = await req.db.query(`
             SELECT

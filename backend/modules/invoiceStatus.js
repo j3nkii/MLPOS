@@ -38,7 +38,25 @@ function resolveInvoiceStatus({ currentStatus, ticketTotalCents, paidTotalCents 
     return INVOICE_STATUS.QUOTE;
 }
 
+const handleDerivedStatus = ({ invoice_status, order_status }) => {
+    if(invoice_status === 'paid' && order_status === 'fufilled'){
+        return 'completed'
+    }
+    if(invoice_status === 'cancelled' || order_status === 'cancelled'){
+        return 'cancelled'
+    }
+    if(invoice_status === 'paid' && order_status !== 'fufilled'){
+        return 'awaiting_order'
+    }
+    if(invoice_status !== 'paid' && order_status === 'fufilled'){
+        return 'awaiting_payment'
+    }
+    return 'pending';
+
+}
+
 module.exports = {
     INVOICE_STATUS,
     resolveInvoiceStatus,
+    handleDerivedStatus,
 };

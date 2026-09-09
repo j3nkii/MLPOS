@@ -17,6 +17,14 @@ CREATE TYPE ticket_order_status AS ENUM (
     'cancelled'
 );
 
+DROP TYPE IF EXISTS appointment_status_type CASCADE;
+CREATE TYPE appointment_status_type AS ENUM (
+    'scheduled',
+    'in_progress',
+    'rescheduled',
+    'complete'
+);
+
 DROP TYPE IF EXISTS product_type CASCADE;
 CREATE TYPE product_type AS ENUM (
     'service',
@@ -34,14 +42,6 @@ CREATE TYPE payment_method_type AS ENUM (
     'zelle',
     'bitcoin',
     'stripe'
-);
-
-DROP TYPE IF EXISTS appointment_status_type CASCADE;
-CREATE TYPE appointment_status_type AS ENUM (
-    'scheduled',
-    'in_progress',
-    'rescheduled',
-    'complete'
 );
 
 -- accounts / tenants — umbrella for users and business data
