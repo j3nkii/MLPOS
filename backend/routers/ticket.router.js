@@ -33,7 +33,16 @@ router.get('/:id', async (req, res) => {
                 tickets.*,
                 customers.name,
                 SUM(ticket_items.price * ticket_items.quantity) as price,
-                COALESCE(JSON_AGG(ticket_items) FILTER (WHERE ticket_items.ticket_id IS NOT NULL), '[]') as details,
+                COALESCE((
+                    WITH ticket_items_clone AS (
+                        SELECT * FROM ticket_items
+                        WHERE ticket_id = tickets.id
+                            AND is_deleted = false
+                        ORDER BY ticket_items.product_type DESC, created_at DESC
+                    )
+                    SELECT JSON_AGG(ticket_items_clone.*) AS reults
+                    FROM ticket_items_clone
+                ), '[]') AS details,
                 COALESCE((
                     WITH payments_clone AS (
                         SELECT * FROM payments
@@ -180,10 +189,10 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/ticket-item/:id', async (req, res) => {
     try {
-        const { name, price, quantity, productID } = req.body;
+        const { name, price, quantity, productID, prodcut_type } = req.body;
         console.log(req.body)
         const ticketID = req.params.id;
-        if (!ticketID || (!productID && !name) || price == null || !quantity) {
+        if (!ticketID || (!productID && !name) || price == null || !quantity || !prodcut_type) {
             throw new Error('Missing essential fields');
         }
         const { rowCount } = await req.db.query(
@@ -193,9 +202,9 @@ router.post('/ticket-item/:id', async (req, res) => {
         if (!rowCount) return res.status(404).json({ message: 'Ticket not found' });
 
         await req.db.query(
-            `INSERT INTO ticket_items (ticket_id, name, price, quantity, product_id)
-             VALUES ($1, $2, $3, $4, $5)`,
-            [ticketID, name, price, quantity, productID || null]
+            `INSERT INTO ticket_items (ticket_id, name, price, quantity, product_id, prodcut_type)
+             VALUES ($1, $2, $3, $4, $5, $6)`,
+            [ticketID, name, price, quantity, productID || null, prodcut_type]
         );
         res.status(200).json({ message: 'Line item created' });
     } catch (error) {

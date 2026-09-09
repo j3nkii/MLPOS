@@ -126,15 +126,16 @@ CREATE TABLE tickets (
 
 DROP TABLE IF EXISTS ticket_items CASCADE;
 CREATE TABLE ticket_items (
-    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    ticket_id   UUID NOT NULL REFERENCES tickets(id),
-    product_id  UUID REFERENCES products(id),
-    name        VARCHAR(257),
-    quantity    INTEGER,
-    price       INTEGER,
-    is_deleted  BOOLEAN DEFAULT FALSE,
-    created_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at  TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    ticket_id     UUID NOT NULL REFERENCES tickets(id),
+    product_id    UUID REFERENCES products(id),
+    product_type  product_type NOT NULL,
+    name          VARCHAR(257),
+    quantity      INTEGER,
+    price         INTEGER,
+    is_deleted    BOOLEAN DEFAULT FALSE,
+    created_at    TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 

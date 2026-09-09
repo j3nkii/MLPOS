@@ -14,6 +14,7 @@ const INITIAL_FORM = {
     price: 0,
     quantity: 1,
     useExisting: true,
+    product_type: 'inventory'
 };
 
 export const TicketItemFormModal = ({ isUpdate }) => {
@@ -33,6 +34,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
                 price: item.price,
                 quantity: item.quantity,
                 productID: item.product_id,
+                product_type: item.product_type,
                 useExisting: item.product_id ? true : false,
             });
         }
@@ -68,7 +70,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
         const { target: { value }} = evt;
         const selectedOption = evt.target.options[evt.target.selectedIndex];
         const data = JSON.parse(selectedOption.dataset.meta);
-        setTicketItemForm({ ...ticketItemForm, productID: value, price: data.price, name: data.name });
+        setTicketItemForm({ ...ticketItemForm, productID: value, price: data.price, name: data.name, product_type: data.product_type });
     }
 
     return (
@@ -82,6 +84,7 @@ export const TicketItemFormModal = ({ isUpdate }) => {
                     ) : (
                         <Input onSubmit={saveAndNext} ref={nameRef} onChange={handleChange} value={ticketItemForm.name || ''} label={'Name'} name={'name'} />
                     )}
+                    <Input onChange={handleChange} value={ticketItemForm.product_type || ''} label={'Type'} name={'product_type'} />
                     <Input type={'number'} onChange={handleChange} value={ticketItemForm.price || ''} label={'Price'} name={'price'} />
                     <Input type={'number'} onChange={handleChange} value={ticketItemForm.quantity || ''} label={'Quantity'} name={'quantity'} />
                     <button onClick={saveAndNext} type='submit' style={{ display: 'none' }}></button>
