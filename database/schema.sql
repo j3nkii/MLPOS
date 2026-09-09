@@ -20,7 +20,7 @@ CREATE TYPE ticket_order_status AS ENUM (
 DROP TYPE IF EXISTS product_type CASCADE;
 CREATE TYPE product_type AS ENUM (
     'service',
-    'physical'
+    'inventory'
 );
 
 DROP TYPE IF EXISTS payment_method_type CASCADE;
@@ -97,14 +97,12 @@ CREATE TABLE products (
     account_id       UUID NOT NULL REFERENCES accounts(id),
     name             VARCHAR(255) NOT NULL,
     description      VARCHAR(255),
-    product_type     product_type,
+    product_type     product_type NOT NULL,
     price            INTEGER NOT NULL,
     wholesale_price  INTEGER,
     internal_sku     VARCHAR(50),
     external_sku     VARCHAR(50),
-    api_available    BOOLEAN DEFAULT false NOT NULL,
-    is_bookable      BOOLEAN DEFAULT false NOT NULL,
-    is_shippable     BOOLEAN DEFAULT false NOT NULL,
+    is_catalog       BOOLEAN DEFAULT false NOT NULL,
     is_deleted       BOOLEAN DEFAULT FALSE,
     created_at       TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at       TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP

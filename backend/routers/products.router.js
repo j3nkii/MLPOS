@@ -17,12 +17,12 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const { name, price } = req.body;
+        const { name, price, product_type } = req.body;
         const sku = `sku-${Date.now()}`;
         await req.db.query(`
-            INSERT INTO products (name, price, account_id, internal_sku, external_sku)
-            VALUES ($1, $2, $3, $4, $4)
-        `, [name, price, req.accountId, sku]);
+            INSERT INTO products (name, price, product_type, account_id, internal_sku, external_sku)
+            VALUES ($1, $2, $3, $4, $5, $5)
+        `, [name, price, product_type, req.accountId, sku]);
         res.status(201).json({ message: 'Product created successfully' });
     } catch (error) {
         console.error(error);
