@@ -36,6 +36,14 @@ CREATE TYPE payment_method_type AS ENUM (
     'stripe'
 );
 
+DROP TYPE IF EXISTS appointment_status_type CASCADE;
+CREATE TYPE appointment_status_type AS ENUM (
+    'scheduled',
+    'in_progress',
+    'rescheduled',
+    'complete'
+);
+
 -- accounts / tenants — umbrella for users and business data
 DROP TABLE IF EXISTS accounts CASCADE;
 CREATE TABLE accounts (
@@ -166,14 +174,15 @@ CREATE TABLE sent_payments (
 
 DROP TABLE IF EXISTS appointments CASCADE;
 CREATE TABLE appointments (
-    id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    ticket_id    UUID REFERENCES tickets(id),
-    customer_id  UUID REFERENCES customers(id),
-    book_start   TIMESTAMPTZ NOT NULL,
-    book_end     TIMESTAMPTZ NOT NULL,
-    is_deleted   BOOLEAN DEFAULT FALSE,
-    created_at   TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at   TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    ticket_id           UUID REFERENCES tickets(id),
+    customer_id         UUID REFERENCES customers(id),
+    book_start          TIMESTAMPTZ NOT NULL,
+    book_end            TIMESTAMPTZ NOT NULL,
+    appointment_status  appointment_status_type NOT NULL DEFAULT 'scheduled',
+    is_deleted          BOOLEAN DEFAULT FALSE,
+    created_at          TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at          TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 

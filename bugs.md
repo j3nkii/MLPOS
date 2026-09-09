@@ -11,3 +11,5 @@ some on delete functions dont refresh with new data, make the app fetch single p
 PLOP -> needs modal manager hook up
 
 selected item pages should have a backfall if nothing is found.
+
+should invoice... be its own table..? invoice status?

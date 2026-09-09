@@ -102,9 +102,24 @@ export const SelectedTicketPage = () => {
                 </div>
             </div>
             <Table footer={{ total: selectedTicket?.price }} config={'ticketItems'} data={selectedTicket?.details} />
+            <Appointments data={selectedTicket?.appointments} />
             <Payments payments={selectedTicket?.payments} total={selectedTicket?.price} />
         </div>
     );
+}
+
+
+
+
+const Appointments = ({ data: appointments = [] }) => {
+
+    return (
+        <div>
+            { appointments.map(appointment => (
+                <h1>{appointment.book_start}-{appointment.book_end}</h1>
+            ))}
+        </div>
+    )
 }
 
 
