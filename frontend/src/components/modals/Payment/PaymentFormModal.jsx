@@ -53,7 +53,7 @@ export const PaymentFormModal = ({ isUpdate }) => {
                     <p>total is {item.total}</p>
                     <p>balance is {item.balance}</p>
                     <Input onChange={handleChange} value={paymentForm.price || ''} label={'Price'} name={'price'} />
-                    <Input onChange={handleChange} value={paymentForm.method || ''} label={'Method'} name={'method'} />
+                    <Input onChange={handleChange} type='select' optionsType='paymentType' value={paymentForm.method || ''} label={'Method'} name={'method'} />
                 </form>
             </ModalBody>
 

@@ -15,6 +15,17 @@ const SELECT_OPTIONS = {
     productType: [
         { id: 'service', name: 'Service' },
         { id: 'inventory', name: 'Inventory' },
+    ],
+    paymentType: [
+        { id: 'cash', name: 'Cash' },
+        { id: 'check', name: 'Check' },
+        { id: 'venmo', name: 'Venmo' },
+        { id: 'cash app', name: 'Cash App' },
+        { id: 'squaer', name: 'Square' },
+        { id: 'paypal', name: 'PayPal' },
+        { id: 'zelle', name: 'Zelle' },
+        { id: 'bitcoin', name: 'Bitcoin' },
+        { id: 'stripe', name: 'Stripe' },
     ]
 }
 
@@ -56,8 +67,9 @@ const Select = (props) => {
     const { name = '', onChange = onChangeWarning, value = '', options = [], disabled = false, optionsType = null } = props;
     const data = optionsType ? SELECT_OPTIONS[optionsType] : options;
     return (
-        <select disabled={disabled} onChange={onChange} name={name} value={value}>
-            { data.map(opt => <option value={opt.id} data-meta={JSON.stringify(opt)}>{opt.name}</option>) }
+        <select placeholder='Please choose' disabled={disabled} onChange={onChange} name={name} value={value}>
+            <option>---</option>
+            { data.map(opt => <option  value={opt.id} data-meta={JSON.stringify(opt)}>{opt.name}</option>) }
         </select>
     )
 }

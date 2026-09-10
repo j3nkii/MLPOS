@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
             JOIN customers
                 ON customers.id = tickets.customer_id
                 AND customers.is_deleted = false
-            JOIN ticket_items
+            LEFT JOIN ticket_items
                 ON ticket_items.ticket_id = tickets.id
                 AND ticket_items.is_deleted = false
             WHERE tickets.account_id = $1
