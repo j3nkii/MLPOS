@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const { handleDerivedStatus } = require('../modules/invoiceStatus');
 router.get('/', async (req, res) => {
     try {
         const { rows } = await req.db.query(`
@@ -41,7 +41,7 @@ router.get('/:id', async (req, res) => {
             WHERE customer_id = $1 AND account_id = $2 AND tickets.is_deleted = false
             GROUP BY tickets.id;
         `, [customer.id, req.accountId]);
-        customer.tickets = tickets
+        customer.tickets = tickets.map(x => ({ ...x, status: handleDerivedStatus(x) }))
         if (!customer) return res.status(404).json({ error: 'Not found' });
         res.status(200).json(customer);
     } catch (error) {

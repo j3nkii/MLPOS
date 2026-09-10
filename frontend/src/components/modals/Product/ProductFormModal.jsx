@@ -41,7 +41,7 @@ export const ProductFormModal = ({ isUpdate }) => {
                 <form onSubmit={handleConfirm} className='p-6'>
                     <Input onChange={handleChange} value={form.name} label={'Name'} name={'name'} />
                     <Input onChange={handleChange} value={form.price} label={'Price'} name={'price'} />
-                    <Input onChange={handleChange} type='select' options={['service', 'inventory']} value={form.product_type} label={'Type'} name={'product_type'} />
+                    <Input onChange={handleChange} type='select' optionsType={'productType'} value={form.product_type} label={'Type'} name={'product_type'} />
                     {/* TODO: add inputs */}
                 </form>
             </ModalBody>

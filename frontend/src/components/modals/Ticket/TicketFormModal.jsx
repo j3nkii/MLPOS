@@ -51,7 +51,16 @@ export const TicketFormModal = ({ isUpdate }) => {
                         type={'select'}
                         options={readAllCustomers.data}
                     />
-                    { isUpdate && <Input onChange={handleChange} value={ticketForm.status} label={'Status'} name={'status'} /> }
+                    { isUpdate && (
+                        <Input
+                            onChange={handleChange}
+                            value={ticketForm.status}
+                            label={'Status'}
+                            name={'status'}
+                            type={'select'}
+                            optionsType={'orderStatus'}
+                        />
+                    )}
                 </form>
             </ModalBody>
 

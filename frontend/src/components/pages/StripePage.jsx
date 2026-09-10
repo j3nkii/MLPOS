@@ -72,11 +72,11 @@ export const StripePage = () => {
                     recipientTermsOfServiceUrl="{{URL}}"
                     privacyPolicyUrl="{{URL}}"
                     collectionOptions={{
-                    fields: 'eventually_due',
-                    futureRequirements: 'include',
-                    requirements: {
-                        exclude: ['business_profile.product_description']
-                    }
+                        fields: 'eventually_due',
+                        futureRequirements: 'include',
+                        requirements: {
+                            exclude: ['business_profile.product_description']
+                        }
                     }}
                     onStepChange={(stepChange) => {
                     console.log(`User entered: ${stepChange.step}`);

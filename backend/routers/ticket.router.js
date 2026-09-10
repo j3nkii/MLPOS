@@ -151,8 +151,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        const { customerID, status, invoice_status } = req.body;
-        const invoiceStatus = invoice_status ?? status;
+        const { customerID, status } = req.body;
         const { id: ticketID } = req.params;
         const sets = [];
         const params = [ticketID, req.accountId];
@@ -161,9 +160,9 @@ router.put('/:id', async (req, res) => {
             sets.push(`customer_id = $${idx++}`);
             params.push(customerID);
         }
-        if (invoiceStatus) {
-            sets.push(`invoice_status = $${idx++}`);
-            params.push(invoiceStatus);
+        if (status) {
+            sets.push(`order_status = $${idx++}`);
+            params.push(status);
         }
         if (!sets.length) throw new Error('No fields to update');
         const { rowCount } = await req.db.query(`

@@ -4,6 +4,20 @@ const DETAULT_STYLE = 'w-full px-3 py-2 border border-gray-300 rounded-md shadow
 const DISABLED_STYLE = 'w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-black'
 const onChangeWarning = () => console.warn('No Warning set for on change.');
 
+const SELECT_OPTIONS = {
+    orderStatus: [
+        { id: 'waiting', name: 'Waiting' },
+        { id: 'in_progress', name: 'In Progress' },
+        { id: 'fufilled', name: 'Fufilled' },
+        { id: 'rework', name: 'Rework' },
+        { id: 'cancelled', name: 'Cancelled' },
+    ],
+    productType: [
+        { id: 'service', name: 'Service' },
+        { id: 'inventory', name: 'Inventory' },
+    ]
+}
+
 
 export const Input = (props) => {
     const { label = '', type = 'text', name = '' } = props;
@@ -39,10 +53,11 @@ const Standard = (props) => {
 
 
 const Select = (props) => {
-    const { name = '', onChange = onChangeWarning, value = '', options = [], disabled = false } = props;
+    const { name = '', onChange = onChangeWarning, value = '', options = [], disabled = false, optionsType = null } = props;
+    const data = optionsType ? SELECT_OPTIONS[optionsType] : options;
     return (
         <select disabled={disabled} onChange={onChange} name={name} value={value}>
-            { options.map(opt => <option value={opt.id} data-meta={JSON.stringify(opt)}>{opt.name}</option>) }
+            { data.map(opt => <option value={opt.id} data-meta={JSON.stringify(opt)}>{opt.name}</option>) }
         </select>
     )
 }
