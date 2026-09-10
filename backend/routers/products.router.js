@@ -6,7 +6,7 @@ router.get('/', async (req, res) => {
         const { rows } = await req.db.query(`
             SELECT * FROM products
             WHERE account_id = $1 AND is_deleted = false
-            ORDER BY created_at DESC
+            ORDER BY product_type DESC, created_at DESC
         `, [req.accountId]);
         res.status(200).json(rows);
     } catch (error) {

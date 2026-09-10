@@ -119,6 +119,10 @@ export const TABLE_CONFIG = {
                 display: 'Price',
                 key: 'price'
             },
+            {
+                display: 'Type',
+                key: 'product_type'
+            },
         ],
         tableActions: {
             create: 'createProduct',
