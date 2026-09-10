@@ -219,7 +219,7 @@ router.post('/ticket-item/:id', async (req, res) => {
 
 router.put('/ticket-item/:id', async (req, res) => {
     try {
-        const { name, price, quantity, productID } = req.body;
+        const { name, price, quantity, productID, product_type } = req.body;
         const lineItemID = req.params.id;
         const sets = [];
         const params = [lineItemID, req.accountId];
@@ -239,6 +239,10 @@ router.put('/ticket-item/:id', async (req, res) => {
         if (productID) {
             sets.push(`product_id = $${idx++}`);
             params.push(productID);
+        }
+        if (product_type) {
+            sets.push(`product_type = $${idx++}`);
+            params.push(product_type);
         }
         if (!sets.length) throw new Error('No fields to update');
 
