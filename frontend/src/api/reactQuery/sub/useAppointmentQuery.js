@@ -43,7 +43,7 @@ export const useAppointmentQuery = () => {
         mutationFn: appointmentService.updateAppointment,
         onSuccess: async () => {
             await _refresh();
-            queryClient.invalidateQueries({ queryKey: ['appointment'] });
+            queryClient.invalidateQueries({ queryKeys: ['appointment', 'selectedTicket'] });
             closeModal();
         },
         onError: (error) => console.error(error),
@@ -52,7 +52,7 @@ export const useAppointmentQuery = () => {
     const deleteAppointment = useMutation({
         mutationFn: appointmentService.deleteAppointment,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['appointment'] });
+            queryClient.invalidateQueries({ queryKeys: ['appointment', 'selectedTicket'] });
             closeModal();
         },
         onError: (error) => console.error(error),

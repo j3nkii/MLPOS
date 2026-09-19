@@ -130,6 +130,15 @@ const ActionsCell = ({ item, config, tableActions }) => {
         }
     };
 
+    const onDetail = (e) => {
+        e.stopPropagation();
+        if(tableActions.detailFunc){
+            tableActions.detailFunc(navigate, item)
+        } else if(tableActions.detail){
+            navigate(tableActions.detail + item.id);
+        }
+    }
+
     return (
         <td>
             <div className='flex items-center justify-end pr-3.5'>

@@ -51,14 +51,6 @@ export const SelectedTicketPage = () => {
         });
     };
 
-    const onBook = (e) => {
-        e.stopPropagation();
-        setModal({
-            modalKey: 'createAppointment',
-            item: selectedTicket,
-        });
-    };
-
     const onCustomer = (e) => {
         e.stopPropagation();
         navigate(`/customers/${selectedTicket.customer_id}`)
@@ -86,12 +78,6 @@ export const SelectedTicketPage = () => {
                         onClick={onDelete} 
                         text='Delete'
                     ><Trash2 />
-                    </Button>
-                    <Button
-                        color={'green'}
-                        onClick={onBook} 
-                        text='Create Appointment'
-                    ><Calendar />
                     </Button>
                     <Button
                         color={'green'}

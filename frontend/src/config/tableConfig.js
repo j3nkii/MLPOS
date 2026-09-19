@@ -188,7 +188,8 @@ export const TABLE_CONFIG = {
         tableActions: {
             create: 'createAppointment',
             delete: 'deleteAppointment',
-            detail: '/appointments/',
+            update: 'updateAppointment',
+            // detail: '/appointments/',
             detailFunc: (nav, item) => {
                 nav(`/tickets/${item.ticket_id}`);
             }
