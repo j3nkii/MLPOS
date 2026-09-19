@@ -33,7 +33,7 @@ export const useAppointmentQuery = () => {
         mutationFn: appointmentService.createAppointment,
         onSuccess: async () => {
             await _refresh();
-            queryClient.invalidateQueries({ queryKey: ['appointment'] });
+            queryClient.invalidateQueries({ queryKeys: ['appointment', 'selectedTicket'] });
             closeModal();
         },
         onError: (error) => console.error(error),

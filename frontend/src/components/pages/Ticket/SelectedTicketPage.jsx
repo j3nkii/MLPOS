@@ -103,7 +103,7 @@ export const SelectedTicketPage = () => {
             </div>
             <Table footer={{ total: selectedTicket?.price }} config={'ticketItems'} data={selectedTicket?.details} />
             <h2>Appointments:</h2>
-            <Table data={selectedTicket?.appointments} config={'appointments'} />
+            <Table data={selectedTicket?.appointments} config={'appointmentsTicketDetail'} />
             <Payments payments={selectedTicket?.payments} total={selectedTicket?.price} />
         </div>
     );

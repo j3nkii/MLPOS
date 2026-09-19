@@ -168,5 +168,31 @@ export const TABLE_CONFIG = {
             }
         }
     },
+    appointmentsTicketDetail: {
+        headers: [
+            {
+                display: 'Status',
+                key: 'appointment_status'
+            },
+            {
+                display: 'Start',
+                key: 'book_start',
+                format: 'date'
+            },
+            {
+                display: 'End',
+                key: 'book_end',
+                format: 'date'
+            },
+        ],
+        tableActions: {
+            create: 'createAppointment',
+            delete: 'deleteAppointment',
+            detail: '/appointments/',
+            detailFunc: (nav, item) => {
+                nav(`/tickets/${item.ticket_id}`);
+            }
+        }
+    },
     // ::PLOPPIN::
 }

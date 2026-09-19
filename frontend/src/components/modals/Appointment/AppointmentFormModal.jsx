@@ -3,6 +3,7 @@ import { Button, Input } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from '@components';
 import { useModalZussy } from '@zussy';
 import { useAppointmentQuery, useCustomerQuery, useTicketQuery } from '@query';
+import { useParams } from 'react-router-dom';
 
 
 
@@ -12,20 +13,22 @@ const INITIAL = {
 };
 
 export const AppointmentFormModal = ({ isUpdate }) => {
+    const { ticketID } = useParams();
+    console.log(ticketID)
     const [form, setForm] = useState(INITIAL);
     const { createAppointment, updateAppointment } = useAppointmentQuery();
-    const { readAllTickets } = useTicketQuery();
-    const { readAllCustomers } = useCustomerQuery();
+    // const { readAllTickets } = useTicketQuery();
+    // const { readAllCustomers } = useCustomerQuery();
     const { closeModal, item } = useModalZussy();
 
     useEffect(() => {
         if(isUpdate){
             setForm({
-                id: item.id,
+                id: item?.id,
             });
-        } else {
+        } else if(ticketID) {
             setForm({
-                ticket_id: item.id
+                ticket_id: ticketID
             })
         }
     }, []);
@@ -46,6 +49,7 @@ export const AppointmentFormModal = ({ isUpdate }) => {
             <ModalHeader title={isUpdate ? 'Update Appointment' : 'Create Appointment'} onClose={closeModal} />
             <ModalBody>
                 <form onSubmit={handleConfirm} className='p-6'>
+                    { !ticketID && <Input onChange={handleChange} value={form.ticket_id} label={'Ticket'} name={'ticket_id'} />}
                     <Input onChange={handleChange} type={'datetime-local'} value={form.book_start} label={'Start'} name={'book_start'} />
                     <Input onChange={handleChange} type={'datetime-local'} value={form.book_end} label={'End'} name={'book_end'} />
                     {/* TODO: add inputs */}
