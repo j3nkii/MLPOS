@@ -134,6 +134,14 @@ export const TABLE_CONFIG = {
     appointments: {
         headers: [
             {
+                display: 'Customer',
+                key: 'name'
+            },
+            {
+                display: 'Status',
+                key: 'appointment_status'
+            },
+            {
                 display: 'Start',
                 key: 'book_start'
             },
@@ -146,6 +154,9 @@ export const TABLE_CONFIG = {
             create: 'createAppointment',
             delete: 'deleteAppointment',
             detail: '/appointments/',
+            detailFunc: (nav, item) => {
+                nav(`/tickets/${item.ticket_id}`);
+            }
         }
     },
     // ::PLOPPIN::

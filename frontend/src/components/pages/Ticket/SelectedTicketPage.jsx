@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Input, TableForm } from '@components';
+import { Button, Input } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from '@components';
 import { useModalZussy } from '@zussy';
 import { useTicketQuery } from '@query';
@@ -102,7 +102,8 @@ export const SelectedTicketPage = () => {
                 </div>
             </div>
             <Table footer={{ total: selectedTicket?.price }} config={'ticketItems'} data={selectedTicket?.details} />
-            <Appointments data={selectedTicket?.appointments} />
+            <h2>Appointments:</h2>
+            <Table data={selectedTicket?.appointments} config={'appointments'} />
             <Payments payments={selectedTicket?.payments} total={selectedTicket?.price} />
         </div>
     );

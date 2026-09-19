@@ -6,8 +6,17 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const { rows } = await req.db.query(`
-            SELECT * FROM appointments
-            WHERE is_deleted = false
+            SELECT
+                appointments.*,
+                customers.name
+            FROM appointments
+            JOIN tickets
+                ON tickets.id = appointments.ticket_id
+                AND tickets.is_deleted = false
+            JOIN customers
+                ON customers.id = tickets.customer_id
+                AND customers.is_deleted = false
+            WHERE appointments.is_deleted = false
             ORDER BY created_at DESC;
         `);
         res.status(200).json(rows);
