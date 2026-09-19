@@ -20,7 +20,8 @@ const tableFormat = {
 
 
 export const Table = ( PROPS ) => {
-    const { data = [], isManage = true, config = '', theme = 'default', footer = {} } = PROPS;
+    // isReadOnly might be confusing since it only effects Action Cells, either rendering Delete/Update or Detail Functions
+    const { data = [], isManage = true, config = '', theme = 'default', footer = {}, isReadOnly = false } = PROPS;
     const displayColumns = TABLE_CONFIG[config].headers.map(x => x.display);
     const columnKeys = TABLE_CONFIG[config].headers.map(x => x.key);
     const columnFormat = TABLE_CONFIG[config].headers.map(x => x.format);
@@ -56,7 +57,7 @@ export const Table = ( PROPS ) => {
                                     { columnFormat[colIndex] ? tableFormat[columnFormat[colIndex]](row[field]): row[field] || 'N/A'}
                                 </td>
                             ))}
-                        { isManage && <ActionsCell config={config} item={row} tableActions={tableActions} /> }
+                        { isManage && <ActionsCell config={config} item={row} tableActions={tableActions} isReadOnly={isReadOnly} /> }
                         </tr>
                     ))}
                 </tbody>
@@ -100,7 +101,7 @@ const ActionsHeader = ({ tableActions }) => {
 
 
 
-const ActionsCell = ({ item, config, tableActions }) => {
+const ActionsCell = ({ item, config, tableActions, isReadOnly }) => {
     const navigate = useNavigate();
     const { setModal } = useModalZussy();
     const CONFIG_ICON = config === 'tickets' ? ReceiptText : BookUser;
@@ -117,17 +118,10 @@ const ActionsCell = ({ item, config, tableActions }) => {
     };
 
     const onUpdate = (e) => {
-        e.stopPropagation();
-        if(tableActions.detailFunc){
-            tableActions.detailFunc(navigate, item)
-        } else if(tableActions.detail){
-            navigate(tableActions.detail + item.id);
-        } else {
-            setModal({
-                modalKey: tableActions.update,
-                item,
-            });
-        }
+        setModal({
+            modalKey: tableActions.update,
+            item,
+        });
     };
 
     const onDetail = (e) => {
@@ -142,18 +136,27 @@ const ActionsCell = ({ item, config, tableActions }) => {
     return (
         <td>
             <div className='flex items-center justify-end pr-3.5'>
-                <Button
-                    color={BUTTON_COLOR}
-                    onClick={onUpdate} 
-                    text='Update'
-                ><ICON />
-                </Button>
-                {!tableActions.detail && <Button
-                    color={'red'}
-                    onClick={onDelete} 
-                    text='Delete'
-                ><Trash2 />
-                </Button>}
+                {isReadOnly ? 
+                    <Button
+                        color={'linkBlack'}
+                        onClick={onDetail} 
+                        text='Link'
+                    ><BookUser />
+                    </Button>
+                : <>
+                    <Button
+                        color={'yellow'}
+                        onClick={onUpdate} 
+                        text='Update'
+                    ><Pencil />
+                    </Button>
+                    <Button
+                        color={'red'}
+                        onClick={onDelete} 
+                        text='Delete'
+                    ><Trash2 />
+                    </Button>
+                </>}
             </div>
         </td>
     );

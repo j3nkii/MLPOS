@@ -14,7 +14,6 @@ const INITIAL = {
 
 export const AppointmentFormModal = ({ isUpdate }) => {
     const { ticketID } = useParams();
-    console.log(ticketID)
     const [form, setForm] = useState(INITIAL);
     const { createAppointment, updateAppointment } = useAppointmentQuery();
     // const { readAllTickets } = useTicketQuery();
@@ -23,8 +22,12 @@ export const AppointmentFormModal = ({ isUpdate }) => {
 
     useEffect(() => {
         if(isUpdate){
+            const start = item?.book_start.replace(/(\-\d{2}:\d{2})/, '')
+            const end = item?.book_end.replace(/(\-\d{2}:\d{2})/, '');
             setForm({
                 id: item?.id,
+                book_start: start,
+                book_end: end,
             });
         } else if(ticketID) {
             setForm({
