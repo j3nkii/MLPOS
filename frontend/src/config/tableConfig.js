@@ -29,7 +29,8 @@ export const TABLE_CONFIG = {
             },
             {
                 display: 'Amount',
-                key: 'price'
+                key: 'price',
+                format: 'money',
             },
             {
                 display: 'Status',
@@ -37,7 +38,8 @@ export const TABLE_CONFIG = {
             },
             {
                 display: 'Date Sent',
-                key: 'created_at'
+                key: 'created_at',
+                format: 'date'
             }
         ],
         tableActions: {
@@ -51,7 +53,8 @@ export const TABLE_CONFIG = {
         headers: [
             {
                 display: 'Amount',
-                key: 'price'
+                key: 'price',
+                format: 'money',
             },
             {
                 display: 'Status',
@@ -59,7 +62,8 @@ export const TABLE_CONFIG = {
             },
             {
                 display: 'Date Sent',
-                key: 'created_at'
+                key: 'created_at',
+                format: 'date'
             }
         ],
         tableActions: {
@@ -75,7 +79,8 @@ export const TABLE_CONFIG = {
             },
             {
                 display: 'Price',
-                key: 'price'
+                key: 'price',
+                format: 'money',
             },
             {
                 display: 'Quantity',
@@ -96,7 +101,8 @@ export const TABLE_CONFIG = {
         headers: [
             {
                 display: 'Price',
-                key: 'price'
+                key: 'price',
+                format: 'money',
             },
             {
                 display: 'Method',
@@ -117,7 +123,8 @@ export const TABLE_CONFIG = {
             },
             {
                 display: 'Price',
-                key: 'price'
+                key: 'price',
+                format: 'money',
             },
             {
                 display: 'Type',
@@ -143,11 +150,13 @@ export const TABLE_CONFIG = {
             },
             {
                 display: 'Start',
-                key: 'book_start'
+                key: 'book_start',
+                format: 'date'
             },
             {
                 display: 'End',
-                key: 'book_end'
+                key: 'book_end',
+                format: 'date'
             },
         ],
         tableActions: {

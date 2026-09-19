@@ -5,6 +5,17 @@ import { Button } from '@components'
 import { useNavigate } from 'react-router-dom'
 import { TABLE_CONFIG } from '@config/tableConfig';
 
+const tableFormat = {
+    date: (value) => {
+        return new Date(value).toLocaleString();
+    },
+    money: (value) => {
+        return `$${(value / 100).toFixed(2)}`
+    }
+}
+
+
+
 
 
 
@@ -12,6 +23,7 @@ export const Table = ( PROPS ) => {
     const { data = [], isManage = true, config = '', theme = 'default', footer = {} } = PROPS;
     const displayColumns = TABLE_CONFIG[config].headers.map(x => x.display);
     const columnKeys = TABLE_CONFIG[config].headers.map(x => x.key);
+    const columnFormat = TABLE_CONFIG[config].headers.map(x => x.format);
     const tableActions = TABLE_CONFIG[config].tableActions;
     const tableStyles = TABLE_THEMES[theme];
     return (
@@ -41,7 +53,7 @@ export const Table = ( PROPS ) => {
                                     key={colIndex} 
                                     className={tableStyles.tableTD}
                                 >
-                                    { row[field] || 'N/A'}
+                                    { columnFormat[colIndex] ? tableFormat[columnFormat[colIndex]](row[field]): row[field] || 'N/A'}
                                 </td>
                             ))}
                         { isManage && <ActionsCell config={config} item={row} tableActions={tableActions} /> }
