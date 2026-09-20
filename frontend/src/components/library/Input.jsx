@@ -26,6 +26,12 @@ const SELECT_OPTIONS = {
         { id: 'zelle', name: 'Zelle' },
         { id: 'bitcoin', name: 'Bitcoin' },
         { id: 'stripe', name: 'Stripe' },
+    ],
+    appointmentStatus: [
+        { id: 'scheduled', name: 'Scheduled' },
+        { id: 'in_progress', name: 'In Progress' },
+        { id: 'rescheduled', name: 'Rescheduled' },
+        { id: 'complete', name: 'Complete' },
     ]
 }
 

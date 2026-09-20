@@ -28,6 +28,7 @@ export const AppointmentFormModal = ({ isUpdate }) => {
                 id: item?.id,
                 book_start: start,
                 book_end: end,
+                appointment_status: item?.appointment_status,
             });
         } else if(ticketID) {
             setForm({
@@ -55,7 +56,7 @@ export const AppointmentFormModal = ({ isUpdate }) => {
                     { !ticketID && <Input onChange={handleChange} value={form.ticket_id} label={'Ticket'} name={'ticket_id'} />}
                     <Input onChange={handleChange} type={'datetime-local'} value={form.book_start} label={'Start'} name={'book_start'} />
                     <Input onChange={handleChange} type={'datetime-local'} value={form.book_end} label={'End'} name={'book_end'} />
-                    {/* TODO: add inputs */}
+                    { isUpdate && <Input onChange={handleChange} type={'select'} optionsType={'appointmentStatus'} value={form.appointment_status} label={'Status'} name={'appointment_status'} />}
                 </form>
             </ModalBody>
             <ModalFooter>

@@ -50,11 +50,19 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        // TODO: destructure req.body and build dynamic update
+        const { book_start, book_end, appointment_status } = req.body;
+        if(!id) throw new Error('Missing ID');
+        if(!book_start && !book_end && !appointment_status) throw new Error('Missing Essential fields');
+        await req.db.query('BEGIN');
+        await req.db.query(`
+           UPDATE appointments
+           SET book_end = $1, book_start = $2, appointment_status = $3
+           WHERE id = $4 
+        `, [ book_start, book_end, appointment_status, id ]);
         await req.db.query('COMMIT');
         res.status(200).json({ message: 'Appointment updated successfully' });
     } catch (error) {
-        await client.query('ROLLBACK');
+        await req.db.query('ROLLBACK');
         console.error(error);
         res.status(500).json({ message: 'Something went wrong' });
     }

@@ -63,7 +63,7 @@ export const SelectedCustomerPage = () => {
                     </Button>
                 </div>
             </div>
-            <Table config={'customerTickets'} data={selectedCustomer?.tickets} />
+            <Table config={'customerTickets'} data={selectedCustomer?.tickets} isReadOnly={true} />
         </div>
     );
 }
