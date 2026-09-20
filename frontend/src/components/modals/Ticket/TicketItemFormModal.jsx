@@ -92,8 +92,8 @@ export const TicketItemFormModal = ({ isUpdate }) => {
             </ModalBody>
 
             <ModalFooter>
-                <Button color={'green'} onClick={saveAndNext}>Create&Next</Button>
-                <Button color={'black'} onClick={handleConfirm}>Create&Close</Button>
+                { !isUpdate && <Button color={'green'} onClick={saveAndNext}>{isUpdate ? 'Update' : 'Create'}&Next</Button> }
+                <Button color={isUpdate ? 'yellow' : 'black'} onClick={handleConfirm}>{isUpdate ? 'Update' : 'Create&Close'}</Button>
             </ModalFooter>
         </Modal>
     );

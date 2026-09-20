@@ -3,6 +3,7 @@ import { Button, Input, TableForm } from '@components';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from '@components';
 import { useModalZussy } from '@zussy';
 import { useTicketQuery, useCustomerQuery } from '@query';
+import { useParams } from 'react-router-dom';
 
 
 const INITIAL = {
@@ -11,6 +12,7 @@ const INITIAL = {
 };
 
 export const TicketFormModal = ({ isUpdate }) => {
+    const { customerID } = useParams();
     const [modalTitle] = useState(isUpdate ? 'Update Ticket' : 'Create Ticket')
     const [ticketForm, setTicketForm] = useState(INITIAL);
     const { createTicket, updateTicket } = useTicketQuery();
@@ -19,9 +21,15 @@ export const TicketFormModal = ({ isUpdate }) => {
 
     useEffect(() => {
         if(isUpdate){
+            console.log(customerID)
             setTicketForm({
-                customerID: item.customer_id,
-                status: item.status,
+                customerID: customerID || item.customer_id,
+                status: item.order_status,
+            });
+        } if(customerID){
+            console.log(customerID)
+            setTicketForm({
+                customerID: customerID || item.customer_id,
             });
         }
     }, []);
@@ -65,7 +73,7 @@ export const TicketFormModal = ({ isUpdate }) => {
             </ModalBody>
 
             <ModalFooter>
-                <Button color={'green'} onClick={handleConfirm}>Create</Button>
+                <Button color={'green'} onClick={handleConfirm}>{isUpdate ? 'Update' : 'Create'}</Button>
                 <Button onClick={closeModal}>Cancel</Button>
             </ModalFooter>
         </Modal>

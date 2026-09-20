@@ -43,3 +43,5 @@ tickets might need comments. ... lol. v??? diff version dude.
 tables need some type of format function
 
 TABLE COMPONENT has now gotten more complex. needs.... some type of.... functions config. appointments has different actions layouts. so do some other types..... maybe..... the detail just goes first? that might be it actually, and easier for a v1.
+
+.. potentially make service line items "completable" this can then be counted along with appointments to track progress to leverage against status states.
